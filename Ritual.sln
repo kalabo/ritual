@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ritual.Booking.Web", "Ritual.Booking.Web\Ritual.Booking.Web.csproj", "{92779829-1055-4501-8FF8-F0C296597722}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ritual.Booking.Data", "Ritual.Booking.Data\Ritual.Booking.Data.csproj", "{C2DCAC7D-DA38-40E6-B4A6-B9CF86E1DFC6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{92779829-1055-4501-8FF8-F0C296597722}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92779829-1055-4501-8FF8-F0C296597722}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92779829-1055-4501-8FF8-F0C296597722}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92779829-1055-4501-8FF8-F0C296597722}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2DCAC7D-DA38-40E6-B4A6-B9CF86E1DFC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2DCAC7D-DA38-40E6-B4A6-B9CF86E1DFC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2DCAC7D-DA38-40E6-B4A6-B9CF86E1DFC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2DCAC7D-DA38-40E6-B4A6-B9CF86E1DFC6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
