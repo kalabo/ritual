@@ -48,6 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AspNetUser.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Booking.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
@@ -116,6 +119,7 @@
     <None Include="Scripts\ritualdb-schema.sql" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\data.sql" />
     <Content Include="Scripts\membership.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -18,6 +18,8 @@
         <AssociationConnector Association="RitualDBModel.FK_Trainer_Location" ManuallyRouted="false" />
         <AssociationConnector Association="RitualDBModel.FK_Membership_Member" ManuallyRouted="false" />
         <AssociationConnector Association="RitualDBModel.FK_Membership_MembershipState" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="RitualDBModel.AspNetUser" Width="1.5" PointX="0.75" PointY="11.875" />
+        <AssociationConnector Association="RitualDBModel.FK_Member_AspNetUsers" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

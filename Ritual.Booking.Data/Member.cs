@@ -25,9 +25,10 @@ namespace Ritual.Booking.Data
         public string LastName { get; set; }
         public string IdentificationNumber { get; set; }
         public int HomeLocationId { get; set; }
-        public int AspUserId { get; set; }
+        public string AspNetUserId { get; set; }
     
         public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<Membership> Memberships { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

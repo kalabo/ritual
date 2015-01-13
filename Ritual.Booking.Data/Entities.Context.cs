@@ -32,5 +32,6 @@ namespace Ritual.Booking.Data
         public virtual DbSet<Membership> Memberships { get; set; }
         public virtual DbSet<MembershipState> MembershipStates { get; set; }
         public virtual DbSet<Trainer> Trainers { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
     }
 }

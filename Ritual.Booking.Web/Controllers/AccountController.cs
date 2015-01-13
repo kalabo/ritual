@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Ritual.Booking.Web.Models;
+using Ritual.Booking.Data;
 
 namespace Ritual.Booking.Web.Controllers
 {
@@ -162,6 +163,22 @@ namespace Ritual.Booking.Web.Controllers
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    // MH NEW
+                    RitualDBEntities ctx = new RitualDBEntities();
+
+                    Member m = new Member()
+                    {
+                        AspNetUserId = user.Id,
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        HomeLocationId = 1,
+                        IdentificationNumber = "member" + DateTime.Now.Ticks.ToString()
+                    };
+
+                    ctx.Members.Add(m);
+
+                    ctx.SaveChanges();
 
                     return RedirectToAction("Index", "Home");
                 }
