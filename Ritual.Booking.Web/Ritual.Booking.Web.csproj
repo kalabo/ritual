@@ -178,8 +178,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\MembershipsController.cs" />
-    <Compile Include="Controllers\MembershipStatesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -253,16 +251,6 @@
     <Content Include="Views\Locations\Details.cshtml" />
     <Content Include="Views\Locations\Edit.cshtml" />
     <Content Include="Views\Locations\Index.cshtml" />
-    <Content Include="Views\MembershipStates\Create.cshtml" />
-    <Content Include="Views\MembershipStates\Delete.cshtml" />
-    <Content Include="Views\MembershipStates\Details.cshtml" />
-    <Content Include="Views\MembershipStates\Edit.cshtml" />
-    <Content Include="Views\MembershipStates\Index.cshtml" />
-    <Content Include="Views\Memberships\Create.cshtml" />
-    <Content Include="Views\Memberships\Delete.cshtml" />
-    <Content Include="Views\Memberships\Details.cshtml" />
-    <Content Include="Views\Memberships\Edit.cshtml" />
-    <Content Include="Views\Memberships\Index.cshtml" />
     <Content Include="Views\Account\RegisterTrainer.cshtml" />
   </ItemGroup>
   <ItemGroup>
