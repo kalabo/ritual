@@ -84,6 +84,7 @@ namespace Ritual.Booking.Web.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
             return View(location);
         }
 
