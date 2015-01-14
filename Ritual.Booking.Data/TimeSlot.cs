@@ -12,25 +12,17 @@ namespace Ritual.Booking.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Member
+    public partial class TimeSlot
     {
-        public Member()
+        public TimeSlot()
         {
             this.Bookings = new HashSet<Booking>();
-            this.Memberships = new HashSet<Membership>();
-            this.QuarterlyAssessments = new HashSet<QuarterlyAssessment>();
         }
     
         public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string IdentificationNumber { get; set; }
-        public int LocationId { get; set; }
-        public string AspNetUserId { get; set; }
+        public System.TimeSpan StartTime { get; set; }
+        public System.TimeSpan EndTime { get; set; }
     
         public virtual ICollection<Booking> Bookings { get; set; }
-        public virtual ICollection<Membership> Memberships { get; set; }
-        public virtual ICollection<QuarterlyAssessment> QuarterlyAssessments { get; set; }
-        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

@@ -12,20 +12,13 @@ namespace Ritual.Booking.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Membership
+    public partial class QuarterlyAssessment
     {
         public int Id { get; set; }
         public int MemberId { get; set; }
-        public int PackageId { get; set; }
-        public System.DateTime StartDate { get; set; }
-        public System.DateTime EndDate { get; set; }
-        public bool Trial { get; set; }
-        public int MembershipStateId { get; set; }
-        public Nullable<System.DateTime> CancellationDate { get; set; }
-        public bool Paid { get; set; }
+        public int TrainerId { get; set; }
     
         public virtual Member Member { get; set; }
-        public virtual MembershipState MembershipState { get; set; }
-        public virtual Package Package { get; set; }
+        public virtual Trainer Trainer { get; set; }
     }
 }

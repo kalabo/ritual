@@ -18,16 +18,16 @@ namespace Ritual.Booking.Data
         public int MemberId { get; set; }
         public int LocationId { get; set; }
         public System.DateTime Date { get; set; }
-        public System.TimeSpan StartTime { get; set; }
-        public System.TimeSpan EndTime { get; set; }
         public int BookingStateId { get; set; }
         public int RPEFeeling { get; set; }
         public int RPEPush { get; set; }
         public string TrainerNotes { get; set; }
         public int TrainerId { get; set; }
+        public int TimeSlotId { get; set; }
     
         public virtual BookingState BookingState { get; set; }
         public virtual Location Location { get; set; }
         public virtual Member Member { get; set; }
+        public virtual TimeSlot TimeSlot { get; set; }
     }
 }

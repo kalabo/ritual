@@ -34,7 +34,7 @@ namespace Ritual.Booking.Web.Controllers
             this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
             var user = UserManager.FindById(User.Identity.GetUserId());
                         
-            var members = db.Members.Include(m => m.AspNetUser);
+            var members = db.Members.Include(m => m.AspNetUserId);
 
             if (user != null)
             {
