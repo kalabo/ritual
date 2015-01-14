@@ -18,19 +18,17 @@ namespace Ritual.Booking.Data
         {
             this.Bookings = new HashSet<Booking>();
             this.Memberships = new HashSet<Membership>();
-            this.QuarterlyAssessments = new HashSet<QuarterlyAssessment>();
         }
     
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string IdentificationNumber { get; set; }
-        public int LocationId { get; set; }
+        public int HomeLocationId { get; set; }
         public string AspNetUserId { get; set; }
     
         public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<Membership> Memberships { get; set; }
-        public virtual ICollection<QuarterlyAssessment> QuarterlyAssessments { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }
     }
 }

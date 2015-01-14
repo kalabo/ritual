@@ -18,7 +18,6 @@ namespace Ritual.Booking.Data
         {
             this.Bookings = new HashSet<Booking>();
             this.Trainers = new HashSet<Trainer>();
-            this.Trainers1 = new HashSet<Trainer>();
         }
     
         public int Id { get; set; }
@@ -32,6 +31,5 @@ namespace Ritual.Booking.Data
     
         public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<Trainer> Trainers { get; set; }
-        public virtual ICollection<Trainer> Trainers1 { get; set; }
     }
 }

@@ -30,12 +30,13 @@
           <Property Name="MemberId" Type="int" Nullable="false" />
           <Property Name="LocationId" Type="int" Nullable="false" />
           <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
           <Property Name="BookingStateId" Type="int" Nullable="false" />
           <Property Name="RPEFeeling" Type="int" Nullable="false" />
           <Property Name="RPEPush" Type="int" Nullable="false" />
           <Property Name="TrainerNotes" Type="nvarchar(max)" />
           <Property Name="TrainerId" Type="int" Nullable="false" />
-          <Property Name="TimeSlotId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="BookingState">
           <Key>
@@ -65,7 +66,7 @@
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IdentificationNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="LocationId" Type="int" Nullable="false" />
+          <Property Name="HomeLocationId" Type="int" Nullable="false" />
           <Property Name="AspNetUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <EntityType Name="Membership">
@@ -89,44 +90,6 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <EntityType Name="OpeningHour">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="DateOfWeek" Type="tinyint" Nullable="false" />
-        </EntityType>
-        <EntityType Name="OpeningHourOverride">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="StartDate" Type="date" Nullable="false" />
-          <Property Name="EndDate" Type="date" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Package">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-        </EntityType>
-        <EntityType Name="QuarterlyAssessment">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MemberId" Type="int" Nullable="false" />
-          <Property Name="TrainerId" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="TimeSlot">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
-          <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
-        </EntityType>
         <EntityType Name="Trainer">
           <Key>
             <PropertyRef Name="Id" />
@@ -134,7 +97,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="AspNetUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="AspUserId" Type="int" Nullable="false" />
           <Property Name="LocationId" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_Booking_BookingState">
@@ -170,18 +133,6 @@
             </Principal>
             <Dependent Role="Booking">
               <PropertyRef Name="MemberId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Booking_TimeSlot">
-          <End Role="TimeSlot" Type="Self.TimeSlot" Multiplicity="1" />
-          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TimeSlot">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Booking">
-              <PropertyRef Name="TimeSlotId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -221,67 +172,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Membership_Package">
-          <End Role="Package" Type="Self.Package" Multiplicity="1" />
-          <End Role="Membership" Type="Self.Membership" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Package">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Membership">
-              <PropertyRef Name="PackageId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_QuarterlyAssessment_Member">
-          <End Role="Member" Type="Self.Member" Multiplicity="1" />
-          <End Role="QuarterlyAssessment" Type="Self.QuarterlyAssessment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="QuarterlyAssessment">
-              <PropertyRef Name="MemberId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_QuarterlyAssessment_Trainer">
-          <End Role="Trainer" Type="Self.Trainer" Multiplicity="1" />
-          <End Role="QuarterlyAssessment" Type="Self.QuarterlyAssessment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Trainer">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="QuarterlyAssessment">
-              <PropertyRef Name="TrainerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Trainer_AspNetUsers1">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
-          <End Role="Trainer" Type="Self.Trainer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Trainer">
-              <PropertyRef Name="AspNetUserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Trainer_Location">
-          <End Role="Location" Type="Self.Location" Multiplicity="1" />
-          <End Role="Trainer" Type="Self.Trainer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Trainer">
-              <PropertyRef Name="LocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Trainer_Location1">
           <End Role="Location" Type="Self.Location" Multiplicity="1" />
           <End Role="Trainer" Type="Self.Trainer" Multiplicity="*" />
           <ReferentialConstraint>
@@ -301,11 +192,6 @@
           <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Membership" EntityType="Self.Membership" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MembershipState" EntityType="Self.MembershipState" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="OpeningHour" EntityType="Self.OpeningHour" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="OpeningHourOverride" EntityType="Self.OpeningHourOverride" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Package" EntityType="Self.Package" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="QuarterlyAssessment" EntityType="Self.QuarterlyAssessment" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TimeSlot" EntityType="Self.TimeSlot" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Trainer" EntityType="Self.Trainer" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Booking_BookingState" Association="Self.FK_Booking_BookingState">
             <End Role="BookingState" EntitySet="BookingState" />
@@ -317,10 +203,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_Booking_Member" Association="Self.FK_Booking_Member">
             <End Role="Member" EntitySet="Member" />
-            <End Role="Booking" EntitySet="Booking" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Booking_TimeSlot" Association="Self.FK_Booking_TimeSlot">
-            <End Role="TimeSlot" EntitySet="TimeSlot" />
             <End Role="Booking" EntitySet="Booking" />
           </AssociationSet>
           <AssociationSet Name="FK_Member_AspNetUsers" Association="Self.FK_Member_AspNetUsers">
@@ -335,27 +217,7 @@
             <End Role="MembershipState" EntitySet="MembershipState" />
             <End Role="Membership" EntitySet="Membership" />
           </AssociationSet>
-          <AssociationSet Name="FK_Membership_Package" Association="Self.FK_Membership_Package">
-            <End Role="Package" EntitySet="Package" />
-            <End Role="Membership" EntitySet="Membership" />
-          </AssociationSet>
-          <AssociationSet Name="FK_QuarterlyAssessment_Member" Association="Self.FK_QuarterlyAssessment_Member">
-            <End Role="Member" EntitySet="Member" />
-            <End Role="QuarterlyAssessment" EntitySet="QuarterlyAssessment" />
-          </AssociationSet>
-          <AssociationSet Name="FK_QuarterlyAssessment_Trainer" Association="Self.FK_QuarterlyAssessment_Trainer">
-            <End Role="Trainer" EntitySet="Trainer" />
-            <End Role="QuarterlyAssessment" EntitySet="QuarterlyAssessment" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Trainer_AspNetUsers1" Association="Self.FK_Trainer_AspNetUsers1">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="Trainer" EntitySet="Trainer" />
-          </AssociationSet>
           <AssociationSet Name="FK_Trainer_Location" Association="Self.FK_Trainer_Location">
-            <End Role="Location" EntitySet="Location" />
-            <End Role="Trainer" EntitySet="Trainer" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Trainer_Location1" Association="Self.FK_Trainer_Location1">
             <End Role="Location" EntitySet="Location" />
             <End Role="Trainer" EntitySet="Trainer" />
           </AssociationSet>
@@ -364,73 +226,6 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="RitualDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="RitualDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Bookings" EntityType="RitualDBModel.Booking" />
-          <EntitySet Name="BookingStates" EntityType="RitualDBModel.BookingState" />
-          <EntitySet Name="Locations" EntityType="RitualDBModel.Location" />
-          <EntitySet Name="Members" EntityType="RitualDBModel.Member" />
-          <EntitySet Name="Memberships" EntityType="RitualDBModel.Membership" />
-          <EntitySet Name="MembershipStates" EntityType="RitualDBModel.MembershipState" />
-          <EntitySet Name="OpeningHours" EntityType="RitualDBModel.OpeningHour" />
-          <EntitySet Name="OpeningHourOverrides" EntityType="RitualDBModel.OpeningHourOverride" />
-          <EntitySet Name="Packages" EntityType="RitualDBModel.Package" />
-          <EntitySet Name="QuarterlyAssessments" EntityType="RitualDBModel.QuarterlyAssessment" />
-          <EntitySet Name="TimeSlots" EntityType="RitualDBModel.TimeSlot" />
-          <EntitySet Name="Trainers" EntityType="RitualDBModel.Trainer" />
-          <AssociationSet Name="FK_Booking_BookingState" Association="RitualDBModel.FK_Booking_BookingState">
-            <End Role="BookingState" EntitySet="BookingStates" />
-            <End Role="Booking" EntitySet="Bookings" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Booking_Location" Association="RitualDBModel.FK_Booking_Location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="Booking" EntitySet="Bookings" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Booking_Member" Association="RitualDBModel.FK_Booking_Member">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="Booking" EntitySet="Bookings" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Booking_TimeSlot" Association="RitualDBModel.FK_Booking_TimeSlot">
-            <End Role="TimeSlot" EntitySet="TimeSlots" />
-            <End Role="Booking" EntitySet="Bookings" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Trainer_Location" Association="RitualDBModel.FK_Trainer_Location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="Trainer" EntitySet="Trainers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Trainer_Location1" Association="RitualDBModel.FK_Trainer_Location1">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="Trainer" EntitySet="Trainers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Membership_Member" Association="RitualDBModel.FK_Membership_Member">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="Membership" EntitySet="Memberships" />
-          </AssociationSet>
-          <AssociationSet Name="FK_QuarterlyAssessment_Member" Association="RitualDBModel.FK_QuarterlyAssessment_Member">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="QuarterlyAssessment" EntitySet="QuarterlyAssessments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Membership_MembershipState" Association="RitualDBModel.FK_Membership_MembershipState">
-            <End Role="MembershipState" EntitySet="MembershipStates" />
-            <End Role="Membership" EntitySet="Memberships" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Membership_Package" Association="RitualDBModel.FK_Membership_Package">
-            <End Role="Package" EntitySet="Packages" />
-            <End Role="Membership" EntitySet="Memberships" />
-          </AssociationSet>
-          <AssociationSet Name="FK_QuarterlyAssessment_Trainer" Association="RitualDBModel.FK_QuarterlyAssessment_Trainer">
-            <End Role="Trainer" EntitySet="Trainers" />
-            <End Role="QuarterlyAssessment" EntitySet="QuarterlyAssessments" />
-          </AssociationSet>
-          <EntitySet Name="AspNetUsers" EntityType="RitualDBModel.AspNetUser" />
-          <AssociationSet Name="FK_Member_AspNetUsers" Association="RitualDBModel.FK_Member_AspNetUsers">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="Member" EntitySet="Members" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Trainer_AspNetUsers1" Association="RitualDBModel.FK_Trainer_AspNetUsers1">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="Trainer" EntitySet="Trainers" />
-          </AssociationSet>
-        </EntityContainer>
         <EntityType Name="Booking">
           <Key>
             <PropertyRef Name="Id" />
@@ -439,54 +234,52 @@
           <Property Name="MemberId" Type="Int32" Nullable="false" />
           <Property Name="LocationId" Type="Int32" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="StartTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="EndTime" Type="Time" Nullable="false" Precision="7" />
           <Property Name="BookingStateId" Type="Int32" Nullable="false" />
           <Property Name="RPEFeeling" Type="Int32" Nullable="false" />
           <Property Name="RPEPush" Type="Int32" Nullable="false" />
           <Property Name="TrainerNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TrainerId" Type="Int32" Nullable="false" />
-          <Property Name="TimeSlotId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="BookingState" Relationship="RitualDBModel.FK_Booking_BookingState" FromRole="Booking" ToRole="BookingState" />
-          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_Booking_Location" FromRole="Booking" ToRole="Location" />
-          <NavigationProperty Name="Member" Relationship="RitualDBModel.FK_Booking_Member" FromRole="Booking" ToRole="Member" />
-          <NavigationProperty Name="TimeSlot" Relationship="RitualDBModel.FK_Booking_TimeSlot" FromRole="Booking" ToRole="TimeSlot" />
+          <NavigationProperty Name="BookingState" Relationship="Self.FK_Booking_BookingState" FromRole="Booking" ToRole="BookingState" />
+          <NavigationProperty Name="Location" Relationship="Self.FK_Booking_Location" FromRole="Booking" ToRole="Location" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_Booking_Member" FromRole="Booking" ToRole="Member" />
         </EntityType>
         <EntityType Name="BookingState">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Bookings" Relationship="RitualDBModel.FK_Booking_BookingState" FromRole="BookingState" ToRole="Booking" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK_Booking_BookingState" FromRole="BookingState" ToRole="Booking" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Address" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PostCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Country" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PostCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="TimeZoneOffset" Type="Int16" Nullable="false" />
           <Property Name="Coordinates" Type="Geography" />
-          <NavigationProperty Name="Bookings" Relationship="RitualDBModel.FK_Booking_Location" FromRole="Location" ToRole="Booking" />
-          <NavigationProperty Name="Trainers" Relationship="RitualDBModel.FK_Trainer_Location" FromRole="Location" ToRole="Trainer" />
-          <NavigationProperty Name="Trainers1" Relationship="RitualDBModel.FK_Trainer_Location1" FromRole="Location" ToRole="Trainer" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK_Booking_Location" FromRole="Location" ToRole="Booking" />
+          <NavigationProperty Name="Trainers" Relationship="Self.FK_Trainer_Location" FromRole="Location" ToRole="Trainer" />
         </EntityType>
         <EntityType Name="Member">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IdentificationNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LocationId" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdentificationNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="HomeLocationId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK_Booking_Member" FromRole="Member" ToRole="Booking" />
+          <NavigationProperty Name="Memberships" Relationship="Self.FK_Membership_Member" FromRole="Member" ToRole="Membership" />
           <Property Name="AspNetUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Bookings" Relationship="RitualDBModel.FK_Booking_Member" FromRole="Member" ToRole="Booking" />
-          <NavigationProperty Name="Memberships" Relationship="RitualDBModel.FK_Membership_Member" FromRole="Member" ToRole="Membership" />
-          <NavigationProperty Name="QuarterlyAssessments" Relationship="RitualDBModel.FK_QuarterlyAssessment_Member" FromRole="Member" ToRole="QuarterlyAssessment" />
           <NavigationProperty Name="AspNetUser" Relationship="RitualDBModel.FK_Member_AspNetUsers" FromRole="Member" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="Membership">
@@ -502,77 +295,31 @@
           <Property Name="MembershipStateId" Type="Int32" Nullable="false" />
           <Property Name="CancellationDate" Type="DateTime" Precision="0" />
           <Property Name="Paid" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Member" Relationship="RitualDBModel.FK_Membership_Member" FromRole="Membership" ToRole="Member" />
-          <NavigationProperty Name="MembershipState" Relationship="RitualDBModel.FK_Membership_MembershipState" FromRole="Membership" ToRole="MembershipState" />
-          <NavigationProperty Name="Package" Relationship="RitualDBModel.FK_Membership_Package" FromRole="Membership" ToRole="Package" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_Membership_Member" FromRole="Membership" ToRole="Member" />
+          <NavigationProperty Name="MembershipState" Relationship="Self.FK_Membership_MembershipState" FromRole="Membership" ToRole="MembershipState" />
         </EntityType>
         <EntityType Name="MembershipState">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Memberships" Relationship="RitualDBModel.FK_Membership_MembershipState" FromRole="MembershipState" ToRole="Membership" />
-        </EntityType>
-        <EntityType Name="OpeningHour">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DateOfWeek" Type="Byte" Nullable="false" />
-        </EntityType>
-        <EntityType Name="OpeningHourOverride">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
-        </EntityType>
-        <EntityType Name="Package">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Memberships" Relationship="RitualDBModel.FK_Membership_Package" FromRole="Package" ToRole="Membership" />
-        </EntityType>
-        <EntityType Name="QuarterlyAssessment">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MemberId" Type="Int32" Nullable="false" />
-          <Property Name="TrainerId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Member" Relationship="RitualDBModel.FK_QuarterlyAssessment_Member" FromRole="QuarterlyAssessment" ToRole="Member" />
-          <NavigationProperty Name="Trainer" Relationship="RitualDBModel.FK_QuarterlyAssessment_Trainer" FromRole="QuarterlyAssessment" ToRole="Trainer" />
-        </EntityType>
-        <EntityType Name="TimeSlot">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="StartTime" Type="Time" Nullable="false" Precision="7" />
-          <Property Name="EndTime" Type="Time" Nullable="false" Precision="7" />
-          <NavigationProperty Name="Bookings" Relationship="RitualDBModel.FK_Booking_TimeSlot" FromRole="TimeSlot" ToRole="Booking" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Memberships" Relationship="Self.FK_Membership_MembershipState" FromRole="MembershipState" ToRole="Membership" />
         </EntityType>
         <EntityType Name="Trainer">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="AspNetUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AspUserId" Type="Int32" Nullable="false" />
           <Property Name="LocationId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_Trainer_Location" FromRole="Trainer" ToRole="Location" />
-          <NavigationProperty Name="Location1" Relationship="RitualDBModel.FK_Trainer_Location1" FromRole="Trainer" ToRole="Location" />
-          <NavigationProperty Name="QuarterlyAssessments" Relationship="RitualDBModel.FK_QuarterlyAssessment_Trainer" FromRole="Trainer" ToRole="QuarterlyAssessment" />
-          <NavigationProperty Name="AspNetUser" Relationship="RitualDBModel.FK_Trainer_AspNetUsers1" FromRole="Trainer" ToRole="AspNetUser" />
+          <NavigationProperty Name="Location" Relationship="Self.FK_Trainer_Location" FromRole="Trainer" ToRole="Location" />
         </EntityType>
         <Association Name="FK_Booking_BookingState">
-          <End Type="RitualDBModel.BookingState" Role="BookingState" Multiplicity="1" />
-          <End Type="RitualDBModel.Booking" Role="Booking" Multiplicity="*" />
+          <End Role="BookingState" Type="Self.BookingState" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="BookingState">
               <PropertyRef Name="Id" />
@@ -583,8 +330,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Booking_Location">
-          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="RitualDBModel.Booking" Role="Booking" Multiplicity="*" />
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Location">
               <PropertyRef Name="Id" />
@@ -595,8 +342,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Booking_Member">
-          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="1" />
-          <End Type="RitualDBModel.Booking" Role="Booking" Multiplicity="*" />
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Member">
               <PropertyRef Name="Id" />
@@ -606,33 +353,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Booking_TimeSlot">
-          <End Type="RitualDBModel.TimeSlot" Role="TimeSlot" Multiplicity="1" />
-          <End Type="RitualDBModel.Booking" Role="Booking" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TimeSlot">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Booking">
-              <PropertyRef Name="TimeSlotId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Trainer_Location">
-          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="RitualDBModel.Trainer" Role="Trainer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Trainer">
-              <PropertyRef Name="LocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Trainer_Location1">
-          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="RitualDBModel.Trainer" Role="Trainer" Multiplicity="*" />
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="Trainer" Type="Self.Trainer" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Location">
               <PropertyRef Name="Id" />
@@ -643,8 +366,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Membership_Member">
-          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="1" />
-          <End Type="RitualDBModel.Membership" Role="Membership" Multiplicity="*" />
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Membership" Type="Self.Membership" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Member">
               <PropertyRef Name="Id" />
@@ -654,21 +377,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_QuarterlyAssessment_Member">
-          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="1" />
-          <End Type="RitualDBModel.QuarterlyAssessment" Role="QuarterlyAssessment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="QuarterlyAssessment">
-              <PropertyRef Name="MemberId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Membership_MembershipState">
-          <End Type="RitualDBModel.MembershipState" Role="MembershipState" Multiplicity="1" />
-          <End Type="RitualDBModel.Membership" Role="Membership" Multiplicity="*" />
+          <End Role="MembershipState" Type="Self.MembershipState" Multiplicity="1" />
+          <End Role="Membership" Type="Self.Membership" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MembershipState">
               <PropertyRef Name="Id" />
@@ -678,30 +389,44 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Membership_Package">
-          <End Type="RitualDBModel.Package" Role="Package" Multiplicity="1" />
-          <End Type="RitualDBModel.Membership" Role="Membership" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Package">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Membership">
-              <PropertyRef Name="PackageId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_QuarterlyAssessment_Trainer">
-          <End Type="RitualDBModel.Trainer" Role="Trainer" Multiplicity="1" />
-          <End Type="RitualDBModel.QuarterlyAssessment" Role="QuarterlyAssessment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Trainer">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="QuarterlyAssessment">
-              <PropertyRef Name="TrainerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <EntityContainer Name="RitualDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bookings" EntityType="Self.Booking" />
+          <EntitySet Name="BookingStates" EntityType="Self.BookingState" />
+          <EntitySet Name="Locations" EntityType="Self.Location" />
+          <EntitySet Name="Members" EntityType="Self.Member" />
+          <EntitySet Name="Memberships" EntityType="Self.Membership" />
+          <EntitySet Name="MembershipStates" EntityType="Self.MembershipState" />
+          <EntitySet Name="Trainers" EntityType="Self.Trainer" />
+          <AssociationSet Name="FK_Booking_BookingState" Association="Self.FK_Booking_BookingState">
+            <End Role="BookingState" EntitySet="BookingStates" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_Location" Association="Self.FK_Booking_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_Member" Association="Self.FK_Booking_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Trainer_Location" Association="Self.FK_Trainer_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Trainer" EntitySet="Trainers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Membership_Member" Association="Self.FK_Membership_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Membership" EntitySet="Memberships" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Membership_MembershipState" Association="Self.FK_Membership_MembershipState">
+            <End Role="MembershipState" EntitySet="MembershipStates" />
+            <End Role="Membership" EntitySet="Memberships" />
+          </AssociationSet>
+          <EntitySet Name="AspNetUsers" EntityType="RitualDBModel.AspNetUser" />
+          <AssociationSet Name="FK_Member_AspNetUsers" Association="RitualDBModel.FK_Member_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Member" EntitySet="Members" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="AspNetUser">
           <Key>
             <PropertyRef Name="Id" />
@@ -719,7 +444,6 @@
           <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Members" Relationship="RitualDBModel.FK_Member_AspNetUsers" FromRole="AspNetUser" ToRole="Member" />
-          <NavigationProperty Name="Trainers" Relationship="RitualDBModel.FK_Trainer_AspNetUsers1" FromRole="AspNetUser" ToRole="Trainer" />
         </EntityType>
         <Association Name="FK_Member_AspNetUsers">
           <End Type="RitualDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
@@ -733,19 +457,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Trainer_AspNetUsers1">
-          <End Type="RitualDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="RitualDBModel.Trainer" Role="Trainer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Trainer">
-              <PropertyRef Name="AspNetUserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        </Schema>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -754,38 +466,39 @@
           <EntitySetMapping Name="Bookings">
             <EntityTypeMapping TypeName="RitualDBModel.Booking">
               <MappingFragment StoreEntitySet="Booking">
-                <ScalarProperty Name="TimeSlotId" ColumnName="TimeSlotId" />
-                <ScalarProperty Name="TrainerId" ColumnName="TrainerId" />
-                <ScalarProperty Name="TrainerNotes" ColumnName="TrainerNotes" />
-                <ScalarProperty Name="RPEPush" ColumnName="RPEPush" />
-                <ScalarProperty Name="RPEFeeling" ColumnName="RPEFeeling" />
-                <ScalarProperty Name="BookingStateId" ColumnName="BookingStateId" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="BookingStateId" ColumnName="BookingStateId" />
+                <ScalarProperty Name="RPEFeeling" ColumnName="RPEFeeling" />
+                <ScalarProperty Name="RPEPush" ColumnName="RPEPush" />
+                <ScalarProperty Name="TrainerNotes" ColumnName="TrainerNotes" />
+                <ScalarProperty Name="TrainerId" ColumnName="TrainerId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="BookingStates">
             <EntityTypeMapping TypeName="RitualDBModel.BookingState">
               <MappingFragment StoreEntitySet="BookingState">
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Locations">
             <EntityTypeMapping TypeName="RitualDBModel.Location">
               <MappingFragment StoreEntitySet="Location">
-                <ScalarProperty Name="Coordinates" ColumnName="Coordinates" />
-                <ScalarProperty Name="TimeZoneOffset" ColumnName="TimeZoneOffset" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="TimeZoneOffset" ColumnName="TimeZoneOffset" />
+                <ScalarProperty Name="Coordinates" ColumnName="Coordinates" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -793,88 +506,45 @@
             <EntityTypeMapping TypeName="RitualDBModel.Member">
               <MappingFragment StoreEntitySet="Member">
                 <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="IdentificationNumber" ColumnName="IdentificationNumber" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="IdentificationNumber" ColumnName="IdentificationNumber" />
+                <ScalarProperty Name="HomeLocationId" ColumnName="HomeLocationId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Memberships">
             <EntityTypeMapping TypeName="RitualDBModel.Membership">
               <MappingFragment StoreEntitySet="Membership">
-                <ScalarProperty Name="Paid" ColumnName="Paid" />
-                <ScalarProperty Name="CancellationDate" ColumnName="CancellationDate" />
-                <ScalarProperty Name="MembershipStateId" ColumnName="MembershipStateId" />
-                <ScalarProperty Name="Trial" ColumnName="Trial" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="PackageId" ColumnName="PackageId" />
-                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="PackageId" ColumnName="PackageId" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="Trial" ColumnName="Trial" />
+                <ScalarProperty Name="MembershipStateId" ColumnName="MembershipStateId" />
+                <ScalarProperty Name="CancellationDate" ColumnName="CancellationDate" />
+                <ScalarProperty Name="Paid" ColumnName="Paid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MembershipStates">
             <EntityTypeMapping TypeName="RitualDBModel.MembershipState">
               <MappingFragment StoreEntitySet="MembershipState">
+                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OpeningHours">
-            <EntityTypeMapping TypeName="RitualDBModel.OpeningHour">
-              <MappingFragment StoreEntitySet="OpeningHour">
-                <ScalarProperty Name="DateOfWeek" ColumnName="DateOfWeek" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OpeningHourOverrides">
-            <EntityTypeMapping TypeName="RitualDBModel.OpeningHourOverride">
-              <MappingFragment StoreEntitySet="OpeningHourOverride">
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Packages">
-            <EntityTypeMapping TypeName="RitualDBModel.Package">
-              <MappingFragment StoreEntitySet="Package">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="QuarterlyAssessments">
-            <EntityTypeMapping TypeName="RitualDBModel.QuarterlyAssessment">
-              <MappingFragment StoreEntitySet="QuarterlyAssessment">
-                <ScalarProperty Name="TrainerId" ColumnName="TrainerId" />
-                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TimeSlots">
-            <EntityTypeMapping TypeName="RitualDBModel.TimeSlot">
-              <MappingFragment StoreEntitySet="TimeSlot">
-                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
-                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Trainers">
             <EntityTypeMapping TypeName="RitualDBModel.Trainer">
               <MappingFragment StoreEntitySet="Trainer">
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="AspUserId" ColumnName="AspUserId" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

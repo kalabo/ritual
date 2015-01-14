@@ -17,7 +17,6 @@ namespace Ritual.Booking.Data
         public AspNetUser()
         {
             this.Members = new HashSet<Member>();
-            this.Trainers = new HashSet<Trainer>();
         }
     
         public string Id { get; set; }
@@ -34,6 +33,5 @@ namespace Ritual.Booking.Data
         public string UserName { get; set; }
     
         public virtual ICollection<Member> Members { get; set; }
-        public virtual ICollection<Trainer> Trainers { get; set; }
     }
 }

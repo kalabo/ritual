@@ -26,6 +26,5 @@ namespace Ritual.Booking.Data
     
         public virtual Member Member { get; set; }
         public virtual MembershipState MembershipState { get; set; }
-        public virtual Package Package { get; set; }
     }
 }

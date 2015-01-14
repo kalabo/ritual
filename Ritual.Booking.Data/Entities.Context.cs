@@ -31,11 +31,6 @@ namespace Ritual.Booking.Data
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Membership> Memberships { get; set; }
         public virtual DbSet<MembershipState> MembershipStates { get; set; }
-        public virtual DbSet<OpeningHour> OpeningHours { get; set; }
-        public virtual DbSet<OpeningHourOverride> OpeningHourOverrides { get; set; }
-        public virtual DbSet<Package> Packages { get; set; }
-        public virtual DbSet<QuarterlyAssessment> QuarterlyAssessments { get; set; }
-        public virtual DbSet<TimeSlot> TimeSlots { get; set; }
         public virtual DbSet<Trainer> Trainers { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
     }

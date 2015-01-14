@@ -14,20 +14,12 @@ namespace Ritual.Booking.Data
     
     public partial class Trainer
     {
-        public Trainer()
-        {
-            this.QuarterlyAssessments = new HashSet<QuarterlyAssessment>();
-        }
-    
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string AspNetUserId { get; set; }
+        public int AspUserId { get; set; }
         public int LocationId { get; set; }
     
         public virtual Location Location { get; set; }
-        public virtual Location Location1 { get; set; }
-        public virtual ICollection<QuarterlyAssessment> QuarterlyAssessments { get; set; }
-        public virtual AspNetUser AspNetUser { get; set; }
     }
 }
