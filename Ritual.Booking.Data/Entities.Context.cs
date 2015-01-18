@@ -32,9 +32,7 @@ public partial class RitualDBEntities : DbContext
     }
 
 
-    public virtual DbSet<Booking> Bookings { get; set; }
-
-    public virtual DbSet<BookingState> BookingStates { get; set; }
+    public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
 
     public virtual DbSet<Location> Locations { get; set; }
 
@@ -44,6 +42,8 @@ public partial class RitualDBEntities : DbContext
 
     public virtual DbSet<MembershipState> MembershipStates { get; set; }
 
+    public virtual DbSet<MembershipSuspension> MembershipSuspensions { get; set; }
+
     public virtual DbSet<OpeningHour> OpeningHours { get; set; }
 
     public virtual DbSet<OpeningHourOverride> OpeningHourOverrides { get; set; }
@@ -52,11 +52,13 @@ public partial class RitualDBEntities : DbContext
 
     public virtual DbSet<QuarterlyAssessment> QuarterlyAssessments { get; set; }
 
+    public virtual DbSet<SessionBooking> SessionBookings { get; set; }
+
+    public virtual DbSet<SessionBookingState> SessionBookingStates { get; set; }
+
     public virtual DbSet<TimeSlot> TimeSlots { get; set; }
 
     public virtual DbSet<Trainer> Trainers { get; set; }
-
-    public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
 
 }
 

@@ -8,39 +8,46 @@ using System.Web;
 using System.Web.Mvc;
 using Ritual.Booking.Data;
 using Ritual.Booking.Web.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Ritual.Booking.Web.Controllers
 {
     public class MembersController : Controller
     {
-        /// <summary>
-        /// Application DB context
-        /// </summary>
-        protected ApplicationDbContext ApplicationDbContext { get; set; }
-
-        /// <summary>
-        /// User manager - attached to application DB context
-        /// </summary>
-        protected UserManager<ApplicationUser> UserManager { get; set; }
-
         private RitualDBEntities db = new RitualDBEntities();
 
         // GET: Members
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string searchString)
         {
-            this.ApplicationDbContext = new ApplicationDbContext();
-            this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
-            var user = UserManager.FindById(User.Identity.GetUserId());
-                        
-            var members = db.Members.Include(m => m.AspNetUser);
+            ViewBag.LastNameSortParm = String.IsNullOrEmpty(sortOrder) ? "lastname_desc" : "";
+            ViewBag.FirstNameSortParm = sortOrder == "firstname" ? "firstname_desc" : "firstname";
 
-            if (user != null)
+            var members = from m in db.Members.Include(m => m.AspNetUser).Include(m => m.Location) select m;
+            
+            if (!String.IsNullOrEmpty(searchString))
             {
-                members = members.Where(m => m.AspNetUserId.Equals(user.Id));
+                members = members.Where(m => m.LastName.Contains(searchString)
+                                       || m.HomePhone.Contains(searchString)
+                                       || m.MobilePhone.Contains(searchString)
+                                       || m.FirstName.Contains(searchString)
+                                       || m.IdentificationNumber.Contains(searchString));
             }
 
+            switch (sortOrder)
+            {
+                case "lastname_desc":
+                    members = members.OrderByDescending(m => m.LastName);
+                    break;
+                case "firstname":
+                    members = members.OrderBy(m => m.FirstName);
+                    break;
+                case "firstname_desc":
+                    members = members.OrderByDescending(m => m.FirstName);
+                    break;
+                default:
+                    members = members.OrderBy(m => m.LastName);
+                    break;
+            }
+            
             return View(members.ToList());
         }
 
@@ -56,6 +63,7 @@ namespace Ritual.Booking.Web.Controllers
             {
                 return HttpNotFound();
             }
+
             return View(member);
         }
 
@@ -63,6 +71,7 @@ namespace Ritual.Booking.Web.Controllers
         public ActionResult Create()
         {
             ViewBag.AspNetUserId = new SelectList(db.AspNetUsers, "Id", "Email");
+            ViewBag.HomeLocationId = new SelectList(db.Locations, "Id", "Name");
             return View();
         }
 
@@ -71,7 +80,7 @@ namespace Ritual.Booking.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,IdentificationNumber,HomeLocationId,AspNetUserId")] Member member)
+        public ActionResult Create([Bind(Include = "Id,Salutation,FirstName,LastName,IdentificationNumber,EmailOptOut,Email,Birthday,HomePhone,MobilePhone,HomeLocationId,AspNetUserId")] Member member)
         {
             if (ModelState.IsValid)
             {
@@ -81,6 +90,7 @@ namespace Ritual.Booking.Web.Controllers
             }
 
             ViewBag.AspNetUserId = new SelectList(db.AspNetUsers, "Id", "Email", member.AspNetUserId);
+            ViewBag.HomeLocationId = new SelectList(db.Locations, "Id", "Name", member.HomeLocationId);
             return View(member);
         }
 
@@ -92,20 +102,22 @@ namespace Ritual.Booking.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Member member = db.Members.Find(id);
+            
             if (member == null)
             {
                 return HttpNotFound();
             }
             ViewBag.AspNetUserId = new SelectList(db.AspNetUsers, "Id", "Email", member.AspNetUserId);
+            ViewBag.HomeLocationId = new SelectList(db.Locations, "Id", "Name", member.HomeLocationId);
             return View(member);
         }
-
+        
         // POST: Members/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,IdentificationNumber,HomeLocationId,AspNetUserId")] Member member)
+        public ActionResult Edit([Bind(Include = "Id,Salutation,FirstName,LastName,IdentificationNumber,EmailOptOut,Email,Birthday,HomePhone,MobilePhone,HomeLocationId,AspNetUserId")] Member member)
         {
             if (ModelState.IsValid)
             {
@@ -114,6 +126,7 @@ namespace Ritual.Booking.Web.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.AspNetUserId = new SelectList(db.AspNetUsers, "Id", "Email", member.AspNetUserId);
+            ViewBag.HomeLocationId = new SelectList(db.Locations, "Id", "Name", member.HomeLocationId);
             return View(member);
         }
 

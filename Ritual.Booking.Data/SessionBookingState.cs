@@ -15,13 +15,13 @@ namespace Ritual.Booking.Data
 using System;
     using System.Collections.Generic;
     
-public partial class BookingState
+public partial class SessionBookingState
 {
 
-    public BookingState()
+    public SessionBookingState()
     {
 
-        this.Bookings = new HashSet<Booking>();
+        this.SessionBookings = new HashSet<SessionBooking>();
 
     }
 
@@ -32,7 +32,7 @@ public partial class BookingState
 
 
 
-    public virtual ICollection<Booking> Bookings { get; set; }
+    public virtual ICollection<SessionBooking> SessionBookings { get; set; }
 
 }
 

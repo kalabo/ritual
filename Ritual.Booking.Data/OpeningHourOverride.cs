@@ -15,38 +15,30 @@ namespace Ritual.Booking.Data
 using System;
     using System.Collections.Generic;
     
-public partial class Booking
+public partial class OpeningHourOverride
 {
 
     public int Id { get; set; }
 
-    public int MemberId { get; set; }
+    public System.DateTime OverrideStartDate { get; set; }
 
-    public int LocationId { get; set; }
+    public System.DateTime OverrideEndDate { get; set; }
 
-    public System.DateTime Date { get; set; }
+    public Nullable<byte> DayOfWeek { get; set; }
 
-    public int BookingStateId { get; set; }
+    public Nullable<System.TimeSpan> AltOpenTime { get; set; }
 
-    public int RPEFeeling { get; set; }
+    public Nullable<System.TimeSpan> AltCloseTme { get; set; }
 
-    public int RPEPush { get; set; }
+    public Nullable<bool> Closed { get; set; }
 
-    public string TrainerNotes { get; set; }
+    public string OverrideReason { get; set; }
 
-    public int TrainerId { get; set; }
-
-    public int TimeSlotId { get; set; }
+    public Nullable<int> LocationId { get; set; }
 
 
-
-    public virtual BookingState BookingState { get; set; }
 
     public virtual Location Location { get; set; }
-
-    public virtual Member Member { get; set; }
-
-    public virtual TimeSlot TimeSlot { get; set; }
 
 }
 

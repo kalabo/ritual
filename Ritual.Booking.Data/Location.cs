@@ -21,7 +21,13 @@ public partial class Location
     public Location()
     {
 
-        this.Bookings = new HashSet<Booking>();
+        this.SessionBookings = new HashSet<SessionBooking>();
+
+        this.Members = new HashSet<Member>();
+
+        this.OpeningHours = new HashSet<OpeningHour>();
+
+        this.OpeningHourOverrides = new HashSet<OpeningHourOverride>();
 
         this.Trainers = new HashSet<Trainer>();
 
@@ -48,7 +54,13 @@ public partial class Location
 
 
 
-    public virtual ICollection<Booking> Bookings { get; set; }
+    public virtual ICollection<SessionBooking> SessionBookings { get; set; }
+
+    public virtual ICollection<Member> Members { get; set; }
+
+    public virtual ICollection<OpeningHour> OpeningHours { get; set; }
+
+    public virtual ICollection<OpeningHourOverride> OpeningHourOverrides { get; set; }
 
     public virtual ICollection<Trainer> Trainers { get; set; }
 

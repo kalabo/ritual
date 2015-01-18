@@ -20,7 +20,7 @@ public partial class Membership
 
     public int Id { get; set; }
 
-    public int MemberId { get; set; }
+    public string MemberId { get; set; }
 
     public int PackageId { get; set; }
 

@@ -21,7 +21,7 @@ public partial class Member
     public Member()
     {
 
-        this.Bookings = new HashSet<Booking>();
+        this.SessionBookings = new HashSet<SessionBooking>();
 
         this.Memberships = new HashSet<Membership>();
 
@@ -30,7 +30,9 @@ public partial class Member
     }
 
 
-    public int Id { get; set; }
+    public string Id { get; set; }
+
+    public string Salutation { get; set; }
 
     public string FirstName { get; set; }
 
@@ -38,19 +40,29 @@ public partial class Member
 
     public string IdentificationNumber { get; set; }
 
-    public int LocationId { get; set; }
+    public Nullable<bool> EmailOptOut { get; set; }
+
+    public Nullable<System.DateTime> Birthday { get; set; }
+
+    public string HomePhone { get; set; }
+
+    public string MobilePhone { get; set; }
+
+    public int HomeLocationId { get; set; }
 
     public string AspNetUserId { get; set; }
 
 
 
-    public virtual ICollection<Booking> Bookings { get; set; }
+    public virtual AspNetUser AspNetUser { get; set; }
+
+    public virtual Location Location { get; set; }
+
+    public virtual ICollection<SessionBooking> SessionBookings { get; set; }
 
     public virtual ICollection<Membership> Memberships { get; set; }
 
     public virtual ICollection<QuarterlyAssessment> QuarterlyAssessments { get; set; }
-
-    public virtual AspNetUser AspNetUser { get; set; }
 
 }
 

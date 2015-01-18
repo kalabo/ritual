@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Ritual.Booking.Data.QuarterlyAssessment>
+
+@{
+    ViewBag.Title = "Ritual Quarterly Assessments";
+}
+
+<h2>View All Quarterly Assessments</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@using (Html.BeginForm())
+{
+    <p>
+        Find by Year, Trainer or Member: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" />
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            Quarter
+        </th>
+        <th>
+            Year
+        </th>
+        <th>
+            Date
+        </th>
+        <th>
+            RPE Score
+        </th>
+        <th>
+            @Html.ActionLink("Member Name", "Index", new { sortOrder = ViewBag.MemberNameSortParm })
+        </th>
+        <th>            
+            @Html.ActionLink("Trainer Name", "Index", new { sortOrder = ViewBag.TrainerNameSortParm })
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.QAQuarter)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.QAYear)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.QADateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.QAClientRPE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Member.FirstName) @Html.DisplayFor(modelItem => item.Member.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Trainer.FirstName) @Html.DisplayFor(modelItem => item.Trainer.LastName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

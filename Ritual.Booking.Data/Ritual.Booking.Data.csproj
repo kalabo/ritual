@@ -51,12 +51,6 @@
     <Compile Include="AspNetUser.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Booking.cs">
-      <DependentUpon>Entities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="BookingState.cs">
-      <DependentUpon>Entities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Entities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -84,6 +78,10 @@
     <Compile Include="MembershipState.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="MembershipSuspension.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Metadata.cs" />
     <Compile Include="OpeningHour.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
@@ -93,8 +91,15 @@
     <Compile Include="Package.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="PartialClasses.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuarterlyAssessment.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SessionBooking.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SessionBookingState.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="TimeSlot.cs">
