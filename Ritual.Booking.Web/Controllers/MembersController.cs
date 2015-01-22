@@ -8,45 +8,72 @@ using System.Web;
 using System.Web.Mvc;
 using Ritual.Booking.Data;
 using Ritual.Booking.Web.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Ritual.Booking.Web.Controllers
 {
     public class MembersController : Controller
     {
-        /// <summary>
-        /// Application DB context
-        /// </summary>
-        protected ApplicationDbContext ApplicationDbContext { get; set; }
-
-        /// <summary>
-        /// User manager - attached to application DB context
-        /// </summary>
-        protected UserManager<ApplicationUser> UserManager { get; set; }
-
         private RitualDBEntities db = new RitualDBEntities();
 
         // GET: Members
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string searchString)
         {
-            this.ApplicationDbContext = new ApplicationDbContext();
-            this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
-            var user = UserManager.FindById(User.Identity.GetUserId());
-                        
-            var members = db.Members.Include(m => m.AspNetUserId);
-
-            if (user != null)
+            //Redirect back to login page if not authenticated
+            if (!HttpContext.User.Identity.IsAuthenticated)
             {
-                members = members.Where(m => m.AspNetUserId.Equals(user.Id));
+                return RedirectToAction("Login", "Account");
             }
 
+            ViewBag.LastNameSortParm = String.IsNullOrEmpty(sortOrder) ? "lastname_desc" : "";
+            ViewBag.FirstNameSortParm = sortOrder == "firstname" ? "firstname_desc" : "firstname";
+
+            var members = from m in db.Members.Include(m => m.AspNetUser).Include(m => m.Location) select m;
+
+            if (Request.Form["searchButton"] != null)
+            {
+                // Code for function 1
+            }
+            else if (Request.Form["resetButton"] != null)
+            {
+                // code for function 2
+            }
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                members = members.Where(m => m.LastName.Contains(searchString)
+                                       || m.HomePhone.Contains(searchString)
+                                       || m.MobilePhone.Contains(searchString)
+                                       || m.FirstName.Contains(searchString)
+                                       || m.IdentificationNumber.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "lastname_desc":
+                    members = members.OrderByDescending(m => m.LastName);
+                    break;
+                case "firstname":
+                    members = members.OrderBy(m => m.FirstName);
+                    break;
+                case "firstname_desc":
+                    members = members.OrderByDescending(m => m.FirstName);
+                    break;
+                default:
+                    members = members.OrderBy(m => m.LastName);
+                    break;
+            }
+            
             return View(members.ToList());
         }
 
         // GET: Members/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(string id)
         {
+            //Redirect back to login page if not authenticated
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -56,13 +83,21 @@ namespace Ritual.Booking.Web.Controllers
             {
                 return HttpNotFound();
             }
+
             return View(member);
         }
 
         // GET: Members/Create
         public ActionResult Create()
         {
+            //Redirect back to login page if not authenticated
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             ViewBag.AspNetUserId = new SelectList(db.AspNetUsers, "Id", "Email");
+            ViewBag.HomeLocationId = new SelectList(db.Locations, "Id", "Name");
             return View();
         }
 
@@ -71,8 +106,14 @@ namespace Ritual.Booking.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,IdentificationNumber,HomeLocationId,AspNetUserId")] Member member)
+        public ActionResult Create([Bind(Include = "Id,Salutation,FirstName,LastName,IdentificationNumber,EmailOptOut,Email,Birthday,HomePhone,MobilePhone,HomeLocationId,AspNetUserId")] Member member)
         {
+            //Redirect back to login page if not authenticated
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (ModelState.IsValid)
             {
                 db.Members.Add(member);
@@ -81,32 +122,47 @@ namespace Ritual.Booking.Web.Controllers
             }
 
             ViewBag.AspNetUserId = new SelectList(db.AspNetUsers, "Id", "Email", member.AspNetUserId);
+            ViewBag.HomeLocationId = new SelectList(db.Locations, "Id", "Name", member.HomeLocationId);
             return View(member);
         }
 
         // GET: Members/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(string id)
         {
+            //Redirect back to login page if not authenticated
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Member member = db.Members.Find(id);
+            
             if (member == null)
             {
                 return HttpNotFound();
             }
             ViewBag.AspNetUserId = new SelectList(db.AspNetUsers, "Id", "Email", member.AspNetUserId);
+            ViewBag.HomeLocationId = new SelectList(db.Locations, "Id", "Name", member.HomeLocationId);
             return View(member);
         }
-
+        
         // POST: Members/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,IdentificationNumber,HomeLocationId,AspNetUserId")] Member member)
+        public ActionResult Edit([Bind(Include = "Id,Salutation,FirstName,LastName,IdentificationNumber,EmailOptOut,Email,Birthday,HomePhone,MobilePhone,HomeLocationId,AspNetUserId")] Member member)
         {
+            //Redirect back to login page if not authenticated
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(member).State = EntityState.Modified;
@@ -114,12 +170,19 @@ namespace Ritual.Booking.Web.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.AspNetUserId = new SelectList(db.AspNetUsers, "Id", "Email", member.AspNetUserId);
+            ViewBag.HomeLocationId = new SelectList(db.Locations, "Id", "Name", member.HomeLocationId);
             return View(member);
         }
 
         // GET: Members/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(string id)
         {
+            //Redirect back to login page if not authenticated
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -135,8 +198,13 @@ namespace Ritual.Booking.Web.Controllers
         // POST: Members/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(string id)
         {
+            //Redirect back to login page if not authenticated
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             Member member = db.Members.Find(id);
             db.Members.Remove(member);
             db.SaveChanges();

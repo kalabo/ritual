@@ -170,9 +170,10 @@ namespace Ritual.Booking.Web.Controllers
                     Member m = new Member()
                     {
                         AspNetUserId = user.Id,
+                        Salutation = model.Salutation,
                         FirstName = model.FirstName,
                         LastName = model.LastName,
-                        LocationId = 1,
+                        HomeLocationId = 1,
                         IdentificationNumber = "member" + DateTime.Now.Ticks.ToString()
                     };
 

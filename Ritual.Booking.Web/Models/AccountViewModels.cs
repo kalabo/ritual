@@ -82,6 +82,10 @@ namespace Ritual.Booking.Web.Models
 
         // MH NEW
         [Required]
+        [Display(Name = "Salutation")]
+        public string Salutation { get; set; }
+
+        [Required]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 

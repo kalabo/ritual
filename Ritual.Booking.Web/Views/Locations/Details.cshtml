@@ -4,71 +4,81 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>Location</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+<section class="content-header">
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>@ViewBag.Title</h1>
+        </div>
+    </div>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="large-12 columns">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Address)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Address)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.PhoneNumber)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PostCode)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.PostCode)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.PostCode)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.PostCode)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Country)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Country)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Country)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Country)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TimeZoneOffset)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.TimeZoneOffset)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.TimeZoneOffset)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.TimeZoneOffset)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Coordinates)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Coordinates)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Coordinates)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Coordinates)
+                </dd>
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+            </dl>
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                @Html.ActionLink("Back to List", "Index")
+            </p>
+        </div>
+    </div>
+</section>
+

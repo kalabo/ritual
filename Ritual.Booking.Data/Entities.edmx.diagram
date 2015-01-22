@@ -4,33 +4,37 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="adc2b67dab144bd6bfeb1bbe231ace48" Name="Diagram1" ZoomLevel="50">
-        <EntityTypeShape EntityType="RitualDBModel.Booking" Width="1.5" PointX="6" PointY="4.75" />
-        <EntityTypeShape EntityType="RitualDBModel.BookingState" Width="1.5" PointX="3.75" PointY="12.125" />
-        <EntityTypeShape EntityType="RitualDBModel.Location" Width="1.5" PointX="1.5" PointY="9" />
-        <EntityTypeShape EntityType="RitualDBModel.Member" Width="1.5" PointX="0.75" PointY="5.25" />
-        <EntityTypeShape EntityType="RitualDBModel.Membership" Width="1.5" PointX="3" PointY="5" />
-        <EntityTypeShape EntityType="RitualDBModel.MembershipState" Width="1.5" PointX="0.75" PointY="13.625" />
-        <EntityTypeShape EntityType="RitualDBModel.OpeningHour" Width="1.5" PointX="5.75" PointY="0.75" />
-        <EntityTypeShape EntityType="RitualDBModel.OpeningHourOverride" Width="1.5" PointX="7.75" PointY="0.75" />
-        <EntityTypeShape EntityType="RitualDBModel.Package" Width="1.5" PointX="0.75" PointY="16" />
-        <EntityTypeShape EntityType="RitualDBModel.QuarterlyAssessment" Width="1.5" PointX="3" PointY="1.625" />
-        <EntityTypeShape EntityType="RitualDBModel.TimeSlot" Width="1.5" PointX="3.75" PointY="9.5" />
-        <EntityTypeShape EntityType="RitualDBModel.Trainer" Width="1.5" PointX="0.75" PointY="1.375" />
-        <AssociationConnector Association="RitualDBModel.FK_Booking_BookingState" />
+      <Diagram DiagramId="adc2b67dab144bd6bfeb1bbe231ace48" Name="Diagram1" ZoomLevel="100">
+        <EntityTypeShape EntityType="RitualDBModel.AspNetUser" Width="1.5" PointX="0.75" PointY="8.75" />
+        <EntityTypeShape EntityType="RitualDBModel.Location" Width="1.5" PointX="0.75" PointY="13.75" />
+        <EntityTypeShape EntityType="RitualDBModel.Member" PointX="3" PointY="5" Width="1.5" />
+        <EntityTypeShape EntityType="RitualDBModel.Membership" Width="1.5" PointX="8.25" PointY="13" />
+        <EntityTypeShape EntityType="RitualDBModel.MembershipState" Width="1.5" PointX="6" PointY="22" />
+        <EntityTypeShape EntityType="RitualDBModel.MembershipSuspension" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="RitualDBModel.OpeningHour" Width="1.5" PointX="3" PointY="25.75" />
+        <EntityTypeShape EntityType="RitualDBModel.OpeningHourOverride" Width="1.5" PointX="3" PointY="17.625" />
+        <EntityTypeShape EntityType="RitualDBModel.Package" Width="1.5" PointX="6" PointY="8.75" />
+        <EntityTypeShape EntityType="RitualDBModel.QuarterlyAssessment" Width="1.5" PointX="11.25" PointY="12.625" />
+        <EntityTypeShape EntityType="RitualDBModel.SessionBooking" Width="1.5" PointX="5.25" PointY="13.25" />
+        <EntityTypeShape EntityType="RitualDBModel.SessionBookingState" Width="1.5" PointX="3" PointY="10" />
+        <EntityTypeShape EntityType="RitualDBModel.TimeSlot" Width="1.5" PointX="3" PointY="21.375" />
+        <EntityTypeShape EntityType="RitualDBModel.Trainer" Width="1.5" PointX="6" PointY="18.25" />
+        <AssociationConnector Association="RitualDBModel.FK_Member_AspNetUsers" />
+        <AssociationConnector Association="RitualDBModel.FK_Trainer_AspNetUsers1" />
         <AssociationConnector Association="RitualDBModel.FK_Booking_Location" />
-        <AssociationConnector Association="RitualDBModel.FK_Booking_Member" />
-        <AssociationConnector Association="RitualDBModel.FK_Booking_TimeSlot" />
+        <AssociationConnector Association="RitualDBModel.FK_Member_Location" />
+        <AssociationConnector Association="RitualDBModel.FK_OpeningHour_Location" />
+        <AssociationConnector Association="RitualDBModel.FK_OpeningHourOverride_Location" />
         <AssociationConnector Association="RitualDBModel.FK_Trainer_Location" />
         <AssociationConnector Association="RitualDBModel.FK_Trainer_Location1" />
+        <AssociationConnector Association="RitualDBModel.FK_Booking_Member" />
         <AssociationConnector Association="RitualDBModel.FK_Membership_Member" />
         <AssociationConnector Association="RitualDBModel.FK_QuarterlyAssessment_Member" />
         <AssociationConnector Association="RitualDBModel.FK_Membership_MembershipState" />
         <AssociationConnector Association="RitualDBModel.FK_Membership_Package" />
         <AssociationConnector Association="RitualDBModel.FK_QuarterlyAssessment_Trainer" />
-        <EntityTypeShape EntityType="RitualDBModel.AspNetUser" Width="1.5" PointX="0.75" PointY="2.875" />
-        <AssociationConnector Association="RitualDBModel.FK_Member_AspNetUsers" />
-        <AssociationConnector Association="RitualDBModel.FK_Trainer_AspNetUsers1" />
+        <AssociationConnector Association="RitualDBModel.FK_Booking_BookingState" />
+        <AssociationConnector Association="RitualDBModel.FK_Booking_TimeSlot" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

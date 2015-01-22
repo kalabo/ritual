@@ -12,6 +12,14 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.Salutation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Salutation)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.FirstName)
         </dt>
 
@@ -36,11 +44,35 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.HomeLocationId)
+            @Html.DisplayNameFor(model => model.EmailOptOut)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.HomeLocationId)
+            @Html.DisplayFor(model => model.EmailOptOut)
+        </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.Birthday)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Birthday)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HomePhone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HomePhone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MobilePhone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MobilePhone)
         </dd>
 
         <dt>
@@ -49,6 +81,14 @@
 
         <dd>
             @Html.DisplayFor(model => model.AspNetUser.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location.Name)
         </dd>
 
     </dl>
