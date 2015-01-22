@@ -38,13 +38,13 @@ public partial class Trainer
 
 
 
-    public virtual AspNetUser AspNetUser { get; set; }
-
     public virtual Location Location { get; set; }
 
     public virtual Location Location1 { get; set; }
 
     public virtual ICollection<QuarterlyAssessment> QuarterlyAssessments { get; set; }
+
+    public virtual AspNetUser AspNetUser { get; set; }
 
 }
 

@@ -480,7 +480,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="RitualDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="RitualDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="AspNetUsers" EntityType="RitualDBModel.AspNetUser" />
           <EntitySet Name="Locations" EntityType="RitualDBModel.Location" />
           <EntitySet Name="Members" EntityType="RitualDBModel.Member" />
           <EntitySet Name="Memberships" EntityType="RitualDBModel.Membership" />
@@ -494,21 +493,13 @@
           <EntitySet Name="SessionBookingStates" EntityType="RitualDBModel.SessionBookingState" />
           <EntitySet Name="TimeSlots" EntityType="RitualDBModel.TimeSlot" />
           <EntitySet Name="Trainers" EntityType="RitualDBModel.Trainer" />
-          <AssociationSet Name="FK_Member_AspNetUsers" Association="RitualDBModel.FK_Member_AspNetUsers">
-            <End EntitySet="AspNetUsers" Role="AspNetUser" />
-            <End EntitySet="Members" Role="Member" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Trainer_AspNetUsers1" Association="RitualDBModel.FK_Trainer_AspNetUsers1">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="Trainer" EntitySet="Trainers" />
-          </AssociationSet>
           <AssociationSet Name="FK_Booking_Location" Association="RitualDBModel.FK_Booking_Location">
             <End Role="Location" EntitySet="Locations" />
             <End Role="SessionBooking" EntitySet="SessionBookings" />
           </AssociationSet>
           <AssociationSet Name="FK_Member_Location" Association="RitualDBModel.FK_Member_Location">
-            <End EntitySet="Locations" Role="Location" />
-            <End EntitySet="Members" Role="Member" />
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Member" EntitySet="Members" />
           </AssociationSet>
           <AssociationSet Name="FK_OpeningHour_Location" Association="RitualDBModel.FK_OpeningHour_Location">
             <End Role="Location" EntitySet="Locations" />
@@ -527,16 +518,16 @@
             <End Role="Trainer" EntitySet="Trainers" />
           </AssociationSet>
           <AssociationSet Name="FK_Booking_Member" Association="RitualDBModel.FK_Booking_Member">
-            <End EntitySet="Members" Role="Member" />
-            <End EntitySet="SessionBookings" Role="SessionBooking" />
+            <End Role="Member" EntitySet="Members" />
+            <End Role="SessionBooking" EntitySet="SessionBookings" />
           </AssociationSet>
           <AssociationSet Name="FK_Membership_Member" Association="RitualDBModel.FK_Membership_Member">
-            <End EntitySet="Members" Role="Member" />
-            <End EntitySet="Memberships" Role="Membership" />
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Membership" EntitySet="Memberships" />
           </AssociationSet>
           <AssociationSet Name="FK_QuarterlyAssessment_Member" Association="RitualDBModel.FK_QuarterlyAssessment_Member">
-            <End EntitySet="Members" Role="Member" />
-            <End EntitySet="QuarterlyAssessments" Role="QuarterlyAssessment" />
+            <End Role="Member" EntitySet="Members" />
+            <End Role="QuarterlyAssessment" EntitySet="QuarterlyAssessments" />
           </AssociationSet>
           <AssociationSet Name="FK_Membership_MembershipState" Association="RitualDBModel.FK_Membership_MembershipState">
             <End Role="MembershipState" EntitySet="MembershipStates" />
@@ -558,26 +549,16 @@
             <End Role="TimeSlot" EntitySet="TimeSlots" />
             <End Role="SessionBooking" EntitySet="SessionBookings" />
           </AssociationSet>
+          <EntitySet Name="AspNetUsers" EntityType="RitualDBModel.AspNetUser" />
+          <AssociationSet Name="FK_Member_AspNetUsers" Association="RitualDBModel.FK_Member_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Member" EntitySet="Members" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Trainer_AspNetUsers1" Association="RitualDBModel.FK_Trainer_AspNetUsers1">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Trainer" EntitySet="Trainers" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="AspNetUser">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
-          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Members" Relationship="RitualDBModel.FK_Member_AspNetUsers" FromRole="AspNetUser" ToRole="Member" />
-          <NavigationProperty Name="Trainers" Relationship="RitualDBModel.FK_Trainer_AspNetUsers1" FromRole="AspNetUser" ToRole="Trainer" />
-        </EntityType>
         <EntityType Name="Location">
           <Key>
             <PropertyRef Name="Id" />
@@ -601,22 +582,22 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="Salutation" MaxLength="10" FixedLength="true" Unicode="true" Type="String" />
-          <Property Name="FirstName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="LastName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="IdentificationNumber" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Salutation" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdentificationNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EmailOptOut" Type="Boolean" />
-          <Property Name="Birthday" Precision="0" Type="DateTime" />
-          <Property Name="HomePhone" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="MobilePhone" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
-          <Property Name="HomeLocationId" Nullable="false" Type="Int32" />
-          <Property Name="AspNetUserId" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" Type="String" />
-          <NavigationProperty Name="AspNetUser" Relationship="RitualDBModel.FK_Member_AspNetUsers" FromRole="Member" ToRole="AspNetUser" />
+          <Property Name="Birthday" Type="DateTime" Precision="0" />
+          <Property Name="HomePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MobilePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HomeLocationId" Type="Int32" Nullable="false" />
+          <Property Name="AspNetUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_Member_Location" FromRole="Member" ToRole="Location" />
           <NavigationProperty Name="SessionBookings" Relationship="RitualDBModel.FK_Booking_Member" FromRole="Member" ToRole="SessionBooking" />
           <NavigationProperty Name="Memberships" Relationship="RitualDBModel.FK_Membership_Member" FromRole="Member" ToRole="Membership" />
           <NavigationProperty Name="QuarterlyAssessments" Relationship="RitualDBModel.FK_QuarterlyAssessment_Member" FromRole="Member" ToRole="QuarterlyAssessment" />
+          <NavigationProperty Name="AspNetUser" Relationship="RitualDBModel.FK_Member_AspNetUsers" FromRole="Member" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="Membership">
           <Key>
@@ -784,35 +765,11 @@
           <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="AspNetUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="LocationId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="AspNetUser" Relationship="RitualDBModel.FK_Trainer_AspNetUsers1" FromRole="Trainer" ToRole="AspNetUser" />
           <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_Trainer_Location" FromRole="Trainer" ToRole="Location" />
           <NavigationProperty Name="Location1" Relationship="RitualDBModel.FK_Trainer_Location1" FromRole="Trainer" ToRole="Location" />
           <NavigationProperty Name="QuarterlyAssessments" Relationship="RitualDBModel.FK_QuarterlyAssessment_Trainer" FromRole="Trainer" ToRole="QuarterlyAssessment" />
+          <NavigationProperty Name="AspNetUser" Relationship="RitualDBModel.FK_Trainer_AspNetUsers1" FromRole="Trainer" ToRole="AspNetUser" />
         </EntityType>
-        <Association Name="FK_Member_AspNetUsers">
-          <End Type="RitualDBModel.AspNetUser" Multiplicity="1" Role="AspNetUser" />
-          <End Type="RitualDBModel.Member" Multiplicity="*" Role="Member" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Member">
-              <PropertyRef Name="AspNetUserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Trainer_AspNetUsers1">
-          <End Type="RitualDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="RitualDBModel.Trainer" Role="Trainer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Trainer">
-              <PropertyRef Name="AspNetUserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Booking_Location">
           <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
           <End Type="RitualDBModel.SessionBooking" Role="SessionBooking" Multiplicity="*" />
@@ -826,8 +783,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Member_Location">
-          <End Type="RitualDBModel.Location" Multiplicity="1" Role="Location" />
-          <End Type="RitualDBModel.Member" Multiplicity="*" Role="Member" />
+          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Location">
               <PropertyRef Name="Id" />
@@ -886,8 +843,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Booking_Member">
-          <End Type="RitualDBModel.Member" Multiplicity="1" Role="Member" />
-          <End Type="RitualDBModel.SessionBooking" Multiplicity="*" Role="SessionBooking" />
+          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="RitualDBModel.SessionBooking" Role="SessionBooking" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Member">
               <PropertyRef Name="Id" />
@@ -898,8 +855,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Membership_Member">
-          <End Type="RitualDBModel.Member" Multiplicity="1" Role="Member" />
-          <End Type="RitualDBModel.Membership" Multiplicity="*" Role="Membership" />
+          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="RitualDBModel.Membership" Role="Membership" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Member">
               <PropertyRef Name="Id" />
@@ -910,8 +867,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_QuarterlyAssessment_Member">
-          <End Type="RitualDBModel.Member" Multiplicity="1" Role="Member" />
-          <End Type="RitualDBModel.QuarterlyAssessment" Multiplicity="*" Role="QuarterlyAssessment" />
+          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="RitualDBModel.QuarterlyAssessment" Role="QuarterlyAssessment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Member">
               <PropertyRef Name="Id" />
@@ -981,30 +938,55 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Members" Relationship="RitualDBModel.FK_Member_AspNetUsers" FromRole="AspNetUser" ToRole="Member" />
+          <NavigationProperty Name="Trainers" Relationship="RitualDBModel.FK_Trainer_AspNetUsers1" FromRole="AspNetUser" ToRole="Trainer" />
+        </EntityType>
+        <Association Name="FK_Member_AspNetUsers">
+          <End Type="RitualDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Member">
+              <PropertyRef Name="AspNetUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Trainer_AspNetUsers1">
+          <End Type="RitualDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="RitualDBModel.Trainer" Role="Trainer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Trainer">
+              <PropertyRef Name="AspNetUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="RitualDBModelStoreContainer" CdmEntityContainer="RitualDBEntities">
-          <EntitySetMapping Name="AspNetUsers">
-            <EntityTypeMapping TypeName="RitualDBModel.AspNetUser">
-              <MappingFragment StoreEntitySet="AspNetUsers">
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Locations">
             <EntityTypeMapping TypeName="RitualDBModel.Location">
               <MappingFragment StoreEntitySet="Location">
@@ -1195,6 +1177,24 @@
                 <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="RitualDBModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

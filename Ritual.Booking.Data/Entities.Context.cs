@@ -32,8 +32,6 @@ public partial class RitualDBEntities : DbContext
     }
 
 
-    public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
-
     public virtual DbSet<Location> Locations { get; set; }
 
     public virtual DbSet<Member> Members { get; set; }
@@ -59,6 +57,8 @@ public partial class RitualDBEntities : DbContext
     public virtual DbSet<TimeSlot> TimeSlots { get; set; }
 
     public virtual DbSet<Trainer> Trainers { get; set; }
+
+    public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
 
 }
 

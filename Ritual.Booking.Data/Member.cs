@@ -54,8 +54,6 @@ public partial class Member
 
 
 
-    public virtual AspNetUser AspNetUser { get; set; }
-
     public virtual Location Location { get; set; }
 
     public virtual ICollection<SessionBooking> SessionBookings { get; set; }
@@ -63,6 +61,8 @@ public partial class Member
     public virtual ICollection<Membership> Memberships { get; set; }
 
     public virtual ICollection<QuarterlyAssessment> QuarterlyAssessments { get; set; }
+
+    public virtual AspNetUser AspNetUser { get; set; }
 
 }
 
