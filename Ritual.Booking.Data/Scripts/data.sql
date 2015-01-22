@@ -25,7 +25,7 @@ SET IDENTITY_INSERT [dbo].[Location] ON
 GO
 INSERT [dbo].[Location] ([Id], [Name], [Address], [PhoneNumber], [PostCode], [Country], [TimeZoneOffset], [Coordinates]) VALUES (1, N'London', N'Trafalgar Square', N'0208 789 7890', N'SE1 1AA', N'UK', 0, NULL)
 GO
-INSERT [dbo].[Location] ([Id], [Name], [Address], [PhoneNumber], [PostCode], [Country], [TimeZoneOffset], [Coordinates]) VALUES (2, N'Ritual Singapore', N'11 North Canal Road', N'0065 6536 7291', N'048824', N'Singapore', 0, NULL)
+INSERT [dbo].[Location] ([Id], [Name], [Address], [PhoneNumber], [PostCode], [Country], [TimeZoneOffset], [Coordinates]) VALUES (2, N'Singapore', N'11 North Canal Road', N'0065 6536 7291', N'048824', N'Singapore', 0, NULL)
 GO
 SET IDENTITY_INSERT [dbo].[Location] OFF
 GO
@@ -58,101 +58,101 @@ GO
 SET IDENTITY_INSERT [dbo].[TimeSlot] ON 
 
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (2, CAST(N'00:00:00' AS Time), CAST(N'00:30:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (2, CAST(N'00:00:00' AS Time), CAST(N'00:29:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (3, CAST(N'00:30:00' AS Time), CAST(N'01:00:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (3, CAST(N'00:30:00' AS Time), CAST(N'00:59:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (4, CAST(N'01:00:00' AS Time), CAST(N'01:30:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (4, CAST(N'01:00:00' AS Time), CAST(N'01:29:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (5, CAST(N'01:30:00' AS Time), CAST(N'02:00:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (5, CAST(N'01:30:00' AS Time), CAST(N'01:59:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (6, CAST(N'02:00:00' AS Time), CAST(N'02:30:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (6, CAST(N'02:00:00' AS Time), CAST(N'02:29:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (7, CAST(N'02:30:00' AS Time), CAST(N'03:00:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (7, CAST(N'02:30:00' AS Time), CAST(N'02:59:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (8, CAST(N'03:00:00' AS Time), CAST(N'03:30:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (8, CAST(N'03:00:00' AS Time), CAST(N'03:29:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (9, CAST(N'03:30:00' AS Time), CAST(N'04:00:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (9, CAST(N'03:30:00' AS Time), CAST(N'03:59:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (10, CAST(N'04:00:00' AS Time), CAST(N'04:30:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (10, CAST(N'04:00:00' AS Time), CAST(N'04:29:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (11, CAST(N'04:30:00' AS Time), CAST(N'05:00:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (11, CAST(N'04:30:00' AS Time), CAST(N'04:59:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (12, CAST(N'05:00:00' AS Time), CAST(N'05:30:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (12, CAST(N'05:00:00' AS Time), CAST(N'05:29:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (13, CAST(N'05:30:00' AS Time), CAST(N'06:00:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (13, CAST(N'05:30:00' AS Time), CAST(N'05:59:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (14, CAST(N'06:00:00' AS Time), CAST(N'06:30:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (14, CAST(N'06:00:00' AS Time), CAST(N'06:29:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (15, CAST(N'06:30:00' AS Time), CAST(N'07:00:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (15, CAST(N'06:30:00' AS Time), CAST(N'06:59:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (16, CAST(N'07:00:00' AS Time), CAST(N'07:30:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (16, CAST(N'07:00:00' AS Time), CAST(N'07:29:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (17, CAST(N'07:30:00' AS Time), CAST(N'08:00:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (17, CAST(N'07:30:00' AS Time), CAST(N'07:59:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (18, CAST(N'08:00:00' AS Time), CAST(N'08:30:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (18, CAST(N'08:00:00' AS Time), CAST(N'08:29:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (19, CAST(N'08:30:00' AS Time), CAST(N'09:00:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (19, CAST(N'08:30:00' AS Time), CAST(N'08:59:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (20, CAST(N'09:00:00' AS Time), CAST(N'09:30:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (20, CAST(N'09:00:00' AS Time), CAST(N'09:29:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (21, CAST(N'09:30:00' AS Time), CAST(N'10:00:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (21, CAST(N'09:30:00' AS Time), CAST(N'09:59:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (22, CAST(N'10:00:00' AS Time), CAST(N'10:30:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (22, CAST(N'10:00:00' AS Time), CAST(N'10:29:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (23, CAST(N'10:30:00' AS Time), CAST(N'11:00:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (23, CAST(N'10:30:00' AS Time), CAST(N'10:59:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (24, CAST(N'11:00:00' AS Time), CAST(N'11:30:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (24, CAST(N'11:00:00' AS Time), CAST(N'11:29:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (25, CAST(N'11:30:00' AS Time), CAST(N'12:00:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (25, CAST(N'11:30:00' AS Time), CAST(N'11:59:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (26, CAST(N'12:00:00' AS Time), CAST(N'12:30:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (26, CAST(N'12:00:00' AS Time), CAST(N'12:29:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (27, CAST(N'12:30:00' AS Time), CAST(N'13:00:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (27, CAST(N'12:30:00' AS Time), CAST(N'12:59:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (28, CAST(N'13:00:00' AS Time), CAST(N'13:30:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (28, CAST(N'13:00:00' AS Time), CAST(N'13:29:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (29, CAST(N'13:30:00' AS Time), CAST(N'14:00:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (29, CAST(N'13:30:00' AS Time), CAST(N'13:59:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (30, CAST(N'14:00:00' AS Time), CAST(N'14:30:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (30, CAST(N'14:00:00' AS Time), CAST(N'14:29:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (31, CAST(N'14:30:00' AS Time), CAST(N'15:00:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (31, CAST(N'14:30:00' AS Time), CAST(N'14:59:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (32, CAST(N'15:00:00' AS Time), CAST(N'15:30:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (32, CAST(N'15:00:00' AS Time), CAST(N'15:29:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (33, CAST(N'15:30:00' AS Time), CAST(N'16:00:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (33, CAST(N'15:30:00' AS Time), CAST(N'15:59:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (34, CAST(N'16:00:00' AS Time), CAST(N'16:30:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (34, CAST(N'16:00:00' AS Time), CAST(N'16:29:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (35, CAST(N'16:30:00' AS Time), CAST(N'17:00:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (35, CAST(N'16:30:00' AS Time), CAST(N'16:59:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (36, CAST(N'17:00:00' AS Time), CAST(N'17:30:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (36, CAST(N'17:00:00' AS Time), CAST(N'17:29:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (37, CAST(N'17:30:00' AS Time), CAST(N'18:00:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (37, CAST(N'17:30:00' AS Time), CAST(N'17:59:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (38, CAST(N'18:00:00' AS Time), CAST(N'18:30:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (38, CAST(N'18:00:00' AS Time), CAST(N'18:29:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (39, CAST(N'18:30:00' AS Time), CAST(N'19:00:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (39, CAST(N'18:30:00' AS Time), CAST(N'18:59:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (40, CAST(N'19:00:00' AS Time), CAST(N'19:30:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (40, CAST(N'19:00:00' AS Time), CAST(N'19:29:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (41, CAST(N'19:30:00' AS Time), CAST(N'20:00:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (41, CAST(N'19:30:00' AS Time), CAST(N'19:59:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (42, CAST(N'20:00:00' AS Time), CAST(N'20:30:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (42, CAST(N'20:00:00' AS Time), CAST(N'20:29:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (43, CAST(N'20:30:00' AS Time), CAST(N'21:00:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (43, CAST(N'20:30:00' AS Time), CAST(N'20:59:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (44, CAST(N'21:00:00' AS Time), CAST(N'21:30:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (44, CAST(N'21:00:00' AS Time), CAST(N'21:29:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (45, CAST(N'21:30:00' AS Time), CAST(N'22:00:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (45, CAST(N'21:30:00' AS Time), CAST(N'21:59:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (46, CAST(N'22:00:00' AS Time), CAST(N'22:30:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (46, CAST(N'22:00:00' AS Time), CAST(N'22:29:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (47, CAST(N'22:30:00' AS Time), CAST(N'23:00:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (47, CAST(N'22:30:00' AS Time), CAST(N'22:59:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (48, CAST(N'23:00:00' AS Time), CAST(N'23:30:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (48, CAST(N'23:00:00' AS Time), CAST(N'23:29:59' AS Time))
 GO
-INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (49, CAST(N'23:30:00' AS Time), CAST(N'00:00:00' AS Time))
+INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (49, CAST(N'23:30:00' AS Time), CAST(N'23:59:59' AS Time))
 GO
 SET IDENTITY_INSERT [dbo].[TimeSlot] OFF
 GO
