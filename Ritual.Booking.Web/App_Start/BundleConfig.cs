@@ -56,6 +56,16 @@ namespace Ritual.Booking.Web
                           "~/Content/themes/base/tabs.css",
                           "~/Content/themes/base/theme.css",
                           "~/Content/themes/base/tooltip.css"));
+
+            bundles.Add(new StyleBundle("~/Content/foundation/css").Include(
+                       "~/Content/foundation/foundation.css",
+                       "~/Content/foundation/foundation.mvc.css",
+                       "~/Content/foundation/app.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/foundation").Include(
+                      "~/Scripts/foundation/foundation.js",
+                      "~/Scripts/foundation/foundation.*",
+                      "~/Scripts/foundation/app.js"));
         }
     }
 }

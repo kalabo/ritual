@@ -180,6 +180,37 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Controllers\QuarterlyAssessmentsController.cs" />
+    <Compile Include="Controllers\TrainingZoneController.cs" />
+    <Compile Include="Controls\HtmlHelperExtensions.cs" />
+    <Compile Include="Controls\IDictionaryExtensions.cs" />
+    <Compile Include="Controls\InputType.cs" />
+    <Compile Include="Controls\InvalidInputTypeExcetion.cs" />
+    <Compile Include="Controls\InvalidScriptTypeException.cs" />
+    <Compile Include="Controls\ModelStateDictionaryExtensions.cs" />
+    <Compile Include="Controls\MvcActionLink.cs" />
+    <Compile Include="Controls\MvcBeginForm.cs" />
+    <Compile Include="Controls\MvcCheckBox.cs" />
+    <Compile Include="Controls\MvcControl.cs" />
+    <Compile Include="Controls\MvcControlHelper.cs" />
+    <Compile Include="Controls\MvcEndForm.cs" />
+    <Compile Include="Controls\MvcEventAttributes.cs" />
+    <Compile Include="Controls\MvcExternalScript.cs" />
+    <Compile Include="Controls\MvcHidden.cs" />
+    <Compile Include="Controls\MvcInput.cs" />
+    <Compile Include="Controls\MvcLabel.cs" />
+    <Compile Include="Controls\MvcLink.cs" />
+    <Compile Include="Controls\MvcPassword.cs" />
+    <Compile Include="Controls\MvcRadioButton.cs" />
+    <Compile Include="Controls\MvcRouteLink.cs" />
+    <Compile Include="Controls\MvcScript.cs" />
+    <Compile Include="Controls\MvcSubmitButton.cs" />
+    <Compile Include="Controls\MvcTextArea.cs" />
+    <Compile Include="Controls\MvcTextBox.cs" />
+    <Compile Include="Controls\MvcValidationMessage.cs" />
+    <Compile Include="Controls\MvcValidationSummary.cs" />
+    <Compile Include="Controls\ScriptType.cs" />
+    <Compile Include="Controls\UrlHelperExtensions.cs" />
+    <Compile Include="Controls\ViewDataExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -193,6 +224,10 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\foundation\app.css" />
+    <Content Include="Content\foundation\foundation.css" />
+    <Content Include="Content\foundation\foundation.mvc.css" />
+    <Content Include="Content\foundation\normalize.css" />
     <Content Include="Content\jquery-ui-timepicker-addon.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -230,17 +265,35 @@
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Foundation_readme.txt" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\foundation\foundation.abide.js" />
+    <Content Include="Scripts\foundation\foundation.alerts.js" />
+    <Content Include="Scripts\foundation\foundation.clearing.js" />
+    <Content Include="Scripts\foundation\foundation.cookie.js" />
+    <Content Include="Scripts\foundation\foundation.dropdown.js" />
+    <Content Include="Scripts\foundation\foundation.forms.js" />
+    <Content Include="Scripts\foundation\foundation.interchange.js" />
+    <Content Include="Scripts\foundation\foundation.joyride.js" />
+    <Content Include="Scripts\foundation\foundation.js" />
+    <Content Include="Scripts\foundation\foundation.magellan.js" />
+    <Content Include="Scripts\foundation\foundation.orbit.js" />
+    <Content Include="Scripts\foundation\foundation.placeholder.js" />
+    <Content Include="Scripts\foundation\foundation.reveal.js" />
+    <Content Include="Scripts\foundation\foundation.section.js" />
+    <Content Include="Scripts\foundation\foundation.tooltips.js" />
+    <Content Include="Scripts\foundation\foundation.topbar.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.11.2.js" />
     <Content Include="Scripts\jquery-ui-1.11.2.min.js" />
     <Content Include="Scripts\jquery-ui-timepicker-addon.js" />
+    <Content Include="Scripts\jquery.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -249,6 +302,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\ritual.js" />
+    <Content Include="Scripts\zepto.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -303,6 +357,14 @@
     <Content Include="Views\Members\Details.cshtml" />
     <Content Include="Views\Members\Edit.cshtml" />
     <Content Include="Views\Members\Index.cshtml" />
+    <Content Include="Views\TrainingZone\Dashboard.cshtml" />
+    <Content Include="Views\TrainingZone\Booking.cshtml" />
+    <Content Include="Views\TrainingZone\ConfirmBooking.cshtml" />
+    <Content Include="Views\TrainingZone\DeleteBooking.cshtml" />
+    <Content Include="Views\TrainingZone\MyRitual.cshtml" />
+    <Content Include="Views\Shared\_Foundation.cshtml" />
+    <Content Include="Views\Home\Foundation_Index.cshtml" />
+    <Content Include="Views\TrainingZone\MyAssessments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

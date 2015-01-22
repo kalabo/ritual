@@ -495,8 +495,8 @@
           <EntitySet Name="TimeSlots" EntityType="RitualDBModel.TimeSlot" />
           <EntitySet Name="Trainers" EntityType="RitualDBModel.Trainer" />
           <AssociationSet Name="FK_Member_AspNetUsers" Association="RitualDBModel.FK_Member_AspNetUsers">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="Member" EntitySet="Members" />
+            <End EntitySet="AspNetUsers" Role="AspNetUser" />
+            <End EntitySet="Members" Role="Member" />
           </AssociationSet>
           <AssociationSet Name="FK_Trainer_AspNetUsers1" Association="RitualDBModel.FK_Trainer_AspNetUsers1">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
@@ -507,8 +507,8 @@
             <End Role="SessionBooking" EntitySet="SessionBookings" />
           </AssociationSet>
           <AssociationSet Name="FK_Member_Location" Association="RitualDBModel.FK_Member_Location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="Member" EntitySet="Members" />
+            <End EntitySet="Locations" Role="Location" />
+            <End EntitySet="Members" Role="Member" />
           </AssociationSet>
           <AssociationSet Name="FK_OpeningHour_Location" Association="RitualDBModel.FK_OpeningHour_Location">
             <End Role="Location" EntitySet="Locations" />
@@ -527,16 +527,16 @@
             <End Role="Trainer" EntitySet="Trainers" />
           </AssociationSet>
           <AssociationSet Name="FK_Booking_Member" Association="RitualDBModel.FK_Booking_Member">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="SessionBooking" EntitySet="SessionBookings" />
+            <End EntitySet="Members" Role="Member" />
+            <End EntitySet="SessionBookings" Role="SessionBooking" />
           </AssociationSet>
           <AssociationSet Name="FK_Membership_Member" Association="RitualDBModel.FK_Membership_Member">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="Membership" EntitySet="Memberships" />
+            <End EntitySet="Members" Role="Member" />
+            <End EntitySet="Memberships" Role="Membership" />
           </AssociationSet>
           <AssociationSet Name="FK_QuarterlyAssessment_Member" Association="RitualDBModel.FK_QuarterlyAssessment_Member">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="QuarterlyAssessment" EntitySet="QuarterlyAssessments" />
+            <End EntitySet="Members" Role="Member" />
+            <End EntitySet="QuarterlyAssessments" Role="QuarterlyAssessment" />
           </AssociationSet>
           <AssociationSet Name="FK_Membership_MembershipState" Association="RitualDBModel.FK_Membership_MembershipState">
             <End Role="MembershipState" EntitySet="MembershipStates" />
@@ -601,17 +601,17 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Salutation" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IdentificationNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="Salutation" MaxLength="10" FixedLength="true" Unicode="true" Type="String" />
+          <Property Name="FirstName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="LastName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="IdentificationNumber" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
           <Property Name="EmailOptOut" Type="Boolean" />
-          <Property Name="Birthday" Type="DateTime" Precision="0" />
-          <Property Name="HomePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MobilePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="HomeLocationId" Type="Int32" Nullable="false" />
-          <Property Name="AspNetUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Birthday" Precision="0" Type="DateTime" />
+          <Property Name="HomePhone" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="MobilePhone" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="HomeLocationId" Nullable="false" Type="Int32" />
+          <Property Name="AspNetUserId" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" Type="String" />
           <NavigationProperty Name="AspNetUser" Relationship="RitualDBModel.FK_Member_AspNetUsers" FromRole="Member" ToRole="AspNetUser" />
           <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_Member_Location" FromRole="Member" ToRole="Location" />
           <NavigationProperty Name="SessionBookings" Relationship="RitualDBModel.FK_Booking_Member" FromRole="Member" ToRole="SessionBooking" />
@@ -790,8 +790,8 @@
           <NavigationProperty Name="QuarterlyAssessments" Relationship="RitualDBModel.FK_QuarterlyAssessment_Trainer" FromRole="Trainer" ToRole="QuarterlyAssessment" />
         </EntityType>
         <Association Name="FK_Member_AspNetUsers">
-          <End Type="RitualDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="*" />
+          <End Type="RitualDBModel.AspNetUser" Multiplicity="1" Role="AspNetUser" />
+          <End Type="RitualDBModel.Member" Multiplicity="*" Role="Member" />
           <ReferentialConstraint>
             <Principal Role="AspNetUser">
               <PropertyRef Name="Id" />
@@ -826,8 +826,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Member_Location">
-          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="*" />
+          <End Type="RitualDBModel.Location" Multiplicity="1" Role="Location" />
+          <End Type="RitualDBModel.Member" Multiplicity="*" Role="Member" />
           <ReferentialConstraint>
             <Principal Role="Location">
               <PropertyRef Name="Id" />
@@ -886,8 +886,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Booking_Member">
-          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="1" />
-          <End Type="RitualDBModel.SessionBooking" Role="SessionBooking" Multiplicity="*" />
+          <End Type="RitualDBModel.Member" Multiplicity="1" Role="Member" />
+          <End Type="RitualDBModel.SessionBooking" Multiplicity="*" Role="SessionBooking" />
           <ReferentialConstraint>
             <Principal Role="Member">
               <PropertyRef Name="Id" />
@@ -898,8 +898,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Membership_Member">
-          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="1" />
-          <End Type="RitualDBModel.Membership" Role="Membership" Multiplicity="*" />
+          <End Type="RitualDBModel.Member" Multiplicity="1" Role="Member" />
+          <End Type="RitualDBModel.Membership" Multiplicity="*" Role="Membership" />
           <ReferentialConstraint>
             <Principal Role="Member">
               <PropertyRef Name="Id" />
@@ -910,8 +910,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_QuarterlyAssessment_Member">
-          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="1" />
-          <End Type="RitualDBModel.QuarterlyAssessment" Role="QuarterlyAssessment" Multiplicity="*" />
+          <End Type="RitualDBModel.Member" Multiplicity="1" Role="Member" />
+          <End Type="RitualDBModel.QuarterlyAssessment" Multiplicity="*" Role="QuarterlyAssessment" />
           <ReferentialConstraint>
             <Principal Role="Member">
               <PropertyRef Name="Id" />

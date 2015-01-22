@@ -4,55 +4,70 @@
     ViewBag.Title = "Ritual Locations - Members";
 }
 
-<h2>Index</h2>
+<section class="content-header">
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>@ViewBag.Title</h1>
+        </div>
+    </div>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="large-12 columns">
+            @*
+                <p>
+                    @Html.ActionLink("Create New", "Create", "", new { @class = "button" })
+                </p>*@
+            @using (Html.BeginForm())
+            {
+                <label class="control-label">Assessment Search</label>
+                <p>Find by First Name, Last Name, ID Number or phone number:</p>
+                @Html.TextBox("SearchString", "", new { @class = "form-control" })
+                <input type="submit" class="button" name="searchButton" value="Search" />
+                <input type="submit" class="button" name="resetButton" value="Reset" />
+            }
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Salutation)
+                    </th>
+                    <th>
+                        @Html.ActionLink("First Name", "Index", new { sortOrder = ViewBag.FirstNameSortParam })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Last Name", "Index", new { sortOrder = ViewBag.LastNameSortParam })
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Location.Name)
+                    </th>
+                    <th>Action</th>
+                </tr>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-@using (Html.BeginForm())
-{
-    <p>
-        Find by First Name, Last Name, ID Number or phone number: @Html.TextBox("SearchString")
-        <input type="submit" value="Search" />
-    </p>
-}
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Salutation)
-        </th>
-        <th>
-            @Html.ActionLink("First Name", "Index", new { sortOrder = ViewBag.FirstNameSortParam })
-        </th>
-        <th>
-            @Html.ActionLink("Last Name", "Index", new { sortOrder = ViewBag.LastNameSortParam })
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Location.Name)
-        </th>
-        <th></th>
-    </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Salutation)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Location.Name)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        </td>
+                    </tr>
+                }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Salutation)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Location.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-
-</table>
+            </table>
+        </div>
+    </div>
+</section>

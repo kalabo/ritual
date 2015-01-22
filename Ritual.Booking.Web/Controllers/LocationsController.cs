@@ -18,9 +18,15 @@ namespace Ritual.Booking.Web.Controllers
         // GET: Locations
         public ActionResult Index(string sortOrder, string searchString)
         {
+            //Redirect back to login page if not authenticated
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.CountrySortParm = sortOrder == "Country" ? "country_desc" : "Country";
-            
+
             var locations = from l in db.Locations
                             select l;
 
@@ -53,6 +59,12 @@ namespace Ritual.Booking.Web.Controllers
         // GET: Locations/Details/5
         public ActionResult Details(int? id)
         {
+            //Redirect back to login page if not authenticated
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -68,6 +80,11 @@ namespace Ritual.Booking.Web.Controllers
         // GET: Locations/Create
         public ActionResult Create()
         {
+            //Redirect back to login page if not authenticated
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             return View();
         }
 
@@ -78,6 +95,12 @@ namespace Ritual.Booking.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Address,PhoneNumber,PostCode,Country,TimeZoneOffset,Coordinates")] Location location)
         {
+            //Redirect back to login page if not authenticated
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (ModelState.IsValid)
             {
                 db.Locations.Add(location);
@@ -91,6 +114,12 @@ namespace Ritual.Booking.Web.Controllers
         // GET: Locations/Edit/5
         public ActionResult Edit(int? id)
         {
+            //Redirect back to login page if not authenticated
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -110,6 +139,12 @@ namespace Ritual.Booking.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name,Address,PhoneNumber,PostCode,Country,TimeZoneOffset,Coordinates")] Location location)
         {
+            //Redirect back to login page if not authenticated
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(location).State = EntityState.Modified;
@@ -122,6 +157,12 @@ namespace Ritual.Booking.Web.Controllers
         // GET: Locations/Delete/5
         public ActionResult Delete(int? id)
         {
+            //Redirect back to login page if not authenticated
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -139,6 +180,12 @@ namespace Ritual.Booking.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            //Redirect back to login page if not authenticated
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             Location location = db.Locations.Find(id);
             db.Locations.Remove(location);
             db.SaveChanges();

@@ -7,7 +7,7 @@
       <Diagram DiagramId="adc2b67dab144bd6bfeb1bbe231ace48" Name="Diagram1" ZoomLevel="100">
         <EntityTypeShape EntityType="RitualDBModel.AspNetUser" Width="1.5" PointX="0.75" PointY="8.75" />
         <EntityTypeShape EntityType="RitualDBModel.Location" Width="1.5" PointX="0.75" PointY="13.75" />
-        <EntityTypeShape EntityType="RitualDBModel.Member" Width="1.5" PointX="3" PointY="12.625" />
+        <EntityTypeShape EntityType="RitualDBModel.Member" PointX="3" PointY="5" Width="1.5" />
         <EntityTypeShape EntityType="RitualDBModel.Membership" Width="1.5" PointX="8.25" PointY="13" />
         <EntityTypeShape EntityType="RitualDBModel.MembershipState" Width="1.5" PointX="6" PointY="22" />
         <EntityTypeShape EntityType="RitualDBModel.MembershipSuspension" Width="1.5" PointX="0.75" PointY="0.75" />
