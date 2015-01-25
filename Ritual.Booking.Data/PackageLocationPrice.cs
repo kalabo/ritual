@@ -15,22 +15,24 @@ namespace Ritual.Booking.Data
 using System;
     using System.Collections.Generic;
     
-public partial class MembershipSuspension
+public partial class PackageLocationPrice
 {
 
     public int Id { get; set; }
 
-    public int MembershipId { get; set; }
+    public int LocationId { get; set; }
 
-    public System.DateTime SuspensionStartDate { get; set; }
+    public int PackageId { get; set; }
 
-    public System.DateTime SuspensionEndDate { get; set; }
+    public decimal MonthlyPrice { get; set; }
 
-    public string SuspensionReason { get; set; }
+    public decimal TotalPrice { get; set; }
 
 
 
-    public virtual Membership Membership { get; set; }
+    public virtual Location Location { get; set; }
+
+    public virtual Package Package { get; set; }
 
 }
 

@@ -23,6 +23,8 @@ public partial class Package
 
         this.Memberships = new HashSet<Membership>();
 
+        this.PackageLocationPrices = new HashSet<PackageLocationPrice>();
+
     }
 
 
@@ -34,25 +36,21 @@ public partial class Package
 
     public Nullable<int> PackagePeriodMonths { get; set; }
 
-    public Nullable<decimal> PackagePricePerMonth { get; set; }
-
-    public Nullable<decimal> PackageDiscountPercentage { get; set; }
-
-    public Nullable<decimal> PackageDiscountAmmount { get; set; }
-
-    public Nullable<decimal> PackagePriceAfterDiscount { get; set; }
-
-    public Nullable<decimal> PackageTotalPrice { get; set; }
-
     public Nullable<int> PackageSuspensionLimit { get; set; }
 
     public Nullable<int> PackageVisitLimit { get; set; }
 
     public Nullable<bool> PackageIsActive { get; set; }
 
+    public Nullable<bool> PackageIsReoccuring { get; set; }
+
+    public Nullable<bool> PackagePayInFull { get; set; }
+
 
 
     public virtual ICollection<Membership> Memberships { get; set; }
+
+    public virtual ICollection<PackageLocationPrice> PackageLocationPrices { get; set; }
 
 }
 

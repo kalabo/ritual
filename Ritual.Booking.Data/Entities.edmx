@@ -34,6 +34,8 @@
           <Property Name="Country" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="TimeZoneOffset" Type="smallint" Nullable="false" />
           <Property Name="Coordinates" Type="geography" />
+          <Property Name="Currency" Type="nchar" MaxLength="10" />
+          <Property Name="AvailableSlots" Type="smallint" Nullable="false" />
         </EntityType>
         <EntityType Name="Member">
           <Key>
@@ -64,6 +66,11 @@
           <Property Name="MembershipStateId" Type="int" Nullable="false" />
           <Property Name="CancellationDate" Type="date" />
           <Property Name="Paid" Type="bit" Nullable="false" />
+          <Property Name="MonthlyPrice" Type="decimal" Precision="19" Scale="4" />
+          <Property Name="TotalPrice" Type="decimal" Precision="19" Scale="4" />
+          <Property Name="DiscountPercentage" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="DiscountPrice" Type="decimal" Precision="19" Scale="4" />
+          <Property Name="DiscountReason" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="MembershipState">
           <Key>
@@ -80,6 +87,7 @@
           <Property Name="MembershipId" Type="int" Nullable="false" />
           <Property Name="SuspensionStartDate" Type="date" Nullable="false" />
           <Property Name="SuspensionEndDate" Type="date" Nullable="false" />
+          <Property Name="SuspensionReason" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="OpeningHour">
           <Key>
@@ -113,14 +121,21 @@
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="PackageType" Type="nvarchar" MaxLength="50" />
           <Property Name="PackagePeriodMonths" Type="int" />
-          <Property Name="PackagePricePerMonth" Type="money" />
-          <Property Name="PackageDiscountPercentage" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="PackageDiscountAmmount" Type="money" />
-          <Property Name="PackagePriceAfterDiscount" Type="money" />
-          <Property Name="PackageTotalPrice" Type="money" />
           <Property Name="PackageSuspensionLimit" Type="int" />
           <Property Name="PackageVisitLimit" Type="int" />
           <Property Name="PackageIsActive" Type="bit" />
+          <Property Name="PackageIsReoccuring" Type="bit" />
+          <Property Name="PackagePayInFull" Type="bit" />
+        </EntityType>
+        <EntityType Name="PackageLocationPrices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LocationId" Type="int" Nullable="false" />
+          <Property Name="PackageId" Type="int" Nullable="false" />
+          <Property Name="MonthlyPrice" Type="decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="TotalPrice" Type="decimal" Precision="19" Scale="4" Nullable="false" />
         </EntityType>
         <EntityType Name="QuarterlyAssessment">
           <Key>
@@ -311,6 +326,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MembershipSuspensions_Membership">
+          <End Role="Membership" Type="Self.Membership" Multiplicity="1" />
+          <End Role="MembershipSuspensions" Type="Self.MembershipSuspensions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Membership">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MembershipSuspensions">
+              <PropertyRef Name="MembershipId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OpeningHour_Location">
           <End Role="Location" Type="Self.Location" Multiplicity="0..1" />
           <End Role="OpeningHour" Type="Self.OpeningHour" Multiplicity="*" />
@@ -332,6 +359,30 @@
             </Principal>
             <Dependent Role="OpeningHourOverride">
               <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PackageLocationPrices_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="PackageLocationPrices" Type="Self.PackageLocationPrices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PackageLocationPrices">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PackageLocationPrices_Package">
+          <End Role="Package" Type="Self.Package" Multiplicity="1" />
+          <End Role="PackageLocationPrices" Type="Self.PackageLocationPrices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Package">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PackageLocationPrices">
+              <PropertyRef Name="PackageId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -405,6 +456,7 @@
           <EntitySet Name="OpeningHour" EntityType="Self.OpeningHour" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OpeningHourOverride" EntityType="Self.OpeningHourOverride" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Package" EntityType="Self.Package" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PackageLocationPrices" EntityType="Self.PackageLocationPrices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QuarterlyAssessment" EntityType="Self.QuarterlyAssessment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SessionBooking" EntityType="Self.SessionBooking" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SessionBookingState" EntityType="Self.SessionBookingState" Schema="dbo" store:Type="Tables" />
@@ -446,6 +498,10 @@
             <End Role="Package" EntitySet="Package" />
             <End Role="Membership" EntitySet="Membership" />
           </AssociationSet>
+          <AssociationSet Name="FK_MembershipSuspensions_Membership" Association="Self.FK_MembershipSuspensions_Membership">
+            <End Role="Membership" EntitySet="Membership" />
+            <End Role="MembershipSuspensions" EntitySet="MembershipSuspensions" />
+          </AssociationSet>
           <AssociationSet Name="FK_OpeningHour_Location" Association="Self.FK_OpeningHour_Location">
             <End Role="Location" EntitySet="Location" />
             <End Role="OpeningHour" EntitySet="OpeningHour" />
@@ -453,6 +509,14 @@
           <AssociationSet Name="FK_OpeningHourOverride_Location" Association="Self.FK_OpeningHourOverride_Location">
             <End Role="Location" EntitySet="Location" />
             <End Role="OpeningHourOverride" EntitySet="OpeningHourOverride" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PackageLocationPrices_Location" Association="Self.FK_PackageLocationPrices_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="PackageLocationPrices" EntitySet="PackageLocationPrices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PackageLocationPrices_Package" Association="Self.FK_PackageLocationPrices_Package">
+            <End Role="Package" EntitySet="Package" />
+            <End Role="PackageLocationPrices" EntitySet="PackageLocationPrices" />
           </AssociationSet>
           <AssociationSet Name="FK_QuarterlyAssessment_Member" Association="Self.FK_QuarterlyAssessment_Member">
             <End Role="Member" EntitySet="Member" />
@@ -480,6 +544,7 @@
     <edmx:ConceptualModels>
       <Schema Namespace="RitualDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="RitualDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetUsers" EntityType="RitualDBModel.AspNetUser" />
           <EntitySet Name="Locations" EntityType="RitualDBModel.Location" />
           <EntitySet Name="Members" EntityType="RitualDBModel.Member" />
           <EntitySet Name="Memberships" EntityType="RitualDBModel.Membership" />
@@ -488,11 +553,20 @@
           <EntitySet Name="OpeningHours" EntityType="RitualDBModel.OpeningHour" />
           <EntitySet Name="OpeningHourOverrides" EntityType="RitualDBModel.OpeningHourOverride" />
           <EntitySet Name="Packages" EntityType="RitualDBModel.Package" />
+          <EntitySet Name="PackageLocationPrices" EntityType="RitualDBModel.PackageLocationPrice" />
           <EntitySet Name="QuarterlyAssessments" EntityType="RitualDBModel.QuarterlyAssessment" />
           <EntitySet Name="SessionBookings" EntityType="RitualDBModel.SessionBooking" />
           <EntitySet Name="SessionBookingStates" EntityType="RitualDBModel.SessionBookingState" />
           <EntitySet Name="TimeSlots" EntityType="RitualDBModel.TimeSlot" />
           <EntitySet Name="Trainers" EntityType="RitualDBModel.Trainer" />
+          <AssociationSet Name="FK_Member_AspNetUsers" Association="RitualDBModel.FK_Member_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Member" EntitySet="Members" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Trainer_AspNetUsers1" Association="RitualDBModel.FK_Trainer_AspNetUsers1">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Trainer" EntitySet="Trainers" />
+          </AssociationSet>
           <AssociationSet Name="FK_Booking_Location" Association="RitualDBModel.FK_Booking_Location">
             <End Role="Location" EntitySet="Locations" />
             <End Role="SessionBooking" EntitySet="SessionBookings" />
@@ -508,6 +582,10 @@
           <AssociationSet Name="FK_OpeningHourOverride_Location" Association="RitualDBModel.FK_OpeningHourOverride_Location">
             <End Role="Location" EntitySet="Locations" />
             <End Role="OpeningHourOverride" EntitySet="OpeningHourOverrides" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PackageLocationPrices_Location" Association="RitualDBModel.FK_PackageLocationPrices_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="PackageLocationPrice" EntitySet="PackageLocationPrices" />
           </AssociationSet>
           <AssociationSet Name="FK_Trainer_Location" Association="RitualDBModel.FK_Trainer_Location">
             <End Role="Location" EntitySet="Locations" />
@@ -537,6 +615,14 @@
             <End Role="Package" EntitySet="Packages" />
             <End Role="Membership" EntitySet="Memberships" />
           </AssociationSet>
+          <AssociationSet Name="FK_MembershipSuspensions_Membership" Association="RitualDBModel.FK_MembershipSuspensions_Membership">
+            <End Role="Membership" EntitySet="Memberships" />
+            <End Role="MembershipSuspension" EntitySet="MembershipSuspensions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PackageLocationPrices_Package" Association="RitualDBModel.FK_PackageLocationPrices_Package">
+            <End Role="Package" EntitySet="Packages" />
+            <End Role="PackageLocationPrice" EntitySet="PackageLocationPrices" />
+          </AssociationSet>
           <AssociationSet Name="FK_QuarterlyAssessment_Trainer" Association="RitualDBModel.FK_QuarterlyAssessment_Trainer">
             <End Role="Trainer" EntitySet="Trainers" />
             <End Role="QuarterlyAssessment" EntitySet="QuarterlyAssessments" />
@@ -549,16 +635,26 @@
             <End Role="TimeSlot" EntitySet="TimeSlots" />
             <End Role="SessionBooking" EntitySet="SessionBookings" />
           </AssociationSet>
-          <EntitySet Name="AspNetUsers" EntityType="RitualDBModel.AspNetUser" />
-          <AssociationSet Name="FK_Member_AspNetUsers" Association="RitualDBModel.FK_Member_AspNetUsers">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="Member" EntitySet="Members" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Trainer_AspNetUsers1" Association="RitualDBModel.FK_Trainer_AspNetUsers1">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="Trainer" EntitySet="Trainers" />
-          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Members" Relationship="RitualDBModel.FK_Member_AspNetUsers" FromRole="AspNetUser" ToRole="Member" />
+          <NavigationProperty Name="Trainers" Relationship="RitualDBModel.FK_Trainer_AspNetUsers1" FromRole="AspNetUser" ToRole="Trainer" />
+        </EntityType>
         <EntityType Name="Location">
           <Key>
             <PropertyRef Name="Id" />
@@ -571,10 +667,13 @@
           <Property Name="Country" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TimeZoneOffset" Type="Int16" Nullable="false" />
           <Property Name="Coordinates" Type="Geography" />
+          <Property Name="Currency" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AvailableSlots" Type="Int16" Nullable="false" />
           <NavigationProperty Name="SessionBookings" Relationship="RitualDBModel.FK_Booking_Location" FromRole="Location" ToRole="SessionBooking" />
           <NavigationProperty Name="Members" Relationship="RitualDBModel.FK_Member_Location" FromRole="Location" ToRole="Member" />
           <NavigationProperty Name="OpeningHours" Relationship="RitualDBModel.FK_OpeningHour_Location" FromRole="Location" ToRole="OpeningHour" />
           <NavigationProperty Name="OpeningHourOverrides" Relationship="RitualDBModel.FK_OpeningHourOverride_Location" FromRole="Location" ToRole="OpeningHourOverride" />
+          <NavigationProperty Name="PackageLocationPrices" Relationship="RitualDBModel.FK_PackageLocationPrices_Location" FromRole="Location" ToRole="PackageLocationPrice" />
           <NavigationProperty Name="Trainers" Relationship="RitualDBModel.FK_Trainer_Location" FromRole="Location" ToRole="Trainer" />
           <NavigationProperty Name="Trainers1" Relationship="RitualDBModel.FK_Trainer_Location1" FromRole="Location" ToRole="Trainer" />
         </EntityType>
@@ -593,11 +692,11 @@
           <Property Name="MobilePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="HomeLocationId" Type="Int32" Nullable="false" />
           <Property Name="AspNetUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="RitualDBModel.FK_Member_AspNetUsers" FromRole="Member" ToRole="AspNetUser" />
           <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_Member_Location" FromRole="Member" ToRole="Location" />
           <NavigationProperty Name="SessionBookings" Relationship="RitualDBModel.FK_Booking_Member" FromRole="Member" ToRole="SessionBooking" />
           <NavigationProperty Name="Memberships" Relationship="RitualDBModel.FK_Membership_Member" FromRole="Member" ToRole="Membership" />
           <NavigationProperty Name="QuarterlyAssessments" Relationship="RitualDBModel.FK_QuarterlyAssessment_Member" FromRole="Member" ToRole="QuarterlyAssessment" />
-          <NavigationProperty Name="AspNetUser" Relationship="RitualDBModel.FK_Member_AspNetUsers" FromRole="Member" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="Membership">
           <Key>
@@ -612,9 +711,15 @@
           <Property Name="MembershipStateId" Type="Int32" Nullable="false" />
           <Property Name="CancellationDate" Type="DateTime" Precision="0" />
           <Property Name="Paid" Type="Boolean" Nullable="false" />
+          <Property Name="MonthlyPrice" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DiscountPercentage" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="DiscountPrice" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DiscountReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Member" Relationship="RitualDBModel.FK_Membership_Member" FromRole="Membership" ToRole="Member" />
           <NavigationProperty Name="MembershipState" Relationship="RitualDBModel.FK_Membership_MembershipState" FromRole="Membership" ToRole="MembershipState" />
           <NavigationProperty Name="Package" Relationship="RitualDBModel.FK_Membership_Package" FromRole="Membership" ToRole="Package" />
+          <NavigationProperty Name="MembershipSuspensions" Relationship="RitualDBModel.FK_MembershipSuspensions_Membership" FromRole="Membership" ToRole="MembershipSuspension" />
         </EntityType>
         <EntityType Name="MembershipState">
           <Key>
@@ -632,6 +737,8 @@
           <Property Name="MembershipId" Type="Int32" Nullable="false" />
           <Property Name="SuspensionStartDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="SuspensionEndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="SuspensionReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Membership" Relationship="RitualDBModel.FK_MembershipSuspensions_Membership" FromRole="MembershipSuspension" ToRole="Membership" />
         </EntityType>
         <EntityType Name="OpeningHour">
           <Key>
@@ -667,15 +774,25 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PackageType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PackagePeriodMonths" Type="Int32" />
-          <Property Name="PackagePricePerMonth" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="PackageDiscountPercentage" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="PackageDiscountAmmount" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="PackagePriceAfterDiscount" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="PackageTotalPrice" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="PackageSuspensionLimit" Type="Int32" />
           <Property Name="PackageVisitLimit" Type="Int32" />
           <Property Name="PackageIsActive" Type="Boolean" />
+          <Property Name="PackageIsReoccuring" Type="Boolean" />
+          <Property Name="PackagePayInFull" Type="Boolean" />
           <NavigationProperty Name="Memberships" Relationship="RitualDBModel.FK_Membership_Package" FromRole="Package" ToRole="Membership" />
+          <NavigationProperty Name="PackageLocationPrices" Relationship="RitualDBModel.FK_PackageLocationPrices_Package" FromRole="Package" ToRole="PackageLocationPrice" />
+        </EntityType>
+        <EntityType Name="PackageLocationPrice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LocationId" Type="Int32" Nullable="false" />
+          <Property Name="PackageId" Type="Int32" Nullable="false" />
+          <Property Name="MonthlyPrice" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="TotalPrice" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_PackageLocationPrices_Location" FromRole="PackageLocationPrice" ToRole="Location" />
+          <NavigationProperty Name="Package" Relationship="RitualDBModel.FK_PackageLocationPrices_Package" FromRole="PackageLocationPrice" ToRole="Package" />
         </EntityType>
         <EntityType Name="QuarterlyAssessment">
           <Key>
@@ -765,11 +882,35 @@
           <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="AspNetUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="LocationId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="RitualDBModel.FK_Trainer_AspNetUsers1" FromRole="Trainer" ToRole="AspNetUser" />
           <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_Trainer_Location" FromRole="Trainer" ToRole="Location" />
           <NavigationProperty Name="Location1" Relationship="RitualDBModel.FK_Trainer_Location1" FromRole="Trainer" ToRole="Location" />
           <NavigationProperty Name="QuarterlyAssessments" Relationship="RitualDBModel.FK_QuarterlyAssessment_Trainer" FromRole="Trainer" ToRole="QuarterlyAssessment" />
-          <NavigationProperty Name="AspNetUser" Relationship="RitualDBModel.FK_Trainer_AspNetUsers1" FromRole="Trainer" ToRole="AspNetUser" />
         </EntityType>
+        <Association Name="FK_Member_AspNetUsers">
+          <End Type="RitualDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Member">
+              <PropertyRef Name="AspNetUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Trainer_AspNetUsers1">
+          <End Type="RitualDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="RitualDBModel.Trainer" Role="Trainer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Trainer">
+              <PropertyRef Name="AspNetUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Booking_Location">
           <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
           <End Type="RitualDBModel.SessionBooking" Role="SessionBooking" Multiplicity="*" />
@@ -814,6 +955,18 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="OpeningHourOverride">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PackageLocationPrices_Location">
+          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="RitualDBModel.PackageLocationPrice" Role="PackageLocationPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PackageLocationPrice">
               <PropertyRef Name="LocationId" />
             </Dependent>
           </ReferentialConstraint>
@@ -902,6 +1055,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MembershipSuspensions_Membership">
+          <End Type="RitualDBModel.Membership" Role="Membership" Multiplicity="1" />
+          <End Type="RitualDBModel.MembershipSuspension" Role="MembershipSuspension" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Membership">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MembershipSuspension">
+              <PropertyRef Name="MembershipId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PackageLocationPrices_Package">
+          <End Type="RitualDBModel.Package" Role="Package" Multiplicity="1" />
+          <End Type="RitualDBModel.PackageLocationPrice" Role="PackageLocationPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Package">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PackageLocationPrice">
+              <PropertyRef Name="PackageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_QuarterlyAssessment_Trainer">
           <End Type="RitualDBModel.Trainer" Role="Trainer" Multiplicity="1" />
           <End Type="RitualDBModel.QuarterlyAssessment" Role="QuarterlyAssessment" Multiplicity="*" />
@@ -938,58 +1115,35 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="AspNetUser">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
-          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Members" Relationship="RitualDBModel.FK_Member_AspNetUsers" FromRole="AspNetUser" ToRole="Member" />
-          <NavigationProperty Name="Trainers" Relationship="RitualDBModel.FK_Trainer_AspNetUsers1" FromRole="AspNetUser" ToRole="Trainer" />
-        </EntityType>
-        <Association Name="FK_Member_AspNetUsers">
-          <End Type="RitualDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Member">
-              <PropertyRef Name="AspNetUserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Trainer_AspNetUsers1">
-          <End Type="RitualDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="RitualDBModel.Trainer" Role="Trainer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Trainer">
-              <PropertyRef Name="AspNetUserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="RitualDBModelStoreContainer" CdmEntityContainer="RitualDBEntities">
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="RitualDBModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Locations">
             <EntityTypeMapping TypeName="RitualDBModel.Location">
               <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="AvailableSlots" ColumnName="AvailableSlots" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
                 <ScalarProperty Name="Coordinates" ColumnName="Coordinates" />
                 <ScalarProperty Name="TimeZoneOffset" ColumnName="TimeZoneOffset" />
                 <ScalarProperty Name="Country" ColumnName="Country" />
@@ -1021,6 +1175,11 @@
           <EntitySetMapping Name="Memberships">
             <EntityTypeMapping TypeName="RitualDBModel.Membership">
               <MappingFragment StoreEntitySet="Membership">
+                <ScalarProperty Name="DiscountReason" ColumnName="DiscountReason" />
+                <ScalarProperty Name="DiscountPrice" ColumnName="DiscountPrice" />
+                <ScalarProperty Name="DiscountPercentage" ColumnName="DiscountPercentage" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="MonthlyPrice" ColumnName="MonthlyPrice" />
                 <ScalarProperty Name="Paid" ColumnName="Paid" />
                 <ScalarProperty Name="CancellationDate" ColumnName="CancellationDate" />
                 <ScalarProperty Name="MembershipStateId" ColumnName="MembershipStateId" />
@@ -1044,6 +1203,7 @@
           <EntitySetMapping Name="MembershipSuspensions">
             <EntityTypeMapping TypeName="RitualDBModel.MembershipSuspension">
               <MappingFragment StoreEntitySet="MembershipSuspensions">
+                <ScalarProperty Name="SuspensionReason" ColumnName="SuspensionReason" />
                 <ScalarProperty Name="SuspensionEndDate" ColumnName="SuspensionEndDate" />
                 <ScalarProperty Name="SuspensionStartDate" ColumnName="SuspensionStartDate" />
                 <ScalarProperty Name="MembershipId" ColumnName="MembershipId" />
@@ -1080,17 +1240,25 @@
           <EntitySetMapping Name="Packages">
             <EntityTypeMapping TypeName="RitualDBModel.Package">
               <MappingFragment StoreEntitySet="Package">
+                <ScalarProperty Name="PackagePayInFull" ColumnName="PackagePayInFull" />
+                <ScalarProperty Name="PackageIsReoccuring" ColumnName="PackageIsReoccuring" />
                 <ScalarProperty Name="PackageIsActive" ColumnName="PackageIsActive" />
                 <ScalarProperty Name="PackageVisitLimit" ColumnName="PackageVisitLimit" />
                 <ScalarProperty Name="PackageSuspensionLimit" ColumnName="PackageSuspensionLimit" />
-                <ScalarProperty Name="PackageTotalPrice" ColumnName="PackageTotalPrice" />
-                <ScalarProperty Name="PackagePriceAfterDiscount" ColumnName="PackagePriceAfterDiscount" />
-                <ScalarProperty Name="PackageDiscountAmmount" ColumnName="PackageDiscountAmmount" />
-                <ScalarProperty Name="PackageDiscountPercentage" ColumnName="PackageDiscountPercentage" />
-                <ScalarProperty Name="PackagePricePerMonth" ColumnName="PackagePricePerMonth" />
                 <ScalarProperty Name="PackagePeriodMonths" ColumnName="PackagePeriodMonths" />
                 <ScalarProperty Name="PackageType" ColumnName="PackageType" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PackageLocationPrices">
+            <EntityTypeMapping TypeName="RitualDBModel.PackageLocationPrice">
+              <MappingFragment StoreEntitySet="PackageLocationPrices">
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="MonthlyPrice" ColumnName="MonthlyPrice" />
+                <ScalarProperty Name="PackageId" ColumnName="PackageId" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1177,24 +1345,6 @@
                 <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUsers">
-            <EntityTypeMapping TypeName="RitualDBModel.AspNetUser">
-              <MappingFragment StoreEntitySet="AspNetUsers">
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

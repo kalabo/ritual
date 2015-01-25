@@ -1,5 +1,86 @@
 ﻿USE [RitualDB]
 GO
+SET IDENTITY_INSERT [dbo].[MembershipState] ON 
+
+GO
+INSERT [dbo].[MembershipState] ([Id], [Name]) VALUES (1, N'Active')
+GO
+INSERT [dbo].[MembershipState] ([Id], [Name]) VALUES (2, N'Closed')
+GO
+INSERT [dbo].[MembershipState] ([Id], [Name]) VALUES (3, N'Expired')
+GO
+INSERT [dbo].[MembershipState] ([Id], [Name]) VALUES (4, N'Free')
+GO
+INSERT [dbo].[MembershipState] ([Id], [Name]) VALUES (5, N'Inactive')
+GO
+INSERT [dbo].[MembershipState] ([Id], [Name]) VALUES (6, N'Suspend')
+GO
+INSERT [dbo].[MembershipState] ([Id], [Name]) VALUES (7, N'Cancelled')
+GO
+INSERT [dbo].[MembershipState] ([Id], [Name]) VALUES (8, N'Void')
+GO
+SET IDENTITY_INSERT [dbo].[MembershipState] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Package] ON 
+
+GO
+INSERT [dbo].[Package] ([Id], [Name], [PackageType], [PackagePeriodMonths], [PackageSuspensionLimit], [PackageVisitLimit], [PackageIsActive], [PackageIsReoccuring], [PackagePayInFull]) VALUES (1, N'1 Month Off Peak Membership - Paid In Full', N'Off Peak', 1, 2, NULL, 1, 0, 1)
+GO
+INSERT [dbo].[Package] ([Id], [Name], [PackageType], [PackagePeriodMonths], [PackageSuspensionLimit], [PackageVisitLimit], [PackageIsActive], [PackageIsReoccuring], [PackagePayInFull]) VALUES (2, N'1 Month Standard Membership - Paid In Full', N'Standard', 1, 2, NULL, 1, 0, 1)
+GO
+INSERT [dbo].[Package] ([Id], [Name], [PackageType], [PackagePeriodMonths], [PackageSuspensionLimit], [PackageVisitLimit], [PackageIsActive], [PackageIsReoccuring], [PackagePayInFull]) VALUES (3, N'3 Months Off Peak Membership - Paid In Full', N'Off Peak', 3, 2, NULL, 1, 0, 1)
+GO
+INSERT [dbo].[Package] ([Id], [Name], [PackageType], [PackagePeriodMonths], [PackageSuspensionLimit], [PackageVisitLimit], [PackageIsActive], [PackageIsReoccuring], [PackagePayInFull]) VALUES (4, N'3 Months Off Peak Membership - Monthly Recurring', N'Off Peak', 3, 2, NULL, 1, 1, 0)
+GO
+INSERT [dbo].[Package] ([Id], [Name], [PackageType], [PackagePeriodMonths], [PackageSuspensionLimit], [PackageVisitLimit], [PackageIsActive], [PackageIsReoccuring], [PackagePayInFull]) VALUES (5, N'3 Months Standard Membership - Paid In Full', N'Standard', 3, 2, NULL, 1, 0, 1)
+GO
+INSERT [dbo].[Package] ([Id], [Name], [PackageType], [PackagePeriodMonths], [PackageSuspensionLimit], [PackageVisitLimit], [PackageIsActive], [PackageIsReoccuring], [PackagePayInFull]) VALUES (6, N'3 Months Standard Membership - Monthly Recurring', N'Standard', 3, 2, NULL, 1, 1, 0)
+GO
+INSERT [dbo].[Package] ([Id], [Name], [PackageType], [PackagePeriodMonths], [PackageSuspensionLimit], [PackageVisitLimit], [PackageIsActive], [PackageIsReoccuring], [PackagePayInFull]) VALUES (7, N'6 Months Off Peak Membership - Monthly Recurring', N'Off Peak', 6, 2, NULL, 1, 1, 0)
+GO
+INSERT [dbo].[Package] ([Id], [Name], [PackageType], [PackagePeriodMonths], [PackageSuspensionLimit], [PackageVisitLimit], [PackageIsActive], [PackageIsReoccuring], [PackagePayInFull]) VALUES (8, N'6 Months Off Peak Membership - Paid In Full', N'Off Peak', 6, 2, NULL, 1, 0, 1)
+GO
+INSERT [dbo].[Package] ([Id], [Name], [PackageType], [PackagePeriodMonths], [PackageSuspensionLimit], [PackageVisitLimit], [PackageIsActive], [PackageIsReoccuring], [PackagePayInFull]) VALUES (9, N'6 Months Standard Membership - Monthly Recurring', N'Standard', 6, 2, NULL, 1, 1, 0)
+GO
+INSERT [dbo].[Package] ([Id], [Name], [PackageType], [PackagePeriodMonths], [PackageSuspensionLimit], [PackageVisitLimit], [PackageIsActive], [PackageIsReoccuring], [PackagePayInFull]) VALUES (10, N'6 Months Standard Membership - Paid In Full', N'Standard', 6, 2, NULL, 1, 0, 1)
+GO
+INSERT [dbo].[Package] ([Id], [Name], [PackageType], [PackagePeriodMonths], [PackageSuspensionLimit], [PackageVisitLimit], [PackageIsActive], [PackageIsReoccuring], [PackagePayInFull]) VALUES (11, N'12 Months Off Peak Membership - Monthly Recurring', N'Off Peak', 12, 2, NULL, 1, 1, 0)
+GO
+INSERT [dbo].[Package] ([Id], [Name], [PackageType], [PackagePeriodMonths], [PackageSuspensionLimit], [PackageVisitLimit], [PackageIsActive], [PackageIsReoccuring], [PackagePayInFull]) VALUES (12, N'12 Months Off Peak Membership - Paid In Full', N'Off Peak', 12, 2, NULL, 1, 0, 1)
+GO
+INSERT [dbo].[Package] ([Id], [Name], [PackageType], [PackagePeriodMonths], [PackageSuspensionLimit], [PackageVisitLimit], [PackageIsActive], [PackageIsReoccuring], [PackagePayInFull]) VALUES (13, N'12 Months Standard Membership - Monthly Recurring', N'Standard', 12, 2, NULL, 1, 1, 0)
+GO
+INSERT [dbo].[Package] ([Id], [Name], [PackageType], [PackagePeriodMonths], [PackageSuspensionLimit], [PackageVisitLimit], [PackageIsActive], [PackageIsReoccuring], [PackagePayInFull]) VALUES (14, N'12 Months Standard Membership - Paid In Full', N'Standard', 12, 2, NULL, 1, 0, 1)
+GO
+INSERT [dbo].[Package] ([Id], [Name], [PackageType], [PackagePeriodMonths], [PackageSuspensionLimit], [PackageVisitLimit], [PackageIsActive], [PackageIsReoccuring], [PackagePayInFull]) VALUES (15, N'10 Sessions Standard Membership - Paid In Full', N'Standard', 12, 0, 10, 1, 0, 0)
+GO
+INSERT [dbo].[Package] ([Id], [Name], [PackageType], [PackagePeriodMonths], [PackageSuspensionLimit], [PackageVisitLimit], [PackageIsActive], [PackageIsReoccuring], [PackagePayInFull]) VALUES (16, N'20 Sessions Standard Membership - Paid In Full', N'Standard', 12, 0, 20, 1, 0, 0)
+GO
+INSERT [dbo].[Package] ([Id], [Name], [PackageType], [PackagePeriodMonths], [PackageSuspensionLimit], [PackageVisitLimit], [PackageIsActive], [PackageIsReoccuring], [PackagePayInFull]) VALUES (17, N'1 Week Trial Membership - Paid In Full', N'Trial', NULL, 0, NULL, 1, 0, 1)
+GO
+SET IDENTITY_INSERT [dbo].[Package] OFF
+GO
+INSERT [dbo].[AspNetUsers] ([Id], [Email], [EmailConfirmed], [PasswordHash], [SecurityStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEndDateUtc], [LockoutEnabled], [AccessFailedCount], [UserName]) VALUES (N'2efa61fc-5922-47c4-ae38-ddb2fc864fe1', N'john.smith@hotmail.com', 0, N'AFllAVCCXsrUyzMN9VVVw1+pM4E8B/2jwx4M77NZXInoc3k3+J9n9sNsypdvePRpLg==', N'302bd25d-c74a-4052-aec1-64ae39b0eae4', NULL, 0, 0, NULL, 1, 0, N'john.smith@hotmail.com')
+GO
+INSERT [dbo].[AspNetUsers] ([Id], [Email], [EmailConfirmed], [PasswordHash], [SecurityStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEndDateUtc], [LockoutEnabled], [AccessFailedCount], [UserName]) VALUES (N'a6ce8231-8631-4494-9adb-bcb534321ab9', N'cpettigrew@gmail.com', 0, N'APuabRRcdn8/PCXx0II8896ihBkN2OkKxi4fm2rPAy25hx+dlLu/6Xh2kOmKNYqFkg==', N'4d61b680-e9f0-4002-a3a2-f2aba3d5c4c5', NULL, 0, 0, NULL, 1, 0, N'cpettigrew@gmail.com')
+GO
+INSERT [dbo].[AspNetUsers] ([Id], [Email], [EmailConfirmed], [PasswordHash], [SecurityStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEndDateUtc], [LockoutEnabled], [AccessFailedCount], [UserName]) VALUES (N'cf999c9b-d6f1-4600-a9aa-26a1f764d059', N'jane.doe@hotmail.com', 0, N'AHy95Q3PIs0Nrz9esMkdsbsvdQpnxpQCBm2DURLc6rTM7w7Nx0VnmbmV4RCVYy1eLg==', N'e5c202a1-bc2d-4ac9-abfc-04b5076fc8fe', NULL, 0, 0, NULL, 1, 0, N'jane.doe@hotmail.com')
+GO
+SET IDENTITY_INSERT [dbo].[Location] ON 
+
+GO
+INSERT [dbo].[Location] ([Id], [Name], [Address], [PhoneNumber], [PostCode], [Country], [TimeZoneOffset], [Coordinates], [Currency], [AvailableSlots]) VALUES (1, N'London', N'Trafalgar Square', N'0208 789 7890', N'SE1 1AA', N'UK', 0, NULL, NULL, 0)
+GO
+INSERT [dbo].[Location] ([Id], [Name], [Address], [PhoneNumber], [PostCode], [Country], [TimeZoneOffset], [Coordinates], [Currency], [AvailableSlots]) VALUES (2, N'Singapore', N'11 North Canal Road', N'0065 6536 7291', N'048824', N'Singapore', 0, NULL, NULL, 0)
+GO
+SET IDENTITY_INSERT [dbo].[Location] OFF
+GO
+INSERT [dbo].[Member] ([Id], [Salutation], [FirstName], [LastName], [IdentificationNumber], [EmailOptOut], [Birthday], [HomePhone], [MobilePhone], [HomeLocationId], [AspNetUserId]) VALUES (N'1', N'Mr        ', N'Christopher', N'Pettigrew', N'member635568776623286683', 0, NULL, N'01256 841012', N'07812638995', 1, N'a6ce8231-8631-4494-9adb-bcb534321ab9')
+GO
+INSERT [dbo].[Member] ([Id], [Salutation], [FirstName], [LastName], [IdentificationNumber], [EmailOptOut], [Birthday], [HomePhone], [MobilePhone], [HomeLocationId], [AspNetUserId]) VALUES (N'2', N'Mr        ', N'John', N'Smith', N'member635572123147777882', NULL, NULL, NULL, NULL, 2, N'2efa61fc-5922-47c4-ae38-ddb2fc864fe1')
+GO
+INSERT [dbo].[Member] ([Id], [Salutation], [FirstName], [LastName], [IdentificationNumber], [EmailOptOut], [Birthday], [HomePhone], [MobilePhone], [HomeLocationId], [AspNetUserId]) VALUES (N'3', N'Miss      ', N'Jane', N'Doe', N'member635572123354126494', NULL, NULL, NULL, NULL, 1, N'cf999c9b-d6f1-4600-a9aa-26a1f764d059')
+GO
 INSERT [dbo].[AspNetRoles] ([Id], [Name]) VALUES (N'a7411bb5-74a9-473a-bde5-9877feb21ebe', N'Visitor')
 GO
 INSERT [dbo].[AspNetRoles] ([Id], [Name]) VALUES (N'f3cc4a6d-4fd4-46fc-a891-58541d428a15', N'Head Office')
@@ -10,24 +91,9 @@ INSERT [dbo].[AspNetRoles] ([Id], [Name]) VALUES (N'f7494fe1-f5a7-40e0-aad5-8b31
 GO
 INSERT [dbo].[AspNetRoles] ([Id], [Name]) VALUES (N'fbb32647-ba6c-4cce-9ddb-1dcc99ec8754', N'Franchise Owner')
 GO
-INSERT [dbo].[AspNetUsers] ([Id], [Email], [EmailConfirmed], [PasswordHash], [SecurityStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEndDateUtc], [LockoutEnabled], [AccessFailedCount], [UserName]) VALUES (N'2efa61fc-5922-47c4-ae38-ddb2fc864fe1', N'john.smith@hotmail.com', 0, N'AFllAVCCXsrUyzMN9VVVw1+pM4E8B/2jwx4M77NZXInoc3k3+J9n9sNsypdvePRpLg==', N'302bd25d-c74a-4052-aec1-64ae39b0eae4', NULL, 0, 0, NULL, 1, 0, N'john.smith@hotmail.com')
-GO
-INSERT [dbo].[AspNetUsers] ([Id], [Email], [EmailConfirmed], [PasswordHash], [SecurityStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEndDateUtc], [LockoutEnabled], [AccessFailedCount], [UserName]) VALUES (N'a6ce8231-8631-4494-9adb-bcb534321ab9', N'cpettigrew@gmail.com', 0, N'APuabRRcdn8/PCXx0II8896ihBkN2OkKxi4fm2rPAy25hx+dlLu/6Xh2kOmKNYqFkg==', N'4d61b680-e9f0-4002-a3a2-f2aba3d5c4c5', NULL, 0, 0, NULL, 1, 0, N'cpettigrew@gmail.com')
-GO
-INSERT [dbo].[AspNetUsers] ([Id], [Email], [EmailConfirmed], [PasswordHash], [SecurityStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEndDateUtc], [LockoutEnabled], [AccessFailedCount], [UserName]) VALUES (N'cf999c9b-d6f1-4600-a9aa-26a1f764d059', N'jane.doe@hotmail.com', 0, N'AHy95Q3PIs0Nrz9esMkdsbsvdQpnxpQCBm2DURLc6rTM7w7Nx0VnmbmV4RCVYy1eLg==', N'e5c202a1-bc2d-4ac9-abfc-04b5076fc8fe', NULL, 0, 0, NULL, 1, 0, N'jane.doe@hotmail.com')
-GO
 INSERT [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'a6ce8231-8631-4494-9adb-bcb534321ab9', N'f3cc4a6d-4fd4-46fc-a891-58541d428a15')
 GO
 INSERT [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'a6ce8231-8631-4494-9adb-bcb534321ab9', N'f62987d0-ca94-4931-8c6d-8f46722a982d')
-GO
-SET IDENTITY_INSERT [dbo].[Location] ON 
-
-GO
-INSERT [dbo].[Location] ([Id], [Name], [Address], [PhoneNumber], [PostCode], [Country], [TimeZoneOffset], [Coordinates]) VALUES (1, N'London', N'Trafalgar Square', N'0208 789 7890', N'SE1 1AA', N'UK', 0, NULL)
-GO
-INSERT [dbo].[Location] ([Id], [Name], [Address], [PhoneNumber], [PostCode], [Country], [TimeZoneOffset], [Coordinates]) VALUES (2, N'Singapore', N'11 North Canal Road', N'0065 6536 7291', N'048824', N'Singapore', 0, NULL)
-GO
-SET IDENTITY_INSERT [dbo].[Location] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Trainer] ON 
 
@@ -35,12 +101,6 @@ GO
 INSERT [dbo].[Trainer] ([Id], [FirstName], [LastName], [AspNetUserId], [LocationId]) VALUES (1, N'Brad', N'Robinson', N'a6ce8231-8631-4494-9adb-bcb534321ab9', 1)
 GO
 SET IDENTITY_INSERT [dbo].[Trainer] OFF
-GO
-INSERT [dbo].[Member] ([Id], [Salutation], [FirstName], [LastName], [IdentificationNumber], [EmailOptOut], [Birthday], [HomePhone], [MobilePhone], [HomeLocationId], [AspNetUserId]) VALUES (N'1', N'Mr        ', N'Christopher', N'Pettigrew', N'member635568776623286683', 0, NULL, N'01256 841012', N'07812638995', 1, N'a6ce8231-8631-4494-9adb-bcb534321ab9')
-GO
-INSERT [dbo].[Member] ([Id], [Salutation], [FirstName], [LastName], [IdentificationNumber], [EmailOptOut], [Birthday], [HomePhone], [MobilePhone], [HomeLocationId], [AspNetUserId]) VALUES (N'2', N'Mr        ', N'John', N'Smith', N'member635572123147777882', NULL, NULL, NULL, NULL, 2, N'2efa61fc-5922-47c4-ae38-ddb2fc864fe1')
-GO
-INSERT [dbo].[Member] ([Id], [Salutation], [FirstName], [LastName], [IdentificationNumber], [EmailOptOut], [Birthday], [HomePhone], [MobilePhone], [HomeLocationId], [AspNetUserId]) VALUES (N'3', N'Miss      ', N'Jane', N'Doe', N'member635572123354126494', NULL, NULL, NULL, NULL, 1, N'cf999c9b-d6f1-4600-a9aa-26a1f764d059')
 GO
 SET IDENTITY_INSERT [dbo].[SessionBookingState] ON 
 
@@ -156,6 +216,56 @@ INSERT [dbo].[TimeSlot] ([Id], [StartTime], [EndTime]) VALUES (49, CAST(N'23:30:
 GO
 SET IDENTITY_INSERT [dbo].[TimeSlot] OFF
 GO
+SET IDENTITY_INSERT [dbo].[SessionBooking] ON 
+
+GO
+INSERT [dbo].[SessionBooking] ([Id], [MemberId], [LocationId], [Date], [BookingStateId], [RPEFeeling], [RPEPush], [TrainerNotes], [TrainerId], [TimeSlotId]) VALUES (1, N'1', 2, CAST(N'2015-01-29' AS Date), 1, 7, 8, NULL, 1, 28)
+GO
+INSERT [dbo].[SessionBooking] ([Id], [MemberId], [LocationId], [Date], [BookingStateId], [RPEFeeling], [RPEPush], [TrainerNotes], [TrainerId], [TimeSlotId]) VALUES (2, N'1', 2, CAST(N'2015-01-30' AS Date), 1, 8, 10, NULL, 1, 26)
+GO
+INSERT [dbo].[SessionBooking] ([Id], [MemberId], [LocationId], [Date], [BookingStateId], [RPEFeeling], [RPEPush], [TrainerNotes], [TrainerId], [TimeSlotId]) VALUES (3, N'1', 2, CAST(N'2015-01-10' AS Date), 3, 8, 8, NULL, 1, 20)
+GO
+INSERT [dbo].[SessionBooking] ([Id], [MemberId], [LocationId], [Date], [BookingStateId], [RPEFeeling], [RPEPush], [TrainerNotes], [TrainerId], [TimeSlotId]) VALUES (4, N'1', 2, CAST(N'2015-01-10' AS Date), 2, 0, 0, NULL, 1, 21)
+GO
+SET IDENTITY_INSERT [dbo].[SessionBooking] OFF
+GO
+SET IDENTITY_INSERT [dbo].[PackageLocationPrices] ON 
+
+GO
+INSERT [dbo].[PackageLocationPrices] ([Id], [LocationId], [PackageId], [MonthlyPrice], [TotalPrice]) VALUES (1, 2, 1, CAST(349.0000 AS Decimal(19, 4)), CAST(349.0000 AS Decimal(19, 4)))
+GO
+INSERT [dbo].[PackageLocationPrices] ([Id], [LocationId], [PackageId], [MonthlyPrice], [TotalPrice]) VALUES (2, 2, 2, CAST(449.0000 AS Decimal(19, 4)), CAST(449.0000 AS Decimal(19, 4)))
+GO
+INSERT [dbo].[PackageLocationPrices] ([Id], [LocationId], [PackageId], [MonthlyPrice], [TotalPrice]) VALUES (3, 2, 3, CAST(299.0000 AS Decimal(19, 4)), CAST(897.0000 AS Decimal(19, 4)))
+GO
+INSERT [dbo].[PackageLocationPrices] ([Id], [LocationId], [PackageId], [MonthlyPrice], [TotalPrice]) VALUES (5, 2, 4, CAST(299.0000 AS Decimal(19, 4)), CAST(897.0000 AS Decimal(19, 4)))
+GO
+INSERT [dbo].[PackageLocationPrices] ([Id], [LocationId], [PackageId], [MonthlyPrice], [TotalPrice]) VALUES (6, 2, 5, CAST(399.0000 AS Decimal(19, 4)), CAST(1197.0000 AS Decimal(19, 4)))
+GO
+INSERT [dbo].[PackageLocationPrices] ([Id], [LocationId], [PackageId], [MonthlyPrice], [TotalPrice]) VALUES (7, 2, 6, CAST(399.0000 AS Decimal(19, 4)), CAST(1197.0000 AS Decimal(19, 4)))
+GO
+INSERT [dbo].[PackageLocationPrices] ([Id], [LocationId], [PackageId], [MonthlyPrice], [TotalPrice]) VALUES (8, 2, 7, CAST(239.0000 AS Decimal(19, 4)), CAST(1434.0000 AS Decimal(19, 4)))
+GO
+INSERT [dbo].[PackageLocationPrices] ([Id], [LocationId], [PackageId], [MonthlyPrice], [TotalPrice]) VALUES (9, 2, 8, CAST(215.1000 AS Decimal(19, 4)), CAST(1290.6000 AS Decimal(19, 4)))
+GO
+INSERT [dbo].[PackageLocationPrices] ([Id], [LocationId], [PackageId], [MonthlyPrice], [TotalPrice]) VALUES (11, 2, 9, CAST(339.0000 AS Decimal(19, 4)), CAST(2034.0000 AS Decimal(19, 4)))
+GO
+INSERT [dbo].[PackageLocationPrices] ([Id], [LocationId], [PackageId], [MonthlyPrice], [TotalPrice]) VALUES (12, 2, 10, CAST(305.1000 AS Decimal(19, 4)), CAST(1830.6000 AS Decimal(19, 4)))
+GO
+INSERT [dbo].[PackageLocationPrices] ([Id], [LocationId], [PackageId], [MonthlyPrice], [TotalPrice]) VALUES (13, 2, 11, CAST(199.0000 AS Decimal(19, 4)), CAST(2388.0000 AS Decimal(19, 4)))
+GO
+INSERT [dbo].[PackageLocationPrices] ([Id], [LocationId], [PackageId], [MonthlyPrice], [TotalPrice]) VALUES (14, 2, 12, CAST(179.1000 AS Decimal(19, 4)), CAST(2149.2000 AS Decimal(19, 4)))
+GO
+INSERT [dbo].[PackageLocationPrices] ([Id], [LocationId], [PackageId], [MonthlyPrice], [TotalPrice]) VALUES (15, 2, 13, CAST(299.0000 AS Decimal(19, 4)), CAST(3588.0000 AS Decimal(19, 4)))
+GO
+INSERT [dbo].[PackageLocationPrices] ([Id], [LocationId], [PackageId], [MonthlyPrice], [TotalPrice]) VALUES (16, 2, 14, CAST(269.1000 AS Decimal(19, 4)), CAST(3229.2000 AS Decimal(19, 4)))
+GO
+INSERT [dbo].[PackageLocationPrices] ([Id], [LocationId], [PackageId], [MonthlyPrice], [TotalPrice]) VALUES (18, 2, 15, CAST(0.0000 AS Decimal(19, 4)), CAST(600.0000 AS Decimal(19, 4)))
+GO
+INSERT [dbo].[PackageLocationPrices] ([Id], [LocationId], [PackageId], [MonthlyPrice], [TotalPrice]) VALUES (19, 2, 16, CAST(0.0000 AS Decimal(19, 4)), CAST(1000.0000 AS Decimal(19, 4)))
+GO
+SET IDENTITY_INSERT [dbo].[PackageLocationPrices] OFF
+GO
 SET IDENTITY_INSERT [dbo].[OpeningHour] ON 
 
 GO
@@ -184,34 +294,6 @@ GO
 INSERT [dbo].[OpeningHour] ([Id], [DateOfWeek], [OpenTime], [CloseTime], [LocationId]) VALUES (12, 6, CAST(N'09:30:00' AS Time), CAST(N'15:00:00' AS Time), 1)
 GO
 SET IDENTITY_INSERT [dbo].[OpeningHour] OFF
-GO
-SET IDENTITY_INSERT [dbo].[MembershipState] ON 
-
-GO
-INSERT [dbo].[MembershipState] ([Id], [Name]) VALUES (1, N'Active')
-GO
-INSERT [dbo].[MembershipState] ([Id], [Name]) VALUES (2, N'Closed')
-GO
-INSERT [dbo].[MembershipState] ([Id], [Name]) VALUES (3, N'Expired')
-GO
-INSERT [dbo].[MembershipState] ([Id], [Name]) VALUES (4, N'Free')
-GO
-INSERT [dbo].[MembershipState] ([Id], [Name]) VALUES (5, N'Inactive')
-GO
-INSERT [dbo].[MembershipState] ([Id], [Name]) VALUES (6, N'Suspend')
-GO
-INSERT [dbo].[MembershipState] ([Id], [Name]) VALUES (7, N'Cancelled')
-GO
-INSERT [dbo].[MembershipState] ([Id], [Name]) VALUES (8, N'Void')
-GO
-SET IDENTITY_INSERT [dbo].[MembershipState] OFF
-GO
-SET IDENTITY_INSERT [dbo].[Package] ON 
-
-GO
-INSERT [dbo].[Package] ([Id], [Name], [PackageType], [PackagePeriodMonths], [PackagePricePerMonth], [PackageDiscountPercentage], [PackageDiscountAmmount], [PackagePriceAfterDiscount], [PackageTotalPrice], [PackageSuspensionLimit], [PackageVisitLimit], [PackageIsActive]) VALUES (1, N'Regular', N'Full Term', 12, 369.0000, NULL, NULL, NULL, 4428.0000, 2, NULL, 1)
-GO
-SET IDENTITY_INSERT [dbo].[Package] OFF
 GO
 SET IDENTITY_INSERT [dbo].[QuarterlyAssessment] ON 
 

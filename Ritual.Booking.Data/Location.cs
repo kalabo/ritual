@@ -29,6 +29,8 @@ public partial class Location
 
         this.OpeningHourOverrides = new HashSet<OpeningHourOverride>();
 
+        this.PackageLocationPrices = new HashSet<PackageLocationPrice>();
+
         this.Trainers = new HashSet<Trainer>();
 
         this.Trainers1 = new HashSet<Trainer>();
@@ -52,6 +54,10 @@ public partial class Location
 
     public System.Data.Entity.Spatial.DbGeography Coordinates { get; set; }
 
+    public string Currency { get; set; }
+
+    public short AvailableSlots { get; set; }
+
 
 
     public virtual ICollection<SessionBooking> SessionBookings { get; set; }
@@ -61,6 +67,8 @@ public partial class Location
     public virtual ICollection<OpeningHour> OpeningHours { get; set; }
 
     public virtual ICollection<OpeningHourOverride> OpeningHourOverrides { get; set; }
+
+    public virtual ICollection<PackageLocationPrice> PackageLocationPrices { get; set; }
 
     public virtual ICollection<Trainer> Trainers { get; set; }
 

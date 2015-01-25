@@ -18,6 +18,14 @@ using System;
 public partial class Membership
 {
 
+    public Membership()
+    {
+
+        this.MembershipSuspensions = new HashSet<MembershipSuspension>();
+
+    }
+
+
     public int Id { get; set; }
 
     public string MemberId { get; set; }
@@ -36,6 +44,16 @@ public partial class Membership
 
     public bool Paid { get; set; }
 
+    public Nullable<decimal> MonthlyPrice { get; set; }
+
+    public Nullable<decimal> TotalPrice { get; set; }
+
+    public Nullable<decimal> DiscountPercentage { get; set; }
+
+    public Nullable<decimal> DiscountPrice { get; set; }
+
+    public string DiscountReason { get; set; }
+
 
 
     public virtual Member Member { get; set; }
@@ -43,6 +61,8 @@ public partial class Membership
     public virtual MembershipState MembershipState { get; set; }
 
     public virtual Package Package { get; set; }
+
+    public virtual ICollection<MembershipSuspension> MembershipSuspensions { get; set; }
 
 }
 
