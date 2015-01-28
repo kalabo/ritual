@@ -179,6 +179,9 @@
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
+    <Compile Include="Controllers\MembershipsController.cs" />
+    <Compile Include="Controllers\OpeningHourOverridesController.cs" />
+    <Compile Include="Controllers\OpeningHoursController.cs" />
     <Compile Include="Controllers\QuarterlyAssessmentsController.cs" />
     <Compile Include="Controllers\TrainingZoneController.cs" />
     <Compile Include="Controls\HtmlHelperExtensions.cs" />
@@ -365,6 +368,21 @@
     <Content Include="Views\Shared\_Foundation.cshtml" />
     <Content Include="Views\Home\Foundation_Index.cshtml" />
     <Content Include="Views\TrainingZone\MyAssessments.cshtml" />
+    <Content Include="Views\OpeningHours\Create.cshtml" />
+    <Content Include="Views\OpeningHours\Delete.cshtml" />
+    <Content Include="Views\OpeningHours\Details.cshtml" />
+    <Content Include="Views\OpeningHours\Edit.cshtml" />
+    <Content Include="Views\OpeningHours\Index.cshtml" />
+    <Content Include="Views\OpeningHourOverrides\Create.cshtml" />
+    <Content Include="Views\OpeningHourOverrides\Delete.cshtml" />
+    <Content Include="Views\OpeningHourOverrides\Details.cshtml" />
+    <Content Include="Views\OpeningHourOverrides\Edit.cshtml" />
+    <Content Include="Views\OpeningHourOverrides\Index.cshtml" />
+    <Content Include="Views\Memberships\Create.cshtml" />
+    <Content Include="Views\Memberships\Delete.cshtml" />
+    <Content Include="Views\Memberships\Details.cshtml" />
+    <Content Include="Views\Memberships\Edit.cshtml" />
+    <Content Include="Views\Memberships\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

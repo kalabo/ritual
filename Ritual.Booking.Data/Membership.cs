@@ -28,7 +28,7 @@ public partial class Membership
 
     public int Id { get; set; }
 
-    public string MemberId { get; set; }
+    public int MemberId { get; set; }
 
     public int PackageId { get; set; }
 
@@ -43,6 +43,10 @@ public partial class Membership
     public Nullable<System.DateTime> CancellationDate { get; set; }
 
     public bool Paid { get; set; }
+
+    public Nullable<System.DateTime> InitialPaymentDate { get; set; }
+
+    public Nullable<decimal> InitialPayment { get; set; }
 
     public Nullable<decimal> MonthlyPrice { get; set; }
 

@@ -1,98 +1,215 @@
-﻿@model Ritual.Booking.Data.Member
+﻿@model Ritual.Booking.Data.MemberDetailData
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Member Profile Information";
 }
 
-<h2>Details</h2>
+<section class="content-header">
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>@ViewBag.Title</h1>
+        </div>
+    </div>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="large-12 columns">
+            <h2>Member Details</h2>
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Member.Id }, new { @class = "button" })
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "button" })
+            </p>
+            <dl class="dl-horizontal">
 
-<div>
-    <h4>Member</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Salutation)
-        </dt>
+                <dt>
+                    Username
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Salutation)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Member.AspNetUser.UserName)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Member.IdentificationNumber)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Member.IdentificationNumber)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Member.Salutation)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Member.Salutation)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IdentificationNumber)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Member.FirstName)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.IdentificationNumber)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Member.FirstName)
+                </dd>
+                @if (Model.Member.LastName != null)
+                {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Member.LastName)
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.EmailOptOut)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Member.LastName)
+                    </dd>
+                }
+                @if (Model.Member.Location.Name != null)
+                {
+                <dt>
+                    Home Location
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.EmailOptOut)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Member.Location.Name)
+                </dd>
+                }
+                
+                <dt>
+                    @Html.DisplayNameFor(model => model.Member.EmailOptOut)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Birthday)
-        </dt>
+                <dd>
+                    @if (Model.Member.EmailOptOut.Value == false)
+                    {
+                        @: <i class="fa fa-times"></i>
+                    }
+                    else
+                    {
+                        @: <i class="fa fa-check"></i>
+                    }
+                </dd>
+                @if (Model.Member.Birthday != null)
+                {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Member.Birthday)
+                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Birthday)
-        </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.Member.Birthday)
+                    </dd>
+                }
+                @if (Model.Member.HomePhone != null)
+                {
+                <dt>
+                    @Html.DisplayNameFor(model => model.Member.HomePhone)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.HomePhone)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Member.HomePhone)
+                </dd>
+                }
+                @if (Model.Member.MobilePhone != null)
+                {
+                <dt>
+                    @Html.DisplayNameFor(model => model.Member.MobilePhone)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.HomePhone)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Member.MobilePhone)
+                </dd>
+                }
+                <dt>
+                    @Html.DisplayNameFor(model => model.Member.AspNetUser.Email)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.MobilePhone)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Member.AspNetUser.Email)
+                </dd>
+                
+            </dl>
+            <h2>Memberships</h2>
+            <table class="table">
+                <tr>
+                    <th>Package</th>
+                    <th>State</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Action</th>
+                </tr>
+                @foreach (var item in Model.Memberships)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Package.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MembershipState.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StartDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EndDate)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Select", "Index", "QuarterlyAsssessments", new { id = item.Id }, new { @class = "button" })
+                            @Html.ActionLink("Edit", "Edit", "QuarterlyAsssessments", new { id = item.Id }, new { @class = "button" })
+                            @Html.ActionLink("Details", "Details", "QuarterlyAsssessments", new { id = item.Id }, new { @class = "button" })
+                            @Html.ActionLink("Delete", "Delete", "QuarterlyAsssessments", new { id = item.Id }, new { @class = "button" })
+                        </td>
+                    </tr>
+                }
+            </table>
 
-        <dd>
-            @Html.DisplayFor(model => model.MobilePhone)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AspNetUser.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AspNetUser.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Location.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Location.Name)
-        </dd>
-
-    </dl>
-
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+            <h2>Quarterly Assessments</h2>
+            <table class="table">
+                <tr>
+                <tr>
+                    <th>
+                        Quarter
+                    </th>
+                    <th>
+                        Year
+                    </th>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        RPE Score
+                    </th>
+                    <th>
+                        Trainer
+                    </th>
+                    <th>Action</th>
+                </tr>
+                </tr>
+                @foreach (var item in Model.QuarterlyAssessments)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.QAQuarter)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.QAYear)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.QADateTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.QAClientRPE)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Trainer.FullName)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Select", "Index", "Memberships", new { id = item.Id }, new { @class = "button" })
+                            @Html.ActionLink("Edit", "Edit", "Memberships", new { id = item.Id }, new { @class = "button" })
+                            @Html.ActionLink("Details", "Details", "Memberships", new { id = item.Id }, new { @class = "button" })
+                            @Html.ActionLink("Delete", "Delete", "Memberships", new { id = item.Id }, new { @class = "button" })
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</section>

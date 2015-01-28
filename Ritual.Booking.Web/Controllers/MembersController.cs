@@ -66,7 +66,7 @@ namespace Ritual.Booking.Web.Controllers
         }
 
         // GET: Members/Details/5
-        public ActionResult Details(string id)
+        public ActionResult Details(int? id)
         {
             //Redirect back to login page if not authenticated
             if (!HttpContext.User.Identity.IsAuthenticated)
@@ -78,13 +78,18 @@ namespace Ritual.Booking.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Member member = db.Members.Find(id);
-            if (member == null)
+
+            var detailModel = new MemberDetailData();
+            detailModel.Member = db.Members.Find(id);
+            detailModel.Memberships = db.Memberships.Where(m => m.MemberId == id);
+            detailModel.QuarterlyAssessments = db.QuarterlyAssessments.Where(m => m.MemberId == id);
+
+            if (detailModel.Member == null)
             {
                 return HttpNotFound();
             }
 
-            return View(member);
+            return View(detailModel);
         }
 
         // GET: Members/Create

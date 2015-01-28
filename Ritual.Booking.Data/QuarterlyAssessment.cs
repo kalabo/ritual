@@ -20,7 +20,7 @@ public partial class QuarterlyAssessment
 
     public int Id { get; set; }
 
-    public string MemberId { get; set; }
+    public int MemberId { get; set; }
 
     public int TrainerId { get; set; }
 

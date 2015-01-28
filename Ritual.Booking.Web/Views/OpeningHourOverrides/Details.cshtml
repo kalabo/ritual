@@ -1,0 +1,82 @@
+﻿@model Ritual.Booking.Data.OpeningHourOverride
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>OpeningHourOverride</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.OverrideStartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OverrideStartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OverrideEndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OverrideEndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DayOfWeek)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DayOfWeek)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AltOpenTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AltOpenTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AltCloseTme)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AltCloseTme)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Closed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Closed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OverrideReason)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OverrideReason)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

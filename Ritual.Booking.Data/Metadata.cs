@@ -14,7 +14,21 @@ namespace Ritual.Booking.Data
         public Nullable<int> QAClientRPE { get; set; }
     }
 
-    public class MemberAssessmentMetadata
+    public class LocationMetadata
+    {
+
+    }
+
+    public class OpeningHourMetadata
+    {
+        [Display(Name = "Open Time")]
+        public string OpenTime { get; set; }
+
+        [Display(Name = "Close Time")]
+        public string CloseTime { get; set; }
+    }
+
+    public class MemberMetadata
     {
         [Display(Name = "Title")]
         public string Salutation { get; set; }

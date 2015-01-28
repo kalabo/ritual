@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Ritual.Booking.Data;
 using PagedList;
+using Ritual.Booking.Data;
 
 namespace Ritual.Booking.Web.Controllers
 {
@@ -69,12 +70,19 @@ namespace Ritual.Booking.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Location location = db.Locations.Find(id);
-            if (location == null)
+
+            var detailModel = new LocationDetailData();
+            detailModel.Location = db.Locations.Find(id);
+            detailModel.OpeningHours = db.OpeningHours.Where(m => m.LocationId == id);
+            detailModel.OpeningHourOverrides = db.OpeningHourOverrides.Where(m => m.LocationId == id);
+            detailModel.Members = db.Members.Where(m => m.HomeLocationId == id);
+
+            if (detailModel.Location == null)
             {
                 return HttpNotFound();
             }
-            return View(location);
+
+            return View(detailModel);
         }
 
         // GET: Locations/Create

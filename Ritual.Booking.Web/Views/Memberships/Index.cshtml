@@ -1,0 +1,117 @@
+﻿@model IEnumerable<Ritual.Booking.Data.Membership>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Trial)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CancellationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Paid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InitialPaymentDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InitialPayment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MonthlyPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DiscountPercentage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DiscountPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DiscountReason)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Member.Salutation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MembershipState.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Package.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Trial)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CancellationDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Paid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InitialPaymentDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InitialPayment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MonthlyPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DiscountPercentage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DiscountPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DiscountReason)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Member.Salutation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MembershipState.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Package.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

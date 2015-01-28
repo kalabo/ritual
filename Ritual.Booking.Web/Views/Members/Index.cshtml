@@ -21,7 +21,7 @@
                 </p>*@
             @using (Html.BeginForm())
             {
-                <label class="control-label">Assessment Search</label>
+                <label class="control-label">Member Search</label>
                 <p>Find by First Name, Last Name, ID Number or phone number:</p>
                 @Html.TextBox("SearchString", "", new { @class = "form-control" })
                 <input type="submit" class="button" name="searchButton" value="Search" />

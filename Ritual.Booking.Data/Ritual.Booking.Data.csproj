@@ -66,6 +66,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Entities.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Enums.cs" />
     <Compile Include="Location.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
@@ -94,7 +95,12 @@
     <Compile Include="PackageLocationPrice.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
-    <Compile Include="PartialClasses.cs" />
+    <Compile Include="Partials\Location.cs" />
+    <Compile Include="Partials\Member.cs" />
+    <Compile Include="Partials\OpeningHour.cs" />
+    <Compile Include="Partials\QuarterlyAssessment.cs" />
+    <Compile Include="Partials\Trainer.cs" />
+    <Compile Include="Partials\TrainingZone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuarterlyAssessment.cs">
       <DependentUpon>Entities.tt</DependentUpon>

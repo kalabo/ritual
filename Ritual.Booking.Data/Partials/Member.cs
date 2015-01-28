@@ -8,24 +8,15 @@ using System.Threading.Tasks;
 
 namespace Ritual.Booking.Data
 {
-    [MetadataType(typeof(QuarterlyAssessmentMetadata))]
-    public partial class QuarterlyAssessment
+    public class MemberDetailData
     {
+        public Member Member { get; set; }
+        public IEnumerable<Membership> Memberships { get; set; }
+        public IEnumerable<QuarterlyAssessment> QuarterlyAssessments { get; set; }
     }
 
+    [MetadataType(typeof(MemberMetadata))]
     public partial class Member
-    {
-        [Column("FullName", TypeName = "string")]
-        public string FullName
-        {
-            get
-            {
-                return string.Format("{0} {1}", FirstName, LastName);
-            }
-        }
-    }
-    
-    public partial class Trainer
     {
         [Column("FullName", TypeName = "string")]
         public string FullName

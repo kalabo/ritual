@@ -41,7 +41,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="Salutation" Type="nchar" MaxLength="10" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -58,7 +58,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MemberId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MemberId" Type="int" Nullable="false" />
           <Property Name="PackageId" Type="int" Nullable="false" />
           <Property Name="StartDate" Type="date" Nullable="false" />
           <Property Name="EndDate" Type="date" Nullable="false" />
@@ -66,6 +66,8 @@
           <Property Name="MembershipStateId" Type="int" Nullable="false" />
           <Property Name="CancellationDate" Type="date" />
           <Property Name="Paid" Type="bit" Nullable="false" />
+          <Property Name="InitialPaymentDate" Type="date" />
+          <Property Name="InitialPayment" Type="decimal" Precision="19" Scale="4" />
           <Property Name="MonthlyPrice" Type="decimal" Precision="19" Scale="4" />
           <Property Name="TotalPrice" Type="decimal" Precision="19" Scale="4" />
           <Property Name="DiscountPercentage" Type="decimal" Precision="5" Scale="2" />
@@ -142,7 +144,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MemberId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MemberId" Type="int" Nullable="false" />
           <Property Name="TrainerId" Type="int" Nullable="false" />
           <Property Name="QAQuarter" Type="int" Nullable="false" />
           <Property Name="QAYear" Type="int" />
@@ -183,7 +185,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MemberId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MemberId" Type="int" Nullable="false" />
           <Property Name="LocationId" Type="int" Nullable="false" />
           <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="BookingStateId" Type="int" Nullable="false" />
@@ -290,7 +292,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Membership_Member">
+        <Association Name="FK_Membership_Member1">
           <End Role="Member" Type="Self.Member" Multiplicity="1" />
           <End Role="Membership" Type="Self.Membership" Multiplicity="*" />
           <ReferentialConstraint>
@@ -486,7 +488,7 @@
             <End Role="Location" EntitySet="Location" />
             <End Role="Member" EntitySet="Member" />
           </AssociationSet>
-          <AssociationSet Name="FK_Membership_Member" Association="Self.FK_Membership_Member">
+          <AssociationSet Name="FK_Membership_Member1" Association="Self.FK_Membership_Member1">
             <End Role="Member" EntitySet="Member" />
             <End Role="Membership" EntitySet="Membership" />
           </AssociationSet>
@@ -599,7 +601,7 @@
             <End Role="Member" EntitySet="Members" />
             <End Role="SessionBooking" EntitySet="SessionBookings" />
           </AssociationSet>
-          <AssociationSet Name="FK_Membership_Member" Association="RitualDBModel.FK_Membership_Member">
+          <AssociationSet Name="FK_Membership_Member1" Association="RitualDBModel.FK_Membership_Member1">
             <End Role="Member" EntitySet="Members" />
             <End Role="Membership" EntitySet="Memberships" />
           </AssociationSet>
@@ -681,7 +683,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="Salutation" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -695,7 +697,7 @@
           <NavigationProperty Name="AspNetUser" Relationship="RitualDBModel.FK_Member_AspNetUsers" FromRole="Member" ToRole="AspNetUser" />
           <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_Member_Location" FromRole="Member" ToRole="Location" />
           <NavigationProperty Name="SessionBookings" Relationship="RitualDBModel.FK_Booking_Member" FromRole="Member" ToRole="SessionBooking" />
-          <NavigationProperty Name="Memberships" Relationship="RitualDBModel.FK_Membership_Member" FromRole="Member" ToRole="Membership" />
+          <NavigationProperty Name="Memberships" Relationship="RitualDBModel.FK_Membership_Member1" FromRole="Member" ToRole="Membership" />
           <NavigationProperty Name="QuarterlyAssessments" Relationship="RitualDBModel.FK_QuarterlyAssessment_Member" FromRole="Member" ToRole="QuarterlyAssessment" />
         </EntityType>
         <EntityType Name="Membership">
@@ -703,7 +705,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MemberId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
           <Property Name="PackageId" Type="Int32" Nullable="false" />
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
@@ -711,12 +713,14 @@
           <Property Name="MembershipStateId" Type="Int32" Nullable="false" />
           <Property Name="CancellationDate" Type="DateTime" Precision="0" />
           <Property Name="Paid" Type="Boolean" Nullable="false" />
+          <Property Name="InitialPaymentDate" Type="DateTime" Precision="0" />
+          <Property Name="InitialPayment" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="MonthlyPrice" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="TotalPrice" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="DiscountPercentage" Type="Decimal" Precision="5" Scale="2" />
           <Property Name="DiscountPrice" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="DiscountReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Member" Relationship="RitualDBModel.FK_Membership_Member" FromRole="Membership" ToRole="Member" />
+          <NavigationProperty Name="Member" Relationship="RitualDBModel.FK_Membership_Member1" FromRole="Membership" ToRole="Member" />
           <NavigationProperty Name="MembershipState" Relationship="RitualDBModel.FK_Membership_MembershipState" FromRole="Membership" ToRole="MembershipState" />
           <NavigationProperty Name="Package" Relationship="RitualDBModel.FK_Membership_Package" FromRole="Membership" ToRole="Package" />
           <NavigationProperty Name="MembershipSuspensions" Relationship="RitualDBModel.FK_MembershipSuspensions_Membership" FromRole="Membership" ToRole="MembershipSuspension" />
@@ -799,7 +803,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MemberId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
           <Property Name="TrainerId" Type="Int32" Nullable="false" />
           <Property Name="QAQuarter" Type="Int32" Nullable="false" />
           <Property Name="QAYear" Type="Int32" />
@@ -842,7 +846,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MemberId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
           <Property Name="LocationId" Type="Int32" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="BookingStateId" Type="Int32" Nullable="false" />
@@ -1007,7 +1011,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Membership_Member">
+        <Association Name="FK_Membership_Member1">
           <End Type="RitualDBModel.Member" Role="Member" Multiplicity="1" />
           <End Type="RitualDBModel.Membership" Role="Membership" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1180,6 +1184,8 @@
                 <ScalarProperty Name="DiscountPercentage" ColumnName="DiscountPercentage" />
                 <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
                 <ScalarProperty Name="MonthlyPrice" ColumnName="MonthlyPrice" />
+                <ScalarProperty Name="InitialPayment" ColumnName="InitialPayment" />
+                <ScalarProperty Name="InitialPaymentDate" ColumnName="InitialPaymentDate" />
                 <ScalarProperty Name="Paid" ColumnName="Paid" />
                 <ScalarProperty Name="CancellationDate" ColumnName="CancellationDate" />
                 <ScalarProperty Name="MembershipStateId" ColumnName="MembershipStateId" />

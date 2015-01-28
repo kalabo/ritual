@@ -1,7 +1,7 @@
-﻿@model Ritual.Booking.Data.Location
+﻿@model Ritual.Booking.Data.LocationDetailData
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Ritual Location Details";
 }
 
 
@@ -15,69 +15,146 @@
 <!-- Main content -->
 <section class="content">
     <div class="row">
-        <div class="large-12 columns">
+        <div class="large-6 medium-6 columns">
+            <h2>Location Details</h2>
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Location.Id }, new { @class = "button" })
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "button" })
+            </p>
             <dl class="dl-horizontal">
                 <dt>
-                    @Html.DisplayNameFor(model => model.Name)
+                    @Html.DisplayNameFor(model => model.Location.Name)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Name)
+                    @Html.DisplayFor(model => model.Location.Name)
                 </dd>
 
                 <dt>
-                    @Html.DisplayNameFor(model => model.Address)
+                    @Html.DisplayNameFor(model => model.Location.Address)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Address)
+                    @Html.DisplayFor(model => model.Location.Address)
                 </dd>
 
                 <dt>
-                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                    @Html.DisplayNameFor(model => model.Location.PhoneNumber)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.PhoneNumber)
+                    @Html.DisplayFor(model => model.Location.PhoneNumber)
                 </dd>
 
                 <dt>
-                    @Html.DisplayNameFor(model => model.PostCode)
+                    @Html.DisplayNameFor(model => model.Location.PostCode)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.PostCode)
+                    @Html.DisplayFor(model => model.Location.PostCode)
                 </dd>
 
                 <dt>
-                    @Html.DisplayNameFor(model => model.Country)
+                    @Html.DisplayNameFor(model => model.Location.Country)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Country)
+                    @Html.DisplayFor(model => model.Location.Country)
                 </dd>
 
                 <dt>
-                    @Html.DisplayNameFor(model => model.TimeZoneOffset)
+                    @Html.DisplayNameFor(model => model.Location.TimeZoneOffset)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.TimeZoneOffset)
+                    @Html.DisplayFor(model => model.Location.TimeZoneOffset)
                 </dd>
 
                 <dt>
-                    @Html.DisplayNameFor(model => model.Coordinates)
+                    @Html.DisplayNameFor(model => model.Location.Coordinates)
                 </dt>
 
                 <dd>
-                    @Html.DisplayFor(model => model.Coordinates)
+                    @Html.DisplayFor(model => model.Location.Coordinates)
                 </dd>
 
             </dl>
-            <p>
-                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-                @Html.ActionLink("Back to List", "Index")
-            </p>
+        </div>
+        <div class="large-6 medium-6 columns">            
+            This location has @Html.DisplayFor(model => model.Members.Count()) 
+            Members
+        </div>
+    </div>
+    <div class="row">
+        <div class="large-6 medium-6 columns">
+            <h2>Opening Hours</h2>
+            <table class="table">
+                <tr>
+                    <th>Day of Week</th>
+                    <th>Open Time</th>
+                    <th>Close Time</th>
+                    <th>Action</th>
+                </tr>
+                @foreach (var item in Model.OpeningHours)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DayOfWeekText)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OpenTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CloseTime)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Select", "Index", "QuarterlyAsssessments", new { id = item.Id }, new { @class = "button" })
+                            @Html.ActionLink("Edit", "Edit", "QuarterlyAsssessments", new { id = item.Id }, new { @class = "button" })
+                            @Html.ActionLink("Details", "Details", "QuarterlyAsssessments", new { id = item.Id }, new { @class = "button" })
+                            @Html.ActionLink("Delete", "Delete", "QuarterlyAsssessments", new { id = item.Id }, new { @class = "button" })
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <div class="large-6 medium-6 columns">
+            <h2>Un-scheduled Closures</h2>
+            <table class="table">
+                <tr>
+                    <th>Start Date</th>
+                    <th>Start Time</th>
+                    <th>End Date</th>
+                    <th>End Time</th>
+                    <th>Reason</th>
+                    <th>Action</th>
+                </tr>
+                @foreach (var item in Model.OpeningHourOverrides)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OverrideStartDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AltOpenTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OverrideEndDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AltCloseTme)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OverrideReason)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Select", "Index", "OpeningHourOverride", new { id = item.Id }, new { @class = "button" })
+                            @Html.ActionLink("Edit", "Edit", "OpeningHourOverride", new { id = item.Id }, new { @class = "button" })
+                            @Html.ActionLink("Details", "Details", "OpeningHourOverride", new { id = item.Id }, new { @class = "button" })
+                            @Html.ActionLink("Delete", "Delete", "OpeningHourOverride", new { id = item.Id }, new { @class = "button" })
+                        </td>
+                    </tr>
+                }
+            </table>
         </div>
     </div>
 </section>

@@ -30,7 +30,7 @@ public partial class Member
     }
 
 
-    public string Id { get; set; }
+    public int Id { get; set; }
 
     public string Salutation { get; set; }
 

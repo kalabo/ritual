@@ -20,7 +20,7 @@ public partial class SessionBooking
 
     public int Id { get; set; }
 
-    public string MemberId { get; set; }
+    public int MemberId { get; set; }
 
     public int LocationId { get; set; }
 
