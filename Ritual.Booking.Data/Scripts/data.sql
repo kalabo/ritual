@@ -29,7 +29,7 @@ INSERT [dbo].[Location] ([Id], [Name], [Address], [PhoneNumber], [PostCode], [Co
 GO
 SET IDENTITY_INSERT [dbo].[Location] OFF
 GO
-INSERT [dbo].[Member] ([Id], [Salutation], [FirstName], [LastName], [IdentificationNumber], [EmailOptOut], [Birthday], [HomePhone], [MobilePhone], [HomeLocationId], [AspNetUserId]) VALUES (1, N'Mr        ', N'Christopher', N'Pettigrew', N'member635568776623286683', 0, NULL, N'01256 841012', N'07812638995', 1, N'a6ce8231-8631-4494-9adb-bcb534321ab9')
+INSERT [dbo].[Member] ([Id], [Salutation], [FirstName], [LastName], [IdentificationNumber], [EmailOptOut], [Birthday], [HomePhone], [MobilePhone], [HomeLocationId], [AspNetUserId]) VALUES (1, N'Mr        ', N'Christopher', N'Pettigrew', N'member635568776623286683', 0, NULL, N'01256 841012', N'07812638995', 2, N'a6ce8231-8631-4494-9adb-bcb534321ab9')
 GO
 INSERT [dbo].[Member] ([Id], [Salutation], [FirstName], [LastName], [IdentificationNumber], [EmailOptOut], [Birthday], [HomePhone], [MobilePhone], [HomeLocationId], [AspNetUserId]) VALUES (2, N'Mr        ', N'John', N'Smith', N'member635572123147777882', 1, NULL, NULL, NULL, 2, N'2efa61fc-5922-47c4-ae38-ddb2fc864fe1')
 GO
@@ -51,7 +51,7 @@ INSERT [dbo].[QuarterlyAssessment] ([Id], [MemberId], [TrainerId], [QAQuarter], 
 GO
 INSERT [dbo].[QuarterlyAssessment] ([Id], [MemberId], [TrainerId], [QAQuarter], [QAYear], [QADateTime], [QAClientRPE], [QATestOneTitle], [QATestOneType], [QATestOneTimeReps], [QATestOneNotes], [QATestTwoTitle], [QATestTwoType], [QATestTwoTimeReps], [QATestTwoNotes], [QATestThreeTitle], [QATestThreeType], [QATestThreeTimeReps], [QATestThreeNotes], [QATestFourTitle], [QATestFourType], [QATestFourTimeReps], [QATestFourNotes], [QATestFiveTitle], [QATestFiveType], [QATestFiveTimeReps], [QATestFiveNotes], [QATestFiveRoundOneReps], [QATestFiveRoundTwoReps], [QATestFiveRoundThreeReps], [QATestFiveRoundFourReps], [QATestFiveRoundFiveReps], [QATestFiveRoundSixReps], [QATestFiveRoundSevenReps], [QATestFiveRoundEightReps], [QATestFiveTotalReps]) VALUES (4, 2, 1, 3, 2015, CAST(N'2015-01-18 21:12:00.000' AS DateTime), 4, NULL, N'-1', NULL, NULL, NULL, N'-1', NULL, NULL, NULL, N'-1', NULL, NULL, NULL, N'-1', NULL, NULL, NULL, N'-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
 GO
-INSERT [dbo].[QuarterlyAssessment] ([Id], [MemberId], [TrainerId], [QAQuarter], [QAYear], [QADateTime], [QAClientRPE], [QATestOneTitle], [QATestOneType], [QATestOneTimeReps], [QATestOneNotes], [QATestTwoTitle], [QATestTwoType], [QATestTwoTimeReps], [QATestTwoNotes], [QATestThreeTitle], [QATestThreeType], [QATestThreeTimeReps], [QATestThreeNotes], [QATestFourTitle], [QATestFourType], [QATestFourTimeReps], [QATestFourNotes], [QATestFiveTitle], [QATestFiveType], [QATestFiveTimeReps], [QATestFiveNotes], [QATestFiveRoundOneReps], [QATestFiveRoundTwoReps], [QATestFiveRoundThreeReps], [QATestFiveRoundFourReps], [QATestFiveRoundFiveReps], [QATestFiveRoundSixReps], [QATestFiveRoundSevenReps], [QATestFiveRoundEightReps], [QATestFiveTotalReps]) VALUES (5, 3, 1, 1, 2014, CAST(N'2014-12-16 04:00:00.000' AS DateTime), 6, NULL, N'-1', NULL, NULL, NULL, N'-1', NULL, NULL, NULL, N'-1', NULL, NULL, NULL, N'-1', NULL, NULL, NULL, N'-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+INSERT [dbo].[QuarterlyAssessment] ([Id], [MemberId], [TrainerId], [QAQuarter], [QAYear], [QADateTime], [QAClientRPE], [QATestOneTitle], [QATestOneType], [QATestOneTimeReps], [QATestOneNotes], [QATestTwoTitle], [QATestTwoType], [QATestTwoTimeReps], [QATestTwoNotes], [QATestThreeTitle], [QATestThreeType], [QATestThreeTimeReps], [QATestThreeNotes], [QATestFourTitle], [QATestFourType], [QATestFourTimeReps], [QATestFourNotes], [QATestFiveTitle], [QATestFiveType], [QATestFiveTimeReps], [QATestFiveNotes], [QATestFiveRoundOneReps], [QATestFiveRoundTwoReps], [QATestFiveRoundThreeReps], [QATestFiveRoundFourReps], [QATestFiveRoundFiveReps], [QATestFiveRoundSixReps], [QATestFiveRoundSevenReps], [QATestFiveRoundEightReps], [QATestFiveTotalReps]) VALUES (5, 3, 1, 1, 2014, CAST(N'2014-12-16 04:00:00.000' AS DateTime), 6, NULL, N'2', N'14', NULL, NULL, N'2', N'12', NULL, NULL, N'3', N'21', NULL, NULL, N'4', N'14', NULL, NULL, N'2', N'Two min', NULL, 1, 2, 3, 4, 5, 6, 7, 8, 36)
 GO
 INSERT [dbo].[QuarterlyAssessment] ([Id], [MemberId], [TrainerId], [QAQuarter], [QAYear], [QADateTime], [QAClientRPE], [QATestOneTitle], [QATestOneType], [QATestOneTimeReps], [QATestOneNotes], [QATestTwoTitle], [QATestTwoType], [QATestTwoTimeReps], [QATestTwoNotes], [QATestThreeTitle], [QATestThreeType], [QATestThreeTimeReps], [QATestThreeNotes], [QATestFourTitle], [QATestFourType], [QATestFourTimeReps], [QATestFourNotes], [QATestFiveTitle], [QATestFiveType], [QATestFiveTimeReps], [QATestFiveNotes], [QATestFiveRoundOneReps], [QATestFiveRoundTwoReps], [QATestFiveRoundThreeReps], [QATestFiveRoundFourReps], [QATestFiveRoundFiveReps], [QATestFiveRoundSixReps], [QATestFiveRoundSevenReps], [QATestFiveRoundEightReps], [QATestFiveTotalReps]) VALUES (6, 2, 1, 4, 2014, CAST(N'2014-10-14 07:22:00.000' AS DateTime), 8, NULL, N'-1', NULL, NULL, NULL, N'-1', NULL, NULL, NULL, N'-1', NULL, NULL, NULL, N'-1', NULL, NULL, NULL, N'-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
 GO
@@ -251,6 +251,10 @@ SET IDENTITY_INSERT [dbo].[Membership] ON
 GO
 INSERT [dbo].[Membership] ([Id], [MemberId], [PackageId], [StartDate], [EndDate], [Trial], [MembershipStateId], [CancellationDate], [Paid], [InitialPaymentDate], [InitialPayment], [MonthlyPrice], [TotalPrice], [DiscountPercentage], [DiscountPrice], [DiscountReason]) VALUES (1, 2, 17, CAST(N'2015-01-01' AS Date), CAST(N'2015-01-07' AS Date), 1, 3, NULL, 1, CAST(N'2015-01-01' AS Date), CAST(50.0000 AS Decimal(19, 4)), NULL, CAST(50.0000 AS Decimal(19, 4)), NULL, NULL, NULL)
 GO
+INSERT [dbo].[Membership] ([Id], [MemberId], [PackageId], [StartDate], [EndDate], [Trial], [MembershipStateId], [CancellationDate], [Paid], [InitialPaymentDate], [InitialPayment], [MonthlyPrice], [TotalPrice], [DiscountPercentage], [DiscountPrice], [DiscountReason]) VALUES (3, 1, 17, CAST(N'2015-01-02' AS Date), CAST(N'2015-01-08' AS Date), 1, 3, NULL, 1, CAST(N'2015-01-02' AS Date), CAST(50.0000 AS Decimal(19, 4)), NULL, CAST(50.0000 AS Decimal(19, 4)), NULL, NULL, NULL)
+GO
+INSERT [dbo].[Membership] ([Id], [MemberId], [PackageId], [StartDate], [EndDate], [Trial], [MembershipStateId], [CancellationDate], [Paid], [InitialPaymentDate], [InitialPayment], [MonthlyPrice], [TotalPrice], [DiscountPercentage], [DiscountPrice], [DiscountReason]) VALUES (4, 2, 14, CAST(N'2015-01-09' AS Date), CAST(N'2016-01-09' AS Date), 0, 1, NULL, 1, CAST(N'2015-01-09' AS Date), CAST(3229.2000 AS Decimal(19, 4)), CAST(269.1000 AS Decimal(19, 4)), CAST(3229.2000 AS Decimal(19, 4)), CAST(10.00 AS Decimal(5, 2)), CAST(322.9200 AS Decimal(19, 4)), N'Paid In Full')
+GO
 SET IDENTITY_INSERT [dbo].[Membership] OFF
 GO
 SET IDENTITY_INSERT [dbo].[PackageLocationPrices] ON 
@@ -289,6 +293,15 @@ GO
 INSERT [dbo].[PackageLocationPrices] ([Id], [LocationId], [PackageId], [MonthlyPrice], [TotalPrice]) VALUES (19, 2, 16, CAST(0.0000 AS Decimal(19, 4)), CAST(1000.0000 AS Decimal(19, 4)))
 GO
 SET IDENTITY_INSERT [dbo].[PackageLocationPrices] OFF
+GO
+SET IDENTITY_INSERT [dbo].[OpeningHourOverride] ON 
+
+GO
+INSERT [dbo].[OpeningHourOverride] ([Id], [OverrideStartDate], [OverrideEndDate], [DayOfWeek], [AltOpenTime], [AltCloseTme], [Closed], [OverrideReason], [LocationId]) VALUES (1, CAST(N'2015-01-30' AS Date), CAST(N'2015-01-30' AS Date), 5, CAST(N'13:00:00' AS Time), CAST(N'15:00:00' AS Time), 1, N'Employee Training', 2)
+GO
+INSERT [dbo].[OpeningHourOverride] ([Id], [OverrideStartDate], [OverrideEndDate], [DayOfWeek], [AltOpenTime], [AltCloseTme], [Closed], [OverrideReason], [LocationId]) VALUES (2, CAST(N'2015-01-31' AS Date), CAST(N'2015-01-31' AS Date), 6, CAST(N'12:00:00' AS Time), CAST(N'13:00:00' AS Time), 1, N'Lunch Training', 2)
+GO
+SET IDENTITY_INSERT [dbo].[OpeningHourOverride] OFF
 GO
 SET IDENTITY_INSERT [dbo].[OpeningHour] ON 
 
