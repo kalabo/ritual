@@ -16,7 +16,32 @@ namespace Ritual.Booking.Data
 
     public class LocationMetadata
     {
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+        
+        [Display(Name = "Address")]
+        public string Address { get; set; }
 
+        [Display(Name = "Phone Number")]
+        public string PhoneNumber { get; set; }
+
+        [Display(Name = "Postcode")]
+        public string PostCode { get; set; }
+
+        [Display(Name = "Country")]
+        public string Country { get; set; }
+
+        [Display(Name = "Timezone Offset")]
+        public short TimeZoneOffset { get; set; }
+
+        [Display(Name = "Coordinates")]
+        public System.Data.Entity.Spatial.DbGeography Coordinates { get; set; }
+
+        [Display(Name = "Currency")]
+        public string Currency { get; set; }
+
+        [Display(Name = "Available Slots")]
+        public short AvailableSlots { get; set; }
     }
 
     public class OpeningHourMetadata
@@ -26,6 +51,81 @@ namespace Ritual.Booking.Data
 
         [Display(Name = "Close Time")]
         public string CloseTime { get; set; }
+    }
+
+    public class PackagesMetadata
+    {
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+        
+        [Display(Name = "Type")]
+        public string PackageType { get; set; }
+        
+        [Display(Name = "Period (Months)")]
+        public Nullable<int> PackagePeriodMonths { get; set; }
+        
+        [Display(Name = "Suspension Limit")]
+        public Nullable<int> PackageSuspensionLimit { get; set; }
+        
+        [Display(Name = "Visit Limit")]
+        public Nullable<int> PackageVisitLimit { get; set; }
+        
+        [Display(Name = "Active")]
+        public Nullable<bool> PackageIsActive { get; set; }
+        
+        [Display(Name = "Reoccuring")]
+        public Nullable<bool> PackageIsReoccuring { get; set; }
+        
+        [Display(Name = "Full Payment")]
+        public Nullable<bool> PackagePayInFull { get; set; }
+    }
+
+    public class MembershipMetadata
+    {
+        [Display(Name = "Member Id")]
+        public int MemberId { get; set; }
+        
+        [Display(Name = "Package Id")]
+        public int PackageId { get; set; }
+
+        [Display(Name = "Start Date")]
+        public System.DateTime StartDate { get; set; }
+
+        [Display(Name = "End Date")]
+        public System.DateTime EndDate { get; set; }
+
+        [Display(Name = "Trial?")]
+        public bool Trial { get; set; }
+
+        [Display(Name = "State")]
+        public int MembershipStateId { get; set; }
+
+        [Display(Name = "Cancellation Date")]
+        public Nullable<System.DateTime> CancellationDate { get; set; }
+
+        [Display(Name = "Paid?")]
+        public bool Paid { get; set; }
+
+        [Display(Name = "Initial Payment Date")]
+        public Nullable<System.DateTime> InitialPaymentDate { get; set; }
+
+        [Display(Name = "Initial Payment")]
+        public Nullable<decimal> InitialPayment { get; set; }
+
+        [Display(Name = "Monthly Price")]
+        public Nullable<decimal> MonthlyPrice { get; set; }
+
+        [Display(Name = "Total Price")]
+        public Nullable<decimal> TotalPrice { get; set; }
+
+        [Display(Name = "Discount Percentage")]
+        public Nullable<decimal> DiscountPercentage { get; set; }
+
+        [Display(Name = "Discount Price")]
+        public Nullable<decimal> DiscountPrice { get; set; }
+
+        [Display(Name = "Reason for Discount")]
+        public string DiscountReason { get; set; }
     }
 
     public class MemberMetadata

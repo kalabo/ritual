@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Ritual.Booking.Data;
+using Ritual.Booking.Web.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,6 +13,18 @@ namespace Ritual.Booking.Web.Controllers
 {
     public class TrainingZoneController : Controller
     {
+        /// <summary>
+        /// Application DB context
+        /// </summary>
+        protected ApplicationDbContext ApplicationDbContext { get; set; }
+
+        /// <summary>
+        /// User manager - attached to application DB context
+        /// </summary>
+        protected UserManager<ApplicationUser> UserManager { get; set; }
+
+        private RitualDBEntities db = new RitualDBEntities();
+
         // GET: TrainingZone
         public ActionResult MyRitual()
         {
@@ -57,7 +73,21 @@ namespace Ritual.Booking.Web.Controllers
                 return RedirectToAction("Home", "Index");
             }
 
-            return View();
+            this.ApplicationDbContext = new ApplicationDbContext();
+            this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
+            var user = UserManager.FindById(User.Identity.GetUserId());
+
+            //var members = db.Members;
+
+            var dashboardModel = new TrainingZoneDashboardData();
+            //dashboardModel. = db.OpeningHours.Where(m => m.LocationId == id);
+
+            //if (dashboardModel. == null)
+            //{
+            //    return HttpNotFound();
+            //}
+
+            return View(dashboardModel);
         }
         // GET: TrainingZone
         public ActionResult Booking()

@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Ritual.Booking.Data
 {
-    public class TrainingZoneIndexData
+    public class TrainingZoneDashboardData
     {
         public IEnumerable<SessionBooking> UpcomingBookings { get; set; }
         public IEnumerable<SessionBooking> PastBookings { get; set; }
         public IEnumerable<SessionBooking> MissedBookings { get; set; }
+        public IEnumerable<QuarterlyAssessment> QuarterlyAssessments { get; set; }
     }
 }

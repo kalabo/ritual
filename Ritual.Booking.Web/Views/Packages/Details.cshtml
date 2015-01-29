@@ -1,0 +1,82 @@
+﻿@model Ritual.Booking.Data.Package
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Package</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PackageType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PackageType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PackagePeriodMonths)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PackagePeriodMonths)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PackageSuspensionLimit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PackageSuspensionLimit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PackageVisitLimit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PackageVisitLimit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PackageIsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PackageIsActive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PackageIsReoccuring)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PackageIsReoccuring)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PackagePayInFull)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PackagePayInFull)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

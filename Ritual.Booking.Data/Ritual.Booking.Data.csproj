@@ -96,6 +96,8 @@
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="Partials\Location.cs" />
+    <Compile Include="Partials\Package.cs" />
+    <Compile Include="Partials\Membership.cs" />
     <Compile Include="Partials\Member.cs" />
     <Compile Include="Partials\OpeningHour.cs" />
     <Compile Include="Partials\QuarterlyAssessment.cs" />

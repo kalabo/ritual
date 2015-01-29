@@ -182,6 +182,7 @@
     <Compile Include="Controllers\MembershipsController.cs" />
     <Compile Include="Controllers\OpeningHourOverridesController.cs" />
     <Compile Include="Controllers\OpeningHoursController.cs" />
+    <Compile Include="Controllers\PackagesController.cs" />
     <Compile Include="Controllers\QuarterlyAssessmentsController.cs" />
     <Compile Include="Controllers\TrainingZoneController.cs" />
     <Compile Include="Controls\HtmlHelperExtensions.cs" />
@@ -383,6 +384,11 @@
     <Content Include="Views\Memberships\Details.cshtml" />
     <Content Include="Views\Memberships\Edit.cshtml" />
     <Content Include="Views\Memberships\Index.cshtml" />
+    <Content Include="Views\Packages\Create.cshtml" />
+    <Content Include="Views\Packages\Delete.cshtml" />
+    <Content Include="Views\Packages\Details.cshtml" />
+    <Content Include="Views\Packages\Edit.cshtml" />
+    <Content Include="Views\Packages\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
