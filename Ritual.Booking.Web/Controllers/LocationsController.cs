@@ -17,7 +17,7 @@ namespace Ritual.Booking.Web.Controllers
         private RitualDBEntities db = new RitualDBEntities();
 
         // GET: Locations
-        public ActionResult Index(string sortOrder, string searchString)
+        public ActionResult Index(string sortOrder, string searchString, string Command)
         {
             //Redirect back to login page if not authenticated
             if (!HttpContext.User.Identity.IsAuthenticated)
@@ -31,13 +31,19 @@ namespace Ritual.Booking.Web.Controllers
             var locations = from l in db.Locations
                             select l;
 
-            if (!String.IsNullOrEmpty(searchString))
+            if (Command == "Search")
             {
-                locations = locations.Where(l => l.Name.Contains(searchString)
-                                       || l.Country.Contains(searchString)
-                                       || l.Address.Contains(searchString));
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    locations = locations.Where(l => l.Name.Contains(searchString)
+                                           || l.Country.Contains(searchString)
+                                           || l.Address.Contains(searchString));
+                }
             }
+            else if (Command == "Reset")
+            {
 
+            }
             switch (sortOrder)
             {
                 case "name_desc":

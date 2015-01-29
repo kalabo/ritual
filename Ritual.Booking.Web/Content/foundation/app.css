@@ -699,3 +699,38 @@ div.alert-box {
 .skin-green .logo:hover {
     background: #05838b;
 }
+
+
+
+.card-container {
+    position: relative;
+}
+
+.text-elg {
+font-size: 32px!important;
+font-weight:bold;
+line-height: 34px;
+margin:0px;
+padding:0px 0px 10px 0px    ;
+}
+
+.card-container .card {
+    min-height: 110px;
+    margin-bottom: 20px;
+    position: relative;
+    width: 100%;
+    cursor: pointer;
+    z-index: 9;
+}
+.card-container .card .front {
+    height: 100%;
+    position: relative;
+    width: 100%;
+    padding: 28px;
+    top: 0;
+    left: 0;
+    z-index: 11;
+    background-color:#16a085!important;
+    color:#fff;
+}
+

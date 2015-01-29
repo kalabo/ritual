@@ -20,18 +20,19 @@
             </p>
             @using (Html.BeginForm())
             {
-                <label class="control-label">Location Search</label>
-                <p>Find by name:</p>
+                <label class="control-label">Package Search</label>
+                <p>Find by name or type:</p>
                 @Html.TextBox("SearchString", "", new { @class = "form-control" })
-                <input type="submit" class="button" value="Search" />
+                <input type="submit" class="button" name="Command" value="Search" />
+                <input type="submit" class="button" name="Command" value="Reset" />
             }
             <table class="table">
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.Name)
+                        @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParam })
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.PackageType)
+                        @Html.ActionLink("Package Type", "Index", new { sortOrder = ViewBag.PackageTypeSortParm })
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.PackagePeriodMonths)

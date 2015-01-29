@@ -52,6 +52,8 @@ public partial class Member
 
     public string AspNetUserId { get; set; }
 
+    public int Pin { get; set; }
+
 
 
     public virtual AspNetUser AspNetUser { get; set; }

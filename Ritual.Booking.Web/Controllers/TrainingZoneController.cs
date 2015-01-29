@@ -82,15 +82,16 @@ namespace Ritual.Booking.Web.Controllers
             TrainingZoneDashboardData dashboardModel = new TrainingZoneDashboardData();
 
             var member = db.Members.Where(m => m.AspNetUserId == user.Id).Single();
+            dashboardModel.UserMember = member;
             dashboardModel.UserHomeLocation = db.Locations.Where(l => l.Id == member.HomeLocationId).FirstOrDefault();
             dashboardModel.UserActiveMembership = db.Memberships.Where(m => m.MemberId == member.Id && m.MembershipStateId == 1).FirstOrDefault();
             if (dashboardModel.UserActiveMembership != null)
             {
                 dashboardModel.DaysTillMembershipExpiry = Convert.ToInt32((dashboardModel.UserActiveMembership.EndDate - DateTime.Now).TotalDays);
             }
-            dashboardModel.UpcomingBookings = db.SessionBookings.Where(m => m.MemberId == member.Id && m.LocationId == member.HomeLocationId && m.Date >= todaysDate);
-            dashboardModel.PastBookings = db.SessionBookings.Where(m => m.MemberId == member.Id && m.LocationId == member.HomeLocationId && m.Date < todaysDate);
-            dashboardModel.QuarterlyAssessments = db.QuarterlyAssessments.Where(qa => qa.MemberId == member.Id);
+            dashboardModel.UpcomingBookings = db.SessionBookings.Where(m => m.MemberId == member.Id && m.LocationId == member.HomeLocationId && m.Date >= todaysDate).OrderByDescending(m => m.Date).ThenBy(m => m.TimeSlot.StartTime).Take(5); 
+            dashboardModel.PastBookings = db.SessionBookings.Where(m => m.MemberId == member.Id && m.LocationId == member.HomeLocationId && m.Date < todaysDate).OrderByDescending(m => m.Date).ThenBy(m => m.TimeSlot.StartTime).Take(5);
+            dashboardModel.QuarterlyAssessments = db.QuarterlyAssessments.Where(qa => qa.MemberId == member.Id).OrderByDescending(qa => qa.QADateTime).Take(5);
             //if (dashboardModel. == null)
             //{
             //    return HttpNotFound();

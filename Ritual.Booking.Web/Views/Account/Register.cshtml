@@ -8,9 +8,6 @@
     <div class="row">
         <div class="large-12 columns">
             <h1>@ViewBag.Title</h1>
-            <ol class="breadcrumbs">
-                <li><i class="fa fa-cogs"></i> <a href="default.aspx">Home</a></li>
-            </ol>
         </div>
     </div>
 </section>
@@ -26,42 +23,40 @@
                         @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                         {
                             @Html.AntiForgeryToken()
-                            <h4>Create a new account.</h4>
+                            <h2>Create a new account.</h2>
                             <hr />
                             @Html.ValidationSummary("", new { @class = "text-danger" })
                             <div class="form-group">
                                 @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                                <p>Please enter your email address</p>
-                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
                             </div>
 
                             <div class="form-group">
                                 @Html.LabelFor(m => m.Salutation, new { @class = "col-md-2 control-label" })
-                                <p>Please enter your salutation</p>
-                                    @Html.TextBoxFor(m => m.Salutation, new { @class = "form-control" })
+                                @Html.TextBoxFor(m => m.Salutation, new { @class = "form-control" })
                             </div>
 
                             <div class="form-group">
                                 @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
-                                <p>Please enter your first name</p>
-                                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
                             </div>
 
                             <div class="form-group">
                                 @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
-                                <p>Please enter your lastname</p>
-                                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
                             </div>
 
                             <div class="form-group">
                                 @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                                <p>Please enter a secure password.  Passwords require Uppercase, lowercase and symbols</p>
-                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-                                <p>Please confirm your password</p>
-                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Pin, new { @class = "col-md-2 control-label" })
+                                @Html.PasswordFor(m => m.Pin, new { @class = "form-control" })
                             </div>
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-10">

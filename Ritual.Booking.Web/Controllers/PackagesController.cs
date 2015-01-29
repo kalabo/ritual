@@ -15,9 +15,49 @@ namespace Ritual.Booking.Web.Controllers
         private RitualDBEntities db = new RitualDBEntities();
 
         // GET: Packages
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string searchString, string Command)
         {
-            return View(db.Packages.ToList());
+            //Redirect back to login page if not authenticated
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.PackageTypeSortParm = sortOrder == "packagetype" ? "packagetype_desc" : "packagetype";
+
+            var packages = from m in db.Packages select m;
+
+            if (Command == "Search")
+            {
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    packages = packages.Where(p => p.Name.Contains(searchString)
+                                           || p.PackageType.Contains(searchString));
+                }
+            }
+            else if (Command == "Reset")
+            {
+
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    packages = packages.OrderByDescending(p => p.Name);
+                    break;
+                case "packagetype":
+                    packages = packages.OrderBy(p => p.PackageType);
+                    break;
+                case "packagetype_desc":
+                    packages = packages.OrderByDescending(p => p.PackageType);
+                    break;
+                default:
+                    packages = packages.OrderBy(p => p.Name);
+                    break;
+            }
+
+            return View(packages.ToList());
         }
 
         // GET: Packages/Details/5

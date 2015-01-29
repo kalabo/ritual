@@ -52,6 +52,7 @@
           <Property Name="MobilePhone" Type="nvarchar" MaxLength="50" />
           <Property Name="HomeLocationId" Type="int" Nullable="false" />
           <Property Name="AspNetUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Pin" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Membership">
           <Key>
@@ -699,6 +700,7 @@
           <NavigationProperty Name="SessionBookings" Relationship="RitualDBModel.FK_Booking_Member" FromRole="Member" ToRole="SessionBooking" />
           <NavigationProperty Name="Memberships" Relationship="RitualDBModel.FK_Membership_Member1" FromRole="Member" ToRole="Membership" />
           <NavigationProperty Name="QuarterlyAssessments" Relationship="RitualDBModel.FK_QuarterlyAssessment_Member" FromRole="Member" ToRole="QuarterlyAssessment" />
+          <Property Name="Pin" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Membership">
           <Key>
@@ -1162,6 +1164,7 @@
           <EntitySetMapping Name="Members">
             <EntityTypeMapping TypeName="RitualDBModel.Member">
               <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="Pin" ColumnName="Pin" />
                 <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
                 <ScalarProperty Name="HomeLocationId" ColumnName="HomeLocationId" />
                 <ScalarProperty Name="MobilePhone" ColumnName="MobilePhone" />

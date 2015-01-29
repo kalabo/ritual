@@ -16,7 +16,7 @@ namespace Ritual.Booking.Web.Controllers
         private RitualDBEntities db = new RitualDBEntities();
 
         // GET: Members
-        public ActionResult Index(string sortOrder, string searchString)
+        public ActionResult Index(string sortOrder, string searchString, string Command)
         {
             //Redirect back to login page if not authenticated
             if (!HttpContext.User.Identity.IsAuthenticated)
@@ -29,21 +29,20 @@ namespace Ritual.Booking.Web.Controllers
 
             var members = from m in db.Members.Include(m => m.AspNetUser).Include(m => m.Location) select m;
 
-            if (Request.Form["searchButton"] != null)
+            if (Command == "Search")
             {
-                // Code for function 1
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    members = members.Where(m => m.LastName.Contains(searchString)
+                                           || m.HomePhone.Contains(searchString)
+                                           || m.MobilePhone.Contains(searchString)
+                                           || m.FirstName.Contains(searchString)
+                                           || m.IdentificationNumber.Contains(searchString));
+                }
             }
-            else if (Request.Form["resetButton"] != null)
+            else if (Command == "Reset")
             {
-                // code for function 2
-            }
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                members = members.Where(m => m.LastName.Contains(searchString)
-                                       || m.HomePhone.Contains(searchString)
-                                       || m.MobilePhone.Contains(searchString)
-                                       || m.FirstName.Contains(searchString)
-                                       || m.IdentificationNumber.Contains(searchString));
+
             }
 
             switch (sortOrder)
@@ -61,7 +60,7 @@ namespace Ritual.Booking.Web.Controllers
                     members = members.OrderBy(m => m.LastName);
                     break;
             }
-            
+
             return View(members.ToList());
         }
 
@@ -145,7 +144,7 @@ namespace Ritual.Booking.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Member member = db.Members.Find(id);
-            
+
             if (member == null)
             {
                 return HttpNotFound();
@@ -154,7 +153,7 @@ namespace Ritual.Booking.Web.Controllers
             ViewBag.HomeLocationId = new SelectList(db.Locations, "Id", "Name", member.HomeLocationId);
             return View(member);
         }
-        
+
         // POST: Members/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
