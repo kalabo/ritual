@@ -150,6 +150,7 @@
     <None Include="Scripts\ritualdb-schema.sql" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\BookingScreenAvailabilityQuery.sql" />
     <Content Include="Scripts\data.sql" />
     <Content Include="Scripts\membership.sql" />
   </ItemGroup>
