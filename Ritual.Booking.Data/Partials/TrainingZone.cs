@@ -8,6 +8,11 @@ namespace Ritual.Booking.Data
 {
     public class TrainingZoneDashboardData
     {
+        public Location UserHomeLocation { get; set; }
+        public int DaysTillMembershipExpiry { get; set; }
+        public int BookingsInLastThirtyDays { get; set; }
+        public OpeningHour TodaysOpeningHours { get; set; }
+        public Membership UserActiveMembership { get; set; }
         public IEnumerable<SessionBooking> UpcomingBookings { get; set; }
         public IEnumerable<SessionBooking> PastBookings { get; set; }
         public IEnumerable<SessionBooking> MissedBookings { get; set; }

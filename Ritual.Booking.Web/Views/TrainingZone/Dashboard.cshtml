@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Ritual.Booking.Data.TrainingZoneDashboardData
+
+@{
     ViewBag.Title = "Training Zone Dashboard";
 }
 <section class="content-header">
@@ -18,12 +20,75 @@
     <div class="row">
         <div class="large-4 medium-4 columns">
             <h3>My Upcoming Bookings</h3>
+            <table class="table">
+                <tr>
+                    <th>Date</th>
+                    <th>Start Time</th>
+                    <th>Location</th>
+                </tr>
+                @foreach (var item in Model.UpcomingBookings)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TimeSlot.StartTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Location.Name)
+                        </td>
+                    </tr>
+                }
+            </table>
         </div>
         <div class="large-4 medium-4 columns">
             <h3>My Past Bookings</h3>
+            <table class="table">
+                <tr>
+                    <th>Date</th>
+                    <th>Start Time</th>
+                    <th>Location</th>
+                </tr>
+                @foreach (var item in Model.PastBookings)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TimeSlot.StartTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Location.Name)
+                        </td>
+                    </tr>
+                }
+            </table>
         </div>
         <div class="large-4 medium-4 columns">
             <h3>My Quarterly Assessments</h3>
+            <table class="table">
+                <tr>
+                    <th>Date</th>
+                    <th>Trainer</th>
+                    <th>RPE</th>
+                </tr>
+                @foreach (var item in Model.QuarterlyAssessments)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.QADateTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Trainer.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.QAClientRPE)
+                        </td>
+                    </tr>
+                }
+            </table>
         </div>
     </div>
 </section>

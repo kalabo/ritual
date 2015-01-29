@@ -40,8 +40,8 @@ namespace Ritual.Booking.Web.Controllers
             }
 
             return View();
-        }        
-        
+        }
+
         // GET: MyAssessments
         public ActionResult MyAssessments()
         {
@@ -58,7 +58,7 @@ namespace Ritual.Booking.Web.Controllers
 
             return View();
         }
-        
+
         // GET: TrainingZone
         public ActionResult Dashboard()
         {
@@ -68,7 +68,7 @@ namespace Ritual.Booking.Web.Controllers
                 return RedirectToAction("Login", "Account");
             }
             //If user is not a member then redirect to homepage.
-            if(!HttpContext.User.IsInRole("Member"))
+            if (!HttpContext.User.IsInRole("Member"))
             {
                 return RedirectToAction("Home", "Index");
             }
@@ -78,10 +78,19 @@ namespace Ritual.Booking.Web.Controllers
             var user = UserManager.FindById(User.Identity.GetUserId());
 
             //var members = db.Members;
+            DateTime todaysDate = DateTime.Now;
+            TrainingZoneDashboardData dashboardModel = new TrainingZoneDashboardData();
 
-            var dashboardModel = new TrainingZoneDashboardData();
-            //dashboardModel. = db.OpeningHours.Where(m => m.LocationId == id);
-
+            var member = db.Members.Where(m => m.AspNetUserId == user.Id).Single();
+            dashboardModel.UserHomeLocation = db.Locations.Where(l => l.Id == member.HomeLocationId).FirstOrDefault();
+            dashboardModel.UserActiveMembership = db.Memberships.Where(m => m.MemberId == member.Id && m.MembershipStateId == 1).FirstOrDefault();
+            if (dashboardModel.UserActiveMembership != null)
+            {
+                dashboardModel.DaysTillMembershipExpiry = Convert.ToInt32((dashboardModel.UserActiveMembership.EndDate - DateTime.Now).TotalDays);
+            }
+            dashboardModel.UpcomingBookings = db.SessionBookings.Where(m => m.MemberId == member.Id && m.LocationId == member.HomeLocationId && m.Date >= todaysDate);
+            dashboardModel.PastBookings = db.SessionBookings.Where(m => m.MemberId == member.Id && m.LocationId == member.HomeLocationId && m.Date < todaysDate);
+            dashboardModel.QuarterlyAssessments = db.QuarterlyAssessments.Where(qa => qa.MemberId == member.Id);
             //if (dashboardModel. == null)
             //{
             //    return HttpNotFound();
