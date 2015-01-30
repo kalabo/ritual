@@ -152,6 +152,8 @@
   <ItemGroup>
     <Content Include="Scripts\BookingScreenAvailabilityQuery.sql" />
     <Content Include="Scripts\data.sql" />
+    <Content Include="Scripts\GetImminentSessionBookings.sql" />
+    <Content Include="Scripts\GetNextBookingSlotsWindow.sql" />
     <Content Include="Scripts\membership.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
