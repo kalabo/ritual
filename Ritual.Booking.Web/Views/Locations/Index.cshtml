@@ -25,7 +25,8 @@
                 <label class="control-label">Location Search</label>
                 <p>Find by name, country or address:</p>
                 @Html.TextBox("SearchString", "", new { @class = "form-control" })
-                <input type="submit" class="button" value="Search" />              
+                <input type="submit" class="button" name="Command" value="Search" />
+                <input type="submit" class="button" name="Command" value="Reset" />
             }
             <table class="table">
                 <tr>
@@ -46,9 +47,6 @@
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.TimeZoneOffset)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Coordinates)
                     </th>
                     <th>Action</th>
                 </tr>
@@ -73,9 +71,6 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.TimeZoneOffset)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Coordinates)
                         </td>
                         <td>
                             @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "button" })

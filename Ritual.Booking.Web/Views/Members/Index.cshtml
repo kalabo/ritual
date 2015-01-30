@@ -24,8 +24,8 @@
                 <label class="control-label">Member Search</label>
                 <p>Find by First Name, Last Name, ID Number or phone number:</p>
                 @Html.TextBox("SearchString", "", new { @class = "form-control" })
-                <input type="submit" class="button" name="searchButton" value="Search" />
-                <input type="submit" class="button" name="resetButton" value="Reset" />
+                <input type="submit" class="button" name="Command" value="Search" />
+                <input type="submit" class="button" name="Command" value="Reset" />
             }
             <table class="table">
                 <tr>
@@ -60,7 +60,7 @@
                             @Html.DisplayFor(modelItem => item.Location.Name)
                         </td>
                         <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "button" }) 
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "button" })
                             @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "button" })
                             @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "button" })
                         </td>

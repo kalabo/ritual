@@ -173,6 +173,7 @@ namespace Ritual.Booking.Web.Controllers
                         Salutation = model.Salutation,
                         FirstName = model.FirstName,
                         LastName = model.LastName,
+                        Pin = model.Pin,
                         HomeLocationId = 1,
                         IdentificationNumber = "member" + DateTime.Now.Ticks.ToString()
                     };

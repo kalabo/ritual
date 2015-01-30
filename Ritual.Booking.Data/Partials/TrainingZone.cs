@@ -9,6 +9,7 @@ namespace Ritual.Booking.Data
     public class TrainingZoneDashboardData
     {
         public Location UserHomeLocation { get; set; }
+        public Member UserMember { get; set; }
         public int DaysTillMembershipExpiry { get; set; }
         public int BookingsInLastThirtyDays { get; set; }
         public OpeningHour TodaysOpeningHours { get; set; }
@@ -17,5 +18,14 @@ namespace Ritual.Booking.Data
         public IEnumerable<SessionBooking> PastBookings { get; set; }
         public IEnumerable<SessionBooking> MissedBookings { get; set; }
         public IEnumerable<QuarterlyAssessment> QuarterlyAssessments { get; set; }
+    }
+
+    public class TrainingZoneMyRitualData
+    {
+        public Location UserHomeLocation { get; set; }
+        public Member UserMember { get; set; }
+        public int DaysTillMembershipExpiry { get; set; }
+        public Membership UserActiveMembership { get; set; }
+        public IEnumerable<Membership> UserPastMemberships { get; set; }
     }
 }

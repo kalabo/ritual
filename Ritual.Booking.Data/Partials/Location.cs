@@ -16,9 +16,35 @@ namespace Ritual.Booking.Data
         public IEnumerable<Member> Members { get; set; }
     }
 
+    public class RitualLocations
+    {
+        public string latitude { get; set; }
+        public string longitude { get; set; }
+
+        public RitualLocations(string latitude, string longitude)
+        {
+            this.latitude = latitude;
+            this.longitude = longitude;
+        }
+    }
+
     [MetadataType(typeof(LocationMetadata))]
     public partial class Location
     {
+        public string Latitude
+        {
+            get
+            {
+                return this.Coordinates.Latitude.ToString();
+            }
+        }
+        public string Longitude
+        {
+            get
+            {
+                return this.Coordinates.Longitude.ToString();
+            }
+        }
     }
 
 
