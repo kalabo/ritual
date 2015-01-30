@@ -39,7 +39,24 @@ namespace Ritual.Booking.Web.Controllers
                 return RedirectToAction("Home", "Index");
             }
 
-            return View();
+            this.ApplicationDbContext = new ApplicationDbContext();
+            this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
+            var user = UserManager.FindById(User.Identity.GetUserId());
+
+            //var members = db.Members;
+            DateTime todaysDate = DateTime.Now;
+            TrainingZoneMyRitualData dashboardModel = new TrainingZoneMyRitualData();
+            var member = db.Members.Where(m => m.AspNetUserId == user.Id).Single();
+            dashboardModel.UserMember = member;
+            dashboardModel.UserHomeLocation = db.Locations.Where(l => l.Id == member.HomeLocationId).FirstOrDefault();
+            dashboardModel.UserActiveMembership = db.Memberships.Where(m => m.MemberId == member.Id && m.MembershipStateId == 1).FirstOrDefault();
+            dashboardModel.UserPastMemberships = db.Memberships.Where(m => m.MemberId == member.Id && m.MembershipStateId != 1);            
+            if (dashboardModel.UserActiveMembership != null)
+            {
+                dashboardModel.DaysTillMembershipExpiry = Convert.ToInt32((dashboardModel.UserActiveMembership.EndDate - DateTime.Now).TotalDays);
+            }
+
+            return View(dashboardModel);
         }
 
         // GET: MyAssessments

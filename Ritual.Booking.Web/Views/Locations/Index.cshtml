@@ -48,9 +48,6 @@
                     <th>
                         @Html.DisplayNameFor(model => model.TimeZoneOffset)
                     </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Coordinates)
-                    </th>
                     <th>Action</th>
                 </tr>
 
@@ -74,9 +71,6 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.TimeZoneOffset)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Coordinates)
                         </td>
                         <td>
                             @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "button" })

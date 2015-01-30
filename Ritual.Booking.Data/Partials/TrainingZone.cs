@@ -19,4 +19,13 @@ namespace Ritual.Booking.Data
         public IEnumerable<SessionBooking> MissedBookings { get; set; }
         public IEnumerable<QuarterlyAssessment> QuarterlyAssessments { get; set; }
     }
+
+    public class TrainingZoneMyRitualData
+    {
+        public Location UserHomeLocation { get; set; }
+        public Member UserMember { get; set; }
+        public int DaysTillMembershipExpiry { get; set; }
+        public Membership UserActiveMembership { get; set; }
+        public IEnumerable<Membership> UserPastMemberships { get; set; }
+    }
 }

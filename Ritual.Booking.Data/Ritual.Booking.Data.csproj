@@ -67,6 +67,12 @@
       <DependentUpon>Entities.edmx</DependentUpon>
     </Compile>
     <Compile Include="Enums.cs" />
+    <Compile Include="GetAllBookings_Result.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetAllTrainers_Result.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Location.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>

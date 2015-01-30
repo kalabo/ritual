@@ -8,7 +8,6 @@ using System.Web;
 using System.Web.Mvc;
 using Ritual.Booking.Data;
 using PagedList;
-using Ritual.Booking.Data;
 
 namespace Ritual.Booking.Web.Controllers
 {
@@ -61,6 +60,14 @@ namespace Ritual.Booking.Web.Controllers
             }
             return View(locations.ToList());
 
+        }
+
+        public ActionResult GetCurrentLocationMapData(int id)
+        {
+            var rituallocations = new List<RitualLocations>();
+            var location = db.Locations.Find(id);
+            rituallocations.Add(new RitualLocations(location.Latitude, location.Longitude));
+            return Json(rituallocations, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Locations/Details/5
@@ -151,7 +158,7 @@ namespace Ritual.Booking.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Address,PhoneNumber,PostCode,Country,TimeZoneOffset,Coordinates")] Location location)
+        public ActionResult Edit([Bind(Include = "Id,Name,Address,PhoneNumber,PostCode,Country,TimeZoneOffset")] Location location)
         {
             //Redirect back to login page if not authenticated
             if (!HttpContext.User.Identity.IsAuthenticated)

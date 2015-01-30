@@ -17,6 +17,9 @@ using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 
+using System.Data.Entity.Core.Objects;
+using System.Linq;
+
 
 public partial class RitualDBEntities : DbContext
 {
@@ -61,6 +64,22 @@ public partial class RitualDBEntities : DbContext
     public virtual DbSet<TimeSlot> TimeSlots { get; set; }
 
     public virtual DbSet<Trainer> Trainers { get; set; }
+
+
+    public virtual ObjectResult<GetAllBookings_Result> GetAllBookings()
+    {
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllBookings_Result>("GetAllBookings");
+    }
+
+
+    public virtual ObjectResult<GetAllTrainers_Result> GetAllTrainers()
+    {
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllTrainers_Result>("GetAllTrainers");
+    }
+
+    public System.Data.Entity.DbSet<Ritual.Booking.Data.GetAllBookings_Result> GetAllBookings_Result { get; set; }
 
 }
 
