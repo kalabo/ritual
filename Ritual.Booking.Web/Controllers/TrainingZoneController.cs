@@ -129,12 +129,46 @@ namespace Ritual.Booking.Web.Controllers
             {
                 return RedirectToAction("Home", "Index");
             }
+            TrainingZoneBookingData TrainingZoneModel = new TrainingZoneBookingData();
+            this.ApplicationDbContext = new ApplicationDbContext();
+            this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
+            var user = UserManager.FindById(User.Identity.GetUserId());            
+            var member = db.Members.Where(m => m.AspNetUserId == user.Id).Single();
 
-            return View();
+            TrainingZoneModel.AvailableBookingSlots = db.GetNextBookingSlotsWindow(member.HomeLocationId, DateTime.Now).ToList();
+            return View(TrainingZoneModel);
         }
 
+
+        public ActionResult AddNewBooking(int timeslotId, string bookingDate)
+        {
+            this.ApplicationDbContext = new ApplicationDbContext();
+            this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            var member = db.Members.Where(m => m.AspNetUserId == user.Id).Single();
+
+            SessionBooking booking = new SessionBooking();
+            booking.TimeSlotId = timeslotId;
+            booking.Date = Convert.ToDateTime(bookingDate);
+            booking.MemberId = member.Id;
+            booking.LocationId = member.HomeLocationId;
+            //Set booking to "pending"
+            booking.BookingStateId = 1;
+            //Set Default RPE
+            booking.RPEFeeling = 0;
+            booking.RPEPush = 0;
+
+            //Maybe remove trainer
+            booking.TrainerId = 1;
+
+            db.SessionBookings.Add(booking);
+            db.SaveChanges();
+            return Json("Insert Successful", JsonRequestBehavior.AllowGet);
+        }
+
+
         // GET: TrainingZone
-        public ActionResult ConfirmBooking(int? id)
+        public ActionResult CancelBooking(int? BookingId)
         {
             //Redirect back to login page if not authenticated
             if (!HttpContext.User.Identity.IsAuthenticated)
@@ -147,8 +181,101 @@ namespace Ritual.Booking.Web.Controllers
                 return RedirectToAction("Home", "Index");
             }
 
+            TrainingZoneCancelBooking TrainingZoneCancelBookingModel = new TrainingZoneCancelBooking();
+            this.ApplicationDbContext = new ApplicationDbContext();
+            this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            var member = db.Members.Where(m => m.AspNetUserId == user.Id).Single();
+
+            TrainingZoneCancelBookingModel.sessionBooking = db.SessionBookings.Where(l => l.Id == BookingId).FirstOrDefault();
+
+            return View(TrainingZoneCancelBookingModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteBookingConfirmed(int id)
+        {
+            //Redirect back to login page if not authenticated
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            SessionBooking booking = db.SessionBookings.Find(id);
+            db.SessionBookings.Remove(booking);
+            db.SaveChanges();
+            return RedirectToAction("Dashboard");
+        }
+
+
+        // GET: TrainingZone
+        public ActionResult ConfirmBooking(int TimeSlotId, int LocationId, DateTime BookingDate)
+        {
+            //Redirect back to login page if not authenticated
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            //If user is not a member then redirect to homepage.
+            if (!HttpContext.User.IsInRole("Member"))
+            {
+                return RedirectToAction("Home", "Index");
+            }
+
+            TrainingZoneConfirmBooking TrainingZoneConfirmBookingModel = new TrainingZoneConfirmBooking();
+            this.ApplicationDbContext = new ApplicationDbContext();
+            this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            var member = db.Members.Where(m => m.AspNetUserId == user.Id).Single();
+
+            TrainingZoneConfirmBookingModel.bookingLocation = db.Locations.Where(l => l.Id == LocationId).FirstOrDefault();
+            TrainingZoneConfirmBookingModel.bookingTimeslot = db.TimeSlots.Where(t => t.Id == TimeSlotId).FirstOrDefault();
+            TrainingZoneConfirmBookingModel.bookingDate = BookingDate;
+            TrainingZoneConfirmBookingModel.bookingMember = member;
+
+            return View(TrainingZoneConfirmBookingModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddNewBooking(int TimeSlotId, int LocationId, DateTime BookingDate)
+        {
+            //Redirect back to login page if not authenticated
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            if (ModelState.IsValid)
+            {
+                this.ApplicationDbContext = new ApplicationDbContext();
+                this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
+                var user = UserManager.FindById(User.Identity.GetUserId());
+                var member = db.Members.Where(m => m.AspNetUserId == user.Id).Single();
+
+                SessionBooking booking = new SessionBooking();
+                booking.TimeSlotId = TimeSlotId;
+                booking.Date = BookingDate;
+                booking.MemberId = member.Id;
+                booking.LocationId = member.HomeLocationId;
+                //Set booking to "pending"
+                booking.BookingStateId = 1;
+                //Set Default RPE
+                booking.RPEFeeling = 0;
+                booking.RPEPush = 0;
+
+                //Maybe remove trainer
+                booking.TrainerId = 1;
+
+                db.SessionBookings.Add(booking);
+                db.SaveChanges();
+                return RedirectToAction("Dashboard");
+            }
+
             return View();
         }
+
 
         // GET: TrainingZone/DeleteBooking/5
         public ActionResult DeleteBooking(int? id)
@@ -170,22 +297,6 @@ namespace Ritual.Booking.Web.Controllers
             //}
             //return View(location);
             return View();
-        }
-
-        // POST: TrainingZone/DeleteBooking/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteBookingConfirmed(int id)
-        {
-            //Redirect back to login page if not authenticated
-            if (!HttpContext.User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            //Member member = db.Members.Find(id);
-            //db.Members.Remove(member);
-            //db.SaveChanges();
-            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

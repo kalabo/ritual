@@ -17,21 +17,19 @@ CREATE PROCEDURE [dbo].[GetNextBookingSlotsWindow]
 AS
 BEGIN
 
-	declare @DayOne Date
+declare @DayOne Date
 	declare @DayTwo Date
 	declare @DayThree Date
-
+	set datefirst 1
 	select @DayOne = CONVERT(date, @CurrentDateTime)
 	select @DayTwo = DATEADD(DAY, 1, @DayOne)
 	select @DayThree = DATEADD(DAY, 2, @DayOne)
-
-	set datefirst 1
 
 	select 
 		TimeSlot.Id as TimeSlotId,
 		@LocationId as LocationId,
 		BookingDays.BookingDay,
-		BookingDays.WeekDay,
+		datename(dw,BookingDays.WeekDay) as DayOfWeek,
 		TimeSlot.StartTime, 
 		TimeSlot.EndTime,
 		(select count(id) from SessionBooking where LocationId = @LocationId and TimeSlotId = TimeSlot.Id and [Date] = BookingDays.BookingDay) as BookingCount,
@@ -41,6 +39,12 @@ BEGIN
 			TimeSlot.StartTime between OpeningHourOverride.AltOpenTime and OpeningHourOverride.AltCloseTme and 
 			TimeSlot.EndTime between OpeningHourOverride.AltOpenTime and OpeningHourOverride.AltCloseTme THEN 'Closed'
 			ELSE 'Available'
+		END ,ClosureReason = 
+	   CASE   
+			WHEN OpeningHourOverride.LocationId is not null and 
+			TimeSlot.StartTime between OpeningHourOverride.AltOpenTime and OpeningHourOverride.AltCloseTme and 
+			TimeSlot.EndTime between OpeningHourOverride.AltOpenTime and OpeningHourOverride.AltCloseTme THEN OpeningHourOverride.OverrideReason
+			ELSE ''
 		END 
 	from 
 		TimeSlot, 
@@ -64,6 +68,3 @@ BEGIN
 		TimeSlot.StartTime
 
 END
-
-GO
-

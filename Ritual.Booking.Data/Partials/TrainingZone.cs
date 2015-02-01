@@ -28,4 +28,22 @@ namespace Ritual.Booking.Data
         public Membership UserActiveMembership { get; set; }
         public IEnumerable<Membership> UserPastMemberships { get; set; }
     }
+
+    public class TrainingZoneConfirmBooking
+    {
+        public DateTime bookingDate { get; set; }
+        public Location bookingLocation { get; set; }
+        public Member bookingMember { get; set; }
+        public TimeSlot bookingTimeslot { get; set; }
+    }
+
+    public class TrainingZoneCancelBooking
+    {
+        public SessionBooking sessionBooking { get; set; }
+    }
+
+    public class TrainingZoneBookingData
+    {
+        public IEnumerable<GetNextBookingSlotsWindow_Result> AvailableBookingSlots { get; set; }
+    }
 }

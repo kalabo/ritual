@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "Leave us some feedback";
+}
+<section class="content-header">
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>@ViewBag.Title</h1>
+        </div>
+    </div>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="large-12 columns">
+            <div class="row">
+
+                <a href="@Url.Action("checkin", "FrontOfHouse")">
+                    <div class="card-container large-4 medium-6 small-12 columns">
+                        <div class="card">
+                            <div class="front bg-greensea">
+                                <!-- row -->
+                                <div class="row collapse">
+                                    <!-- col -->
+                                    <div class="small-3 columns">
+                                        <i class="fa fa-check-square"></i>
+                                    </div>
+                                    <!-- /col --> <!-- col -->
+                                    <div class="small-9 columns">
+                                        <p class="text-elg text-strong mb-0">Check in</p>
+                                        <span>Let us know you are ready for your 30 min training.</span>
+                                    </div> <!-- /col -->
+                                </div> <!-- /row -->
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <a href="@Url.Action("OrderShake", "FrontOfHouse")">
+                    <div class="card-container large-4 medium-6 small-12 columns">
+                        <div class="card">
+                            <div class="front bg-greensea">
+                                <!-- row -->
+                                <div class="row collapse">
+                                    <!-- col -->
+                                    <div class="small-3 columns">
+                                        <i class="fa fa-beer"></i>
+                                    </div>
+                                    <!-- /col --> <!-- col -->
+                                    <div class="small-9 columns">
+                                        <p class="text-elg text-strong mb-0">Pre-order a Shake</p>
+                                        <span>Want a shake for after your training session?</span>
+                                    </div> <!-- /col -->
+                                </div> <!-- /row -->
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <a href="@Url.Action("LeaveFeedback", "FrontOfHouse")">
+                    <div class="card-container large-4 medium-6 small-12 columns">
+                        <div class="card">
+                            <div class="front bg-greensea">
+                                <!-- row -->
+                                <div class="row collapse">
+                                    <!-- col -->
+                                    <div class="small-3 columns">
+                                        <i class="fa fa-comments"></i>
+                                    </div>
+                                    <!-- /col --> <!-- col -->
+                                    <div class="small-9 columns">
+                                        <p class="text-elg text-strong mb-0">Feedback</p>
+                                        <span>We love to hear your feedback about your ritual experience.</span>
+                                    </div> <!-- /col -->
+                                </div> <!-- /row -->
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>

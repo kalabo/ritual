@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Ritual.Booking.Data.TrainingZoneBookingData
+
+@{
     ViewBag.Title = "Create a new Booking";
 }
 <section class="content-header">
@@ -16,6 +18,59 @@
             <div>
                 @Html.ActionLink("Back to Dashboard", "Dashboard", "", new { @class = "button" })
             </div>
+
+            @foreach (var item in Model.AvailableBookingSlots)
+            {
+                if (item.Status == "Available")
+                {
+
+                    <div class="booking-slot available">
+                        <h1>@Html.DisplayFor(modelItem => item.BookingDay.Value.DayOfWeek)</h1>
+                        <h2>Available</h2>
+                        @Html.DisplayFor(modelItem => item.StartTime)<br />
+                        @Html.DisplayFor(modelItem => item.BookingCount) of @Html.DisplayFor(modelItem => item.AvailableSlots)
+                        <br />
+                        <a href="@Url.Action("ConfirmBooking", "TrainingZone", new { TimeslotId = item.TimeSlotId, LocationId = item.LocationId, BookingDate = item.BookingDay })">
+                            <div class="button session-booking">Book</div>
+                        </a>
+                    </div>
+
+                }
+                else if (item.Status == "Closed")
+                {
+                    <div class="booking-slot closed">
+                        <h1>@Html.DisplayFor(modelItem => item.BookingDay.Value.DayOfWeek)</h1>
+                        <h2>Closed</h2>
+                        @Html.DisplayFor(modelItem => item.StartTime)<br />
+                        @Html.DisplayFor(modelItem => item.ClosureReason)<br />
+                    </div>
+
+                }
+                else if (item.Status == "Booked")
+                {
+
+
+                }
+            }
         </div>
     </div>
 </section>
+@section Scripts {
+    <script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.asdasdsession-booking').on("click", function () {
+                var TimeslotId = $(this).parent().data('timeslotid');
+                var BookingDate = $(this).parent().data('bookingdate');
+                var url = "/TrainingZone/AddNewBooking";
+                $.getJSON(url, { timeslotId: TimeslotId, bookingDate: BookingDate }, function (data) {
+                    alert('success');
+                    location.reload();
+                });
+            });
+
+        });
+
+    </script>
+}

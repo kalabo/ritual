@@ -449,8 +449,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="GetAllBookings" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="GetAllTrainers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetImminentSessionBookings" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LocationId" Type="int" Mode="In" />
+          <Parameter Name="CurrentDateTime" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="GetNextBookingSlotsWindow" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LocationId" Type="int" Mode="In" />
+          <Parameter Name="CurrentDateTime" Type="datetime" Mode="In" />
+        </Function>
         <EntityContainer Name="RitualDBModelStoreContainer">
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
@@ -640,8 +646,14 @@
             <End Role="TimeSlot" EntitySet="TimeSlots" />
             <End Role="SessionBooking" EntitySet="SessionBookings" />
           </AssociationSet>
-          <FunctionImport Name="GetAllBookings" ReturnType="Collection(RitualDBModel.GetAllBookings_Result)" />
-          <FunctionImport Name="GetAllTrainers" ReturnType="Collection(RitualDBModel.GetAllTrainers_Result)" />
+          <FunctionImport Name="GetImminentSessionBookings" ReturnType="Collection(RitualDBModel.GetImminentSessionBookings_Result)">
+            <Parameter Name="LocationId" Mode="In" Type="Int32" />
+            <Parameter Name="CurrentDateTime" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetNextBookingSlotsWindow" ReturnType="Collection(RitualDBModel.GetNextBookingSlotsWindow_Result)">
+            <Parameter Name="LocationId" Mode="In" Type="Int32" />
+            <Parameter Name="CurrentDateTime" Mode="In" Type="DateTime" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="AspNetUser">
           <Key>
@@ -1125,24 +1137,24 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="GetAllBookings_Result">
-          <Property Type="Int32" Name="Id" Nullable="false" />
-          <Property Type="Int32" Name="MemberId" Nullable="false" />
-          <Property Type="Int32" Name="LocationId" Nullable="false" />
-          <Property Type="DateTime" Name="Date" Nullable="false" />
-          <Property Type="Int32" Name="BookingStateId" Nullable="false" />
-          <Property Type="Int32" Name="RPEFeeling" Nullable="false" />
-          <Property Type="Int32" Name="RPEPush" Nullable="false" />
-          <Property Type="String" Name="TrainerNotes" Nullable="true" />
-          <Property Type="Int32" Name="TrainerId" Nullable="false" />
+        <ComplexType Name="GetImminentSessionBookings_Result">
           <Property Type="Int32" Name="TimeSlotId" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="GetAllTrainers_Result">
-          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="SessionBookingId" Nullable="false" />
+          <Property Type="Int32" Name="MemberId" Nullable="false" />
           <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="AspNetUserId" Nullable="false" MaxLength="128" />
-          <Property Type="Int32" Name="LocationId" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetNextBookingSlotsWindow_Result">
+          <Property Type="Int32" Name="TimeSlotId" Nullable="false" />
+          <Property Type="Int32" Name="LocationId" Nullable="true" />
+          <Property Type="DateTime" Name="BookingDay" Nullable="true" />
+          <Property Type="String" Name="DayOfWeek" Nullable="true" MaxLength="30" />
+          <Property Type="Time" Name="StartTime" Nullable="false" />
+          <Property Type="Time" Name="EndTime" Nullable="false" />
+          <Property Type="Int32" Name="BookingCount" Nullable="true" />
+          <Property Type="Int16" Name="AvailableSlots" Nullable="true" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="ClosureReason" Nullable="true" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1381,34 +1393,35 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetAllBookings" FunctionName="RitualDBModel.Store.GetAllBookings">
+          <FunctionImportMapping FunctionImportName="GetImminentSessionBookings" FunctionName="RitualDBModel.Store.GetImminentSessionBookings">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="RitualDBModel.GetAllBookings_Result">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="BookingStateId" ColumnName="BookingStateId" />
-                <ScalarProperty Name="RPEFeeling" ColumnName="RPEFeeling" />
-                <ScalarProperty Name="RPEPush" ColumnName="RPEPush" />
-                <ScalarProperty Name="TrainerNotes" ColumnName="TrainerNotes" />
-                <ScalarProperty Name="TrainerId" ColumnName="TrainerId" />
+              <ComplexTypeMapping TypeName="RitualDBModel.GetImminentSessionBookings_Result">
                 <ScalarProperty Name="TimeSlotId" ColumnName="TimeSlotId" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetAllTrainers" FunctionName="RitualDBModel.Store.GetAllTrainers">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="RitualDBModel.GetAllTrainers_Result">
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SessionBookingId" ColumnName="SessionBookingId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-        </EntityContainerMapping>
+          <FunctionImportMapping FunctionImportName="GetNextBookingSlotsWindow" FunctionName="RitualDBModel.Store.GetNextBookingSlotsWindow">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RitualDBModel.GetNextBookingSlotsWindow_Result">
+                <ScalarProperty Name="TimeSlotId" ColumnName="TimeSlotId" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="BookingDay" ColumnName="BookingDay" />
+                <ScalarProperty Name="DayOfWeek" ColumnName="DayOfWeek" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="BookingCount" ColumnName="BookingCount" />
+                <ScalarProperty Name="AvailableSlots" ColumnName="AvailableSlots" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ClosureReason" ColumnName="ClosureReason" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+         
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

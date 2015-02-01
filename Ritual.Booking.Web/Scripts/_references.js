@@ -26,3 +26,4 @@
 /// <reference path="foundation/foundation.reveal.js" />
 /// <reference path="foundation/foundation.section.js" />
 /// <reference path="foundation/foundation.tooltips.js" />
+/// <reference path="efspatialgooglemaps.js" />

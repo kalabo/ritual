@@ -14,28 +14,18 @@ namespace Ritual.Booking.Data
 
 using System;
     
-public partial class GetAllBookings_Result
+public partial class GetImminentSessionBookings_Result
 {
 
-    public int Id { get; set; }
+    public int TimeSlotId { get; set; }
+
+    public int SessionBookingId { get; set; }
 
     public int MemberId { get; set; }
 
-    public int LocationId { get; set; }
+    public string FirstName { get; set; }
 
-    public System.DateTime Date { get; set; }
-
-    public int BookingStateId { get; set; }
-
-    public int RPEFeeling { get; set; }
-
-    public int RPEPush { get; set; }
-
-    public string TrainerNotes { get; set; }
-
-    public int TrainerId { get; set; }
-
-    public int TimeSlotId { get; set; }
+    public string LastName { get; set; }
 
 }
 

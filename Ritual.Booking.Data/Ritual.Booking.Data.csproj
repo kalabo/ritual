@@ -67,10 +67,10 @@
       <DependentUpon>Entities.edmx</DependentUpon>
     </Compile>
     <Compile Include="Enums.cs" />
-    <Compile Include="GetAllBookings_Result.cs">
+    <Compile Include="GetImminentSessionBookings_Result.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
-    <Compile Include="GetAllTrainers_Result.cs">
+    <Compile Include="GetNextBookingSlotsWindow_Result.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="Location.cs">
@@ -101,6 +101,7 @@
     <Compile Include="PackageLocationPrice.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Partials\FrontOfHouse.cs" />
     <Compile Include="Partials\Location.cs" />
     <Compile Include="Partials\Package.cs" />
     <Compile Include="Partials\Membership.cs" />

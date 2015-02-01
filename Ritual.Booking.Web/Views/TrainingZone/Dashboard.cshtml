@@ -100,18 +100,22 @@
                     <th>Date</th>
                     <th>Start Time</th>
                     <th>Location</th>
+                    <th></th>
                 </tr>
                 @foreach (var item in Model.UpcomingBookings)
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Date)
+                            @item.Date.ToString("dddd, dd MMM, yyyy")
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.TimeSlot.StartTime)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Location.Name)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Delete", "CancelBooking", new { bookingId = item.Id }, new { @class = "button" })
                         </td>
                     </tr>
                 }
@@ -127,7 +131,7 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Date)
+                            @item.Date.ToString("dddd, dd MMM, yyyy")
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.TimeSlot.StartTime)
@@ -144,17 +148,13 @@
             <table class="table">
                 <tr>
                     <th>Date</th>
-                    <th>Trainer</th>
                     <th>RPE</th>
                 </tr>
                 @foreach (var item in Model.QuarterlyAssessments)
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.QADateTime)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Trainer.FullName)
+                            @item.QADateTime.Value.ToString("dddd, dd MMM, yyyy - hh:mm")
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.QAClientRPE)

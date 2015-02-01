@@ -1,0 +1,29 @@
+﻿@model Ritual.Booking.Data.FrontOfHouseCheckInData
+
+@{
+    ViewBag.Title = "Check in to your ritual session";
+}
+<section class="content-header">
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>@ViewBag.Title</h1>
+        </div>
+    </div>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="large-12 columns">
+            @foreach (var item in Model.NextSessionData)
+            {
+
+                <div class="booking-slot available">
+                    <h1>@item.FirstName @item.LastName</h1>
+                    <a href="@Url.Action("ConfirmCheckin", "FrontOfHouse", new { TimeslotId = item.TimeSlotId, SessionBookingId = item.SessionBookingId })">
+                        <div class="button session-booking">Check In</div>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</section>

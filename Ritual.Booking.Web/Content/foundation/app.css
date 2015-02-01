@@ -707,7 +707,7 @@ div.alert-box {
 }
 
 .text-elg {
-font-size: 32px!important;
+font-size: 28px!important;
 font-weight:bold;
 line-height: 34px;
 margin:0px;
@@ -734,3 +734,30 @@ padding:0px 0px 10px 0px    ;
     color:#fff;
 }
 
+.card-container .card i{
+    font-size:3em;
+}
+
+.booking-slot{
+    position:relative;
+    background-color:#000;
+    padding:10px;
+    width:200px;
+    height:200px;
+    margin:5px;
+    float:left;
+    color:#fff;
+}
+
+.booking-slot.closed
+{
+    background-color:#990000;
+}
+
+.session-booking
+{
+    padding:5px;
+    position:absolute;
+    bottom:-10px;
+    width:180px;
+}

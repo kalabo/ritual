@@ -66,20 +66,38 @@ public partial class RitualDBEntities : DbContext
     public virtual DbSet<Trainer> Trainers { get; set; }
 
 
-    public virtual ObjectResult<GetAllBookings_Result> GetAllBookings()
+    public virtual ObjectResult<GetImminentSessionBookings_Result> GetImminentSessionBookings(Nullable<int> locationId, Nullable<System.DateTime> currentDateTime)
     {
 
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllBookings_Result>("GetAllBookings");
+        var locationIdParameter = locationId.HasValue ?
+            new ObjectParameter("LocationId", locationId) :
+            new ObjectParameter("LocationId", typeof(int));
+
+
+        var currentDateTimeParameter = currentDateTime.HasValue ?
+            new ObjectParameter("CurrentDateTime", currentDateTime) :
+            new ObjectParameter("CurrentDateTime", typeof(System.DateTime));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetImminentSessionBookings_Result>("GetImminentSessionBookings", locationIdParameter, currentDateTimeParameter);
     }
 
 
-    public virtual ObjectResult<GetAllTrainers_Result> GetAllTrainers()
+    public virtual ObjectResult<GetNextBookingSlotsWindow_Result> GetNextBookingSlotsWindow(Nullable<int> locationId, Nullable<System.DateTime> currentDateTime)
     {
 
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllTrainers_Result>("GetAllTrainers");
-    }
+        var locationIdParameter = locationId.HasValue ?
+            new ObjectParameter("LocationId", locationId) :
+            new ObjectParameter("LocationId", typeof(int));
 
-    public System.Data.Entity.DbSet<Ritual.Booking.Data.GetAllBookings_Result> GetAllBookings_Result { get; set; }
+
+        var currentDateTimeParameter = currentDateTime.HasValue ?
+            new ObjectParameter("CurrentDateTime", currentDateTime) :
+            new ObjectParameter("CurrentDateTime", typeof(System.DateTime));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetNextBookingSlotsWindow_Result>("GetNextBookingSlotsWindow", locationIdParameter, currentDateTimeParameter);
+    }
 
 }
 
