@@ -21,9 +21,9 @@ public partial class AspNetUser
     public AspNetUser()
     {
 
-        this.Members = new HashSet<Member>();
+        this.Employees = new HashSet<Employee>();
 
-        this.Trainers = new HashSet<Trainer>();
+        this.Members = new HashSet<Member>();
 
     }
 
@@ -54,9 +54,9 @@ public partial class AspNetUser
 
 
 
-    public virtual ICollection<Member> Members { get; set; }
+    public virtual ICollection<Employee> Employees { get; set; }
 
-    public virtual ICollection<Trainer> Trainers { get; set; }
+    public virtual ICollection<Member> Members { get; set; }
 
 }
 

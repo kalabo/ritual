@@ -361,7 +361,6 @@
     <Content Include="Views\Locations\Details.cshtml" />
     <Content Include="Views\Locations\Edit.cshtml" />
     <Content Include="Views\Locations\Index.cshtml" />
-    <Content Include="Views\Account\RegisterTrainer.cshtml" />
     <Content Include="Views\QuarterlyAssessments\Create.cshtml" />
     <Content Include="Views\QuarterlyAssessments\Delete.cshtml" />
     <Content Include="Views\QuarterlyAssessments\Details.cshtml" />

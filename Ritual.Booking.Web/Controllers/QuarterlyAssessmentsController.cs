@@ -26,14 +26,14 @@ namespace Ritual.Booking.Web.Controllers
             ViewBag.MemberNameSortParm = String.IsNullOrEmpty(sortOrder) ? "membername_desc" : "";
             ViewBag.TrainerNameSortParm = sortOrder == "Trainer" ? "trainername_desc" : "Trainer";
 
-            var quarterlyAssessments = from q in db.QuarterlyAssessments.Include(q => q.Member).Include(q => q.Trainer) select q;
+            var quarterlyAssessments = from q in db.QuarterlyAssessments.Include(q => q.Member).Include(q => q.Employee) select q;
  
             if (!String.IsNullOrEmpty(searchString))
             {
                 quarterlyAssessments = quarterlyAssessments.Where(l => l.Member.LastName.Contains(searchString)
                                        || l.Member.LastName.Contains(searchString)
-                                       || l.Trainer.LastName.Contains(searchString)
-                                       || l.Trainer.FirstName.Contains(searchString)
+                                       || l.Employee.LastName.Contains(searchString)
+                                       || l.Employee.FirstName.Contains(searchString)
                                        || l.QAYear.ToString().Equals(searchString));
             }
 
@@ -43,10 +43,10 @@ namespace Ritual.Booking.Web.Controllers
                     quarterlyAssessments = quarterlyAssessments.OrderByDescending(l => (string)l.Member.LastName);
                     break;
                 case "Trainer":
-                    quarterlyAssessments = quarterlyAssessments.OrderBy(l => (string)l.Trainer.LastName);
+                    quarterlyAssessments = quarterlyAssessments.OrderBy(l => (string)l.Employee.LastName);
                     break;
                 case "trainername_desc":
-                    quarterlyAssessments = quarterlyAssessments.OrderByDescending(l => (string)l.Trainer.LastName);
+                    quarterlyAssessments = quarterlyAssessments.OrderByDescending(l => (string)l.Employee.LastName);
                     break;
                 default:
                     quarterlyAssessments = quarterlyAssessments.OrderBy(l => (string)l.Member.LastName);
@@ -87,7 +87,7 @@ namespace Ritual.Booking.Web.Controllers
             }
 
             ViewBag.MemberId = new SelectList(db.Members, "Id", "FullName");
-            ViewBag.TrainerId = new SelectList(db.Trainers, "Id", "FullName");
+            ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FullName");
 
             GetDropdownListValues();
 
@@ -224,7 +224,7 @@ namespace Ritual.Booking.Web.Controllers
             }
 
             ViewBag.MemberId = new SelectList(db.Members, "Id", "FullName", quarterlyAssessment.MemberId);
-            ViewBag.TrainerId = new SelectList(db.Trainers, "Id", "FullName", quarterlyAssessment.TrainerId);
+            ViewBag.TrainerId = new SelectList(db.Employees, "Id", "FullName", quarterlyAssessment.Employee);
             return View(quarterlyAssessment);
         }
 
@@ -247,7 +247,7 @@ namespace Ritual.Booking.Web.Controllers
                 return HttpNotFound();
             }
             ViewBag.MemberId = new SelectList(db.Members, "Id", "FullName", quarterlyAssessment.MemberId);
-            ViewBag.TrainerId = new SelectList(db.Trainers, "Id", "FullName", quarterlyAssessment.TrainerId);
+            ViewBag.TrainerId = new SelectList(db.Employees, "Id", "FullName", quarterlyAssessment.EmployeeId);
 
             GetEditDropdownListValues(quarterlyAssessment);
 
@@ -278,7 +278,7 @@ namespace Ritual.Booking.Web.Controllers
                 GetEditDropdownListValues(quarterlyAssessment);
             }
             ViewBag.MemberId = new SelectList(db.Members, "Id", "FullName", quarterlyAssessment.MemberId);
-            ViewBag.TrainerId = new SelectList(db.Trainers, "Id", "FullName", quarterlyAssessment.TrainerId);
+            ViewBag.TrainerId = new SelectList(db.Employees, "Id", "FullName", quarterlyAssessment.EmployeeId);
             return View(quarterlyAssessment);
         }
 

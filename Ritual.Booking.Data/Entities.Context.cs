@@ -35,7 +35,11 @@ public partial class RitualDBEntities : DbContext
     }
 
 
+    public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+
     public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+
+    public virtual DbSet<Employee> Employees { get; set; }
 
     public virtual DbSet<Location> Locations { get; set; }
 
@@ -62,8 +66,6 @@ public partial class RitualDBEntities : DbContext
     public virtual DbSet<SessionBookingState> SessionBookingStates { get; set; }
 
     public virtual DbSet<TimeSlot> TimeSlots { get; set; }
-
-    public virtual DbSet<Trainer> Trainers { get; set; }
 
 
     public virtual ObjectResult<GetImminentSessionBookings_Result> GetImminentSessionBookings(Nullable<int> locationId, Nullable<System.DateTime> currentDateTime)

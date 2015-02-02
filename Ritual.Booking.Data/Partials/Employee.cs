@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ritual.Booking.Data
 {
-    public partial class Trainer
+    public partial class Employee
     {
         [Column("FullName", TypeName = "string")]
         public string FullName

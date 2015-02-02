@@ -15,10 +15,10 @@ namespace Ritual.Booking.Data
 using System;
     using System.Collections.Generic;
     
-public partial class Trainer
+public partial class Employee
 {
 
-    public Trainer()
+    public Employee()
     {
 
         this.QuarterlyAssessments = new HashSet<QuarterlyAssessment>();
@@ -41,8 +41,6 @@ public partial class Trainer
     public virtual AspNetUser AspNetUser { get; set; }
 
     public virtual Location Location { get; set; }
-
-    public virtual Location Location1 { get; set; }
 
     public virtual ICollection<QuarterlyAssessment> QuarterlyAssessments { get; set; }
 

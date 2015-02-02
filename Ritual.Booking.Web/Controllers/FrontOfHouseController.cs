@@ -84,10 +84,10 @@ namespace Ritual.Booking.Web.Controllers
             var user = UserManager.FindById(User.Identity.GetUserId());
             var member = db.Members.Where(m => m.AspNetUserId == user.Id).Single();
 
-            TrainingZoneConfirmBookingModel.bookingLocation = db.Locations.Where(l => l.Id == LocationId).FirstOrDefault();
-            TrainingZoneConfirmBookingModel.bookingTimeslot = db.TimeSlots.Where(t => t.Id == TimeSlotId).FirstOrDefault();
-            TrainingZoneConfirmBookingModel.bookingDate = BookingDate;
-            TrainingZoneConfirmBookingModel.bookingMember = member;
+            //TrainingZoneConfirmBookingModel.bookingLocation = db.Locations.Where(l => l.Id == LocationId).FirstOrDefault();
+            //TrainingZoneConfirmBookingModel.bookingTimeslot = db.TimeSlots.Where(t => t.Id == TimeSlotId).FirstOrDefault();
+            //TrainingZoneConfirmBookingModel.bookingDate = BookingDate;
+            //TrainingZoneConfirmBookingModel.bookingMember = member;
 
             return View(TrainingZoneConfirmBookingModel);
         }

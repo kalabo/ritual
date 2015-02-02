@@ -32,9 +32,7 @@ public partial class SessionBooking
 
     public int RPEPush { get; set; }
 
-    public string TrainerNotes { get; set; }
-
-    public int TrainerId { get; set; }
+    public string Notes { get; set; }
 
     public int TimeSlotId { get; set; }
 

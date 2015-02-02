@@ -157,10 +157,7 @@ namespace Ritual.Booking.Web.Controllers
             //Set Default RPE
             booking.RPEFeeling = 0;
             booking.RPEPush = 0;
-
-            //Maybe remove trainer
-            booking.TrainerId = 1;
-
+            
             db.SessionBookings.Add(booking);
             db.SaveChanges();
             return Json("Insert Successful", JsonRequestBehavior.AllowGet);
@@ -264,10 +261,7 @@ namespace Ritual.Booking.Web.Controllers
                 //Set Default RPE
                 booking.RPEFeeling = 0;
                 booking.RPEPush = 0;
-
-                //Maybe remove trainer
-                booking.TrainerId = 1;
-
+                
                 db.SessionBookings.Add(booking);
                 db.SaveChanges();
                 return RedirectToAction("Dashboard");
