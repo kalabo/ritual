@@ -13,6 +13,19 @@ namespace Ritual.Booking.Data
         public Membership Membership { get; set; }
     }
 
+    public class MembershipsSuspensionData
+    {
+        public Membership Membership { get; set; }
+        public Package Package { get; set; }
+    }
+
+    public class SuspendMembershipModel
+    {
+        public DateTime startDate { get; set; }
+        public DateTime endDate { get; set; }
+        public Membership suspendMembership { get; set; }
+    }
+
     [MetadataType(typeof(MembershipMetadata))]
     public partial class Membership
     {
@@ -25,6 +38,21 @@ namespace Ritual.Booking.Data
         public int daysTillExpiry()
         {
             return Convert.ToInt32((this.EndDate - DateTime.Now).TotalDays);
+        }
+        
+        public bool allowSuspension()
+        {
+            if(this.getNumberOfSuspensions() < this.Package.PackageSuspensionLimit)
+            {
+                return true;
+            }
+
+            if(this.Package.PackageSuspensionLimit > 0)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

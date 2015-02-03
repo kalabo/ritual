@@ -1,0 +1,123 @@
+﻿@model Ritual.Booking.Data.MembershipsSuspensionData
+
+@{
+    ViewBag.Title = "Ritual - Suspend User Membership";
+}
+
+<section class="content-header">
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>@ViewBag.Title</h1>
+        </div>
+    </div>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="large-12 columns">
+            @if (Model.Membership.MembershipSuspensions.Count < Model.Membership.getNumberOfSuspensions())
+            {
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Membership.StartDate)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Membership.StartDate)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Membership.EndDate)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Membership.EndDate)
+                    </dd>
+
+                    <dt>
+                        Member
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Membership.Member.FullName)
+                    </dd>
+
+                    <dt>
+                        State
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Membership.MembershipState.Name)
+                    </dd>
+
+                    <dt>
+                        Package
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Membership.Package.Name)
+                    </dd>
+                    <dt>
+                        No. of Suspensions
+                    </dt>
+
+                    <dd>
+                        @Model.Membership.MembershipSuspensions.Count of @Model.Membership.Package.PackageSuspensionLimit
+                    </dd>
+                </dl>
+                <div class="row">
+                    @using (Html.BeginForm("SuspendMembership", "Memberships", new { }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                    <div class="large-4 medium-4 columns">
+                        <label class="control-label">Suspension Start Date:</label> 
+                        <input type="text" id="suspension_start_date" name="suspension_start_date" class="datepicker">
+                        <br />
+                        <label class="control-label">Suspension End Date:</label> 
+                        <input type="text" id="suspension_end_date" name="suspension_end_date" class="datepicker">
+                    </div>
+                    <div class="large-4 medium-4 columns">
+                        <label class="control-label">Suspension Reason:</label>
+                        <textarea rows="10" name="suspension_reason"></textarea>
+                    </div>
+                    <div class="large-4 medium-4 columns">
+                        <input type="hidden" name="suspension_member_id" value="@Model.Membership.Id"/>
+                        <input type="hidden" name="suspension_package_id" value="@Model.Package.Id" />
+                        <input type="submit" name="submit" class="button" value="Suspend Membership" />
+                    </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="alert-box">You have either reached the suspension limit for this membership or suspensions are not allowed.</div>
+            }
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script>
+        var endDate = "+" + @Model.Membership.Package.PackagePeriodMonths + "M";
+        $(function () {
+            $("#suspension_start_date").datepicker({
+                minDate: 0,
+                maxDate: endDate,
+                numberOfMonths: 2,
+                onClose: function (selectedDate) {
+                    $("#suspension_end_date").datepicker("option", "minDate", selectedDate);
+                }
+            });
+            $("#suspension_end_date").datepicker({
+                minDate: 0,
+                maxDate: endDate,
+                numberOfMonths: 2,
+                onClose: function (selectedDate) {
+                    $("#suspension_start_date").datepicker("option", "maxDate", selectedDate);
+                }
+            });
+        });
+    </script>
+}

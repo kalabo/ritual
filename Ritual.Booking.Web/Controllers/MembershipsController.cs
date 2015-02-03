@@ -45,6 +45,60 @@ namespace Ritual.Booking.Web.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult SuspendMembership(int suspension_member_id, int suspension_package_id, string suspension_reason, string suspension_start_date, string suspension_end_date)
+        {
+            if (suspension_member_id == null || suspension_package_id == null || string.IsNullOrEmpty(suspension_start_date) || string.IsNullOrEmpty(suspension_reason) || string.IsNullOrEmpty(suspension_end_date))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
+            Membership membership = db.Memberships.Find(suspension_member_id);
+            Package package = db.Packages.Find(suspension_package_id);
+            DateTime startDate = Convert.ToDateTime(suspension_start_date);
+            DateTime endDate = Convert.ToDateTime(suspension_end_date);
+            
+            if (ModelState.IsValid)
+            {
+                MembershipSuspension suspension = new MembershipSuspension();
+                db.MembershipSuspensions.Add(suspension);
+                suspension.MembershipId = membership.Id;
+                suspension.SuspensionStartDate = startDate;
+                suspension.SuspensionEndDate = endDate;
+                suspension.SuspensionReason = suspension_reason;
+                db.SaveChanges();
+
+                // Set Membership to Suspend
+                membership.MembershipStateId = 6;
+                db.Entry(membership).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return RedirectToAction("Details", "Members", new { id = membership.MemberId});
+            }
+
+            return View();
+        }
+
+        // GET: Memberships/suspend
+        public ActionResult Suspend(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Membership membership = db.Memberships.Find(id);
+            if (membership == null)
+            {
+                return HttpNotFound();
+            }
+
+            MembershipsSuspensionData suspendModel = new MembershipsSuspensionData();
+            suspendModel.Membership = membership;
+            suspendModel.Package = membership.Package;
+
+            return View(suspendModel);
+        }
+
         // POST: Memberships/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
