@@ -33,10 +33,7 @@ namespace Ritual.Booking.Data
 
         [Display(Name = "Timezone Offset")]
         public short TimeZoneOffset { get; set; }
-
-        [Display(Name = "Coordinates")]
-        public System.Data.Entity.Spatial.DbGeography Coordinates { get; set; }
-
+        
         [Display(Name = "Currency")]
         public string Currency { get; set; }
 

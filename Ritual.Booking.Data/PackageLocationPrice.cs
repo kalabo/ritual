@@ -30,9 +30,9 @@ public partial class PackageLocationPrice
 
 
 
-    public virtual Location Location { get; set; }
-
     public virtual Package Package { get; set; }
+
+    public virtual Location Location { get; set; }
 
 }
 

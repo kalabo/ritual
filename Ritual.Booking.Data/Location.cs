@@ -50,11 +50,13 @@ public partial class Location
 
     public short TimeZoneOffset { get; set; }
 
-    public System.Data.Entity.Spatial.DbGeography Coordinates { get; set; }
-
     public string Currency { get; set; }
 
     public short AvailableSlots { get; set; }
+
+    public decimal Longitude { get; set; }
+
+    public decimal Latitude { get; set; }
 
 
 

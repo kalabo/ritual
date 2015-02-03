@@ -16,6 +16,15 @@ namespace Ritual.Booking.Data
     [MetadataType(typeof(MembershipMetadata))]
     public partial class Membership
     {
+        private RitualDBEntities db = new RitualDBEntities();
+        public int getNumberOfSuspensions()
+        {
+            return db.MembershipSuspensions.Where(s => s.MembershipId == this.MemberId).Count();
+        }
 
+        public int daysTillExpiry()
+        {
+            return Convert.ToInt32((this.EndDate - DateTime.Now).TotalDays);
+        }
     }
 }

@@ -114,7 +114,7 @@ namespace Ritual.Booking.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Address,PhoneNumber,PostCode,Country,TimeZoneOffset,Coordinates")] Location location)
+        public ActionResult Create([Bind(Include = "Id,Name,Address,PhoneNumber,PostCode,Country,TimeZoneOffset,Currency,Longitude,Latitude")] Location location)
         {
             //Redirect back to login page if not authenticated
             if (!HttpContext.User.Identity.IsAuthenticated)
@@ -158,7 +158,7 @@ namespace Ritual.Booking.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Address,PhoneNumber,PostCode,Country,TimeZoneOffset")] Location location)
+        public ActionResult Edit([Bind(Include = "Id,Name,Address,PhoneNumber,PostCode,Country,TimeZoneOffset,Currency,Longitude,Latitude")] Location location)
         {
             //Redirect back to login page if not authenticated
             if (!HttpContext.User.Identity.IsAuthenticated)

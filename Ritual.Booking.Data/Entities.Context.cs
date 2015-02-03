@@ -41,8 +41,6 @@ public partial class RitualDBEntities : DbContext
 
     public virtual DbSet<Employee> Employees { get; set; }
 
-    public virtual DbSet<Location> Locations { get; set; }
-
     public virtual DbSet<Member> Members { get; set; }
 
     public virtual DbSet<Membership> Memberships { get; set; }
@@ -66,6 +64,8 @@ public partial class RitualDBEntities : DbContext
     public virtual DbSet<SessionBookingState> SessionBookingStates { get; set; }
 
     public virtual DbSet<TimeSlot> TimeSlots { get; set; }
+
+    public virtual DbSet<Location> Locations { get; set; }
 
 
     public virtual ObjectResult<GetImminentSessionBookings_Result> GetImminentSessionBookings(Nullable<int> locationId, Nullable<System.DateTime> currentDateTime)

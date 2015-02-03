@@ -18,10 +18,10 @@ namespace Ritual.Booking.Data
 
     public class RitualLocations
     {
-        public string latitude { get; set; }
-        public string longitude { get; set; }
+        public decimal latitude { get; set; }
+        public decimal longitude { get; set; }
 
-        public RitualLocations(string latitude, string longitude)
+        public RitualLocations(decimal latitude, decimal longitude)
         {
             this.latitude = latitude;
             this.longitude = longitude;
@@ -31,20 +31,7 @@ namespace Ritual.Booking.Data
     [MetadataType(typeof(LocationMetadata))]
     public partial class Location
     {
-        public string Latitude
-        {
-            get
-            {
-                return this.Coordinates.Latitude.ToString();
-            }
-        }
-        public string Longitude
-        {
-            get
-            {
-                return this.Coordinates.Longitude.ToString();
-            }
-        }
+
     }
 
 

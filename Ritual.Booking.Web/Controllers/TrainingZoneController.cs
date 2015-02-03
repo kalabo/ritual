@@ -43,17 +43,16 @@ namespace Ritual.Booking.Web.Controllers
             this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
             var user = UserManager.FindById(User.Identity.GetUserId());
 
-            //var members = db.Members;
-            DateTime todaysDate = DateTime.Now;
             TrainingZoneMyRitualData dashboardModel = new TrainingZoneMyRitualData();
-            var member = db.Members.Where(m => m.AspNetUserId == user.Id).Single();
+            Member member = db.Members.Where(m => m.AspNetUserId == user.Id).Single();
             dashboardModel.UserMember = member;
-            dashboardModel.UserHomeLocation = db.Locations.Where(l => l.Id == member.HomeLocationId).FirstOrDefault();
-            dashboardModel.UserActiveMembership = db.Memberships.Where(m => m.MemberId == member.Id && m.MembershipStateId == 1).FirstOrDefault();
-            dashboardModel.UserPastMemberships = db.Memberships.Where(m => m.MemberId == member.Id && m.MembershipStateId != 1);            
+            dashboardModel.UserHomeLocation = member.getUserHomeLocation();
+            dashboardModel.UserActiveMembership = member.getActiveMembership();
+            dashboardModel.UserPastMemberships = member.getExpiredMemberships();
+
             if (dashboardModel.UserActiveMembership != null)
             {
-                dashboardModel.DaysTillMembershipExpiry = Convert.ToInt32((dashboardModel.UserActiveMembership.EndDate - DateTime.Now).TotalDays);
+                dashboardModel.DaysTillMembershipExpiry = member.getActiveMembership().daysTillExpiry();
             }
 
             return View(dashboardModel);
@@ -94,26 +93,20 @@ namespace Ritual.Booking.Web.Controllers
             this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
             var user = UserManager.FindById(User.Identity.GetUserId());
 
-            //var members = db.Members;
-            DateTime todaysDate = DateTime.Now;
             TrainingZoneDashboardData dashboardModel = new TrainingZoneDashboardData();
 
             var member = db.Members.Where(m => m.AspNetUserId == user.Id).Single();
             dashboardModel.UserMember = member;
-            dashboardModel.UserHomeLocation = db.Locations.Where(l => l.Id == member.HomeLocationId).FirstOrDefault();
-            dashboardModel.UserActiveMembership = db.Memberships.Where(m => m.MemberId == member.Id && m.MembershipStateId == 1).FirstOrDefault();
+            dashboardModel.UserHomeLocation = member.getUserHomeLocation();
+            dashboardModel.UserActiveMembership = member.getActiveMembership();
             if (dashboardModel.UserActiveMembership != null)
             {
-                dashboardModel.DaysTillMembershipExpiry = Convert.ToInt32((dashboardModel.UserActiveMembership.EndDate - DateTime.Now).TotalDays);
+                dashboardModel.DaysTillMembershipExpiry = member.getActiveMembership().daysTillExpiry();
             }
-            dashboardModel.UpcomingBookings = db.SessionBookings.Where(m => m.MemberId == member.Id && m.LocationId == member.HomeLocationId && m.Date >= todaysDate).OrderByDescending(m => m.Date).ThenBy(m => m.TimeSlot.StartTime).Take(5); 
-            dashboardModel.PastBookings = db.SessionBookings.Where(m => m.MemberId == member.Id && m.LocationId == member.HomeLocationId && m.Date < todaysDate).OrderByDescending(m => m.Date).ThenBy(m => m.TimeSlot.StartTime).Take(5);
-            dashboardModel.QuarterlyAssessments = db.QuarterlyAssessments.Where(qa => qa.MemberId == member.Id).OrderByDescending(qa => qa.QADateTime).Take(5);
-            //if (dashboardModel. == null)
-            //{
-            //    return HttpNotFound();
-            //}
-
+            dashboardModel.UpcomingBookings = member.getUpcomingBookings(5);
+            dashboardModel.PastBookings = member.getPastBookings(5);
+            dashboardModel.QuarterlyAssessments = member.getQuarterlyAssessments(5);
+            
             return View(dashboardModel);
         }
         // GET: TrainingZone
