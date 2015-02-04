@@ -35,6 +35,7 @@ BEGIN
 		ROW_NUMBER() over (order by SessionBooking.id ) as RowNr,
 		TimeSlot.Id as TimeSlotId,
 		SessionBooking.id as SessionBookingId,
+		SessionBookingState.Name as SessionBookingState,
 		MemberId,
 		Member.FirstName,
 		Member.LastName
@@ -48,15 +49,18 @@ BEGIN
 		Member 
 	on 
 		SessionBooking.MemberId = Member.Id
+	join
+		SessionBookingState
+	on		
+		SessionBookingState.Id = SessionBooking.BookingStateId
 	where 
 		SessionBooking.Date = CONVERT(date, @CurrentDateTime) and 
-		TimeSlot.StartTime between CONVERT(time, @CurrentDateTime) and DATEADD(mi, 300, CONVERT(time, @CurrentDateTime)) and
+		TimeSlot.StartTime between CONVERT(time, @CurrentDateTime) and DATEADD(ss, 1799, CONVERT(time, @CurrentDateTime)) and	
 		SessionBooking.LocationId = @LocationId and 
-		SessionBooking.BookingStateId = 1
+		(SessionBooking.BookingStateId = 1 or SessionBooking.BookingStateId = 3)
 		)
 
 	select * from Session_CTE right join Numbers_cte on Numbers_cte.Number = Session_CTE.RowNr
 END
 
 GO
-

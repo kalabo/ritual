@@ -547,10 +547,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="RitualDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="RitualDBEntities" annotation:LazyLoadingEnabled="true">
-          <FunctionImport Name="GetImminentSessionBookings" ReturnType="Collection(RitualDBModel.GetImminentSessionBookings_Result)">
-            <Parameter Name="LocationId" Mode="In" Type="Int32" />
-            <Parameter Name="CurrentDateTime" Mode="In" Type="DateTime" />
-          </FunctionImport>
           <FunctionImport Name="GetNextBookingSlotsWindow" ReturnType="Collection(RitualDBModel.GetNextBookingSlotsWindow_Result)">
             <Parameter Name="LocationId" Mode="In" Type="Int32" />
             <Parameter Name="CurrentDateTime" Mode="In" Type="DateTime" />
@@ -643,14 +639,11 @@
             <End Role="Location" EntitySet="Locations" />
             <End Role="PackageLocationPrice" EntitySet="PackageLocationPrices" />
           </AssociationSet>
+          <FunctionImport Name="GetImminentSessionBookings" ReturnType="Collection(RitualDBModel.GetImminentSessionBookings_Result)">
+            <Parameter Name="LocationId" Mode="In" Type="Int32" />
+            <Parameter Name="CurrentDateTime" Mode="In" Type="DateTime" />
+          </FunctionImport>
           </EntityContainer>
-        <ComplexType Name="GetImminentSessionBookings_Result">
-          <Property Type="Int32" Name="TimeSlotId" Nullable="false" />
-          <Property Type="Int32" Name="SessionBookingId" Nullable="false" />
-          <Property Type="Int32" Name="MemberId" Nullable="false" />
-          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" />
-        </ComplexType>
         <ComplexType Name="GetNextBookingSlotsWindow_Result">
           <Property Type="Int32" Name="TimeSlotId" Nullable="false" />
           <Property Type="Int32" Name="LocationId" Nullable="true" />
@@ -1138,23 +1131,22 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="GetImminentSessionBookings_Result">
+          <Property Type="Int64" Name="RowNr" Nullable="true" />
+          <Property Type="Int32" Name="TimeSlotId" Nullable="true" />
+          <Property Type="Int32" Name="SessionBookingId" Nullable="true" />
+          <Property Type="String" Name="SessionBookingState" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="MemberId" Nullable="true" />
+          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Number" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="RitualDBModelStoreContainer" CdmEntityContainer="RitualDBEntities">
-          <FunctionImportMapping FunctionImportName="GetImminentSessionBookings" FunctionName="RitualDBModel.Store.GetImminentSessionBookings">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="RitualDBModel.GetImminentSessionBookings_Result">
-                <ScalarProperty Name="TimeSlotId" ColumnName="TimeSlotId" />
-                <ScalarProperty Name="SessionBookingId" ColumnName="SessionBookingId" />
-                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetNextBookingSlotsWindow" FunctionName="RitualDBModel.Store.GetNextBookingSlotsWindow">
             <ResultMapping>
               <ComplexTypeMapping TypeName="RitualDBModel.GetNextBookingSlotsWindow_Result">
@@ -1410,6 +1402,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetImminentSessionBookings" FunctionName="RitualDBModel.Store.GetImminentSessionBookings">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RitualDBModel.GetImminentSessionBookings_Result">
+                <ScalarProperty Name="RowNr" ColumnName="RowNr" />
+                <ScalarProperty Name="TimeSlotId" ColumnName="TimeSlotId" />
+                <ScalarProperty Name="SessionBookingId" ColumnName="SessionBookingId" />
+                <ScalarProperty Name="SessionBookingState" ColumnName="SessionBookingState" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

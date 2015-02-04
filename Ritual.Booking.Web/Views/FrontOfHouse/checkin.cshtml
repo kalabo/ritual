@@ -16,13 +16,29 @@
         <div class="large-12 columns">
             @foreach (var item in Model.NextSessionData)
             {
-
-                <div class="booking-slot available">
-                    <h1>@item.FirstName @item.LastName</h1>
-                    <a href="@Url.Action("ConfirmCheckin", "FrontOfHouse", new { TimeslotId = item.TimeSlotId, SessionBookingId = item.SessionBookingId })">
-                        <div class="button session-booking">Check In</div>
-                    </a>
-                </div>
+                if (item.SessionBookingId != null)
+                {
+                    var style = (item.SessionBookingState == "Checked-in") ? "checkedin" : "pending";
+                    <div class="booking-slot @style">
+                        <h1>@item.FirstName @item.LastName</h1>
+                        @if (item.SessionBookingState == "Pending")
+                        {
+                            <a href="@Url.Action("ConfirmCheckin", "FrontOfHouse", new { TimeslotId = item.TimeSlotId, SessionBookingId = item.SessionBookingId })">
+                                <div class="button session-booking">Check In <i class="fa fa-question"></i></div>
+                            </a>
+                        }
+                        else
+                        {
+                            <div class="button session-booking">Checked-In <i class="fa fa-check"></i></div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="booking-slot empty">
+                        <h1>Free Slot</h1>
+                    </div>
+                }
             }
         </div>
     </div>

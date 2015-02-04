@@ -17,15 +17,21 @@ using System;
 public partial class GetImminentSessionBookings_Result
 {
 
-    public int TimeSlotId { get; set; }
+    public Nullable<long> RowNr { get; set; }
 
-    public int SessionBookingId { get; set; }
+    public Nullable<int> TimeSlotId { get; set; }
 
-    public int MemberId { get; set; }
+    public Nullable<int> SessionBookingId { get; set; }
+
+    public string SessionBookingState { get; set; }
+
+    public Nullable<int> MemberId { get; set; }
 
     public string FirstName { get; set; }
 
     public string LastName { get; set; }
+
+    public Nullable<int> Number { get; set; }
 
 }
 

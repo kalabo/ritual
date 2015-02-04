@@ -68,23 +68,6 @@ public partial class RitualDBEntities : DbContext
     public virtual DbSet<Location> Locations { get; set; }
 
 
-    public virtual ObjectResult<GetImminentSessionBookings_Result> GetImminentSessionBookings(Nullable<int> locationId, Nullable<System.DateTime> currentDateTime)
-    {
-
-        var locationIdParameter = locationId.HasValue ?
-            new ObjectParameter("LocationId", locationId) :
-            new ObjectParameter("LocationId", typeof(int));
-
-
-        var currentDateTimeParameter = currentDateTime.HasValue ?
-            new ObjectParameter("CurrentDateTime", currentDateTime) :
-            new ObjectParameter("CurrentDateTime", typeof(System.DateTime));
-
-
-        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetImminentSessionBookings_Result>("GetImminentSessionBookings", locationIdParameter, currentDateTimeParameter);
-    }
-
-
     public virtual ObjectResult<GetNextBookingSlotsWindow_Result> GetNextBookingSlotsWindow(Nullable<int> locationId, Nullable<System.DateTime> currentDateTime)
     {
 
@@ -99,6 +82,23 @@ public partial class RitualDBEntities : DbContext
 
 
         return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetNextBookingSlotsWindow_Result>("GetNextBookingSlotsWindow", locationIdParameter, currentDateTimeParameter);
+    }
+
+
+    public virtual ObjectResult<GetImminentSessionBookings_Result> GetImminentSessionBookings(Nullable<int> locationId, Nullable<System.DateTime> currentDateTime)
+    {
+
+        var locationIdParameter = locationId.HasValue ?
+            new ObjectParameter("LocationId", locationId) :
+            new ObjectParameter("LocationId", typeof(int));
+
+
+        var currentDateTimeParameter = currentDateTime.HasValue ?
+            new ObjectParameter("CurrentDateTime", currentDateTime) :
+            new ObjectParameter("CurrentDateTime", typeof(System.DateTime));
+
+
+        return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetImminentSessionBookings_Result>("GetImminentSessionBookings", locationIdParameter, currentDateTimeParameter);
     }
 
 }

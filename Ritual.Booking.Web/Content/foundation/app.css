@@ -749,7 +749,12 @@ padding:0px 0px 10px 0px    ;
     color:#fff;
 }
 
-.booking-slot.closed
+.booking-slot.checkedin
+{
+    background-color:green;
+}
+
+.booking-slot.closed, .booking-slot.empty
 {
     background-color:#990000;
 }
