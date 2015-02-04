@@ -406,6 +406,7 @@
     <Content Include="Views\FrontOfHouse\checkin.cshtml" />
     <Content Include="Views\FrontOfHouse\fuelbar.cshtml" />
     <Content Include="Views\FrontOfHouse\feedback.cshtml" />
+    <Content Include="Views\Memberships\Suspend.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

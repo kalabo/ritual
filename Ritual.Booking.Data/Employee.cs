@@ -40,9 +40,9 @@ public partial class Employee
 
     public virtual AspNetUser AspNetUser { get; set; }
 
-    public virtual Location Location { get; set; }
-
     public virtual ICollection<QuarterlyAssessment> QuarterlyAssessments { get; set; }
+
+    public virtual Location Location { get; set; }
 
 }
 

@@ -65,15 +65,15 @@
                 }
                 @if (Model.Member.Location.Name != null)
                 {
-                <dt>
-                    Home Location
-                </dt>
+                    <dt>
+                        Home Location
+                    </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Member.Location.Name)
-                </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.Member.Location.Name)
+                    </dd>
                 }
-                
+
                 <dt>
                     @Html.DisplayNameFor(model => model.Member.EmailOptOut)
                 </dt>
@@ -100,23 +100,23 @@
                 }
                 @if (Model.Member.HomePhone != null)
                 {
-                <dt>
-                    @Html.DisplayNameFor(model => model.Member.HomePhone)
-                </dt>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Member.HomePhone)
+                    </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Member.HomePhone)
-                </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.Member.HomePhone)
+                    </dd>
                 }
                 @if (Model.Member.MobilePhone != null)
                 {
-                <dt>
-                    @Html.DisplayNameFor(model => model.Member.MobilePhone)
-                </dt>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Member.MobilePhone)
+                    </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Member.MobilePhone)
-                </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.Member.MobilePhone)
+                    </dd>
                 }
                 <dt>
                     @Html.DisplayNameFor(model => model.Member.AspNetUser.Email)
@@ -125,7 +125,7 @@
                 <dd>
                     @Html.DisplayFor(model => model.Member.AspNetUser.Email)
                 </dd>
-                
+
             </dl>
             <h2>Memberships</h2>
             <table class="table">
@@ -152,10 +152,18 @@
                             @Html.DisplayFor(modelItem => item.EndDate)
                         </td>
                         <td>
-                            @Html.ActionLink("Select", "Index", "QuarterlyAsssessments", new { id = item.Id }, new { @class = "button" })
-                            @Html.ActionLink("Edit", "Edit", "QuarterlyAsssessments", new { id = item.Id }, new { @class = "button" })
-                            @Html.ActionLink("Details", "Details", "QuarterlyAsssessments", new { id = item.Id }, new { @class = "button" })
-                            @Html.ActionLink("Delete", "Delete", "QuarterlyAsssessments", new { id = item.Id }, new { @class = "button" })
+                            @Html.ActionLink("Select", "Index", "Memberships", new { id = item.Id }, new { @class = "button" })
+                            @Html.ActionLink("Edit", "Edit", "Memberships", new { id = item.Id }, new { @class = "button" })
+                            @Html.ActionLink("Details", "Details", "Memberships", new { id = item.Id }, new { @class = "button" })
+                            @if (item.MembershipState.Name == "Active")
+                            {
+                                @Html.ActionLink("Suspend", "Suspend", "Memberships", new { id = item.Id }, new { @class = "button" })
+                            }
+                            else if(item.MembershipState.Name == "Suspend")
+                            {
+                                @Html.ActionLink("Re-activate", "Reactivate", "Memberships", new { id = item.Id }, new { @class = "button" })
+                            }
+                            @Html.ActionLink("Delete", "Delete", "Memberships", new { id = item.Id }, new { @class = "button" })
                         </td>
                     </tr>
                 }

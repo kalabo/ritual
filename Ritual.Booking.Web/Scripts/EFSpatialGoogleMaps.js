@@ -54,7 +54,7 @@
         };
 
         // If the input came from an EditorFor, initialize editing-related events.
-        if ($input.hasClass('editor-for-dbgeography')) {
+        if ($input.hasClass('editor-for-longitude') && $input.hasClass('editor-for-latitude')) {
             google.maps.event.addListener(map, 'click', updateMarker);
 
             // Attempt to react to user edits in the input field.
@@ -80,6 +80,6 @@
     };
 
     // Find all DBGeography inputs and initialize maps for them.
-    $('.editor-for-dbgeography, .display-for-dbgeography').each(initialize);
+    $('.location-map').each(initialize);
 })();
 
