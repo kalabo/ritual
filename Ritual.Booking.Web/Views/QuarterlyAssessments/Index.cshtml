@@ -21,7 +21,7 @@
             @using (Html.BeginForm())
             {
                 <label class="control-label">Assessment Search</label>
-                <p>Find by Year, Trainer or Member:</p>
+                <p>Find by Year, Employee or Member:</p>
                 @Html.TextBox("SearchString", "", new { @class = "form-control" })
                 <input type="submit" class="button" value="Search" />
             }
@@ -43,7 +43,7 @@
                         @Html.ActionLink("Member Name", "Index", new { sortOrder = ViewBag.MemberNameSortParm })
                     </th>
                     <th>
-                        @Html.ActionLink("Trainer Name", "Index", new { sortOrder = ViewBag.TrainerNameSortParm })
+                        @Html.ActionLink("Employee Name", "Index", new { sortOrder = ViewBag.EmployeeNameSortParm })
                     </th>
                     <th>Action</th>
                 </tr>
@@ -64,10 +64,10 @@
                             @Html.DisplayFor(modelItem => item.QAClientRPE)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Member.FirstName) @Html.DisplayFor(modelItem => item.Member.LastName)
+                            @Html.DisplayFor(modelItem => item.Member.FullName)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Trainer.FirstName) @Html.DisplayFor(modelItem => item.Trainer.LastName)
+                            @Html.DisplayFor(modelItem => item.Employee.FullName)
                         </td>
                         <td>
                             @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "button" })

@@ -14,7 +14,7 @@
 <!-- Main content -->
 <section class="content">
     <div class="row">
-        <div class="small-6 large-centered columns">
+        <div class="small-5 large-centered columns">
 
             <div class='builder-form' id="loginForm">
                 <div class="row">
@@ -23,8 +23,16 @@
                         @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                         {
                             @Html.AntiForgeryToken()
-                            <h2>Create a new account.</h2>
+                            <h2>Register for a Trial Membership.</h2>
                             <hr />
+                            <p><strong>$50.00</strong> for a 7 day, <strong><u>unlimited</u></strong> access pass to Ritual.<br/>
+                                You also get the following complimentary items with your trial:
+                                <ul>
+                                    <li>Fitness and mobility assessment</li>
+                                    <li>Meal replacement smoothie</li>
+                                    <li>Workout attire and towels</li>
+                                    <li>Access to the Ritual Grub Guide (nutrition plan)</li>
+                                </ul></p>
                             @Html.ValidationSummary("", new { @class = "text-danger" })
                             <div class="form-group">
                                 @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })

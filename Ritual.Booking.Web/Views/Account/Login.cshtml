@@ -3,19 +3,9 @@
 @{
     ViewBag.Title = "Log in";
 }
-
-
-<section class="content-header">
-    <div class="row">
-        <div class="large-12 columns">
-            <h1>@ViewBag.Title</h1>
-        </div>
-    </div>
-</section>
-<!-- Main content -->
 <section class="content">
     <div class="row">
-        <div class="small-6 large-centered columns">
+        <div class="small-4 large-centered columns">
 
             <div class='builder-form' id="loginForm">
                 <div class="row">
@@ -23,8 +13,11 @@
                         @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                         {
                             @Html.AntiForgeryToken()
-                            <h2>Use a local account to log in.</h2>
+                            <h2>Member Login.</h2>
                             <hr />
+                            <div class="gravatar login">
+                                <img src="~/Content/images/default-user.png" class="img-circle not-logged-avatar" />
+                            </div>
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             <div class="form-group">
                                 @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
@@ -40,16 +33,23 @@
                                 @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
 
                             </div>
-                            <div class="form-group">
+                            <div class="form-group">                               
+                                 @Html.LabelFor(m => m.RememberMe, new { @class = "col-md-2 control-label" })
                                 @Html.CheckBoxFor(m => m.RememberMe)
-                                @Html.LabelFor(m => m.RememberMe)
                             </div>
                             <div class="form-group">
-                                <input type="submit" value="Log in" class="button" />
+                                <div class="row">
+                                    <div class="large-12 columns">
+                                        <input type="submit" value="Log in" class="button login-button" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="large-12 columns">
+                                        @Html.ActionLink("Register for Trial", "Register", null, new { @class = "button register-button" })
+                                    </div>
+                                </div>
+                                
                             </div>
-                            <p>
-                                @Html.ActionLink("Register as a new user", "Register")
-                            </p>
                             @* Enable this once you have account confirmation enabled for password reset functionality
                                 <p>
                                     @Html.ActionLink("Forgot your password?", "ForgotPassword")

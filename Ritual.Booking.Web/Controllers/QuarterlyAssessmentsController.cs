@@ -24,14 +24,16 @@ namespace Ritual.Booking.Web.Controllers
             }
 
             ViewBag.MemberNameSortParm = String.IsNullOrEmpty(sortOrder) ? "membername_desc" : "";
-            ViewBag.TrainerNameSortParm = sortOrder == "Trainer" ? "trainername_desc" : "Trainer";
+            ViewBag.EmployeeNameSortParm = sortOrder == "Employee" ? "Employeename_desc" : "Employee";
 
             var quarterlyAssessments = from q in db.QuarterlyAssessments.Include(q => q.Member).Include(q => q.Employee) select q;
- 
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 quarterlyAssessments = quarterlyAssessments.Where(l => l.Member.LastName.Contains(searchString)
                                        || l.Member.LastName.Contains(searchString)
+                                       || l.Member.FullName.Contains(searchString)
+                                       || l.Employee.FullName.Contains(searchString)
                                        || l.Employee.LastName.Contains(searchString)
                                        || l.Employee.FirstName.Contains(searchString)
                                        || l.QAYear.ToString().Equals(searchString));
@@ -42,10 +44,10 @@ namespace Ritual.Booking.Web.Controllers
                 case "membername_desc":
                     quarterlyAssessments = quarterlyAssessments.OrderByDescending(l => (string)l.Member.LastName);
                     break;
-                case "Trainer":
+                case "Employee":
                     quarterlyAssessments = quarterlyAssessments.OrderBy(l => (string)l.Employee.LastName);
                     break;
-                case "trainername_desc":
+                case "Employeename_desc":
                     quarterlyAssessments = quarterlyAssessments.OrderByDescending(l => (string)l.Employee.LastName);
                     break;
                 default:
@@ -205,7 +207,7 @@ namespace Ritual.Booking.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,MemberId,TrainerId,QAQuarter,QAYear,QADateTime,QAClientRPE,QATestOneTitle,QATestOneType,QATestOneTimeReps,QATestOneNotes,QATestTwoTitle,QATestTwoType,QATestTwoTimeReps,QATestTwoNotes,QATestThreeTitle,QATestThreeType,QATestThreeTimeReps,QATestThreeNotes,QATestFourTitle,QATestFourType,QATestFourTimeReps,QATestFourNotes,QATestFiveTitle,QATestFiveType,QATestFiveTimeReps,QATestFiveNotes,QATestFiveRoundOneReps,QATestFiveRoundTwoReps,QATestFiveRoundThreeReps,QATestFiveRoundFourReps,QATestFiveRoundFiveReps,QATestFiveRoundSixReps,QATestFiveRoundSevenReps,QATestFiveRoundEightReps,QATestFiveTotalReps")] QuarterlyAssessment quarterlyAssessment)
+        public ActionResult Create([Bind(Include = "Id,MemberId,EmployeeId,QAQuarter,QAYear,QADateTime,QAClientRPE,QATestOneTitle,QATestOneType,QATestOneTimeReps,QATestOneNotes,QATestTwoTitle,QATestTwoType,QATestTwoTimeReps,QATestTwoNotes,QATestThreeTitle,QATestThreeType,QATestThreeTimeReps,QATestThreeNotes,QATestFourTitle,QATestFourType,QATestFourTimeReps,QATestFourNotes,QATestFiveTitle,QATestFiveType,QATestFiveTimeReps,QATestFiveNotes,QATestFiveRoundOneReps,QATestFiveRoundTwoReps,QATestFiveRoundThreeReps,QATestFiveRoundFourReps,QATestFiveRoundFiveReps,QATestFiveRoundSixReps,QATestFiveRoundSevenReps,QATestFiveRoundEightReps,QATestFiveTotalReps")] QuarterlyAssessment quarterlyAssessment)
         {
             //Redirect back to login page if not authenticated
             if (!HttpContext.User.Identity.IsAuthenticated)
@@ -218,13 +220,14 @@ namespace Ritual.Booking.Web.Controllers
                 db.QuarterlyAssessments.Add(quarterlyAssessment);
                 db.SaveChanges();
                 return RedirectToAction("Index");
-            }else
+            }
+            else
             {
                 GetDropdownListValues();
             }
 
             ViewBag.MemberId = new SelectList(db.Members, "Id", "FullName", quarterlyAssessment.MemberId);
-            ViewBag.TrainerId = new SelectList(db.Employees, "Id", "FullName", quarterlyAssessment.Employee);
+            ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FullName", quarterlyAssessment.Employee);
             return View(quarterlyAssessment);
         }
 
@@ -247,7 +250,7 @@ namespace Ritual.Booking.Web.Controllers
                 return HttpNotFound();
             }
             ViewBag.MemberId = new SelectList(db.Members, "Id", "FullName", quarterlyAssessment.MemberId);
-            ViewBag.TrainerId = new SelectList(db.Employees, "Id", "FullName", quarterlyAssessment.EmployeeId);
+            ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FullName", quarterlyAssessment.EmployeeId);
 
             GetEditDropdownListValues(quarterlyAssessment);
 
@@ -259,7 +262,7 @@ namespace Ritual.Booking.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,MemberId,TrainerId,QAQuarter,QAYear,QADateTime,QAClientRPE,QATestOneTitle,QATestOneType,QATestOneTimeReps,QATestOneNotes,QATestTwoTitle,QATestTwoType,QATestTwoTimeReps,QATestTwoNotes,QATestThreeTitle,QATestThreeType,QATestThreeTimeReps,QATestThreeNotes,QATestFourTitle,QATestFourType,QATestFourTimeReps,QATestFourNotes,QATestFiveTitle,QATestFiveType,QATestFiveTimeReps,QATestFiveNotes,QATestFiveRoundOneReps,QATestFiveRoundTwoReps,QATestFiveRoundThreeReps,QATestFiveRoundFourReps,QATestFiveRoundFiveReps,QATestFiveRoundSixReps,QATestFiveRoundSevenReps,QATestFiveRoundEightReps,QATestFiveTotalReps")] QuarterlyAssessment quarterlyAssessment)
+        public ActionResult Edit([Bind(Include = "Id,MemberId,EmployeeId,QAQuarter,QAYear,QADateTime,QAClientRPE,QATestOneTitle,QATestOneType,QATestOneTimeReps,QATestOneNotes,QATestTwoTitle,QATestTwoType,QATestTwoTimeReps,QATestTwoNotes,QATestThreeTitle,QATestThreeType,QATestThreeTimeReps,QATestThreeNotes,QATestFourTitle,QATestFourType,QATestFourTimeReps,QATestFourNotes,QATestFiveTitle,QATestFiveType,QATestFiveTimeReps,QATestFiveNotes,QATestFiveRoundOneReps,QATestFiveRoundTwoReps,QATestFiveRoundThreeReps,QATestFiveRoundFourReps,QATestFiveRoundFiveReps,QATestFiveRoundSixReps,QATestFiveRoundSevenReps,QATestFiveRoundEightReps,QATestFiveTotalReps")] QuarterlyAssessment quarterlyAssessment)
         {
             //Redirect back to login page if not authenticated
             if (!HttpContext.User.Identity.IsAuthenticated)
@@ -278,7 +281,7 @@ namespace Ritual.Booking.Web.Controllers
                 GetEditDropdownListValues(quarterlyAssessment);
             }
             ViewBag.MemberId = new SelectList(db.Members, "Id", "FullName", quarterlyAssessment.MemberId);
-            ViewBag.TrainerId = new SelectList(db.Employees, "Id", "FullName", quarterlyAssessment.EmployeeId);
+            ViewBag.EmployeeId = new SelectList(db.Employees, "Id", "FullName", quarterlyAssessment.EmployeeId);
             return View(quarterlyAssessment);
         }
 

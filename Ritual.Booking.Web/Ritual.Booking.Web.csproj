@@ -236,7 +236,9 @@
     <Content Include="Content\foundation\foundation.css" />
     <Content Include="Content\foundation\foundation.mvc.css" />
     <Content Include="Content\foundation\normalize.css" />
+    <Content Include="Content\images\default-user.png" />
     <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\mainbg.jpg" />
     <Content Include="Content\images\ritual_pushpin.png" />
     <Content Include="Content\jquery-ui-timepicker-addon.css" />
     <Content Include="Content\PagedList.css" />
