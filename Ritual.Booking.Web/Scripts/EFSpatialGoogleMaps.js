@@ -4,17 +4,20 @@
         // el is the input element that we need to initialize a map for, jQuery-ize it,
         //  and cache that since we'll be using it a few times.
         var $input = $(el);
-
+        var $longInput = $(".map-for-longitude");
+        var $latInput = $(".map-for-latitude");
         // Create the map div and insert it into the page.
         var $map = $('<div>', {
             css: {
-                width: '400px',
-                height: '400px'
+                width: '100%',
+                height: '350px'
             }
-        }).insertAfter($input);
+        });
+
+        $input.html($map);
 
         // Attempt to parse the lat/long coordinates out of this input element.
-        var latLong = parseLatLong(this.value);
+        var latLong = parseLatLong($latInput, $longInput);
 
         // If there was a problem attaining a lat/long from the input element's value,
         //  set it to a sensible default that isn't in the middle of the ocean.
@@ -35,7 +38,7 @@
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             maxZoom: 14
         });
-
+        
         // Place a marker on it, representing the DBGeometry object's position.
         var marker = new google.maps.Marker({
             position: position,
@@ -50,32 +53,22 @@
             map.panTo(updateEvent.latLng);
 
             // Black magic, courtesy of Hanselman's original version.
-            $input.val(marker.getPosition().toUrlValue(13));
+            $latInput.val(marker.getPosition().lat());
+            $longInput.val(marker.getPosition().lng());
         };
 
         // If the input came from an EditorFor, initialize editing-related events.
-        if ($input.hasClass('editor-for-longitude') && $input.hasClass('editor-for-latitude')) {
-            google.maps.event.addListener(map, 'click', updateMarker);
+        if ($longInput.hasClass('editor') && $latInput.hasClass('editor')) {
+            google.maps.event.addListener(map, 'dblclick', updateMarker);
 
-            // Attempt to react to user edits in the input field.
-            $input.on('change', function () {
-                var latLong = parseLatLong(this.value);
-
-                latLong = new google.maps.LatLng(latLong.latitude, latLong.longitude);
-
-                updateMarker({ latLng: latLong });
-            });
         }
     };
 
-    var parseLatLong = function (value) {
-        if (!value) { return undefined; }
-
-        var latLong = value.match(/-?\d+\.\d+/g);
-
-        return {
-            latitude: latLong[0],
-            longitude: latLong[1]
+    var parseLatLong = function (lat, long) {
+        if (!lat && !long) { return undefined; }
+                return {
+            latitude: lat.val(),
+            longitude: long.val()
         };
     };
 

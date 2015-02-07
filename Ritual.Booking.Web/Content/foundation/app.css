@@ -571,7 +571,6 @@ img {
 div.alert-box {
     background-color: #00AEEF;
     padding: 14px 30px;
-    margin-bottom: 30px;
     border: none;
     font-size: 1.2em;
     font-weight: lighter;
@@ -584,6 +583,15 @@ div.alert-box {
     div.alert-box.alert {
         background-color: #E7543D;
     }
+
+
+.location-map
+{
+    width:100%;
+    height:100%;
+    margin-bottom:10px;
+    float:left;
+}
 
 /*----------------------------
 	i.-- login

@@ -213,6 +213,52 @@ namespace Ritual.Booking.Web.Controllers
             return RedirectToAction("Index");
         }
 
+
+        // GET: OpeningHours/Create
+        public ActionResult CreateOpeningHour(int? locationId)
+        {
+            //Redirect back to login page if not authenticated
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            if (locationId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Location location = db.Locations.Find(locationId);
+            if (location == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.Location = location;
+            return View();
+        }
+
+        // POST: OpeningHours/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateOpeningHour([Bind(Include = "Id,DateOfWeek,OpenTime,CloseTime")] OpeningHour openingHour, int locationId)
+        {
+            if (ModelState.IsValid)
+            {
+                openingHour.LocationId = locationId;
+                db.OpeningHours.Add(openingHour);
+                db.SaveChanges();
+                return RedirectToAction("Edit", new { id = openingHour.LocationId});
+            }
+
+            ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", openingHour.LocationId);
+            return View(openingHour);
+        }
+
+
+
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
