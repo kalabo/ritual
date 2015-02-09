@@ -381,16 +381,6 @@
     <Content Include="Views\Shared\_Foundation.cshtml" />
     <Content Include="Views\Home\Foundation_Index.cshtml" />
     <Content Include="Views\TrainingZone\MyAssessments.cshtml" />
-    <Content Include="Views\OpeningHours\CreateOpeningHour.cshtml" />
-    <Content Include="Views\OpeningHours\DeleteOpeningHour.cshtml" />
-    <Content Include="Views\OpeningHours\DetailsOpeningHour.cshtml" />
-    <Content Include="Views\OpeningHours\EditOpeningHour.cshtml" />
-    <Content Include="Views\OpeningHours\Index.cshtml" />
-    <Content Include="Views\OpeningHourOverrides\Create.cshtml" />
-    <Content Include="Views\OpeningHourOverrides\Delete.cshtml" />
-    <Content Include="Views\OpeningHourOverrides\Details.cshtml" />
-    <Content Include="Views\OpeningHourOverrides\Edit.cshtml" />
-    <Content Include="Views\OpeningHourOverrides\Index.cshtml" />
     <Content Include="Views\Memberships\Create.cshtml" />
     <Content Include="Views\Memberships\Delete.cshtml" />
     <Content Include="Views\Memberships\Details.cshtml" />

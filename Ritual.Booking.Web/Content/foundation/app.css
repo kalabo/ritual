@@ -68,6 +68,24 @@ dd {
     padding: 0 0 0.2em 0;
 }
 
+.ui-datepicker dt{
+    float:none;
+    clear:none;
+    width:auto;
+    text-align:left;
+    font-weight:normal;
+    color:#000;
+    font-family:'Open Sans',Verdana, Arial;
+}
+
+.ui-datepicker dd{
+    margin:0px;
+    padding:0px;
+    color:#000;
+    font-family:'Open Sans',Verdana, Arial;
+    font-size:0.8em;
+}
+
 .table {
     width: 100%;
     font-weight: normal !important;
@@ -533,7 +551,6 @@ img {
 
 .left-side {
     background: #222;
-    background-image: url('../images/mainbg.jpg');
 }
 
 .sidebar a {
@@ -591,6 +608,12 @@ div.alert-box {
     height:100%;
     margin-bottom:10px;
     float:left;
+}
+
+#ritualMap{
+    width:100%;
+    height:300px;
+    margin-bottom:10px;
 }
 
 /*----------------------------

@@ -20,11 +20,15 @@ namespace Ritual.Booking.Data
     {
         public decimal latitude { get; set; }
         public decimal longitude { get; set; }
+        public string name { get; set; }
+        public string address { get; set; }
 
-        public RitualLocations(decimal latitude, decimal longitude)
+        public RitualLocations(decimal latitude, decimal longitude, string name, string address)
         {
             this.latitude = latitude;
             this.longitude = longitude;
+            this.name = name;
+            this.address = address;
         }
     }
 

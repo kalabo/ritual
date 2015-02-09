@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Ritual.Booking.Data;
 using PagedList;
+using System.Globalization;
 
 namespace Ritual.Booking.Web.Controllers
 {
@@ -62,11 +63,15 @@ namespace Ritual.Booking.Web.Controllers
 
         }
 
-        public ActionResult GetCurrentLocationMapData(int id)
+        public ActionResult GetMapDataJson()
         {
             var rituallocations = new List<RitualLocations>();
-            var location = db.Locations.Find(id);
-            rituallocations.Add(new RitualLocations(location.Latitude, location.Longitude));
+            var locations = from l in db.Locations
+                            select l;
+            foreach (Location location in locations)
+            {
+                rituallocations.Add(new RitualLocations(location.Latitude, location.Longitude, location.Name, location.Address));
+            }
             return Json(rituallocations, JsonRequestBehavior.AllowGet);
         }
 
@@ -245,17 +250,33 @@ namespace Ritual.Booking.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                openingHour.LocationId = locationId;
-                db.OpeningHours.Add(openingHour);
-                db.SaveChanges();
-                return RedirectToAction("Edit", new { id = openingHour.LocationId});
+                if (ValidatePositiveTimeRange(openingHour.OpenTime, openingHour.CloseTime))
+                {
+                    openingHour.LocationId = locationId;
+                    db.OpeningHours.Add(openingHour);
+                    db.SaveChanges();
+                    return RedirectToAction("Edit", new { id = openingHour.LocationId });
+                }
+                else
+                {
+                    ViewBag.Error = "Please ensure that your close time is later than your opening time";
+                    ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", openingHour.LocationId);
+                    return View(openingHour);
+                }
             }
 
             ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", openingHour.LocationId);
             return View(openingHour);
         }
 
-
+        private bool ValidatePositiveTimeRange(TimeSpan start, TimeSpan end)
+        {
+            if(TimeSpan.Compare(start, end) == 1)
+            {
+                return true;
+            }
+            return false;
+        }
 
 
 

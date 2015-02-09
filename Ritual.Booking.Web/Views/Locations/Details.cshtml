@@ -104,25 +104,32 @@
                     <th>Close Time</th>
                     <th>Action</th>
                 </tr>
-                @foreach (var item in Model.OpeningHours)
+                @if (Model.OpeningHours.Count() > 0)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DayOfWeekText)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.OpenTime)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CloseTime)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Select", "Index", "QuarterlyAsssessments", new { id = item.Id }, new { @class = "button" })
-                            @Html.ActionLink("Edit", "Edit", "QuarterlyAsssessments", new { id = item.Id }, new { @class = "button" })
-                            @Html.ActionLink("Details", "Details", "QuarterlyAsssessments", new { id = item.Id }, new { @class = "button" })
-                            @Html.ActionLink("Delete", "Delete", "QuarterlyAsssessments", new { id = item.Id }, new { @class = "button" })
-                        </td>
-                    </tr>
+                    foreach (var item in Model.OpeningHours)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DayOfWeekText)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OpenTime)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CloseTime)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Select", "Index", "QuarterlyAsssessments", new { id = item.Id }, new { @class = "button" })
+                                @Html.ActionLink("Edit", "Edit", "QuarterlyAsssessments", new { id = item.Id }, new { @class = "button" })
+                                @Html.ActionLink("Details", "Details", "QuarterlyAsssessments", new { id = item.Id }, new { @class = "button" })
+                                @Html.ActionLink("Delete", "Delete", "QuarterlyAsssessments", new { id = item.Id }, new { @class = "button" })
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="4"><div class="alert-box">You have not set any Opening Hours for this location</div></td></tr>
                 }
             </table>
         </div>
@@ -137,31 +144,38 @@
                     <th>Reason</th>
                     <th>Action</th>
                 </tr>
-                @foreach (var item in Model.OpeningHourOverrides)
+                @if (Model.OpeningHourOverrides.Count() > 0)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.OverrideStartDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.AltOpenTime)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.OverrideEndDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.AltCloseTme)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.OverrideReason)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Select", "Index", "OpeningHourOverride", new { id = item.Id }, new { @class = "button" })
-                            @Html.ActionLink("Edit", "Edit", "OpeningHourOverride", new { id = item.Id }, new { @class = "button" })
-                            @Html.ActionLink("Details", "Details", "OpeningHourOverride", new { id = item.Id }, new { @class = "button" })
-                            @Html.ActionLink("Delete", "Delete", "OpeningHourOverride", new { id = item.Id }, new { @class = "button" })
-                        </td>
-                    </tr>
+                    foreach (var item in Model.OpeningHourOverrides)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OverrideStartDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AltOpenTime)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OverrideEndDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AltCloseTme)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OverrideReason)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Select", "Index", "OpeningHourOverride", new { id = item.Id }, new { @class = "button" })
+                                @Html.ActionLink("Edit", "Edit", "OpeningHourOverride", new { id = item.Id }, new { @class = "button" })
+                                @Html.ActionLink("Details", "Details", "OpeningHourOverride", new { id = item.Id }, new { @class = "button" })
+                                @Html.ActionLink("Delete", "Delete", "OpeningHourOverride", new { id = item.Id }, new { @class = "button" })
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="4"><div class="alert-box">You have not set any Override Opening Hours for this location</div></td></tr>
                 }
             </table>
         </div>

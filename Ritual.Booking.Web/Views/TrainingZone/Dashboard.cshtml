@@ -102,22 +102,29 @@
                     <th>Location</th>
                     <th></th>
                 </tr>
-                @foreach (var item in Model.UpcomingBookings)
+                @if (Model.UpcomingBookings.Count() > 0)
                 {
-                    <tr>
-                        <td>
-                            @item.Date.ToString("dddd, dd MMM, yyyy")
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TimeSlot.StartTime)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Location.Name)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Delete", "CancelBooking", new { bookingId = item.Id }, new { @class = "button" })
-                        </td>
-                    </tr>
+                    foreach (var item in Model.UpcomingBookings)
+                    {
+                        <tr>
+                            <td>
+                                @item.Date.ToString("dddd, dd MMM, yyyy")
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TimeSlot.StartTime)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Location.Name)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Delete", "CancelBooking", new { bookingId = item.Id }, new { @class = "button" })
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="4"><div class="alert-box">You have no Upcoming Bookings</div></td></tr>
                 }
             </table>
             <h3>My Past Bookings</h3>
@@ -127,19 +134,26 @@
                     <th>Start Time</th>
                     <th>Location</th>
                 </tr>
-                @foreach (var item in Model.PastBookings)
+                @if (Model.PastBookings.Count() > 0)
                 {
-                    <tr>
-                        <td>
-                            @item.Date.ToString("dddd, dd MMM, yyyy")
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TimeSlot.StartTime)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Location.Name)
-                        </td>
-                    </tr>
+                    foreach (var item in Model.PastBookings)
+                    {
+                        <tr>
+                            <td>
+                                @item.Date.ToString("dddd, dd MMM, yyyy")
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TimeSlot.StartTime)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Location.Name)
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="3"><div class="alert-box">You have no Past Bookings</div></td></tr>
                 }
             </table>
         </div>
@@ -150,16 +164,23 @@
                     <th>Date</th>
                     <th>RPE</th>
                 </tr>
-                @foreach (var item in Model.QuarterlyAssessments)
+                @if (Model.QuarterlyAssessments.Count() > 0)
                 {
-                    <tr>
-                        <td>
-                            @item.QADateTime.Value.ToString("dddd, dd MMM, yyyy - hh:mm")
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.QAClientRPE)
-                        </td>
-                    </tr>
+                    foreach (var item in Model.QuarterlyAssessments)
+                    {
+                        <tr>
+                            <td>
+                                @item.QADateTime.Value.ToString("dddd, dd MMM, yyyy - hh:mm")
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.QAClientRPE)
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="2"><div class="alert-box">You have no Quarterly Assessments</div></td></tr>
                 }
             </table>
         </div>

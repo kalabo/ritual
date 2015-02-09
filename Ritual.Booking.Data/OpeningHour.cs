@@ -22,9 +22,9 @@ public partial class OpeningHour
 
     public byte DateOfWeek { get; set; }
 
-    public Nullable<System.TimeSpan> OpenTime { get; set; }
+    public System.TimeSpan OpenTime { get; set; }
 
-    public Nullable<System.TimeSpan> CloseTime { get; set; }
+    public System.TimeSpan CloseTime { get; set; }
 
     public Nullable<int> LocationId { get; set; }
 

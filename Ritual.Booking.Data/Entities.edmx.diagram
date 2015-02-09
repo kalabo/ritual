@@ -13,7 +13,6 @@
         <EntityTypeShape EntityType="RitualDBModel.MembershipState" Width="1.5" PointX="3" PointY="20.375" />
         <EntityTypeShape EntityType="RitualDBModel.MembershipSuspension" Width="1.5" PointX="7.5" PointY="20.125" />
         <EntityTypeShape EntityType="RitualDBModel.OpeningHour" Width="1.5" PointX="3" PointY="25.875" />
-        <EntityTypeShape EntityType="RitualDBModel.OpeningHourOverride" Width="1.5" PointX="3" PointY="31.875" />
         <EntityTypeShape EntityType="RitualDBModel.Package" Width="1.5" PointX="3.75" PointY="9.625" />
         <EntityTypeShape EntityType="RitualDBModel.PackageLocationPrice" Width="1.5" PointX="6" PointY="11" />
         <EntityTypeShape EntityType="RitualDBModel.QuarterlyAssessment" Width="1.5" PointX="11.25" PointY="12" />
@@ -37,8 +36,9 @@
         <AssociationConnector Association="RitualDBModel.FK_Booking_Location" />
         <AssociationConnector Association="RitualDBModel.FK_Member_Location" />
         <AssociationConnector Association="RitualDBModel.FK_OpeningHour_Location" />
-        <AssociationConnector Association="RitualDBModel.FK_OpeningHourOverride_Location" />
         <AssociationConnector Association="RitualDBModel.FK_PackageLocationPrices_Location" />
+        <EntityTypeShape EntityType="RitualDBModel.OpeningHourOverride" Width="1.5" PointX="3.125" PointY="29.75" />
+        <AssociationConnector Association="RitualDBModel.FK_OpeningHourOverride_Location" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -42,7 +42,8 @@
         // Place a marker on it, representing the DBGeometry object's position.
         var marker = new google.maps.Marker({
             position: position,
-            map: map
+            map: map,
+            icon: '/Content/images/ritual_pushpin.png'
         });
 
         var updateMarker = function (updateEvent) {

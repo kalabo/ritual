@@ -59,7 +59,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Salutation" Type="nchar" MaxLength="10" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -116,8 +116,8 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DateOfWeek" Type="tinyint" Nullable="false" />
-          <Property Name="OpenTime" Type="time" Precision="7" />
-          <Property Name="CloseTime" Type="time" Precision="7" />
+          <Property Name="OpenTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="CloseTime" Type="time" Precision="7" Nullable="false" />
           <Property Name="LocationId" Type="int" />
         </EntityType>
         <EntityType Name="OpeningHourOverride">
@@ -127,10 +127,9 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OverrideStartDate" Type="date" Nullable="false" />
           <Property Name="OverrideEndDate" Type="date" Nullable="false" />
-          <Property Name="DayOfWeek" Type="tinyint" />
-          <Property Name="AltOpenTime" Type="time" Precision="7" />
-          <Property Name="AltCloseTme" Type="time" Precision="7" />
-          <Property Name="Closed" Type="bit" />
+          <Property Name="DayOfWeek" Type="tinyint" Nullable="false" />
+          <Property Name="AltOpenTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="AltCloseTme" Type="time" Precision="7" Nullable="false" />
           <Property Name="OverrideReason" Type="nvarchar(max)" />
           <Property Name="LocationId" Type="int" />
         </EntityType>
@@ -559,7 +558,6 @@
           <EntitySet Name="MembershipStates" EntityType="RitualDBModel.MembershipState" />
           <EntitySet Name="MembershipSuspensions" EntityType="RitualDBModel.MembershipSuspension" />
           <EntitySet Name="OpeningHours" EntityType="RitualDBModel.OpeningHour" />
-          <EntitySet Name="OpeningHourOverrides" EntityType="RitualDBModel.OpeningHourOverride" />
           <EntitySet Name="Packages" EntityType="RitualDBModel.Package" />
           <EntitySet Name="PackageLocationPrices" EntityType="RitualDBModel.PackageLocationPrice" />
           <EntitySet Name="QuarterlyAssessments" EntityType="RitualDBModel.QuarterlyAssessment" />
@@ -631,10 +629,6 @@
             <End Role="Location" EntitySet="Locations" />
             <End Role="OpeningHour" EntitySet="OpeningHours" />
           </AssociationSet>
-          <AssociationSet Name="FK_OpeningHourOverride_Location" Association="RitualDBModel.FK_OpeningHourOverride_Location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="OpeningHourOverride" EntitySet="OpeningHourOverrides" />
-          </AssociationSet>
           <AssociationSet Name="FK_PackageLocationPrices_Location" Association="RitualDBModel.FK_PackageLocationPrices_Location">
             <End Role="Location" EntitySet="Locations" />
             <End Role="PackageLocationPrice" EntitySet="PackageLocationPrices" />
@@ -643,6 +637,11 @@
             <Parameter Name="LocationId" Mode="In" Type="Int32" />
             <Parameter Name="CurrentDateTime" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <EntitySet Name="OpeningHourOverrides" EntityType="RitualDBModel.OpeningHourOverride" />
+          <AssociationSet Name="FK_OpeningHourOverride_Location" Association="RitualDBModel.FK_OpeningHourOverride_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="OpeningHourOverride" EntitySet="OpeningHourOverrides" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetNextBookingSlotsWindow_Result">
           <Property Type="Int32" Name="TimeSlotId" Nullable="false" />
@@ -767,25 +766,10 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DateOfWeek" Type="Byte" Nullable="false" />
-          <Property Name="OpenTime" Type="Time" Precision="7" />
-          <Property Name="CloseTime" Type="Time" Precision="7" />
+          <Property Name="OpenTime" Type="Time" Precision="7" Nullable="false" />
+          <Property Name="CloseTime" Type="Time" Precision="7" Nullable="false" />
           <Property Name="LocationId" Type="Int32" />
           <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_OpeningHour_Location" FromRole="OpeningHour" ToRole="Location" />
-        </EntityType>
-        <EntityType Name="OpeningHourOverride">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OverrideStartDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="OverrideEndDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="DayOfWeek" Type="Byte" />
-          <Property Name="AltOpenTime" Type="Time" Precision="7" />
-          <Property Name="AltCloseTme" Type="Time" Precision="7" />
-          <Property Name="Closed" Type="Boolean" />
-          <Property Name="OverrideReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="LocationId" Type="Int32" />
-          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_OpeningHourOverride_Location" FromRole="OpeningHourOverride" ToRole="Location" />
         </EntityType>
         <EntityType Name="Package">
           <Key>
@@ -1056,8 +1040,8 @@
           <NavigationProperty Name="SessionBookings" Relationship="RitualDBModel.FK_Booking_Location" FromRole="Location" ToRole="SessionBooking" />
           <NavigationProperty Name="Members" Relationship="RitualDBModel.FK_Member_Location" FromRole="Location" ToRole="Member" />
           <NavigationProperty Name="OpeningHours" Relationship="RitualDBModel.FK_OpeningHour_Location" FromRole="Location" ToRole="OpeningHour" />
-          <NavigationProperty Name="OpeningHourOverrides" Relationship="RitualDBModel.FK_OpeningHourOverride_Location" FromRole="Location" ToRole="OpeningHourOverride" />
           <NavigationProperty Name="PackageLocationPrices" Relationship="RitualDBModel.FK_PackageLocationPrices_Location" FromRole="Location" ToRole="PackageLocationPrice" />
+          <NavigationProperty Name="OpeningHourOverrides" Relationship="RitualDBModel.FK_OpeningHourOverride_Location" FromRole="Location" ToRole="OpeningHourOverride" />
         </EntityType>
         <Association Name="FK_Employee_Location">
           <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
@@ -1107,18 +1091,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OpeningHourOverride_Location">
-          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="0..1" />
-          <End Type="RitualDBModel.OpeningHourOverride" Role="OpeningHourOverride" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OpeningHourOverride">
-              <PropertyRef Name="LocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_PackageLocationPrices_Location">
           <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
           <End Type="RitualDBModel.PackageLocationPrice" Role="PackageLocationPrice" Multiplicity="*" />
@@ -1141,6 +1113,32 @@
           <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="Number" Nullable="true" />
         </ComplexType>
+        <EntityType Name="OpeningHourOverride">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OverrideStartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="OverrideEndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DayOfWeek" Type="Byte" Nullable="false" />
+          <Property Name="AltOpenTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="AltCloseTme" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="OverrideReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LocationId" Type="Int32" />
+          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_OpeningHourOverride_Location" FromRole="OpeningHourOverride" ToRole="Location" />
+        </EntityType>
+        <Association Name="FK_OpeningHourOverride_Location">
+          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="0..1" />
+          <End Type="RitualDBModel.OpeningHourOverride" Role="OpeningHourOverride" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OpeningHourOverride">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1266,21 +1264,6 @@
                 <ScalarProperty Name="CloseTime" ColumnName="CloseTime" />
                 <ScalarProperty Name="OpenTime" ColumnName="OpenTime" />
                 <ScalarProperty Name="DateOfWeek" ColumnName="DateOfWeek" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OpeningHourOverrides">
-            <EntityTypeMapping TypeName="RitualDBModel.OpeningHourOverride">
-              <MappingFragment StoreEntitySet="OpeningHourOverride">
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="OverrideReason" ColumnName="OverrideReason" />
-                <ScalarProperty Name="Closed" ColumnName="Closed" />
-                <ScalarProperty Name="AltCloseTme" ColumnName="AltCloseTme" />
-                <ScalarProperty Name="AltOpenTime" ColumnName="AltOpenTime" />
-                <ScalarProperty Name="DayOfWeek" ColumnName="DayOfWeek" />
-                <ScalarProperty Name="OverrideEndDate" ColumnName="OverrideEndDate" />
-                <ScalarProperty Name="OverrideStartDate" ColumnName="OverrideStartDate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1416,6 +1399,20 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="OpeningHourOverrides">
+            <EntityTypeMapping TypeName="RitualDBModel.OpeningHourOverride">
+              <MappingFragment StoreEntitySet="OpeningHourOverride">
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="OverrideReason" ColumnName="OverrideReason" />
+                <ScalarProperty Name="AltCloseTme" ColumnName="AltCloseTme" />
+                <ScalarProperty Name="AltOpenTime" ColumnName="AltOpenTime" />
+                <ScalarProperty Name="DayOfWeek" ColumnName="DayOfWeek" />
+                <ScalarProperty Name="OverrideEndDate" ColumnName="OverrideEndDate" />
+                <ScalarProperty Name="OverrideStartDate" ColumnName="OverrideStartDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

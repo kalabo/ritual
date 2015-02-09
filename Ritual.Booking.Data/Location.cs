@@ -29,9 +29,9 @@ public partial class Location
 
         this.OpeningHours = new HashSet<OpeningHour>();
 
-        this.OpeningHourOverrides = new HashSet<OpeningHourOverride>();
-
         this.PackageLocationPrices = new HashSet<PackageLocationPrice>();
+
+        this.OpeningHourOverrides = new HashSet<OpeningHourOverride>();
 
     }
 
@@ -68,9 +68,9 @@ public partial class Location
 
     public virtual ICollection<OpeningHour> OpeningHours { get; set; }
 
-    public virtual ICollection<OpeningHourOverride> OpeningHourOverrides { get; set; }
-
     public virtual ICollection<PackageLocationPrice> PackageLocationPrices { get; set; }
+
+    public virtual ICollection<OpeningHourOverride> OpeningHourOverrides { get; set; }
 
 }
 

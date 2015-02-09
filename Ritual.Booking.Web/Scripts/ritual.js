@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
     $('.jqueryui-datetimepicker').datetimepicker();
+    $('.jqueryui-timepicker').timepicker();
     $(".rep").each(function () {
         $(this).keyup(function () {
             calculateSum();
@@ -197,3 +198,80 @@ function fix_sidebar() {
 
 
 
+
+
+var RITUAL = RITUAL || {};
+RITUAL.Core = RITUAL.Core || {};
+RITUAL.Core.Locations = RITUAL.Core.Locations || {};
+
+RITUAL.Core = {
+    Init: function () {
+
+    }
+}
+
+RITUAL.Core.Locations = {
+    Listing: function () {
+        RITUAL.Core.Locations.MapListing();
+    },
+    Edit: function () {
+
+    },
+    Add: function () {
+
+    },
+    MapListing: function () {
+        $.ajax({
+            type: "GET",
+            url: '/Locations/GetMapDataJson',
+            success: function (locations) {
+                var map;
+                var bounds = new google.maps.LatLngBounds();
+                var mapOptions = {
+                    mapTypeId: 'roadmap'
+                };
+
+                // Display a map on the page
+                map = new google.maps.Map(document.getElementById("ritualMap"), mapOptions);
+                map.setTilt(45);
+                
+                // Display multiple markers on a map
+                var infoWindow = new google.maps.InfoWindow(), marker, i;
+
+                // Loop through our array of markers & place each one on the map  
+                for (i = 0; i < locations.length; i++) {
+                    var position = new google.maps.LatLng(locations[i].latitude, locations[i].longitude);
+                    bounds.extend(position);
+                    marker = new google.maps.Marker({
+                        position: position,
+                        map: map,
+                        title: locations[i].name,
+                        icon: '/Content/images/ritual_pushpin.png'
+                    });
+                    
+                    // Automatically center the map fitting all markers on the screen
+                    map.fitBounds(bounds);
+                }
+
+                // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
+                var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function (event) {
+                    this.setZoom(1);
+                    google.maps.event.removeListener(boundsListener);
+                });
+
+                $('.center-ritual-map').on('click', function () {
+                    var lat = $(this).data('lat');
+                    var long = $(this).data('long');
+                    map.setZoom(17);      // This will trigger a zoom_changed on the map
+                    map.setCenter(new google.maps.LatLng(lat, long));
+                });
+
+            },
+            error: function (xhr) {
+                //debugger;  
+                console.log(xhr.responseText);
+                alert("Error has occurred..");
+            }
+        });
+    }
+}

@@ -24,13 +24,11 @@ public partial class OpeningHourOverride
 
     public System.DateTime OverrideEndDate { get; set; }
 
-    public Nullable<byte> DayOfWeek { get; set; }
+    public byte DayOfWeek { get; set; }
 
-    public Nullable<System.TimeSpan> AltOpenTime { get; set; }
+    public System.TimeSpan AltOpenTime { get; set; }
 
-    public Nullable<System.TimeSpan> AltCloseTme { get; set; }
-
-    public Nullable<bool> Closed { get; set; }
+    public System.TimeSpan AltCloseTme { get; set; }
 
     public string OverrideReason { get; set; }
 

@@ -39,7 +39,7 @@
                         @Html.ActionLink("Last Name", "Index", new { sortOrder = ViewBag.LastNameSortParam })
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Location.Name)
+                        Location
                     </th>
                     <th>Action</th>
                 </tr>
@@ -57,7 +57,7 @@
                             @Html.DisplayFor(modelItem => item.LastName)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Location.Name)
+                            @Html.ActionLink(item.Location.Name, "Edit", "Locations", new { id = item.Location.Id }, null)
                         </td>
                         <td>
                             @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "button" })

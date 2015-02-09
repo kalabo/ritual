@@ -51,8 +51,6 @@ public partial class RitualDBEntities : DbContext
 
     public virtual DbSet<OpeningHour> OpeningHours { get; set; }
 
-    public virtual DbSet<OpeningHourOverride> OpeningHourOverrides { get; set; }
-
     public virtual DbSet<Package> Packages { get; set; }
 
     public virtual DbSet<PackageLocationPrice> PackageLocationPrices { get; set; }
@@ -66,6 +64,8 @@ public partial class RitualDBEntities : DbContext
     public virtual DbSet<TimeSlot> TimeSlots { get; set; }
 
     public virtual DbSet<Location> Locations { get; set; }
+
+    public virtual DbSet<OpeningHourOverride> OpeningHourOverrides { get; set; }
 
 
     public virtual ObjectResult<GetNextBookingSlotsWindow_Result> GetNextBookingSlotsWindow(Nullable<int> locationId, Nullable<System.DateTime> currentDateTime)
