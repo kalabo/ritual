@@ -15,10 +15,49 @@ namespace Ritual.Booking.Web.Controllers
         private RitualDBEntities db = new RitualDBEntities();
 
         // GET: Memberships
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string searchString, string StartDateRange, string EndDateRange, string Command)
         {
-            var memberships = db.Memberships.Include(m => m.Member).Include(m => m.MembershipState).Include(m => m.Package);
-            return View(memberships.ToList());
+            var MembershipListing = new MembershipListingData();
+            MembershipListing.Memberships = db.Memberships.Include(m => m.Member).Include(m => m.MembershipState).Include(m => m.Package);
+            MembershipListing.StartDateSortParam = String.IsNullOrEmpty(sortOrder) ? "startdate_desc" : "";
+            MembershipListing.EndDateSortParam = sortOrder == "enddate" ? "enddate_desc" : "enddate";
+            
+            if (Command == "Search")
+            {
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    MembershipListing.Memberships = MembershipListing.Memberships.Where(l => l.MembershipState.Name.Contains(searchString)
+                                           || l.Member.AspNetUser.LastName.Contains(searchString)
+                                           || l.Member.AspNetUser.FirstName.Contains(searchString)
+                                           || l.Package.Name.Contains(searchString));
+                }
+
+                if(!string.IsNullOrEmpty(StartDateRange) && !string.IsNullOrEmpty(EndDateRange))
+                {
+                    MembershipListing.Memberships = MembershipListing.Memberships.Where(l => l.EndDate >= Convert.ToDateTime(StartDateRange) && l.StartDate <= Convert.ToDateTime(EndDateRange)); 
+                }
+            }
+            else if (Command == "Reset")
+            {
+
+            }
+            switch (sortOrder)
+            {
+                case "enddate":
+                    MembershipListing.Memberships = MembershipListing.Memberships.OrderBy(l => l.EndDate);
+                    break;
+                case "enddate_desc":
+                    MembershipListing.Memberships = MembershipListing.Memberships.OrderByDescending(l => l.EndDate);
+                    break;
+                case "startdate_desc":
+                    MembershipListing.Memberships = MembershipListing.Memberships.OrderByDescending(l => l.StartDate);
+                    break;
+                default:
+                    MembershipListing.Memberships = MembershipListing.Memberships.OrderBy(l => l.StartDate);
+                    break;
+            }
+
+            return View(MembershipListing.Memberships.ToList());
         }
 
         // GET: Memberships/Details/5

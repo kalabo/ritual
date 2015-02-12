@@ -28,21 +28,17 @@ public partial class Employee
 
     public int Id { get; set; }
 
-    public string FirstName { get; set; }
-
-    public string LastName { get; set; }
-
     public string AspNetUserId { get; set; }
 
     public int LocationId { get; set; }
 
 
 
-    public virtual AspNetUser AspNetUser { get; set; }
+    public virtual Location Location { get; set; }
 
     public virtual ICollection<QuarterlyAssessment> QuarterlyAssessments { get; set; }
 
-    public virtual Location Location { get; set; }
+    public virtual AspNetUser AspNetUser { get; set; }
 
 }
 

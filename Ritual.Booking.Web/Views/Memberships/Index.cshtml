@@ -15,9 +15,38 @@
 <section class="content">
     <div class="row">
         <div class="large-12 columns">
-            <p>
-                @Html.ActionLink("Create New", "Create", "", new { @class = "button" })
-            </p>
+            <div class="row">
+                <div class="large-6 medium-6 columns">
+                    <p>
+                        @Html.ActionLink("Create New", "Create", "", new { @class = "button" })
+                    </p>
+                    @using (Html.BeginForm())
+                    {
+                        <p>Find by name or date range of expiry date:</p>
+                        <div class="row">
+                            <div class="large-6 columns">
+                                <label class="control-label">Search Term</label>
+                                @Html.TextBox("SearchString", "", new { @class = "form-control" })
+                            </div>
+                            <div class="large-3 medium-3 columns">
+                                <label class="control-label">Start Date</label>
+                                @Html.TextBox("StartDateRange", "", new { @class = "form-control jqueryui-datepicker" })
+                            </div>
+
+                            <div class="large-3 medium-3 columns">
+                                <label class="control-label">End Date</label>
+                                @Html.TextBox("EndDateRange", "", new { @class = "form-control jqueryui-datepicker" })
+                            </div>
+                        </div>
+                        <input type="submit" class="button" name="Command" value="Search" />
+                        <input type="submit" class="button" name="Command" value="Reset" />
+                    }
+                </div>
+                <div class="large-6 medium-6 columns">
+                    &nbsp;
+                </div>
+            </div>
+
             <table class="table">
                 <tr>
                     <th>
@@ -27,43 +56,13 @@
                         @Html.DisplayNameFor(model => model.EndDate)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Trial)
+                        Member Name
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.CancellationDate)
+                        Status
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Paid)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.InitialPaymentDate)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.InitialPayment)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.MonthlyPrice)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.TotalPrice)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.DiscountPercentage)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.DiscountPrice)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.DiscountReason)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Member.FullName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.MembershipState.Name)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Package.Name)
+                        Package
                     </th>
                     <th></th>
                 </tr>
@@ -76,36 +75,6 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.EndDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Trial)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CancellationDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Paid)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.InitialPaymentDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.InitialPayment)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.MonthlyPrice)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TotalPrice)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DiscountPercentage)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DiscountPrice)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DiscountReason)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Member.FullName)

@@ -95,6 +95,12 @@
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="Metadata.cs" />
+    <Compile Include="News.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NewsCategory.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
     <Compile Include="OpeningHour.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>

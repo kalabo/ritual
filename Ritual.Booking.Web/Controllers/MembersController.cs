@@ -24,19 +24,21 @@ namespace Ritual.Booking.Web.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            ViewBag.LastNameSortParm = String.IsNullOrEmpty(sortOrder) ? "lastname_desc" : "";
-            ViewBag.FirstNameSortParm = sortOrder == "firstname" ? "firstname_desc" : "firstname";
+            var MemberListing = new MemberListingData();
 
-            var members = from m in db.Members.Include(m => m.AspNetUser).Include(m => m.Location) select m;
+            MemberListing.LastNameSortParam = String.IsNullOrEmpty(sortOrder) ? "lastname_desc" : "";
+            MemberListing.FirstNameSortParam = sortOrder == "firstname" ? "firstname_desc" : "firstname";
+
+            MemberListing.Members = from m in db.Members.Include(m => m.AspNetUser).Include(m => m.Location) select m;
 
             if (Command == "Search")
             {
                 if (!String.IsNullOrEmpty(searchString))
                 {
-                    members = members.Where(m => m.LastName.Contains(searchString)
-                                           || m.HomePhone.Contains(searchString)
-                                           || m.MobilePhone.Contains(searchString)
-                                           || m.FirstName.Contains(searchString)
+                    MemberListing.Members = MemberListing.Members.Where(m => m.AspNetUser.LastName.Contains(searchString)
+                                           || m.AspNetUser.HomePhone.Contains(searchString)
+                                           || m.AspNetUser.MobilePhone.Contains(searchString)
+                                           || m.AspNetUser.FirstName.Contains(searchString)
                                            || m.IdentificationNumber.Contains(searchString));
                 }
             }
@@ -48,20 +50,20 @@ namespace Ritual.Booking.Web.Controllers
             switch (sortOrder)
             {
                 case "lastname_desc":
-                    members = members.OrderByDescending(m => m.LastName);
+                    MemberListing.Members = MemberListing.Members.OrderByDescending(m => m.AspNetUser.LastName);
                     break;
                 case "firstname":
-                    members = members.OrderBy(m => m.FirstName);
+                    MemberListing.Members = MemberListing.Members.OrderBy(m => m.AspNetUser.FirstName);
                     break;
                 case "firstname_desc":
-                    members = members.OrderByDescending(m => m.FirstName);
+                    MemberListing.Members = MemberListing.Members.OrderByDescending(m => m.AspNetUser.FirstName);
                     break;
                 default:
-                    members = members.OrderBy(m => m.LastName);
+                    MemberListing.Members = MemberListing.Members.OrderBy(m => m.AspNetUser.LastName);
                     break;
             }
 
-            return View(members.ToList());
+            return View(MemberListing);
         }
 
         // GET: Members/Details/5
@@ -80,7 +82,8 @@ namespace Ritual.Booking.Web.Controllers
 
             var detailModel = new MemberDetailData();
             detailModel.Member = db.Members.Find(id);
-            detailModel.Memberships = db.Memberships.Where(m => m.MemberId == id);
+            detailModel.ActiveMembership = detailModel.Member.getActiveMembership();
+            detailModel.PastMemberships = db.Memberships.Where(m => m.MemberId == id && m.EndDate < DateTime.Now);
             detailModel.QuarterlyAssessments = db.QuarterlyAssessments.Where(m => m.MemberId == id);
 
             if (detailModel.Member == null)
@@ -131,7 +134,7 @@ namespace Ritual.Booking.Web.Controllers
         }
 
         // GET: Members/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(int id)
         {
             //Redirect back to login page if not authenticated
             if (!HttpContext.User.Identity.IsAuthenticated)

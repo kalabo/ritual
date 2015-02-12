@@ -1,7 +1,7 @@
-﻿@model IEnumerable<Ritual.Booking.Data.Member>
+﻿@model Ritual.Booking.Data.MemberListingData
 
 @{
-    ViewBag.Title = "Ritual Locations - Members";
+    ViewBag.Title = "Ritual Locations - Members";    
 }
 
 <section class="content-header">
@@ -30,34 +30,46 @@
             <table class="table">
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.Salutation)
+                        Title
                     </th>
                     <th>
-                        @Html.ActionLink("First Name", "Index", new { sortOrder = ViewBag.FirstNameSortParam })
+                        @Html.ActionLink("First Name", "Index", new { sortOrder = Model.FirstNameSortParam })
                     </th>
                     <th>
-                        @Html.ActionLink("Last Name", "Index", new { sortOrder = ViewBag.LastNameSortParam })
+                        @Html.ActionLink("Last Name", "Index", new { sortOrder = Model.LastNameSortParam })
                     </th>
                     <th>
                         Location
                     </th>
+                    <th>Membership Expiry</th>
                     <th>Action</th>
                 </tr>
 
-                @foreach (var item in Model)
+                @foreach (var item in Model.Members)
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Salutation)
+                            @Html.DisplayFor(modelItem => item.AspNetUser.Salutation)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.FirstName)
+                            @Html.DisplayFor(modelItem => item.AspNetUser.FirstName)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.LastName)
+                            @Html.DisplayFor(modelItem => item.AspNetUser.LastName)
                         </td>
                         <td>
                             @Html.ActionLink(item.Location.Name, "Edit", "Locations", new { id = item.Location.Id }, null)
+                        </td>
+                        <td>
+                            @if (item.hasActiveMembership())
+                            {
+                                @item.getActiveMembership().daysTillExpiry()
+                                @Html.Raw(" Days")
+                            }
+                            else
+                            {
+                                @Html.Raw("Expired")
+                            }
                         </td>
                         <td>
                             @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "button" })

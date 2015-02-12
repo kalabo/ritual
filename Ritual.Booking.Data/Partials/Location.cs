@@ -16,6 +16,13 @@ namespace Ritual.Booking.Data
         public IEnumerable<Member> Members { get; set; }
     }
 
+    public class LocationChartData
+    {
+        public int value {get; set;}
+        public string color {get; set;}
+        public string label {get; set;}
+    }
+    
     public class RitualLocations
     {
         public decimal latitude { get; set; }
@@ -36,6 +43,63 @@ namespace Ritual.Booking.Data
     public partial class Location
     {
 
+        private RitualDBEntities db = new RitualDBEntities();
+
+        public List<LocationChartData> getLocationPaymentMethodChart()
+        {
+            List<LocationChartData> data = new List<LocationChartData>();
+
+            data.Add(new LocationChartData() { value = this.getMembersByPackagePaymentModel(false, true).Count(), color = "#444", label = "Monthly Reoccuring" });
+            data.Add(new LocationChartData() { value = this.getMembersByPackagePaymentModel(true, false).Count(), color = "#222", label = "Paid in Full" });
+
+            return data;
+        }
+
+        public List<Member> getMembers()
+        {
+            return db.Members.Where(m => m.HomeLocationId == this.Id).ToList();
+        }
+
+        public List<Member> getMembersByMembershipState(string membershipstate)
+        {
+            return db.Members.Where(m => m.HomeLocationId == this.Id && m.getActiveMembership().MembershipState.Name == membershipstate).ToList();
+        }
+
+        public List<Member> getMembersByPackageType(string packageType)
+        {
+            return db.Members.Where(m => m.HomeLocationId == this.Id && m.getActiveMembership().Package.PackageType == packageType ).ToList(); 
+        }
+
+        public List<Member> getMembersByPackageTerm(int? packageTerm)
+        {
+            return db.Members.Where(m => m.HomeLocationId == this.Id && m.getActiveMembership().Package.PackagePeriodMonths == packageTerm).ToList();
+        }
+
+        public List<Member> getMembersByPackagePaymentModel(bool payinfull, bool payreoccuring)
+        {
+            
+            if (payinfull && !payreoccuring)
+            {
+                var query = db.Members.Where(m => m.HomeLocationId == this.Id
+                                  && m.Memberships
+                                      .Any(ms => ms.MembershipStateId == 1
+                                              && ms.Package.PackagePayInFull == true)).ToList();
+                return query;
+            }
+            else if (!payinfull && payreoccuring)
+            {
+                var query = db.Members.Where(m => m.HomeLocationId == this.Id
+                                  && m.Memberships
+                                      .Any(ms => ms.MembershipStateId == 1
+                                              && ms.Package.PackageIsReoccuring == true)).ToList();
+                return query;
+            }
+            else
+            {
+                return null;
+            }
+            
+        }
     }
 
 

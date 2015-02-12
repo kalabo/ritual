@@ -38,19 +38,7 @@
                         @Html.DisplayNameFor(model => model.PackagePeriodMonths)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.PackageSuspensionLimit)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.PackageVisitLimit)
-                    </th>
-                    <th>
                         @Html.DisplayNameFor(model => model.PackageIsActive)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.PackageIsReoccuring)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.PackagePayInFull)
                     </th>
                     <th>Actions</th>
                 </tr>
@@ -68,33 +56,7 @@
                             @Html.DisplayFor(modelItem => item.PackagePeriodMonths)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.PackageSuspensionLimit)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.PackageVisitLimit)
-                        </td>
-                        <td>
                             @if (item.PackageIsActive.Value == false)
-                            {
-                                @: <i class="fa fa-times"></i>
-                            }
-                            else
-                            {
-                                @: <i class="fa fa-check"></i>
-                            }
-                        </td>
-                        <td>
-                            @if (item.PackageIsReoccuring.Value == false)
-                            {
-                                @: <i class="fa fa-times"></i>
-                            }
-                            else
-                            {
-                                @: <i class="fa fa-check"></i>
-                            }
-                        </td>
-                        <td>
-                            @if (item.PackagePayInFull.Value == false)
                             {
                                 @: <i class="fa fa-times"></i>
                             }

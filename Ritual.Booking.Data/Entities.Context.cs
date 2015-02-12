@@ -37,12 +37,6 @@ public partial class RitualDBEntities : DbContext
 
     public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
 
-    public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
-
-    public virtual DbSet<Employee> Employees { get; set; }
-
-    public virtual DbSet<Member> Members { get; set; }
-
     public virtual DbSet<Membership> Memberships { get; set; }
 
     public virtual DbSet<MembershipState> MembershipStates { get; set; }
@@ -66,6 +60,16 @@ public partial class RitualDBEntities : DbContext
     public virtual DbSet<Location> Locations { get; set; }
 
     public virtual DbSet<OpeningHourOverride> OpeningHourOverrides { get; set; }
+
+    public virtual DbSet<Member> Members { get; set; }
+
+    public virtual DbSet<Employee> Employees { get; set; }
+
+    public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+
+    public virtual DbSet<News> News { get; set; }
+
+    public virtual DbSet<NewsCategory> NewsCategories { get; set; }
 
 
     public virtual ObjectResult<GetNextBookingSlotsWindow_Result> GetNextBookingSlotsWindow(Nullable<int> locationId, Nullable<System.DateTime> currentDateTime)

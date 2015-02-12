@@ -14,7 +14,8 @@ namespace Ritual.Booking.Data
         {
             get
             {
-                return string.Format("{0} {1}", FirstName, LastName);
+                return string.Empty;
+                //return string.Format("{0} {1}", this.AspNetUser.AspNetUserDetails, LastName);
             }
         }
     }

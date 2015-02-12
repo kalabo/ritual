@@ -60,13 +60,13 @@ public partial class Membership
 
 
 
-    public virtual Member Member { get; set; }
-
     public virtual MembershipState MembershipState { get; set; }
 
     public virtual Package Package { get; set; }
 
     public virtual ICollection<MembershipSuspension> MembershipSuspensions { get; set; }
+
+    public virtual Member Member { get; set; }
 
 }
 

@@ -14,6 +14,9 @@ namespace Ritual.Booking.Web
             bundles.Add(new ScriptBundle("~/bundles/ritual").Include(
                         "~/Scripts/ritual.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/chartjs").Include(
+                        "~/Scripts/Chart.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 

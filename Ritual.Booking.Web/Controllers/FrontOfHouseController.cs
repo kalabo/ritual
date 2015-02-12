@@ -25,23 +25,27 @@ namespace Ritual.Booking.Web.Controllers
         private RitualDBEntities db = new RitualDBEntities();
 
         // GET: FrontOfHouse
+        [Authorize(Roles = "Employee,Admin")]
         public ActionResult Index()
         {
             return View();
         }
 
         // GET: Fuelbar
+        [Authorize(Roles = "Employee,Admin")]
         public ActionResult fuelbar()
         {
             return View();
         }
         
         // GET: Feedback
+        [Authorize(Roles = "Employee,Admin")]
         public ActionResult feedback()
         {
             return View();
         }
 
+        [Authorize(Roles = "Employee,Admin")]
         public ActionResult Checkin()
         {
             //Redirect back to login page if not authenticated
@@ -65,6 +69,7 @@ namespace Ritual.Booking.Web.Controllers
         }
 
         // GET: ConfirmCheckIn
+        [Authorize(Roles = "Employee,Admin")]
         public ActionResult ConfirmCheckIn(int TimeSlotId, int SessionBookingId, int pin, int RPEPush, int RPEFeel)
         {
             //Redirect back to login page if not authenticated

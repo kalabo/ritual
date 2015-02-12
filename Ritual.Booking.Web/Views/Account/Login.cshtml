@@ -5,7 +5,7 @@
 }
 <section class="content">
     <div class="row">
-        <div class="small-4 large-centered columns">
+        <div class="large-6 medium-8 small-12 large-centered medium-centered small-centered columns">
 
             <div class='builder-form' id="loginForm">
                 <div class="row">
@@ -33,8 +33,8 @@
                                 @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
 
                             </div>
-                            <div class="form-group">                               
-                                 @Html.LabelFor(m => m.RememberMe, new { @class = "col-md-2 control-label" })
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.RememberMe, new { @class = "col-md-2 control-label" })
                                 @Html.CheckBoxFor(m => m.RememberMe)
                             </div>
                             <div class="form-group">
@@ -48,12 +48,12 @@
                                         @Html.ActionLink("Register for Trial", "Register", null, new { @class = "button register-button" })
                                     </div>
                                 </div>
-                                
+
                             </div>
                             @* Enable this once you have account confirmation enabled for password reset functionality
-                                <p>
-                                    @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                                </p>*@
+                            <p>
+                                @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                            </p>*@
                         }
                     </div>
                 </div>

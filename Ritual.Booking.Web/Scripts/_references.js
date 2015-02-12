@@ -27,3 +27,5 @@
 /// <reference path="foundation/foundation.section.js" />
 /// <reference path="foundation/foundation.tooltips.js" />
 /// <reference path="efspatialgooglemaps.js" />
+/// <reference path="chart.min.js" />
+/// <reference path="foundation/foundation.equalizer.js" />

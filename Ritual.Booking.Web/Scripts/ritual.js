@@ -1,4 +1,7 @@
 ﻿$(document).ready(function () {
+
+    $('.jqueryui-datepicker').datepicker();
+
     $('.jqueryui-datetimepicker').datetimepicker();
     $('.jqueryui-timepicker').timepicker();
     $(".rep").each(function () {
@@ -219,6 +222,100 @@ RITUAL.Core.Locations = {
     },
     Add: function () {
 
+    },
+    Charts: function () {
+
+        var locationId = $('#locationId').val();
+        var options = {
+            animation: true,
+            tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>%",
+            //String - A legend template
+            legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>"
+        };
+
+        this.CurrentMembersChart(locationId, options, '#locationCurrentMembers', '#locationCurrentMembersCanvas');
+        this.CurrentMembersTerm(locationId, options, '#locationMembersTerm', '#locationMembersTermCanvas');
+        this.CurrentMembersType(locationId, options, '#locationMembersType', '#locationMembersTypeCanvas');
+        this.CurrentMembersPayment(locationId, options, '#locationMembersPayment', '#locationMembersPaymentCanvas');
+    },
+    CurrentMembersChart: function (locationId, options, canvasdiv, legenddiv) {
+        
+        
+
+        var data = [{
+            value: 30,
+            color: "#F7464A",
+            label: "Red"
+        }, {
+            value: 50,
+            color: "#E2EAE9",
+            label: "Orange"
+        }
+        ]
+
+        var currentMembers = $(canvasdiv);
+        var currentMembersCt = currentMembers.get(0).getContext('2d');
+        currentMembersChart = new Chart(currentMembersCt).Doughnut(data, options);
+        var legend = currentMembersChart.generateLegend();
+        $(legenddiv).append(legend);
+    },
+    CurrentMembersTerm: function (locationId, options, canvasdiv, legenddiv) {
+
+        var data = [{
+            value: 30,
+            color: "#F7464A",
+            label: "Red"
+        }, {
+            value: 50,
+            color: "#E2EAE9",
+            label: "Orange"
+        }
+        ]
+
+        var currentMembers = $(canvasdiv);
+        var currentMembersCt = currentMembers.get(0).getContext('2d');
+        currentMembersChart = new Chart(currentMembersCt).Doughnut(data, options);
+        var legend = currentMembersChart.generateLegend();
+        $(legenddiv).append(legend);
+    },
+    CurrentMembersType: function (locationId, options, canvasdiv, legenddiv) {
+
+        var data = [{
+            value: 30,
+            color: "#F7464A",
+            label: "Red"
+        }, {
+            value: 50,
+            color: "#E2EAE9",
+            label: "Orange"
+        }
+        ]
+
+        var currentMembers = $(canvasdiv);
+        var currentMembersCt = currentMembers.get(0).getContext('2d');
+        currentMembersChart = new Chart(currentMembersCt).Doughnut(data, options);
+        var legend = currentMembersChart.generateLegend();
+        $(legenddiv).append(legend);
+    },
+    CurrentMembersPayment: function (locationId, options, canvasdiv, legenddiv) {
+        $.ajax({
+            type: "GET",
+            url: '/Locations/GetLocationPaymentMethodChart',
+            data: { "locationId": locationId },
+            success: function (data) {
+
+                var currentMembers = $(canvasdiv);
+                var currentMembersCt = currentMembers.get(0).getContext('2d');
+                currentMembersChart = new Chart(currentMembersCt).Doughnut(data, options);
+                var legend = currentMembersChart.generateLegend();
+                $(legenddiv).append(legend);
+            },
+            error: function (xhr) {
+                //debugger;  
+                console.log(xhr.responseText);
+                alert("Error has occurred..");
+            }
+        });
     },
     MapListing: function () {
         $.ajax({

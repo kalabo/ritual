@@ -158,7 +158,7 @@ namespace Ritual.Booking.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Salutation = model.Salutation, FirstName = model.FirstName, LastName = model.LastName, Pin = model.Pin };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -170,31 +170,45 @@ namespace Ritual.Booking.Web.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
+                    this.AssignNewMemberRoles(user, UserManager);
+
                     // MH NEW
                     RitualDBEntities ctx = new RitualDBEntities();
 
                     Member m = new Member()
                     {
                         AspNetUserId = user.Id,
-                        Salutation = model.Salutation,
-                        FirstName = model.FirstName,
-                        LastName = model.LastName,
-                        Pin = model.Pin,
                         HomeLocationId = 1,
                         IdentificationNumber = "member" + DateTime.Now.Ticks.ToString()
                     };
 
-                    ctx.Members.Add(m);
+                    //Ritual.Booking.Data.AspNetUserDetail detail = new Ritual.Booking.Data.AspNetUserDetail()
+                    //{
+                    //    Salutation = model.Salutation,
+                    //    FirstName = model.FirstName,
+                    //    LastName = model.LastName,
+                    //    Pin = model.Pin,
+                    //};
 
+                    ctx.Members.Add(m);
+                    //ctx.AspNetUserDetails.Add(detail);
                     ctx.SaveChanges();
 
-                    return RedirectToAction("Index", "Home");
+
+
+                    return RedirectToAction("Dashboard", "TrainingZone");
                 }
                 AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        private void AssignNewMemberRoles(ApplicationUser user, ApplicationUserManager UserManager)
+        {
+            // Add member to Member Role
+            UserManager.AddToRole(user.Id, "Member");
         }
 
   

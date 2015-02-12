@@ -25,6 +25,10 @@ public partial class AspNetUser
 
         this.Members = new HashSet<Member>();
 
+        this.News = new HashSet<News>();
+
+        this.News1 = new HashSet<News>();
+
     }
 
 
@@ -52,11 +56,27 @@ public partial class AspNetUser
 
     public string UserName { get; set; }
 
+    public string Salutation { get; set; }
+
+    public string FirstName { get; set; }
+
+    public string LastName { get; set; }
+
+    public int Pin { get; set; }
+
+    public string HomePhone { get; set; }
+
+    public string MobilePhone { get; set; }
+
 
 
     public virtual ICollection<Employee> Employees { get; set; }
 
     public virtual ICollection<Member> Members { get; set; }
+
+    public virtual ICollection<News> News { get; set; }
+
+    public virtual ICollection<News> News1 { get; set; }
 
 }
 

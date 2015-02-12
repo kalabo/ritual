@@ -92,9 +92,9 @@ public partial class QuarterlyAssessment
 
 
 
-    public virtual Employee Employee { get; set; }
-
     public virtual Member Member { get; set; }
+
+    public virtual Employee Employee { get; set; }
 
 }
 

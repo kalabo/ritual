@@ -13,6 +13,13 @@ namespace Ritual.Booking.Data
         public Membership Membership { get; set; }
     }
 
+    public class MembershipListingData
+    {
+        public IEnumerable<Membership> Memberships { get; set; }
+        public string StartDateSortParam { get; set; }
+        public string EndDateSortParam { get; set; }
+    }
+
     public class MembershipsSuspensionData
     {
         public Membership Membership { get; set; }

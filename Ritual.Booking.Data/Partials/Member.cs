@@ -11,8 +11,16 @@ namespace Ritual.Booking.Data
     public class MemberDetailData
     {
         public Member Member { get; set; }
-        public IEnumerable<Membership> Memberships { get; set; }
+        public Membership ActiveMembership { get; set; }
+        public IEnumerable<Membership> PastMemberships { get; set; }
         public IEnumerable<QuarterlyAssessment> QuarterlyAssessments { get; set; }
+    }
+
+    public class MemberListingData
+    {
+        public IEnumerable<Member> Members { get; set; }
+        public string LastNameSortParam { get; set; }
+        public string FirstNameSortParam { get; set; }
     }
 
     [MetadataType(typeof(MemberMetadata))]
@@ -25,7 +33,25 @@ namespace Ritual.Booking.Data
         {
             get
             {
-                return string.Format("{0} {1}", FirstName, LastName);
+                return string.Format("{0} {1}", this.AspNetUser.FirstName, this.AspNetUser.LastName);
+            }
+        }
+
+        [Column("LastName", TypeName = "string")]
+        public string LastName
+        {
+            get
+            {
+                return string.Format("{0}", this.AspNetUser.LastName);
+            }
+        }
+
+        [Column("FirstName", TypeName = "string")]
+        public string FirstName
+        {
+            get
+            {
+                return string.Format("{0}", this.AspNetUser.FirstName);
             }
         }
 

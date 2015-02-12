@@ -75,6 +75,14 @@ namespace Ritual.Booking.Web.Controllers
             return Json(rituallocations, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult GetLocationPaymentMethodChart(int locationId)
+        {
+            var data = new List<LocationChartData>();
+            Location location = db.Locations.Find(locationId);
+
+            return Json(location.getLocationPaymentMethodChart(), JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Locations/Details/5
         public ActionResult Details(int? id)
         {
@@ -250,6 +258,11 @@ namespace Ritual.Booking.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                Location location = db.Locations.Find(locationId);
+                if (location == null)
+                {
+                    return HttpNotFound();
+                }
                 if (ValidatePositiveTimeRange(openingHour.OpenTime, openingHour.CloseTime))
                 {
                     openingHour.LocationId = locationId;
@@ -259,8 +272,9 @@ namespace Ritual.Booking.Web.Controllers
                 }
                 else
                 {
-                    ViewBag.Error = "Please ensure that your close time is later than your opening time";
+                    ModelState.AddModelError("Error", "Please ensure that your close time is later than your opening time");
                     ViewBag.LocationId = new SelectList(db.Locations, "Id", "Name", openingHour.LocationId);
+                    ViewBag.Location = location;
                     return View(openingHour);
                 }
             }
@@ -271,7 +285,7 @@ namespace Ritual.Booking.Web.Controllers
 
         private bool ValidatePositiveTimeRange(TimeSpan start, TimeSpan end)
         {
-            if(TimeSpan.Compare(start, end) == 1)
+            if(TimeSpan.Compare(start, end) == -1)
             {
                 return true;
             }

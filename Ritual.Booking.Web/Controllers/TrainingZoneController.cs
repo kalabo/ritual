@@ -25,18 +25,13 @@ namespace Ritual.Booking.Web.Controllers
 
         private RitualDBEntities db = new RitualDBEntities();
 
-        // GET: TrainingZone
+        [Authorize(Roles = "Member,Admininistrator")]
         public ActionResult MyRitual()
         {
             //Redirect back to login page if not authenticated
             if (!HttpContext.User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Account");
-            }
-            //If user is not a member then redirect to homepage.
-            if (!HttpContext.User.IsInRole("Member"))
-            {
-                return RedirectToAction("Home", "Index");
             }
 
             this.ApplicationDbContext = new ApplicationDbContext();
@@ -59,6 +54,7 @@ namespace Ritual.Booking.Web.Controllers
         }
 
         // GET: MyAssessments
+        [Authorize(Roles = "Member,Admininistrator")]
         public ActionResult MyAssessments()
         {
             //Redirect back to login page if not authenticated
@@ -66,27 +62,18 @@ namespace Ritual.Booking.Web.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-            //If user is not a member then redirect to homepage.
-            if (!HttpContext.User.IsInRole("Member"))
-            {
-                return RedirectToAction("Home", "Index");
-            }
 
             return View();
         }
 
         // GET: TrainingZone
+        [Authorize(Roles = "Member, Administrator")]
         public ActionResult Dashboard()
         {
             //Redirect back to login page if not authenticated
             if (!HttpContext.User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Account");
-            }
-            //If user is not a member then redirect to homepage.
-            if (!HttpContext.User.IsInRole("Member"))
-            {
-                return RedirectToAction("Home", "Index");
             }
 
             this.ApplicationDbContext = new ApplicationDbContext();
@@ -110,6 +97,7 @@ namespace Ritual.Booking.Web.Controllers
             return View(dashboardModel);
         }
         // GET: TrainingZone
+        [Authorize(Roles = "Member,Admininistrator")]
         public ActionResult Booking()
         {
             //Redirect back to login page if not authenticated
@@ -117,11 +105,7 @@ namespace Ritual.Booking.Web.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-            //If user is not a member then redirect to homepage.
-            if (!HttpContext.User.IsInRole("Member"))
-            {
-                return RedirectToAction("Home", "Index");
-            }
+
             TrainingZoneBookingData TrainingZoneModel = new TrainingZoneBookingData();
             this.ApplicationDbContext = new ApplicationDbContext();
             this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
@@ -132,7 +116,7 @@ namespace Ritual.Booking.Web.Controllers
             return View(TrainingZoneModel);
         }
 
-
+        [Authorize(Roles = "Member,Admininistrator")]
         public ActionResult AddNewBooking(int timeslotId, string bookingDate)
         {
             this.ApplicationDbContext = new ApplicationDbContext();
@@ -158,17 +142,13 @@ namespace Ritual.Booking.Web.Controllers
 
 
         // GET: TrainingZone
+        [Authorize(Roles = "Member,Admininistrator")]
         public ActionResult CancelBooking(int? BookingId)
         {
             //Redirect back to login page if not authenticated
             if (!HttpContext.User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Account");
-            }
-            //If user is not a member then redirect to homepage.
-            if (!HttpContext.User.IsInRole("Member"))
-            {
-                return RedirectToAction("Home", "Index");
             }
 
             TrainingZoneCancelBooking TrainingZoneCancelBookingModel = new TrainingZoneCancelBooking();
@@ -184,6 +164,7 @@ namespace Ritual.Booking.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Member,Admininistrator")]
         public ActionResult DeleteBookingConfirmed(int id)
         {
             //Redirect back to login page if not authenticated
@@ -200,17 +181,13 @@ namespace Ritual.Booking.Web.Controllers
 
 
         // GET: TrainingZone
+        [Authorize(Roles = "Member,Admininistrator")]
         public ActionResult ConfirmBooking(int TimeSlotId, int LocationId, DateTime BookingDate)
         {
             //Redirect back to login page if not authenticated
             if (!HttpContext.User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Account");
-            }
-            //If user is not a member then redirect to homepage.
-            if (!HttpContext.User.IsInRole("Member"))
-            {
-                return RedirectToAction("Home", "Index");
             }
 
             TrainingZoneConfirmBooking TrainingZoneConfirmBookingModel = new TrainingZoneConfirmBooking();
@@ -229,6 +206,7 @@ namespace Ritual.Booking.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Member,Admininistrator")]
         public ActionResult AddNewBooking(int TimeSlotId, int LocationId, DateTime BookingDate)
         {
             //Redirect back to login page if not authenticated
@@ -236,7 +214,7 @@ namespace Ritual.Booking.Web.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-
+            
             if (ModelState.IsValid)
             {
                 this.ApplicationDbContext = new ApplicationDbContext();
@@ -265,6 +243,7 @@ namespace Ritual.Booking.Web.Controllers
 
 
         // GET: TrainingZone/DeleteBooking/5
+        [Authorize(Roles = "Member,Admininistrator")]
         public ActionResult DeleteBooking(int? id)
         {
             //Redirect back to login page if not authenticated

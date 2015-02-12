@@ -1,10 +1,10 @@
 ﻿@model Ritual.Booking.Data.LocationDetailData
 
 @{
-    ViewBag.Title = "Ritual Location Details";
+    ViewBag.Title = "Ritual Location Details - " + Model.Location.Name;
 }
 
-
+<input type="hidden" id="locationId" value="@Model.Location.Id"/>
 <section class="content-header">
     <div class="row">
         <div class="large-12 columns">
@@ -18,6 +18,29 @@
         <div class="large-12 medium-12 columns">
             @Html.ActionLink("Edit", "Edit", new { id = Model.Location.Id }, new { @class = "button" })
             @Html.ActionLink("Back to List", "Index", null, new { @class = "button" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="large-3 columns">
+            <div class="canvas-holder" id="locationCurrentMembersCanvas">
+                <canvas id="locationCurrentMembers" width="200" height="200"></canvas>
+            </div>
+        </div>
+        <div class="large-3 columns">
+            <div class="canvas-holder" id="locationMembersTermCanvas">
+                <canvas id="locationMembersTerm" width="200" height="200"></canvas>
+            </div>
+        </div>
+        <div class="large-3 columns">
+            <div class="canvas-holder" id="locationMembersTypeCanvas">
+                <canvas id="locationMembersType" width="200" height="200"></canvas>
+            </div>
+        </div>
+        <div class="large-3 columns">
+            <div class="canvas-holder" id="locationMembersPaymentCanvas">
+                <canvas id="locationMembersPayment" width="200" height="200"></canvas>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -185,5 +208,10 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript" src="~/Scripts/EFSpatialGoogleMaps.js" /></script>
+    <script type="text/javascript" />
+    $(document).ready(function(){
+    RITUAL.Core.Locations.Charts();
+    });
+    </script>
 }
 

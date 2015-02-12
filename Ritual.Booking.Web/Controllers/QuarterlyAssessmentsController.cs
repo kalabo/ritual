@@ -30,29 +30,29 @@ namespace Ritual.Booking.Web.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                quarterlyAssessments = quarterlyAssessments.Where(l => l.Member.LastName.Contains(searchString)
-                                       || l.Member.LastName.Contains(searchString)
-                                       || l.Member.FullName.Contains(searchString)
-                                       || l.Employee.FullName.Contains(searchString)
-                                       || l.Employee.LastName.Contains(searchString)
-                                       || l.Employee.FirstName.Contains(searchString)
-                                       || l.QAYear.ToString().Equals(searchString));
+                //quarterlyAssessments = quarterlyAssessments.Where(l => l.Member.LastName.Contains(searchString)
+                //                       || l.Member.LastName.Contains(searchString)
+                //                       || l.Member.FullName.Contains(searchString)
+                //                       || l.Employee.FullName.Contains(searchString)
+                //                       || l.Employee.LastName.Contains(searchString)
+                //                       || l.Employee.FirstName.Contains(searchString)
+                //                       || l.QAYear.ToString().Equals(searchString));
             }
 
             switch (sortOrder)
             {
-                case "membername_desc":
-                    quarterlyAssessments = quarterlyAssessments.OrderByDescending(l => (string)l.Member.LastName);
-                    break;
-                case "Employee":
-                    quarterlyAssessments = quarterlyAssessments.OrderBy(l => (string)l.Employee.LastName);
-                    break;
-                case "Employeename_desc":
-                    quarterlyAssessments = quarterlyAssessments.OrderByDescending(l => (string)l.Employee.LastName);
-                    break;
-                default:
-                    quarterlyAssessments = quarterlyAssessments.OrderBy(l => (string)l.Member.LastName);
-                    break;
+                //case "membername_desc":
+                //    quarterlyAssessments = quarterlyAssessments.OrderByDescending(l => (string)l.Member.LastName);
+                //    break;
+                //case "Employee":
+                //    quarterlyAssessments = quarterlyAssessments.OrderBy(l => (string)l.Employee.LastName);
+                //    break;
+                //case "Employeename_desc":
+                //    quarterlyAssessments = quarterlyAssessments.OrderByDescending(l => (string)l.Employee.LastName);
+                //    break;
+                //default:
+                //    quarterlyAssessments = quarterlyAssessments.OrderBy(l => (string)l.Member.LastName);
+                //    break;
             }
             return View(quarterlyAssessments.ToList());
 

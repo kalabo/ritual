@@ -21,7 +21,10 @@
                 @Html.AntiForgeryToken()
 
                 <div class="form-horizontal">
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+                    {
+                        @Html.ValidationSummary("", new { @class = "alert-box alert" })
+                    }
 
                     <input type="hidden" name="locationId" value="@ViewBag.Location.Id" />
                     <div class="form-group">

@@ -32,31 +32,17 @@ public partial class Member
 
     public int Id { get; set; }
 
-    public string Salutation { get; set; }
-
-    public string FirstName { get; set; }
-
-    public string LastName { get; set; }
-
     public string IdentificationNumber { get; set; }
 
     public Nullable<bool> EmailOptOut { get; set; }
-
-    public Nullable<System.DateTime> Birthday { get; set; }
-
-    public string HomePhone { get; set; }
-
-    public string MobilePhone { get; set; }
 
     public int HomeLocationId { get; set; }
 
     public string AspNetUserId { get; set; }
 
-    public int Pin { get; set; }
 
 
-
-    public virtual AspNetUser AspNetUser { get; set; }
+    public virtual Location Location { get; set; }
 
     public virtual ICollection<SessionBooking> SessionBookings { get; set; }
 
@@ -64,7 +50,7 @@ public partial class Member
 
     public virtual ICollection<QuarterlyAssessment> QuarterlyAssessments { get; set; }
 
-    public virtual Location Location { get; set; }
+    public virtual AspNetUser AspNetUser { get; set; }
 
 }
 
