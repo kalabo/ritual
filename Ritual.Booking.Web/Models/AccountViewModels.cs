@@ -92,13 +92,14 @@ namespace Ritual.Booking.Web.Models
         [Required]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
-        
+
         [Required]
         [Display(Name = "Pin Number")]
         public int Pin { get; set; }
+
     }
 
-   
+
     public class ResetPasswordViewModel
     {
         [Required]

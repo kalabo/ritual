@@ -26,14 +26,14 @@ namespace Ritual.Booking.Web.Controllers
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.PackageTypeSortParm = sortOrder == "packagetype" ? "packagetype_desc" : "packagetype";
 
-            var packages = from m in db.Packages select m;
+            var packages = from m in db.Packages.Include(m => m.PackageType) select m;
 
             if (Command == "Search")
             {
                 if (!String.IsNullOrEmpty(searchString))
                 {
                     packages = packages.Where(p => p.Name.Contains(searchString)
-                                           || p.PackageType.Contains(searchString));
+                                           || p.PackageType.Name.Contains(searchString));
                 }
             }
             else if (Command == "Reset")
@@ -78,6 +78,14 @@ namespace Ritual.Booking.Web.Controllers
         // GET: Packages/Create
         public ActionResult Create()
         {
+            //Redirect back to login page if not authenticated
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            ViewBag.PackageTypeId = new SelectList(db.PackageTypes, "Id", "Name");
+
             return View();
         }
 
@@ -86,14 +94,22 @@ namespace Ritual.Booking.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,PackageType,PackagePeriodMonths,PackageSuspensionLimit,PackageVisitLimit,PackageIsActive,PackageIsReoccuring,PackagePayInFull")] Package package)
+        public ActionResult Create([Bind(Include = "Id,Name,PackageTypeId,PackagePeriodMonths,PackageSuspensionLimit,PackageVisitLimit,PackageIsActive,PackageIsReoccuring,PackagePayInFull")] Package package)
         {
+            //Redirect back to login page if not authenticated
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (ModelState.IsValid)
             {
                 db.Packages.Add(package);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
+            ViewBag.PackageTypeId = new SelectList(db.PackageTypes, "Id", "Name", package.PackageTypeId);
 
             return View(package);
         }
@@ -110,6 +126,9 @@ namespace Ritual.Booking.Web.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.PackageTypeId = new SelectList(db.PackageTypes, "Id", "Name", package.PackageTypeId);
+
             return View(package);
         }
 

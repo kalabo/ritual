@@ -884,3 +884,35 @@ div.alert-box {
     bottom: -10px;
     width: 180px;
 }
+
+.accordion
+{
+    margin:0px 0px 20px 0px;
+    padding:0px;
+}
+    .accordion .accordion-navigation.active > a, .accordion dd.active > a {
+      background: #2d2d2d; }
+    .accordion .accordion-navigation > a, .accordion dd > a {
+      background: #222;
+      color: #fff;
+      font-family: "Open Sans", Helvetica, Roboto, Arial, sans-serif;
+      font-size: 1rem; }
+      .accordion .accordion-navigation > a:hover, .accordion dd > a:hover {
+        background: #2d2d2d; }
+      .accordion .accordion-navigation > .content.active, .accordion dd > .content.active {
+        background: #444; 
+      }
+
+.news-metadata
+{
+    padding:15px;
+    margin-bottom:10px;
+    background-color:#444;
+}
+
+.news-content
+{
+    padding:15px;
+    margin-bottom:10px;
+    background-color:#444;
+}

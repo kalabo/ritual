@@ -23,338 +23,336 @@
                 <div class="form-horizontal">
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     @Html.HiddenFor(model => model.Id)
+                    
+                    <ul class="accordion" data-accordion>
+                        <li class="accordion-navigation">
+                            <a href="#panel1a">Assesment Details</a>
+                            <div id="panel1a" class="content active">
+                                <div class="row">
+                                    <div class="large-6 columns">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.MemberId, "Ritual Member", htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.DropDownList("MemberId", null, htmlAttributes: new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.MemberId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
 
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Save" class="button" />
-                        </div>
-                    </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.EmployeeId, "Coach", htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.DropDownList("EmployeeId", null, htmlAttributes: new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
 
-                    <div class="row">
-                        <div class="large-6 columns">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.MemberId, "Ritual Member", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownList("MemberId", null, htmlAttributes: new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.MemberId, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.EmployeeId, "Coach", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownList("EmployeeId", null, htmlAttributes: new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QAQuarter, "Quarter", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.QAQuarter, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.QAQuarter, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="large-6 columns">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QAYear, "Year", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.QAYear, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.QAYear, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QADateTime, "Date / Time", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.QADateTime, new { htmlAttributes = new { @class = "form-control jqueryui-datetimepicker" } })
-                                    @Html.ValidationMessageFor(model => model.QADateTime, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QAClientRPE, "Client RPE (1 to 10)", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.QAClientRPE, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.QAClientRPE, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
-                    <div class="row">
-                        <div class="large-6 columns">
-                            <h1>Test 1: Bodyweight Pull</h1>
-
-                            @*<div class="form-group">
-                                    @Html.LabelFor(model => model.QATestOneTitle, "Please Select Test Type", htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        @Html.DropDownListFor(model => model.QATestOneTitle, ViewData["TestOneActionList"] as SelectList)
-                                        @Html.ValidationMessageFor(model => model.QATestOneTitle, "", new { @class = "text-danger" })
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.QAQuarter, "Quarter", htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.QAQuarter, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.QAQuarter, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>*@
+                                    <div class="large-6 columns">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.QAYear, "Year", htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.QAYear, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.QAYear, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QATestOneType, "Please Select Test Type", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownListFor(model => model.QATestOneType, ViewData["TestOneActionList"] as SelectList, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.QATestOneType, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.QADateTime, "Date / Time", htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.QADateTime, new { htmlAttributes = new { @class = "form-control jqueryui-datetimepicker" } })
+                                                @Html.ValidationMessageFor(model => model.QADateTime, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QATestOneTimeReps, "Time / Reps", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.QATestOneTimeReps, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.QATestOneTimeReps, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QATestOneNotes, "Notes", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.TextAreaFor(model => model.QATestOneNotes, new { cols = 35, @rows = 5, @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.QATestOneNotes, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="large-6 columns">
-                            <h1>Test 2: Bodyweight Push</h1>
-
-                            @*<div class="form-group">
-                                    @Html.LabelFor(model => model.QATestTwoTitle, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.QATestTwoTitle, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.QATestTwoTitle, "", new { @class = "text-danger" })
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.QAClientRPE, "Client RPE (1 to 10)", htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.QAClientRPE, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.QAClientRPE, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>*@
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QATestTwoType, "Please Select Test Type", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownListFor(model => model.QATestTwoType, ViewData["TestTwoActionList"] as SelectList, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.QATestTwoType, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QATestTwoTimeReps, "Time / Reps", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.QATestTwoTimeReps, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.QATestTwoTimeReps, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QATestTwoNotes, "Notes", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.TextAreaFor(model => model.QATestTwoNotes, new { cols = 35, @rows = 5, @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.QATestTwoNotes, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
+                        </li>
+                        <li class="accordion-navigation">
+                            <a href="#panel2a">Test 1: Bodyweight Pull</a>
+                            <div id="panel2a" class="content">
+                                @*<div class="form-group">
+                        @Html.LabelFor(model => model.QATestOneTitle, "Please Select Test Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(model => model.QATestOneTitle, ViewData["TestOneActionList"] as SelectList)
+                            @Html.ValidationMessageFor(model => model.QATestOneTitle, "", new { @class = "text-danger" })
                         </div>
-                    </div>
+                    </div>*@
 
-                    <div class="row">
-                        <div class="large-6 columns">
-                            <h1>Test 3: Bodyweight Squat</h1>
-
-                            @*<div class="form-group">
-                                    @Html.LabelFor(model => model.QATestThreeTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.QATestOneType, "Please Select Test Type", htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.QATestThreeTitle, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.QATestThreeTitle, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(model => model.QATestOneType, ViewData["TestOneActionList"] as SelectList, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.QATestOneType, "", new { @class = "text-danger" })
                                     </div>
-                                </div>*@
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QATestThreeType, "Please Select Test Type", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownListFor(model => model.QATestThreeType, ViewData["TestThreeActionList"] as SelectList, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.QATestThreeType, "", new { @class = "text-danger" })
                                 </div>
-                            </div>
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QATestThreeTimeReps, "Time / Reps", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.QATestThreeTimeReps, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.QATestThreeTimeReps, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QATestThreeNotes, "Notes", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.TextAreaFor(model => model.QATestThreeNotes, new { cols = 35, @rows = 5, @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.QATestThreeNotes, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="large-6 columns">
-                            <h1>Test 4: Burpee Challenge</h1>
-
-                            @*<div class="form-group">
-                                    @Html.LabelFor(model => model.QATestFourTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.QATestOneTimeReps, "Time / Reps", htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.QATestFourTitle, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.QATestFourTitle, "", new { @class = "text-danger" })
+                                        @Html.EditorFor(model => model.QATestOneTimeReps, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.QATestOneTimeReps, "", new { @class = "text-danger" })
                                     </div>
-                                </div>*@
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QATestFourType, "Please Select Test Type", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownListFor(model => model.QATestFourType, ViewData["TestFourActionList"] as SelectList, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.QATestFourType, "", new { @class = "text-danger" })
                                 </div>
-                            </div>
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QATestFourTimeReps, "Time / Reps", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.QATestFourTimeReps, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.QATestFourTimeReps, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QATestFourNotes, "Notes", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.TextAreaFor(model => model.QATestFourNotes, new { cols = 35, @rows = 5, @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.QATestFourNotes, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="large-12 columns">
-                            <h1>Test 5: Tabata Protocol</h1>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="large-6 columns">
-                            @*<div class="form-group">
-                                    @Html.LabelFor(model => model.QATestFiveTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.QATestOneNotes, "Notes", htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        @Html.EditorFor(model => model.QATestFiveTitle, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.QATestFiveTitle, "", new { @class = "text-danger" })
+                                        @Html.TextAreaFor(model => model.QATestOneNotes, new { cols = 35, @rows = 5, @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.QATestOneNotes, "", new { @class = "text-danger" })
                                     </div>
-                                </div>*@
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QATestFiveType, "Please Select Test Type", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownListFor(model => model.QATestFiveType, ViewData["TestFiveActionList"] as SelectList, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.QATestFiveType, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-
+                        </li>
+                        <li class="accordion-navigation">
+                            <a href="#panel3a">Test 2: Bodyweight Push</a>
+                            <div id="panel3a" class="content">
+                                @*<div class="form-group">
+                        @Html.LabelFor(model => model.QATestTwoTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.QATestTwoTitle, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.QATestTwoTitle, "", new { @class = "text-danger" })
                         </div>
-                        <div class="large-6 columns">
+                    </div>*@
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QATestFiveTimeReps, "Time / Reps", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.QATestFiveTimeReps, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.QATestFiveTimeReps, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.QATestTwoType, "Please Select Test Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(model => model.QATestTwoType, ViewData["TestTwoActionList"] as SelectList, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.QATestTwoType, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.QATestTwoTimeReps, "Time / Reps", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.QATestTwoTimeReps, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.QATestTwoTimeReps, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.QATestTwoNotes, "Notes", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.QATestTwoNotes, new { cols = 35, @rows = 5, @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.QATestTwoNotes, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
                             </div>
+                        </li>
+                        <li class="accordion-navigation">
+                            <a href="#panel4a">Test 3: Bodyweight Squat</a>
+                            <div id="panel4a" class="content">
+                                @*<div class="form-group">
+                        @Html.LabelFor(model => model.QATestThreeTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.QATestThreeTitle, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.QATestThreeTitle, "", new { @class = "text-danger" })
                         </div>
-                    </div>
+                    </div>*@
 
-                    <div class="row">
-                        <div class="large-6 columns">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QATestFiveRoundOneReps, "Round 1", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.QATestFiveRoundOneReps, new { htmlAttributes = new { @class = "form-control rep" } })
-                                    @Html.ValidationMessageFor(model => model.QATestFiveRoundOneReps, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.QATestThreeType, "Please Select Test Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(model => model.QATestThreeType, ViewData["TestThreeActionList"] as SelectList, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.QATestThreeType, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.QATestThreeTimeReps, "Time / Reps", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.QATestThreeTimeReps, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.QATestThreeTimeReps, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.QATestThreeNotes, "Notes", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.QATestThreeNotes, new { cols = 35, @rows = 5, @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.QATestThreeNotes, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QATestFiveRoundTwoReps, "Round 2", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.QATestFiveRoundTwoReps, new { htmlAttributes = new { @class = "form-control rep" } })
-                                    @Html.ValidationMessageFor(model => model.QATestFiveRoundTwoReps, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QATestFiveRoundThreeReps, "Round 3", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.QATestFiveRoundThreeReps, new { htmlAttributes = new { @class = "form-control rep" } })
-                                    @Html.ValidationMessageFor(model => model.QATestFiveRoundThreeReps, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QATestFiveRoundFourReps, "Round 4", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.QATestFiveRoundFourReps, new { htmlAttributes = new { @class = "form-control rep" } })
-                                    @Html.ValidationMessageFor(model => model.QATestFiveRoundFourReps, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
+                        </li>
+                        <li class="accordion-navigation">
+                            <a href="#panel5a">Test 4: Burpee Challenge</a>
+                            <div id="panel5a" class="content">
+                                @*<div class="form-group">
+                        @Html.LabelFor(model => model.QATestFourTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.QATestFourTitle, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.QATestFourTitle, "", new { @class = "text-danger" })
                         </div>
-                        <div class="large-6 columns">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QATestFiveRoundFiveReps, "Round 5", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.QATestFiveRoundFiveReps, new { htmlAttributes = new { @class = "form-control rep" } })
-                                    @Html.ValidationMessageFor(model => model.QATestFiveRoundFiveReps, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
+                    </div>*@
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QATestFiveRoundSixReps, "Round 6", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.QATestFiveRoundSixReps, new { htmlAttributes = new { @class = "form-control rep" } })
-                                    @Html.ValidationMessageFor(model => model.QATestFiveRoundSixReps, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.QATestFourType, "Please Select Test Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(model => model.QATestFourType, ViewData["TestFourActionList"] as SelectList, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.QATestFourType, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QATestFiveRoundSevenReps, "Round 7", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.QATestFiveRoundSevenReps, new { htmlAttributes = new { @class = "form-control rep" } })
-                                    @Html.ValidationMessageFor(model => model.QATestFiveRoundSevenReps, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.QATestFourTimeReps, "Time / Reps", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.QATestFourTimeReps, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.QATestFourTimeReps, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QATestFiveRoundEightReps, "Round 8", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.QATestFiveRoundEightReps, new { htmlAttributes = new { @class = "form-control rep" } })
-                                    @Html.ValidationMessageFor(model => model.QATestFiveRoundEightReps, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.QATestFourNotes, "Notes", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.QATestFourNotes, new { cols = 35, @rows = 5, @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.QATestFourNotes, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="large-6 columns">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QATestFiveTotalReps, "Total Reps", htmlAttributes: new { @class = "control-label col-md-2" })
+                        </li>
+                        <li class="accordion-navigation">
+                            <a href="#panel6a">Test 5: Tabata Protocol</a>
+                            <div id="panel6a" class="content">
+
+                                <div class="row">
+                                    <div class="large-6 columns">
+                                        @*<div class="form-group">
+                                @Html.LabelFor(model => model.QATestFiveTitle, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.QATestFiveTotalReps, new { htmlAttributes = new { @class = "form-control reptotal" } })
-                                    @Html.ValidationMessageFor(model => model.QATestFiveTotalReps, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.QATestFiveTitle, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.QATestFiveTitle, "", new { @class = "text-danger" })
+                                </div>
+                            </div>*@
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.QATestFiveType, "Please Select Test Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.DropDownListFor(model => model.QATestFiveType, ViewData["TestFiveActionList"] as SelectList, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.QATestFiveType, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="large-6 columns">
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.QATestFiveTimeReps, "Time / Reps", htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.QATestFiveTimeReps, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.QATestFiveTimeReps, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="large-6 columns">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.QATestFiveRoundOneReps, "Round 1", htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.QATestFiveRoundOneReps, new { htmlAttributes = new { @class = "form-control rep" } })
+                                                @Html.ValidationMessageFor(model => model.QATestFiveRoundOneReps, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.QATestFiveRoundTwoReps, "Round 2", htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.QATestFiveRoundTwoReps, new { htmlAttributes = new { @class = "form-control rep" } })
+                                                @Html.ValidationMessageFor(model => model.QATestFiveRoundTwoReps, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.QATestFiveRoundThreeReps, "Round 3", htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.QATestFiveRoundThreeReps, new { htmlAttributes = new { @class = "form-control rep" } })
+                                                @Html.ValidationMessageFor(model => model.QATestFiveRoundThreeReps, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.QATestFiveRoundFourReps, "Round 4", htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.QATestFiveRoundFourReps, new { htmlAttributes = new { @class = "form-control rep" } })
+                                                @Html.ValidationMessageFor(model => model.QATestFiveRoundFourReps, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="large-6 columns">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.QATestFiveRoundFiveReps, "Round 5", htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.QATestFiveRoundFiveReps, new { htmlAttributes = new { @class = "form-control rep" } })
+                                                @Html.ValidationMessageFor(model => model.QATestFiveRoundFiveReps, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.QATestFiveRoundSixReps, "Round 6", htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.QATestFiveRoundSixReps, new { htmlAttributes = new { @class = "form-control rep" } })
+                                                @Html.ValidationMessageFor(model => model.QATestFiveRoundSixReps, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.QATestFiveRoundSevenReps, "Round 7", htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.QATestFiveRoundSevenReps, new { htmlAttributes = new { @class = "form-control rep" } })
+                                                @Html.ValidationMessageFor(model => model.QATestFiveRoundSevenReps, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.QATestFiveRoundEightReps, "Round 8", htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.QATestFiveRoundEightReps, new { htmlAttributes = new { @class = "form-control rep" } })
+                                                @Html.ValidationMessageFor(model => model.QATestFiveRoundEightReps, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="large-6 columns">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.QATestFiveTotalReps, "Total Reps", htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.QATestFiveTotalReps, new { htmlAttributes = new { @class = "form-control reptotal" } })
+                                                @Html.ValidationMessageFor(model => model.QATestFiveTotalReps, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="large-6 columns">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.QATestFiveNotes, "Notes", htmlAttributes: new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.TextAreaFor(model => model.QATestFiveNotes, new { cols = 35, @rows = 5, @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.QATestFiveNotes, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="large-6 columns">
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.QATestFiveNotes, "Notes", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.TextAreaFor(model => model.QATestFiveNotes, new { cols = 35, @rows = 5, @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.QATestFiveNotes, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        </li>
+                    </ul>
+
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
@@ -365,7 +363,7 @@
             }
 
             <div>
-                @Html.ActionLink("Back to List", "Index")
+                @Html.ActionLink("Back to List", "Index", "", new { @class = "button" })
             </div>
 
         </div>

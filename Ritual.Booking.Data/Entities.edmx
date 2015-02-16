@@ -157,13 +157,13 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="PackageType" Type="nvarchar" MaxLength="50" />
+          <Property Name="PackageTypeId" Type="int" Nullable="false" />
           <Property Name="PackagePeriodMonths" Type="int" />
           <Property Name="PackageSuspensionLimit" Type="int" />
           <Property Name="PackageVisitLimit" Type="int" />
-          <Property Name="PackageIsActive" Type="bit" />
-          <Property Name="PackageIsReoccuring" Type="bit" />
-          <Property Name="PackagePayInFull" Type="bit" />
+          <Property Name="PackageIsActive" Type="bit" Nullable="false" />
+          <Property Name="PackageIsReoccuring" Type="bit" Nullable="false" />
+          <Property Name="PackagePayInFull" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="PackageLocationPrices">
           <Key>
@@ -174,6 +174,13 @@
           <Property Name="PackageId" Type="int" Nullable="false" />
           <Property Name="MonthlyPrice" Type="decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="TotalPrice" Type="decimal" Precision="19" Scale="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PackageType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="QuarterlyAssessment">
           <Key>
@@ -389,7 +396,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_News_AspNetUsers">
+        <Association Name="FK_News_AspNetUsersCreatedBy">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
           <End Role="News" Type="Self.News" Multiplicity="*" />
           <ReferentialConstraint>
@@ -401,7 +408,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_News_AspNetUsers1">
+        <Association Name="FK_News_AspNetUsersModifiedBy">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
           <End Role="News" Type="Self.News" Multiplicity="*" />
           <ReferentialConstraint>
@@ -458,6 +465,18 @@
             </Principal>
             <Dependent Role="OpeningHourOverride">
               <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Package_PackageType">
+          <End Role="PackageType" Type="Self.PackageType" Multiplicity="1" />
+          <End Role="Package" Type="Self.Package" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PackageType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Package">
+              <PropertyRef Name="PackageTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -532,6 +551,7 @@
           <EntitySet Name="OpeningHourOverride" EntityType="Self.OpeningHourOverride" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Package" EntityType="Self.Package" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PackageLocationPrices" EntityType="Self.PackageLocationPrices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PackageType" EntityType="Self.PackageType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QuarterlyAssessment" EntityType="Self.QuarterlyAssessment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SessionBooking" EntityType="Self.SessionBooking" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SessionBookingState" EntityType="Self.SessionBookingState" Schema="dbo" store:Type="Tables" />
@@ -584,11 +604,11 @@
             <End Role="Membership" EntitySet="Membership" />
             <End Role="MembershipSuspensions" EntitySet="MembershipSuspensions" />
           </AssociationSet>
-          <AssociationSet Name="FK_News_AspNetUsers" Association="Self.FK_News_AspNetUsers">
+          <AssociationSet Name="FK_News_AspNetUsersCreatedBy" Association="Self.FK_News_AspNetUsersCreatedBy">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="News" EntitySet="News" />
           </AssociationSet>
-          <AssociationSet Name="FK_News_AspNetUsers1" Association="Self.FK_News_AspNetUsers1">
+          <AssociationSet Name="FK_News_AspNetUsersModifiedBy" Association="Self.FK_News_AspNetUsersModifiedBy">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="News" EntitySet="News" />
           </AssociationSet>
@@ -607,6 +627,10 @@
           <AssociationSet Name="FK_OpeningHourOverride_Location" Association="Self.FK_OpeningHourOverride_Location">
             <End Role="Location" EntitySet="Location" />
             <End Role="OpeningHourOverride" EntitySet="OpeningHourOverride" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Package_PackageType" Association="Self.FK_Package_PackageType">
+            <End Role="PackageType" EntitySet="PackageType" />
+            <End Role="Package" EntitySet="Package" />
           </AssociationSet>
           <AssociationSet Name="FK_PackageLocationPrices_Location" Association="Self.FK_PackageLocationPrices_Location">
             <End Role="Location" EntitySet="Location" />
@@ -639,7 +663,6 @@
           <EntitySet Name="MembershipStates" EntityType="RitualDBModel.MembershipState" />
           <EntitySet Name="MembershipSuspensions" EntityType="RitualDBModel.MembershipSuspension" />
           <EntitySet Name="OpeningHours" EntityType="RitualDBModel.OpeningHour" />
-          <EntitySet Name="Packages" EntityType="RitualDBModel.Package" />
           <EntitySet Name="PackageLocationPrices" EntityType="RitualDBModel.PackageLocationPrice" />
           <EntitySet Name="QuarterlyAssessments" EntityType="RitualDBModel.QuarterlyAssessment" />
           <EntitySet Name="SessionBookings" EntityType="RitualDBModel.SessionBooking" />
@@ -649,17 +672,9 @@
             <End Role="MembershipState" EntitySet="MembershipStates" />
             <End Role="Membership" EntitySet="Memberships" />
           </AssociationSet>
-          <AssociationSet Name="FK_Membership_Package" Association="RitualDBModel.FK_Membership_Package">
-            <End Role="Package" EntitySet="Packages" />
-            <End Role="Membership" EntitySet="Memberships" />
-          </AssociationSet>
           <AssociationSet Name="FK_MembershipSuspensions_Membership" Association="RitualDBModel.FK_MembershipSuspensions_Membership">
             <End Role="Membership" EntitySet="Memberships" />
             <End Role="MembershipSuspension" EntitySet="MembershipSuspensions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PackageLocationPrices_Package" Association="RitualDBModel.FK_PackageLocationPrices_Package">
-            <End Role="Package" EntitySet="Packages" />
-            <End Role="PackageLocationPrice" EntitySet="PackageLocationPrices" />
           </AssociationSet>
           <AssociationSet Name="FK_Booking_BookingState" Association="RitualDBModel.FK_Booking_BookingState">
             <End Role="SessionBookingState" EntitySet="SessionBookingStates" />
@@ -726,13 +741,27 @@
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="Member" EntitySet="Members" />
           </AssociationSet>
-          <EntitySet Name="News" EntityType="RitualDBModel.News" />
           <EntitySet Name="NewsCategories" EntityType="RitualDBModel.NewsCategory" />
-          <AssociationSet Name="FK_News_AspNetUsers" Association="RitualDBModel.FK_News_AspNetUsers">
+          <EntitySet Name="PackageTypes" EntityType="RitualDBModel.PackageType" />
+          <EntitySet Name="Packages" EntityType="RitualDBModel.Package" />
+          <AssociationSet Name="FK_Membership_Package" Association="RitualDBModel.FK_Membership_Package">
+            <End Role="Package" EntitySet="Packages" />
+            <End Role="Membership" EntitySet="Memberships" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Package_PackageType" Association="RitualDBModel.FK_Package_PackageType">
+            <End Role="PackageType" EntitySet="PackageTypes" />
+            <End Role="Package" EntitySet="Packages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PackageLocationPrices_Package" Association="RitualDBModel.FK_PackageLocationPrices_Package">
+            <End Role="Package" EntitySet="Packages" />
+            <End Role="PackageLocationPrice" EntitySet="PackageLocationPrices" />
+          </AssociationSet>
+          <EntitySet Name="News" EntityType="RitualDBModel.News" />
+          <AssociationSet Name="FK_News_AspNetUsersCreatedBy" Association="RitualDBModel.FK_News_AspNetUsersCreatedBy">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="News" EntitySet="News" />
           </AssociationSet>
-          <AssociationSet Name="FK_News_AspNetUsers1" Association="RitualDBModel.FK_News_AspNetUsers1">
+          <AssociationSet Name="FK_News_AspNetUsersModifiedBy" Association="RitualDBModel.FK_News_AspNetUsersModifiedBy">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="News" EntitySet="News" />
           </AssociationSet>
@@ -785,9 +814,9 @@
           <Property Name="DiscountPrice" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="DiscountReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="MembershipState" Relationship="RitualDBModel.FK_Membership_MembershipState" FromRole="Membership" ToRole="MembershipState" />
-          <NavigationProperty Name="Package" Relationship="RitualDBModel.FK_Membership_Package" FromRole="Membership" ToRole="Package" />
           <NavigationProperty Name="MembershipSuspensions" Relationship="RitualDBModel.FK_MembershipSuspensions_Membership" FromRole="Membership" ToRole="MembershipSuspension" />
           <NavigationProperty Name="Member" Relationship="RitualDBModel.FK_Membership_Member1" FromRole="Membership" ToRole="Member" />
+          <NavigationProperty Name="Package" Relationship="RitualDBModel.FK_Membership_Package" FromRole="Membership" ToRole="Package" />
         </EntityType>
         <EntityType Name="MembershipState">
           <Key>
@@ -819,22 +848,6 @@
           <Property Name="LocationId" Type="Int32" />
           <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_OpeningHour_Location" FromRole="OpeningHour" ToRole="Location" />
         </EntityType>
-        <EntityType Name="Package">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PackageType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PackagePeriodMonths" Type="Int32" />
-          <Property Name="PackageSuspensionLimit" Type="Int32" />
-          <Property Name="PackageVisitLimit" Type="Int32" />
-          <Property Name="PackageIsActive" Type="Boolean" />
-          <Property Name="PackageIsReoccuring" Type="Boolean" />
-          <Property Name="PackagePayInFull" Type="Boolean" />
-          <NavigationProperty Name="Memberships" Relationship="RitualDBModel.FK_Membership_Package" FromRole="Package" ToRole="Membership" />
-          <NavigationProperty Name="PackageLocationPrices" Relationship="RitualDBModel.FK_PackageLocationPrices_Package" FromRole="Package" ToRole="PackageLocationPrice" />
-        </EntityType>
         <EntityType Name="PackageLocationPrice">
           <Key>
             <PropertyRef Name="Id" />
@@ -844,8 +857,8 @@
           <Property Name="PackageId" Type="Int32" Nullable="false" />
           <Property Name="MonthlyPrice" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <Property Name="TotalPrice" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <NavigationProperty Name="Package" Relationship="RitualDBModel.FK_PackageLocationPrices_Package" FromRole="PackageLocationPrice" ToRole="Package" />
           <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_PackageLocationPrices_Location" FromRole="PackageLocationPrice" ToRole="Location" />
+          <NavigationProperty Name="Package" Relationship="RitualDBModel.FK_PackageLocationPrices_Package" FromRole="PackageLocationPrice" ToRole="Package" />
         </EntityType>
         <EntityType Name="QuarterlyAssessment">
           <Key>
@@ -937,18 +950,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Membership_Package">
-          <End Type="RitualDBModel.Package" Role="Package" Multiplicity="1" />
-          <End Type="RitualDBModel.Membership" Role="Membership" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Package">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Membership">
-              <PropertyRef Name="PackageId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_MembershipSuspensions_Membership">
           <End Type="RitualDBModel.Membership" Role="Membership" Multiplicity="1" />
           <End Type="RitualDBModel.MembershipSuspension" Role="MembershipSuspension" Multiplicity="*" />
@@ -958,18 +959,6 @@
             </Principal>
             <Dependent Role="MembershipSuspension">
               <PropertyRef Name="MembershipId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PackageLocationPrices_Package">
-          <End Type="RitualDBModel.Package" Role="Package" Multiplicity="1" />
-          <End Type="RitualDBModel.PackageLocationPrice" Role="PackageLocationPrice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Package">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PackageLocationPrice">
-              <PropertyRef Name="PackageId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1214,9 +1203,9 @@
           <Property Name="MobilePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Employees" Relationship="RitualDBModel.FK_Employee_AspNetUsers" FromRole="AspNetUser" ToRole="Employee" />
           <NavigationProperty Name="Members" Relationship="RitualDBModel.FK_Member_AspNetUsers" FromRole="AspNetUser" ToRole="Member" />
-          <NavigationProperty Name="News" Relationship="RitualDBModel.FK_News_AspNetUsers" FromRole="AspNetUser" ToRole="News" />
-          <NavigationProperty Name="News1" Relationship="RitualDBModel.FK_News_AspNetUsers1" FromRole="AspNetUser" ToRole="News" />
-        </EntityType>
+          <NavigationProperty Name="News" Relationship="RitualDBModel.FK_News_AspNetUsersCreatedBy" FromRole="AspNetUser" ToRole="News" />
+          <NavigationProperty Name="News1" Relationship="RitualDBModel.FK_News_AspNetUsersModifiedBy" FromRole="AspNetUser" ToRole="News" />
+          </EntityType>
         <Association Name="FK_Employee_AspNetUsers">
           <End Type="RitualDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
           <End Type="RitualDBModel.Employee" Role="Employee" Multiplicity="*" />
@@ -1241,6 +1230,75 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="NewsCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="News" Relationship="RitualDBModel.FK_News_NewsCategories" FromRole="NewsCategory" ToRole="News" />
+        </EntityType>
+        <EntityType Name="PackageType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Packages" Relationship="RitualDBModel.FK_Package_PackageType" FromRole="PackageType" ToRole="Package" />
+          </EntityType>
+        <EntityType Name="Package">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PackageTypeId" Type="Int32" Nullable="false" />
+          <Property Name="PackagePeriodMonths" Type="Int32" />
+          <Property Name="PackageSuspensionLimit" Type="Int32" />
+          <Property Name="PackageVisitLimit" Type="Int32" />
+          <Property Name="PackageIsActive" Type="Boolean" Nullable="false" />
+          <Property Name="PackageIsReoccuring" Type="Boolean" Nullable="false" />
+          <Property Name="PackagePayInFull" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Memberships" Relationship="RitualDBModel.FK_Membership_Package" FromRole="Package" ToRole="Membership" />
+          <NavigationProperty Name="PackageType" Relationship="RitualDBModel.FK_Package_PackageType" FromRole="Package" ToRole="PackageType" />
+          <NavigationProperty Name="PackageLocationPrices" Relationship="RitualDBModel.FK_PackageLocationPrices_Package" FromRole="Package" ToRole="PackageLocationPrice" />
+        </EntityType>
+        <Association Name="FK_Membership_Package">
+          <End Type="RitualDBModel.Package" Role="Package" Multiplicity="1" />
+          <End Type="RitualDBModel.Membership" Role="Membership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Package">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Membership">
+              <PropertyRef Name="PackageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Package_PackageType">
+          <End Type="RitualDBModel.PackageType" Role="PackageType" Multiplicity="1" />
+          <End Type="RitualDBModel.Package" Role="Package" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PackageType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Package">
+              <PropertyRef Name="PackageTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PackageLocationPrices_Package">
+          <End Type="RitualDBModel.Package" Role="Package" Multiplicity="1" />
+          <End Type="RitualDBModel.PackageLocationPrice" Role="PackageLocationPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Package">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PackageLocationPrice">
+              <PropertyRef Name="PackageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="News">
           <Key>
             <PropertyRef Name="Id" />
@@ -1254,20 +1312,12 @@
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUser" Relationship="RitualDBModel.FK_News_AspNetUsers" FromRole="News" ToRole="AspNetUser" />
-          <NavigationProperty Name="AspNetUser1" Relationship="RitualDBModel.FK_News_AspNetUsers1" FromRole="News" ToRole="AspNetUser" />
+          <NavigationProperty Name="AspNetUserCreatedBy" Relationship="RitualDBModel.FK_News_AspNetUsersCreatedBy" FromRole="News" ToRole="AspNetUser" />
+          <NavigationProperty Name="AspNetUserModifiedBy" Relationship="RitualDBModel.FK_News_AspNetUsersModifiedBy" FromRole="News" ToRole="AspNetUser" />
           <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_News_Location" FromRole="News" ToRole="Location" />
           <NavigationProperty Name="NewsCategory" Relationship="RitualDBModel.FK_News_NewsCategories" FromRole="News" ToRole="NewsCategory" />
         </EntityType>
-        <EntityType Name="NewsCategory">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="News" Relationship="RitualDBModel.FK_News_NewsCategories" FromRole="NewsCategory" ToRole="News" />
-        </EntityType>
-        <Association Name="FK_News_AspNetUsers">
+        <Association Name="FK_News_AspNetUsersCreatedBy">
           <End Type="RitualDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
           <End Type="RitualDBModel.News" Role="News" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1279,7 +1329,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_News_AspNetUsers1">
+        <Association Name="FK_News_AspNetUsersModifiedBy">
           <End Type="RitualDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
           <End Type="RitualDBModel.News" Role="News" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1393,21 +1443,6 @@
                 <ScalarProperty Name="CloseTime" ColumnName="CloseTime" />
                 <ScalarProperty Name="OpenTime" ColumnName="OpenTime" />
                 <ScalarProperty Name="DateOfWeek" ColumnName="DateOfWeek" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Packages">
-            <EntityTypeMapping TypeName="RitualDBModel.Package">
-              <MappingFragment StoreEntitySet="Package">
-                <ScalarProperty Name="PackagePayInFull" ColumnName="PackagePayInFull" />
-                <ScalarProperty Name="PackageIsReoccuring" ColumnName="PackageIsReoccuring" />
-                <ScalarProperty Name="PackageIsActive" ColumnName="PackageIsActive" />
-                <ScalarProperty Name="PackageVisitLimit" ColumnName="PackageVisitLimit" />
-                <ScalarProperty Name="PackageSuspensionLimit" ColumnName="PackageSuspensionLimit" />
-                <ScalarProperty Name="PackagePeriodMonths" ColumnName="PackagePeriodMonths" />
-                <ScalarProperty Name="PackageType" ColumnName="PackageType" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1586,6 +1621,37 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="NewsCategories">
+            <EntityTypeMapping TypeName="RitualDBModel.NewsCategory">
+              <MappingFragment StoreEntitySet="NewsCategories">
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PackageTypes">
+            <EntityTypeMapping TypeName="RitualDBModel.PackageType">
+              <MappingFragment StoreEntitySet="PackageType">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Packages">
+            <EntityTypeMapping TypeName="RitualDBModel.Package">
+              <MappingFragment StoreEntitySet="Package">
+                <ScalarProperty Name="PackagePayInFull" ColumnName="PackagePayInFull" />
+                <ScalarProperty Name="PackageIsReoccuring" ColumnName="PackageIsReoccuring" />
+                <ScalarProperty Name="PackageIsActive" ColumnName="PackageIsActive" />
+                <ScalarProperty Name="PackageVisitLimit" ColumnName="PackageVisitLimit" />
+                <ScalarProperty Name="PackageSuspensionLimit" ColumnName="PackageSuspensionLimit" />
+                <ScalarProperty Name="PackagePeriodMonths" ColumnName="PackagePeriodMonths" />
+                <ScalarProperty Name="PackageTypeId" ColumnName="PackageTypeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="News">
             <EntityTypeMapping TypeName="RitualDBModel.News">
               <MappingFragment StoreEntitySet="News">
@@ -1597,14 +1663,6 @@
                 <ScalarProperty Name="Body" ColumnName="Body" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="NewsCategories">
-            <EntityTypeMapping TypeName="RitualDBModel.NewsCategory">
-              <MappingFragment StoreEntitySet="NewsCategories">
-                <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

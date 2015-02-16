@@ -50,13 +50,13 @@
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.PackageType)
+                            @Html.DisplayFor(modelItem => item.PackageType.Name)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.PackagePeriodMonths)
                         </td>
                         <td>
-                            @if (item.PackageIsActive.Value == false)
+                            @if (item.PackageIsActive == false)
                             {
                                 @: <i class="fa fa-times"></i>
                             }

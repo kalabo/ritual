@@ -45,8 +45,6 @@ public partial class RitualDBEntities : DbContext
 
     public virtual DbSet<OpeningHour> OpeningHours { get; set; }
 
-    public virtual DbSet<Package> Packages { get; set; }
-
     public virtual DbSet<PackageLocationPrice> PackageLocationPrices { get; set; }
 
     public virtual DbSet<QuarterlyAssessment> QuarterlyAssessments { get; set; }
@@ -67,9 +65,13 @@ public partial class RitualDBEntities : DbContext
 
     public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
 
-    public virtual DbSet<News> News { get; set; }
-
     public virtual DbSet<NewsCategory> NewsCategories { get; set; }
+
+    public virtual DbSet<PackageType> PackageTypes { get; set; }
+
+    public virtual DbSet<Package> Packages { get; set; }
+
+    public virtual DbSet<News> News { get; set; }
 
 
     public virtual ObjectResult<GetNextBookingSlotsWindow_Result> GetNextBookingSlotsWindow(Nullable<int> locationId, Nullable<System.DateTime> currentDateTime)

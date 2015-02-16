@@ -32,7 +32,7 @@ public partial class Package
 
     public string Name { get; set; }
 
-    public string PackageType { get; set; }
+    public int PackageTypeId { get; set; }
 
     public Nullable<int> PackagePeriodMonths { get; set; }
 
@@ -40,15 +40,17 @@ public partial class Package
 
     public Nullable<int> PackageVisitLimit { get; set; }
 
-    public Nullable<bool> PackageIsActive { get; set; }
+    public bool PackageIsActive { get; set; }
 
-    public Nullable<bool> PackageIsReoccuring { get; set; }
+    public bool PackageIsReoccuring { get; set; }
 
-    public Nullable<bool> PackagePayInFull { get; set; }
+    public bool PackagePayInFull { get; set; }
 
 
 
     public virtual ICollection<Membership> Memberships { get; set; }
+
+    public virtual PackageType PackageType { get; set; }
 
     public virtual ICollection<PackageLocationPrice> PackageLocationPrices { get; set; }
 

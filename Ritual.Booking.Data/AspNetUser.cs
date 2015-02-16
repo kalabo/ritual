@@ -68,8 +68,6 @@ public partial class AspNetUser
 
     public string MobilePhone { get; set; }
 
-
-
     public virtual ICollection<Employee> Employees { get; set; }
 
     public virtual ICollection<Member> Members { get; set; }

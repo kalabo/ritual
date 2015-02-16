@@ -30,7 +30,7 @@
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.PackageType)
+                        @Html.DisplayFor(model => model.PackageType.Name)
                     </dd>
 
                     <dt>
@@ -62,7 +62,7 @@
                     </dt>
 
                     <dd>
-                        @if (Model.PackageIsActive.Value == false)
+                        @if (Model.PackageIsActive == false)
                         {
                             @: <i class="fa fa-times"></i>
                         }
@@ -77,7 +77,7 @@
                     </dt>
 
                     <dd>
-                        @if (Model.PackageIsReoccuring.Value == false)
+                        @if (Model.PackageIsReoccuring == false)
                         {
                             @: <i class="fa fa-times"></i>
                         }
@@ -92,7 +92,7 @@
                     </dt>
 
                     <dd>
-                        @if (Model.PackagePayInFull.Value == false)
+                        @if (Model.PackagePayInFull == false)
                         {
                             @: <i class="fa fa-times"></i>
                         }

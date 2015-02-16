@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Ritual.Booking.Data
 {
@@ -12,6 +13,12 @@ namespace Ritual.Booking.Data
         [Range(0, 10)]
         [Display(Name = "Client RPE")]
         public Nullable<int> QAClientRPE { get; set; }
+    }
+
+    public class NewsMetadata
+    {
+        [AllowHtml]
+        public string Body { get; set; }
     }
 
     public class LocationMetadata

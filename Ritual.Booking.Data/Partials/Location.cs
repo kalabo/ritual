@@ -67,7 +67,7 @@ namespace Ritual.Booking.Data
 
         public List<Member> getMembersByPackageType(string packageType)
         {
-            return db.Members.Where(m => m.HomeLocationId == this.Id && m.getActiveMembership().Package.PackageType == packageType ).ToList(); 
+            return db.Members.Where(m => m.HomeLocationId == this.Id && m.getActiveMembership().Package.PackageType.Name == packageType ).ToList(); 
         }
 
         public List<Member> getMembersByPackageTerm(int? packageTerm)
