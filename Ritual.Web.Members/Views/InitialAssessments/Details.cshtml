@@ -1,0 +1,234 @@
+﻿@model Ritual.Data.InitialAssessment
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>InitialAssessment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AssessmentDateTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssessmentDateTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClientCheckDetails)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClientCheckDetails)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClientHearAboutRitual)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClientHearAboutRitual)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClientTrainingHistory)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClientTrainingHistory)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClientInjuriesMedicalIssues)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClientInjuriesMedicalIssues)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClientPosturalArea)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClientPosturalArea)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClientPosturalAreaDetails)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClientPosturalAreaDetails)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MovementAnteriorTrunk)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MovementAnteriorTrunk)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MovementPosteriorTrunk)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MovementPosteriorTrunk)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MovementHorizontalPush)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MovementHorizontalPush)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MovementVerticalPush)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MovementVerticalPush)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MovementHorizontalPull)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MovementHorizontalPull)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MovementVerticalPull)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MovementVerticalPull)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MovementHipPush)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MovementHipPush)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MovementHipPull)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MovementHipPull)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MovementSingleLeg)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MovementSingleLeg)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MovementLocomotion1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MovementLocomotion1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MovementLocamotion2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MovementLocamotion2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MovementDetails)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MovementDetails)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Recommendation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Recommendation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WorkoutExplained)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WorkoutExplained)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WarmupExplained)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WarmupExplained)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClientEmployeeReminder)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClientEmployeeReminder)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AdditionalClientProgress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdditionalClientProgress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AdditionalClientTips)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdditionalClientTips)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Employee.AspNetUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Employee.AspNetUserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Member.IdentificationNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Member.IdentificationNumber)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,122 @@
+﻿@model Ritual.Data.Package
+
+
+@{
+    ViewBag.Title = "Ritual - Delete Package (" + @Model.Name + ")";
+}
+
+<section class="content-header">
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>@ViewBag.Title</h1>
+        </div>
+    </div>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="large-12 columns">
+
+            <div class="alert-box info">Are you sure you want to delete this?</div>
+            <div>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PackageType)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.PackageType)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PackagePeriodMonths)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.PackagePeriodMonths)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PackageSuspensionLimit)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.PackageSuspensionLimit)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PackageVisitLimit)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.PackageVisitLimit)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PackageIsActive)
+                    </dt>
+
+                    <dd>
+                        @if (Model.PackageIsActive.Value == false)
+                        {
+                            @: <i class="fa fa-times"></i>
+                        }
+                        else
+                        {
+                            @: <i class="fa fa-check"></i>
+                        }
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PackageIsReoccuring)
+                    </dt>
+
+                    <dd>
+                        @if (Model.PackageIsReoccuring.Value == false)
+                        {
+                            @: <i class="fa fa-times"></i>
+                        }
+                        else
+                        {
+                            @: <i class="fa fa-check"></i>
+                        }
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PackagePayInFull)
+                    </dt>
+
+                    <dd>
+                        @if (Model.PackagePayInFull.Value == false)
+                        {
+                            @: <i class="fa fa-times"></i>
+                        }
+                        else
+                        {
+                            @: <i class="fa fa-check"></i>
+                        }
+                    </dd>
+
+                </dl>
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color">
+                        <input type="submit" value="Delete" class="button btn-default" />
+                        @Html.ActionLink("Back to List", "Index", "", new { @class = "button" })
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>

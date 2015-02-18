@@ -1,0 +1,113 @@
+﻿@model Ritual.Data.Package
+
+@{
+    ViewBag.Title = "Ritual - Package Details (" + @Model.Name + ")";
+}
+
+<section class="content-header">
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>@ViewBag.Title</h1>
+        </div>
+    </div>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="large-12 columns">
+            <div>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PackageType)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.PackageType.Name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PackagePeriodMonths)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.PackagePeriodMonths)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PackageSuspensionLimit)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.PackageSuspensionLimit)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PackageVisitLimit)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.PackageVisitLimit)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PackageIsActive)
+                    </dt>
+
+                    <dd>
+                        @if (Model.PackageIsActive == false)
+                        {
+                            @: <i class="fa fa-times"></i>
+                        }
+                        else
+                        {
+                            @: <i class="fa fa-check"></i>
+                        }
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PackageIsReoccuring)
+                    </dt>
+
+                    <dd>
+                        @if (Model.PackageIsReoccuring == false)
+                        {
+                            @: <i class="fa fa-times"></i>
+                        }
+                        else
+                        {
+                            @: <i class="fa fa-check"></i>
+                        }
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PackagePayInFull)
+                    </dt>
+
+                    <dd>
+                        @if (Model.PackagePayInFull == false)
+                        {
+                            @: <i class="fa fa-times"></i>
+                        }
+                        else
+                        {
+                            @: <i class="fa fa-check"></i>
+                        }
+                    </dd>
+
+                </dl>
+            </div>
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "button" })
+                @Html.ActionLink("Back to List", "Index", "", new { @class = "button" })
+            </p>
+        </div>
+    </div>
+</section>

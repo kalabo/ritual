@@ -1,0 +1,304 @@
+﻿@model Ritual.Data.QuarterlyAssessment
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>QuarterlyAssessment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.QAQuarter)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QAQuarter)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QAYear)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QAYear)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QADateTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QADateTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QAClientRPE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QAClientRPE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestOneTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestOneTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestOneType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestOneType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestOneTimeReps)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestOneTimeReps)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestOneNotes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestOneNotes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestTwoTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestTwoTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestTwoType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestTwoType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestTwoTimeReps)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestTwoTimeReps)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestTwoNotes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestTwoNotes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestThreeTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestThreeTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestThreeType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestThreeType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestThreeTimeReps)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestThreeTimeReps)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestThreeNotes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestThreeNotes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestFourTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestFourTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestFourType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestFourType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestFourTimeReps)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestFourTimeReps)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestFourNotes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestFourNotes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestFiveTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestFiveTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestFiveType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestFiveType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestFiveTimeReps)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestFiveTimeReps)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestFiveNotes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestFiveNotes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestFiveRoundOneReps)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestFiveRoundOneReps)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestFiveRoundTwoReps)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestFiveRoundTwoReps)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestFiveRoundThreeReps)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestFiveRoundThreeReps)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestFiveRoundFourReps)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestFiveRoundFourReps)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestFiveRoundFiveReps)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestFiveRoundFiveReps)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestFiveRoundSixReps)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestFiveRoundSixReps)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestFiveRoundSevenReps)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestFiveRoundSevenReps)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestFiveRoundEightReps)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestFiveRoundEightReps)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QATestFiveTotalReps)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QATestFiveTotalReps)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Member.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Member.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Trainer.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Trainer.FirstName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
