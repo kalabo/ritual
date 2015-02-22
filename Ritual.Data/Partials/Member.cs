@@ -86,12 +86,15 @@ namespace Ritual.Data
 
         public List<SessionBooking> getUpcomingBookings(int limit)
         {
-            return db.SessionBookings.Where(m => m.MemberId == this.Id && m.LocationId == this.HomeLocationId && m.Date >= DateTime.Now).OrderByDescending(m => m.Date).ThenBy(m => m.TimeSlot.StartTime).Take(limit).ToList(); 
+            DateTime currentDate = DateTime.Now.Date;
+            return db.SessionBookings.Where(m => m.MemberId == this.Id && m.LocationId == this.HomeLocationId && m.Date >= currentDate).OrderByDescending(m => m.Date).ThenBy(m => m.TimeSlot.StartTime).Take(limit).ToList(); 
         }
 
         public List<SessionBooking> getPastBookings(int limit)
         {
-            return db.SessionBookings.Where(m => m.MemberId == this.Id && m.LocationId == this.HomeLocationId && m.Date < DateTime.Now).OrderByDescending(m => m.Date).ThenBy(m => m.TimeSlot.StartTime).Take(limit).ToList();
+            DateTime currentDate = DateTime.Now.Date;
+            TimeSpan currentTime = DateTime.Now.TimeOfDay;
+            return db.SessionBookings.Where(m => m.MemberId == this.Id && m.LocationId == this.HomeLocationId && m.Date < currentDate).OrderByDescending(m => m.Date).ThenBy(m => m.TimeSlot.StartTime).Take(limit).ToList();
         }
 
         public List<QuarterlyAssessment> getQuarterlyAssessments(int limit)

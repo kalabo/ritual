@@ -93,7 +93,7 @@ namespace Ritual.Web.Members.Controllers
             dashboardModel.UpcomingBookings = member.getUpcomingBookings(5);
             dashboardModel.PastBookings = member.getPastBookings(5);
             dashboardModel.QuarterlyAssessments = member.getQuarterlyAssessments(5);
-            
+
             return View(dashboardModel);
         }
         // GET: TrainingZone
@@ -109,11 +109,80 @@ namespace Ritual.Web.Members.Controllers
             TrainingZoneBookingData TrainingZoneModel = new TrainingZoneBookingData();
             this.ApplicationDbContext = new ApplicationDbContext();
             this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
-            var user = UserManager.FindById(User.Identity.GetUserId());            
+            var user = UserManager.FindById(User.Identity.GetUserId());
             var member = db.Members.Where(m => m.AspNetUserId == user.Id).Single();
 
-            TrainingZoneModel.AvailableBookingSlots = db.GetNextBookingSlotsWindow(member.HomeLocationId, DateTime.Now).ToList();
+            TrainingZoneModel.OpenDays = member.getUserHomeLocation().getDaysOpen(3, DateTime.Now);
+            TrainingZoneModel.AvailableBookingSlots = db.GetUpcomingBookingSlots(member.HomeLocationId, TrainingZoneModel.OpenDays[0], member.Id).ToList();
             return View(TrainingZoneModel);
+        }
+
+        public ActionResult GetNextOpenDays(string date, int numberofdays)
+        {
+            this.ApplicationDbContext = new ApplicationDbContext();
+            this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            var member = db.Members.Where(m => m.AspNetUserId == user.Id).Single();
+            List<DateTime> results = member.getUserHomeLocation().getDaysOpen(numberofdays, Convert.ToDateTime(date));
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize(Roles = "Member,Admininistrator")]
+        public ActionResult GetBookingsByDate(string date)
+        {
+            //If the current date is the same then only show items for current day
+            DateTime selectedDate = Convert.ToDateTime(date);
+
+            this.ApplicationDbContext = new ApplicationDbContext();
+            this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            var member = db.Members.Where(m => m.AspNetUserId == user.Id).Single();
+            if (selectedDate.Date == DateTime.Now.Date)
+            {
+                selectedDate = new DateTimeOffset(DateTime.Now).ToOffset(TimeSpan.FromHours(member.Location.TimeZoneOffset)).Date;
+            }
+            List<GetUpcomingBookingSlots_Result> results = db.GetUpcomingBookingSlots(member.HomeLocationId, selectedDate, member.Id).ToList();
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [Authorize(Roles = "Member,Admininistrator")]
+        public ActionResult CancelBookingJSON(int timeslotId, int locationId, string date)
+        {
+            //If the current date is the same then only show items for current day
+            DateTime selectedDate = Convert.ToDateTime(date);
+
+            this.ApplicationDbContext = new ApplicationDbContext();
+            this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
+            var user = UserManager.FindById(User.Identity.GetUserId());
+
+            var member = db.Members.Where(m => m.AspNetUserId == user.Id).Single();
+            if (member != null)
+            {
+                SessionBooking currentBooking = db.SessionBookings.Where(s => s.LocationId.Equals(locationId) && s.TimeSlotId.Equals(timeslotId) && s.MemberId.Equals(member.Id) && s.Date == selectedDate).SingleOrDefault();
+                if (currentBooking != null)
+                {
+                    db.SessionBookings.Remove(currentBooking);
+                    db.SaveChanges();
+                    return Json("Delete Successful", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    List<string> errors = new List<string>();
+                    //..some processing
+                    errors.Add("Error: Delete Failed, No booking object found");
+                    return Json(errors, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                List<string> errors = new List<string>();
+                //..some processing
+                errors.Add("Error: You are not allowed to delete a booking that is not yours");
+                return Json(errors, JsonRequestBehavior.AllowGet);
+            }
         }
 
         [Authorize(Roles = "Member,Admininistrator")]
@@ -134,7 +203,7 @@ namespace Ritual.Web.Members.Controllers
             //Set Default RPE
             booking.RPEFeeling = 0;
             booking.RPEPush = 0;
-            
+
             db.SessionBookings.Add(booking);
             db.SaveChanges();
             return Json("Insert Successful", JsonRequestBehavior.AllowGet);
@@ -214,7 +283,7 @@ namespace Ritual.Web.Members.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-            
+
             if (ModelState.IsValid)
             {
                 this.ApplicationDbContext = new ApplicationDbContext();
@@ -232,7 +301,7 @@ namespace Ritual.Web.Members.Controllers
                 //Set Default RPE
                 booking.RPEFeeling = 0;
                 booking.RPEPush = 0;
-                
+
                 db.SessionBookings.Add(booking);
                 db.SaveChanges();
                 return RedirectToAction("Dashboard");

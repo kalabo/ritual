@@ -859,9 +859,29 @@ div.alert-box {
     }
 
 
+    .booking-slots-available
+    {
+            font-size:3em;
+            position:absolute;
+            right:20px;
+            bottom:40px;            
+            font-family: '5amgender';
+    }
+
+#ritual-dates
+{
+    padding:5px;
+}
+
+#ritual-dates select
+{    
+    font-size:1.2em;
+    line-height:1.6em;
+}
+
 .booking-slot {
     position: relative;
-    background-color: #000;
+    background-color: #5cad8d;
     padding: 10px;
     width: 200px;
     height: 200px;
@@ -869,14 +889,29 @@ div.alert-box {
     float: left;
     color: #fff;
 }
+.booking-slot:hover
+{
+    background-color:#3c735d;
+}
 
+.booking-slot .button{
+    background-color:#478069;
+}
     .booking-slot.checkedin {
         background-color: green;
     }
 
     .booking-slot.closed, .booking-slot.empty {
-        background-color: #990000;
+        background-color: #871515;
     }
+
+    .booking-slot.booked {
+        background-color: #222;
+    }
+    
+.booking-slot.booked .button{
+    background-color:#444;
+}
 
 .session-booking {
     padding: 5px;

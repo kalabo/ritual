@@ -36,6 +36,97 @@
           <Property Name="MobilePhone" Type="nvarchar" MaxLength="50" />
           <Property Name="Birthday" Type="date" />
         </EntityType>
+        <EntityType Name="ClientIssuesFeedback">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberId" Type="int" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="DateRaised" Type="date" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Details" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RecommendationAction" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ComplaintOther" Type="nvarchar" MaxLength="100" />
+          <Property Name="ComplimentOther" Type="nvarchar" MaxLength="100" />
+          <Property Name="IssueExerciseOther" Type="nvarchar" MaxLength="100" />
+          <Property Name="IssueInjuryOther" Type="nvarchar" MaxLength="100" />
+          <Property Name="IssueMobilityOther" Type="nvarchar" MaxLength="100" />
+          <Property Name="IssueMovementPatternOther" Type="nvarchar" MaxLength="100" />
+          <Property Name="IssuePostureOther" Type="nvarchar" MaxLength="100" />
+          <Property Name="IssueInjuryRelevantToExercise" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackComplaint' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ClientIssuesFeedbackComplaint">
+          <Key>
+            <PropertyRef Name="ClientIssueFeedbackId" />
+            <PropertyRef Name="RitualLookupId" />
+          </Key>
+          <Property Name="ClientIssueFeedbackId" Type="int" Nullable="false" />
+          <Property Name="RitualLookupId" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackCompliments' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ClientIssuesFeedbackCompliments">
+          <Key>
+            <PropertyRef Name="ClientIssueFeedbackId" />
+            <PropertyRef Name="RitualLookupId" />
+          </Key>
+          <Property Name="ClientIssueFeedbackId" Type="int" Nullable="false" />
+          <Property Name="RitualLookupId" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssueExercise' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ClientIssuesFeedbackIssueExercise">
+          <Key>
+            <PropertyRef Name="ClientIssueFeedbackId" />
+            <PropertyRef Name="RitualLookupId" />
+          </Key>
+          <Property Name="ClientIssueFeedbackId" Type="int" Nullable="false" />
+          <Property Name="RitualLookupId" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssueInjury' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ClientIssuesFeedbackIssueInjury">
+          <Key>
+            <PropertyRef Name="ClientIssueFeedbackId" />
+            <PropertyRef Name="RitualLookupId" />
+          </Key>
+          <Property Name="ClientIssueFeedbackId" Type="int" Nullable="false" />
+          <Property Name="RitualLookupId" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssueMobility' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ClientIssuesFeedbackIssueMobility">
+          <Key>
+            <PropertyRef Name="ClientIssueFeedbackId" />
+            <PropertyRef Name="RitualLookupId" />
+          </Key>
+          <Property Name="ClientIssueFeedbackId" Type="int" Nullable="false" />
+          <Property Name="RitualLookupId" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssueMovementPattern' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ClientIssuesFeedbackIssueMovementPattern">
+          <Key>
+            <PropertyRef Name="ClientIssueFeedbackId" />
+            <PropertyRef Name="RitualLookupId" />
+          </Key>
+          <Property Name="ClientIssueFeedbackId" Type="int" Nullable="false" />
+          <Property Name="RitualLookupId" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ClientIssuesFeedbackIssuePosture">
+          <Key>
+            <PropertyRef Name="ClientIssueFeedbackId" />
+            <PropertyRef Name="RitualLookupId" />
+          </Key>
+          <Property Name="ClientIssueFeedbackId" Type="int" Nullable="false" />
+          <Property Name="RitualLookupId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Employee">
           <Key>
             <PropertyRef Name="Id" />
@@ -257,6 +348,14 @@
           <Property Name="QATestFiveRoundEightReps" Type="int" />
           <Property Name="QATestFiveTotalReps" Type="int" />
         </EntityType>
+        <EntityType Name="RitualLookups">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" />
+          <Property Name="Category" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="SessionBooking">
           <Key>
             <PropertyRef Name="Id" />
@@ -331,6 +430,198 @@
             </Principal>
             <Dependent Role="SessionBooking">
               <PropertyRef Name="TimeSlotId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientIssuesFeedback_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="ClientIssuesFeedback" Type="Self.ClientIssuesFeedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientIssuesFeedback">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientIssuesFeedback_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="ClientIssuesFeedback" Type="Self.ClientIssuesFeedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientIssuesFeedback">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientIssuesFeedbackComplaint_ClientIssuesFeedback">
+          <End Role="ClientIssuesFeedback" Type="Self.ClientIssuesFeedback" Multiplicity="1" />
+          <End Role="ClientIssuesFeedbackComplaint" Type="Self.ClientIssuesFeedbackComplaint" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientIssuesFeedback">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientIssuesFeedbackComplaint">
+              <PropertyRef Name="ClientIssueFeedbackId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientIssuesFeedbackComplaint_RitualLookups">
+          <End Role="RitualLookups" Type="Self.RitualLookups" Multiplicity="1" />
+          <End Role="ClientIssuesFeedbackComplaint" Type="Self.ClientIssuesFeedbackComplaint" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RitualLookups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientIssuesFeedbackComplaint">
+              <PropertyRef Name="RitualLookupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientIssuesFeedbackCompliments_ClientIssuesFeedback">
+          <End Role="ClientIssuesFeedback" Type="Self.ClientIssuesFeedback" Multiplicity="1" />
+          <End Role="ClientIssuesFeedbackCompliments" Type="Self.ClientIssuesFeedbackCompliments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientIssuesFeedback">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientIssuesFeedbackCompliments">
+              <PropertyRef Name="ClientIssueFeedbackId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientIssuesFeedbackCompliments_RitualLookups">
+          <End Role="RitualLookups" Type="Self.RitualLookups" Multiplicity="1" />
+          <End Role="ClientIssuesFeedbackCompliments" Type="Self.ClientIssuesFeedbackCompliments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RitualLookups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientIssuesFeedbackCompliments">
+              <PropertyRef Name="RitualLookupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientIssuesFeedbackIssueExercise_ClientIssuesFeedback">
+          <End Role="ClientIssuesFeedback" Type="Self.ClientIssuesFeedback" Multiplicity="1" />
+          <End Role="ClientIssuesFeedbackIssueExercise" Type="Self.ClientIssuesFeedbackIssueExercise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientIssuesFeedback">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientIssuesFeedbackIssueExercise">
+              <PropertyRef Name="ClientIssueFeedbackId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientIssuesFeedbackIssueExercise_RitualLookups">
+          <End Role="RitualLookups" Type="Self.RitualLookups" Multiplicity="1" />
+          <End Role="ClientIssuesFeedbackIssueExercise" Type="Self.ClientIssuesFeedbackIssueExercise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RitualLookups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientIssuesFeedbackIssueExercise">
+              <PropertyRef Name="RitualLookupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientIssuesFeedbackIssueInjury_ClientIssuesFeedback">
+          <End Role="ClientIssuesFeedback" Type="Self.ClientIssuesFeedback" Multiplicity="1" />
+          <End Role="ClientIssuesFeedbackIssueInjury" Type="Self.ClientIssuesFeedbackIssueInjury" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientIssuesFeedback">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientIssuesFeedbackIssueInjury">
+              <PropertyRef Name="ClientIssueFeedbackId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientIssuesFeedbackIssueInjury_RitualLookups">
+          <End Role="RitualLookups" Type="Self.RitualLookups" Multiplicity="1" />
+          <End Role="ClientIssuesFeedbackIssueInjury" Type="Self.ClientIssuesFeedbackIssueInjury" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RitualLookups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientIssuesFeedbackIssueInjury">
+              <PropertyRef Name="RitualLookupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientIssuesFeedbackIssueMobility_ClientIssuesFeedback">
+          <End Role="ClientIssuesFeedback" Type="Self.ClientIssuesFeedback" Multiplicity="1" />
+          <End Role="ClientIssuesFeedbackIssueMobility" Type="Self.ClientIssuesFeedbackIssueMobility" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientIssuesFeedback">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientIssuesFeedbackIssueMobility">
+              <PropertyRef Name="ClientIssueFeedbackId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientIssuesFeedbackIssueMobility_RitualLookups">
+          <End Role="RitualLookups" Type="Self.RitualLookups" Multiplicity="1" />
+          <End Role="ClientIssuesFeedbackIssueMobility" Type="Self.ClientIssuesFeedbackIssueMobility" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RitualLookups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientIssuesFeedbackIssueMobility">
+              <PropertyRef Name="RitualLookupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientIssuesFeedbackIssueMovementPattern_ClientIssuesFeedback">
+          <End Role="ClientIssuesFeedback" Type="Self.ClientIssuesFeedback" Multiplicity="1" />
+          <End Role="ClientIssuesFeedbackIssueMovementPattern" Type="Self.ClientIssuesFeedbackIssueMovementPattern" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientIssuesFeedback">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientIssuesFeedbackIssueMovementPattern">
+              <PropertyRef Name="ClientIssueFeedbackId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientIssuesFeedbackIssueMovementPattern_RitualLookups">
+          <End Role="RitualLookups" Type="Self.RitualLookups" Multiplicity="1" />
+          <End Role="ClientIssuesFeedbackIssueMovementPattern" Type="Self.ClientIssuesFeedbackIssueMovementPattern" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RitualLookups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientIssuesFeedbackIssueMovementPattern">
+              <PropertyRef Name="RitualLookupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientIssuesFeedbackIssuePosture_ClientIssuesFeedback">
+          <End Role="ClientIssuesFeedback" Type="Self.ClientIssuesFeedback" Multiplicity="1" />
+          <End Role="ClientIssuesFeedbackIssuePosture" Type="Self.ClientIssuesFeedbackIssuePosture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientIssuesFeedback">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientIssuesFeedbackIssuePosture">
+              <PropertyRef Name="ClientIssueFeedbackId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientIssuesFeedbackIssuePosture_RitualLookups">
+          <End Role="RitualLookups" Type="Self.RitualLookups" Multiplicity="1" />
+          <End Role="ClientIssuesFeedbackIssuePosture" Type="Self.ClientIssuesFeedbackIssuePosture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RitualLookups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientIssuesFeedbackIssuePosture">
+              <PropertyRef Name="RitualLookupId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -590,13 +881,15 @@
           <Parameter Name="LocationId" Type="int" Mode="In" />
           <Parameter Name="CurrentDateTime" Type="datetime" Mode="In" />
         </Function>
-        <Function Name="GetNextBookingSlotsWindow" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="GetUpcomingBookingSlots" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LocationId" Type="int" Mode="In" />
           <Parameter Name="CurrentDateTime" Type="datetime" Mode="In" />
+          <Parameter Name="MemberID" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="RitualDBModelStoreContainer">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ClientIssuesFeedback" EntityType="Self.ClientIssuesFeedback" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InitialAssessment" EntityType="Self.InitialAssessment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
@@ -612,9 +905,52 @@
           <EntitySet Name="PackageLocationPrices" EntityType="Self.PackageLocationPrices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PackageType" EntityType="Self.PackageType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QuarterlyAssessment" EntityType="Self.QuarterlyAssessment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RitualLookups" EntityType="Self.RitualLookups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SessionBooking" EntityType="Self.SessionBooking" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SessionBookingState" EntityType="Self.SessionBookingState" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TimeSlot" EntityType="Self.TimeSlot" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ClientIssuesFeedbackComplaint" EntityType="Self.ClientIssuesFeedbackComplaint" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ClientIssuesFeedbackComplaint].[ClientIssueFeedbackId] AS [ClientIssueFeedbackId], 
+    [ClientIssuesFeedbackComplaint].[RitualLookupId] AS [RitualLookupId]
+    FROM [dbo].[ClientIssuesFeedbackComplaint] AS [ClientIssuesFeedbackComplaint]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ClientIssuesFeedbackCompliments" EntityType="Self.ClientIssuesFeedbackCompliments" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ClientIssuesFeedbackCompliments].[ClientIssueFeedbackId] AS [ClientIssueFeedbackId], 
+    [ClientIssuesFeedbackCompliments].[RitualLookupId] AS [RitualLookupId]
+    FROM [dbo].[ClientIssuesFeedbackCompliments] AS [ClientIssuesFeedbackCompliments]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ClientIssuesFeedbackIssueExercise" EntityType="Self.ClientIssuesFeedbackIssueExercise" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ClientIssuesFeedbackIssueExercise].[ClientIssueFeedbackId] AS [ClientIssueFeedbackId], 
+    [ClientIssuesFeedbackIssueExercise].[RitualLookupId] AS [RitualLookupId]
+    FROM [dbo].[ClientIssuesFeedbackIssueExercise] AS [ClientIssuesFeedbackIssueExercise]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ClientIssuesFeedbackIssueInjury" EntityType="Self.ClientIssuesFeedbackIssueInjury" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ClientIssuesFeedbackIssueInjury].[ClientIssueFeedbackId] AS [ClientIssueFeedbackId], 
+    [ClientIssuesFeedbackIssueInjury].[RitualLookupId] AS [RitualLookupId]
+    FROM [dbo].[ClientIssuesFeedbackIssueInjury] AS [ClientIssuesFeedbackIssueInjury]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ClientIssuesFeedbackIssueMobility" EntityType="Self.ClientIssuesFeedbackIssueMobility" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ClientIssuesFeedbackIssueMobility].[ClientIssueFeedbackId] AS [ClientIssueFeedbackId], 
+    [ClientIssuesFeedbackIssueMobility].[RitualLookupId] AS [RitualLookupId]
+    FROM [dbo].[ClientIssuesFeedbackIssueMobility] AS [ClientIssuesFeedbackIssueMobility]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ClientIssuesFeedbackIssueMovementPattern" EntityType="Self.ClientIssuesFeedbackIssueMovementPattern" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ClientIssuesFeedbackIssueMovementPattern].[ClientIssueFeedbackId] AS [ClientIssueFeedbackId], 
+    [ClientIssuesFeedbackIssueMovementPattern].[RitualLookupId] AS [RitualLookupId]
+    FROM [dbo].[ClientIssuesFeedbackIssueMovementPattern] AS [ClientIssuesFeedbackIssueMovementPattern]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ClientIssuesFeedbackIssuePosture" EntityType="Self.ClientIssuesFeedbackIssuePosture" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ClientIssuesFeedbackIssuePosture].[ClientIssueFeedbackId] AS [ClientIssueFeedbackId], 
+    [ClientIssuesFeedbackIssuePosture].[RitualLookupId] AS [RitualLookupId]
+    FROM [dbo].[ClientIssuesFeedbackIssuePosture] AS [ClientIssuesFeedbackIssuePosture]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Booking_BookingState" Association="Self.FK_Booking_BookingState">
             <End Role="SessionBookingState" EntitySet="SessionBookingState" />
             <End Role="SessionBooking" EntitySet="SessionBooking" />
@@ -630,6 +966,70 @@
           <AssociationSet Name="FK_Booking_TimeSlot" Association="Self.FK_Booking_TimeSlot">
             <End Role="TimeSlot" EntitySet="TimeSlot" />
             <End Role="SessionBooking" EntitySet="SessionBooking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientIssuesFeedback_Employee" Association="Self.FK_ClientIssuesFeedback_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedback" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientIssuesFeedback_Member" Association="Self.FK_ClientIssuesFeedback_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedback" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientIssuesFeedbackComplaint_ClientIssuesFeedback" Association="Self.FK_ClientIssuesFeedbackComplaint_ClientIssuesFeedback">
+            <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedback" />
+            <End Role="ClientIssuesFeedbackComplaint" EntitySet="ClientIssuesFeedbackComplaint" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientIssuesFeedbackComplaint_RitualLookups" Association="Self.FK_ClientIssuesFeedbackComplaint_RitualLookups">
+            <End Role="RitualLookups" EntitySet="RitualLookups" />
+            <End Role="ClientIssuesFeedbackComplaint" EntitySet="ClientIssuesFeedbackComplaint" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientIssuesFeedbackCompliments_ClientIssuesFeedback" Association="Self.FK_ClientIssuesFeedbackCompliments_ClientIssuesFeedback">
+            <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedback" />
+            <End Role="ClientIssuesFeedbackCompliments" EntitySet="ClientIssuesFeedbackCompliments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientIssuesFeedbackCompliments_RitualLookups" Association="Self.FK_ClientIssuesFeedbackCompliments_RitualLookups">
+            <End Role="RitualLookups" EntitySet="RitualLookups" />
+            <End Role="ClientIssuesFeedbackCompliments" EntitySet="ClientIssuesFeedbackCompliments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientIssuesFeedbackIssueExercise_ClientIssuesFeedback" Association="Self.FK_ClientIssuesFeedbackIssueExercise_ClientIssuesFeedback">
+            <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedback" />
+            <End Role="ClientIssuesFeedbackIssueExercise" EntitySet="ClientIssuesFeedbackIssueExercise" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientIssuesFeedbackIssueExercise_RitualLookups" Association="Self.FK_ClientIssuesFeedbackIssueExercise_RitualLookups">
+            <End Role="RitualLookups" EntitySet="RitualLookups" />
+            <End Role="ClientIssuesFeedbackIssueExercise" EntitySet="ClientIssuesFeedbackIssueExercise" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientIssuesFeedbackIssueInjury_ClientIssuesFeedback" Association="Self.FK_ClientIssuesFeedbackIssueInjury_ClientIssuesFeedback">
+            <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedback" />
+            <End Role="ClientIssuesFeedbackIssueInjury" EntitySet="ClientIssuesFeedbackIssueInjury" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientIssuesFeedbackIssueInjury_RitualLookups" Association="Self.FK_ClientIssuesFeedbackIssueInjury_RitualLookups">
+            <End Role="RitualLookups" EntitySet="RitualLookups" />
+            <End Role="ClientIssuesFeedbackIssueInjury" EntitySet="ClientIssuesFeedbackIssueInjury" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientIssuesFeedbackIssueMobility_ClientIssuesFeedback" Association="Self.FK_ClientIssuesFeedbackIssueMobility_ClientIssuesFeedback">
+            <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedback" />
+            <End Role="ClientIssuesFeedbackIssueMobility" EntitySet="ClientIssuesFeedbackIssueMobility" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientIssuesFeedbackIssueMobility_RitualLookups" Association="Self.FK_ClientIssuesFeedbackIssueMobility_RitualLookups">
+            <End Role="RitualLookups" EntitySet="RitualLookups" />
+            <End Role="ClientIssuesFeedbackIssueMobility" EntitySet="ClientIssuesFeedbackIssueMobility" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientIssuesFeedbackIssueMovementPattern_ClientIssuesFeedback" Association="Self.FK_ClientIssuesFeedbackIssueMovementPattern_ClientIssuesFeedback">
+            <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedback" />
+            <End Role="ClientIssuesFeedbackIssueMovementPattern" EntitySet="ClientIssuesFeedbackIssueMovementPattern" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientIssuesFeedbackIssueMovementPattern_RitualLookups" Association="Self.FK_ClientIssuesFeedbackIssueMovementPattern_RitualLookups">
+            <End Role="RitualLookups" EntitySet="RitualLookups" />
+            <End Role="ClientIssuesFeedbackIssueMovementPattern" EntitySet="ClientIssuesFeedbackIssueMovementPattern" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientIssuesFeedbackIssuePosture_ClientIssuesFeedback" Association="Self.FK_ClientIssuesFeedbackIssuePosture_ClientIssuesFeedback">
+            <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedback" />
+            <End Role="ClientIssuesFeedbackIssuePosture" EntitySet="ClientIssuesFeedbackIssuePosture" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientIssuesFeedbackIssuePosture_RitualLookups" Association="Self.FK_ClientIssuesFeedbackIssuePosture_RitualLookups">
+            <End Role="RitualLookups" EntitySet="RitualLookups" />
+            <End Role="ClientIssuesFeedbackIssuePosture" EntitySet="ClientIssuesFeedbackIssuePosture" />
           </AssociationSet>
           <AssociationSet Name="FK_Employee_AspNetUsers" Association="Self.FK_Employee_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -721,10 +1121,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="RitualDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="RitualDBEntities" annotation:LazyLoadingEnabled="true">
-          <FunctionImport Name="GetNextBookingSlotsWindow" ReturnType="Collection(RitualDBModel.GetNextBookingSlotsWindow_Result)">
-            <Parameter Name="LocationId" Mode="In" Type="Int32" />
-            <Parameter Name="CurrentDateTime" Mode="In" Type="DateTime" />
-          </FunctionImport>
           <EntitySet Name="AspNetRoles" EntityType="RitualDBModel.AspNetRole" />
           <EntitySet Name="Memberships" EntityType="RitualDBModel.Membership" />
           <EntitySet Name="MembershipStates" EntityType="RitualDBModel.MembershipState" />
@@ -849,19 +1245,50 @@
             <End Role="Member" EntitySet="Members" />
             <End Role="InitialAssessment" EntitySet="InitialAssessments" />
           </AssociationSet>
+          <EntitySet Name="ClientIssuesFeedbacks" EntityType="RitualDBModel.ClientIssuesFeedback" />
+          <EntitySet Name="RitualLookups" EntityType="RitualDBModel.RitualLookup" />
+          <AssociationSet Name="FK_ClientIssuesFeedback_Employee" Association="RitualDBModel.FK_ClientIssuesFeedback_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedbacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientIssuesFeedback_Member" Association="RitualDBModel.FK_ClientIssuesFeedback_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedbacks" />
+          </AssociationSet>
+          <AssociationSet Name="ClientIssuesFeedbackComplaint" Association="RitualDBModel.ClientIssuesFeedbackComplaint">
+            <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedbacks" />
+            <End Role="RitualLookup" EntitySet="RitualLookups" />
+          </AssociationSet>
+          <AssociationSet Name="ClientIssuesFeedbackCompliments" Association="RitualDBModel.ClientIssuesFeedbackCompliments">
+            <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedbacks" />
+            <End Role="RitualLookup" EntitySet="RitualLookups" />
+          </AssociationSet>
+          <AssociationSet Name="ClientIssuesFeedbackIssueExercise" Association="RitualDBModel.ClientIssuesFeedbackIssueExercise">
+            <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedbacks" />
+            <End Role="RitualLookup" EntitySet="RitualLookups" />
+          </AssociationSet>
+          <AssociationSet Name="ClientIssuesFeedbackIssueInjury" Association="RitualDBModel.ClientIssuesFeedbackIssueInjury">
+            <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedbacks" />
+            <End Role="RitualLookup" EntitySet="RitualLookups" />
+          </AssociationSet>
+          <AssociationSet Name="ClientIssuesFeedbackIssueMobility" Association="RitualDBModel.ClientIssuesFeedbackIssueMobility">
+            <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedbacks" />
+            <End Role="RitualLookup" EntitySet="RitualLookups" />
+          </AssociationSet>
+          <AssociationSet Name="ClientIssuesFeedbackIssueMovementPattern" Association="RitualDBModel.ClientIssuesFeedbackIssueMovementPattern">
+            <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedbacks" />
+            <End Role="RitualLookup" EntitySet="RitualLookups" />
+          </AssociationSet>
+          <AssociationSet Name="ClientIssuesFeedbackIssuePosture" Association="RitualDBModel.ClientIssuesFeedbackIssuePosture">
+            <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedbacks" />
+            <End Role="RitualLookup" EntitySet="RitualLookups" />
+          </AssociationSet>
+          <FunctionImport Name="GetUpcomingBookingSlots" ReturnType="Collection(RitualDBModel.GetUpcomingBookingSlots_Result)">
+            <Parameter Name="LocationId" Mode="In" Type="Int32" />
+            <Parameter Name="CurrentDateTime" Mode="In" Type="DateTime" />
+            <Parameter Name="MemberID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
-        <ComplexType Name="GetNextBookingSlotsWindow_Result">
-          <Property Type="Int32" Name="TimeSlotId" Nullable="false" />
-          <Property Type="Int32" Name="LocationId" Nullable="true" />
-          <Property Type="DateTime" Name="BookingDay" Nullable="true" />
-          <Property Type="String" Name="DayOfWeek" Nullable="true" MaxLength="30" />
-          <Property Type="Time" Name="StartTime" Nullable="false" />
-          <Property Type="Time" Name="EndTime" Nullable="false" />
-          <Property Type="Int32" Name="BookingCount" Nullable="true" />
-          <Property Type="Int16" Name="AvailableSlots" Nullable="true" />
-          <Property Type="String" Name="Status" Nullable="false" MaxLength="9" />
-          <Property Type="String" Name="ClosureReason" Nullable="true" />
-        </ComplexType>
         <EntityType Name="AspNetRole">
           <Key>
             <PropertyRef Name="Id" />
@@ -1172,6 +1599,7 @@
           <NavigationProperty Name="QuarterlyAssessments" Relationship="RitualDBModel.FK_QuarterlyAssessment_Member" FromRole="Member" ToRole="QuarterlyAssessment" />
           <NavigationProperty Name="AspNetUser" Relationship="RitualDBModel.FK_Member_AspNetUsers" FromRole="Member" ToRole="AspNetUser" />
           <NavigationProperty Name="InitialAssessments" Relationship="RitualDBModel.FK_InitialAssessment_Member" FromRole="Member" ToRole="InitialAssessment" />
+          <NavigationProperty Name="ClientIssuesFeedbacks" Relationship="RitualDBModel.FK_ClientIssuesFeedback_Member" FromRole="Member" ToRole="ClientIssuesFeedback" />
         </EntityType>
         <Association Name="FK_Member_Location">
           <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
@@ -1232,6 +1660,7 @@
           <NavigationProperty Name="QuarterlyAssessments" Relationship="RitualDBModel.FK_QuarterlyAssessment_Employee" FromRole="Employee" ToRole="QuarterlyAssessment" />
           <NavigationProperty Name="AspNetUser" Relationship="RitualDBModel.FK_Employee_AspNetUsers" FromRole="Employee" ToRole="AspNetUser" />
           <NavigationProperty Name="InitialAssessments" Relationship="RitualDBModel.FK_InitialAssessment_Employee" FromRole="Employee" ToRole="InitialAssessment" />
+          <NavigationProperty Name="ClientIssuesFeedbacks" Relationship="RitualDBModel.FK_ClientIssuesFeedback_Employee" FromRole="Employee" ToRole="ClientIssuesFeedback" />
         </EntityType>
         <Association Name="FK_Employee_Location">
           <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
@@ -1503,28 +1932,121 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ClientIssuesFeedback">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DateRaised" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Details" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RecommendationAction" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ComplaintOther" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ComplimentOther" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IssueExerciseOther" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IssueInjuryOther" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IssueMobilityOther" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IssueMovementPatternOther" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IssuePostureOther" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IssueInjuryRelevantToExercise" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="RitualDBModel.FK_ClientIssuesFeedback_Employee" FromRole="ClientIssuesFeedback" ToRole="Employee" />
+          <NavigationProperty Name="Member" Relationship="RitualDBModel.FK_ClientIssuesFeedback_Member" FromRole="ClientIssuesFeedback" ToRole="Member" />
+          <NavigationProperty Name="RitualLookupsComplaint" Relationship="RitualDBModel.ClientIssuesFeedbackComplaint" FromRole="ClientIssuesFeedback" ToRole="RitualLookup" />
+          <NavigationProperty Name="RitualLookupsCompliments" Relationship="RitualDBModel.ClientIssuesFeedbackCompliments" FromRole="ClientIssuesFeedback" ToRole="RitualLookup" />
+          <NavigationProperty Name="RitualLookupsIssueExercise" Relationship="RitualDBModel.ClientIssuesFeedbackIssueExercise" FromRole="ClientIssuesFeedback" ToRole="RitualLookup" />
+          <NavigationProperty Name="RitualLookupsIssueInjury" Relationship="RitualDBModel.ClientIssuesFeedbackIssueInjury" FromRole="ClientIssuesFeedback" ToRole="RitualLookup" />
+          <NavigationProperty Name="RitualLookupsIssueMobility" Relationship="RitualDBModel.ClientIssuesFeedbackIssueMobility" FromRole="ClientIssuesFeedback" ToRole="RitualLookup" />
+          <NavigationProperty Name="RitualLookupsIssueMovementPattern" Relationship="RitualDBModel.ClientIssuesFeedbackIssueMovementPattern" FromRole="ClientIssuesFeedback" ToRole="RitualLookup" />
+          <NavigationProperty Name="RitualLookupsIssuePosture" Relationship="RitualDBModel.ClientIssuesFeedbackIssuePosture" FromRole="ClientIssuesFeedback" ToRole="RitualLookup" />
+        </EntityType>
+        <EntityType Name="RitualLookup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ClientIssuesFeedbacksComplaint" Relationship="RitualDBModel.ClientIssuesFeedbackComplaint" FromRole="RitualLookup" ToRole="ClientIssuesFeedback" />
+          <NavigationProperty Name="ClientIssuesFeedbacksCompliments" Relationship="RitualDBModel.ClientIssuesFeedbackCompliments" FromRole="RitualLookup" ToRole="ClientIssuesFeedback" />
+          <NavigationProperty Name="ClientIssuesFeedbackIssueExercise" Relationship="RitualDBModel.ClientIssuesFeedbackIssueExercise" FromRole="RitualLookup" ToRole="ClientIssuesFeedback" />
+          <NavigationProperty Name="ClientIssuesFeedbackIssueInjury" Relationship="RitualDBModel.ClientIssuesFeedbackIssueInjury" FromRole="RitualLookup" ToRole="ClientIssuesFeedback" />
+          <NavigationProperty Name="ClientIssuesFeedbackIssueMobility" Relationship="RitualDBModel.ClientIssuesFeedbackIssueMobility" FromRole="RitualLookup" ToRole="ClientIssuesFeedback" />
+          <NavigationProperty Name="ClientIssuesFeedbackIssueMovementPattern" Relationship="RitualDBModel.ClientIssuesFeedbackIssueMovementPattern" FromRole="RitualLookup" ToRole="ClientIssuesFeedback" />
+          <NavigationProperty Name="ClientIssuesFeedbackIssuePosture" Relationship="RitualDBModel.ClientIssuesFeedbackIssuePosture" FromRole="RitualLookup" ToRole="ClientIssuesFeedback" />
+        </EntityType>
+        <Association Name="FK_ClientIssuesFeedback_Employee">
+          <End Type="RitualDBModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="RitualDBModel.ClientIssuesFeedback" Role="ClientIssuesFeedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientIssuesFeedback">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientIssuesFeedback_Member">
+          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="RitualDBModel.ClientIssuesFeedback" Role="ClientIssuesFeedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientIssuesFeedback">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ClientIssuesFeedbackComplaint">
+          <End Type="RitualDBModel.ClientIssuesFeedback" Role="ClientIssuesFeedback" Multiplicity="*" />
+          <End Type="RitualDBModel.RitualLookup" Role="RitualLookup" Multiplicity="*" />
+        </Association>
+        <Association Name="ClientIssuesFeedbackCompliments">
+          <End Type="RitualDBModel.ClientIssuesFeedback" Role="ClientIssuesFeedback" Multiplicity="*" />
+          <End Type="RitualDBModel.RitualLookup" Role="RitualLookup" Multiplicity="*" />
+        </Association>
+        <Association Name="ClientIssuesFeedbackIssueExercise">
+          <End Type="RitualDBModel.ClientIssuesFeedback" Role="ClientIssuesFeedback" Multiplicity="*" />
+          <End Type="RitualDBModel.RitualLookup" Role="RitualLookup" Multiplicity="*" />
+        </Association>
+        <Association Name="ClientIssuesFeedbackIssueInjury">
+          <End Type="RitualDBModel.ClientIssuesFeedback" Role="ClientIssuesFeedback" Multiplicity="*" />
+          <End Type="RitualDBModel.RitualLookup" Role="RitualLookup" Multiplicity="*" />
+        </Association>
+        <Association Name="ClientIssuesFeedbackIssueMobility">
+          <End Type="RitualDBModel.ClientIssuesFeedback" Role="ClientIssuesFeedback" Multiplicity="*" />
+          <End Type="RitualDBModel.RitualLookup" Role="RitualLookup" Multiplicity="*" />
+        </Association>
+        <Association Name="ClientIssuesFeedbackIssueMovementPattern">
+          <End Type="RitualDBModel.ClientIssuesFeedback" Role="ClientIssuesFeedback" Multiplicity="*" />
+          <End Type="RitualDBModel.RitualLookup" Role="RitualLookup" Multiplicity="*" />
+        </Association>
+        <Association Name="ClientIssuesFeedbackIssuePosture">
+          <End Type="RitualDBModel.ClientIssuesFeedback" Role="ClientIssuesFeedback" Multiplicity="*" />
+          <End Type="RitualDBModel.RitualLookup" Role="RitualLookup" Multiplicity="*" />
+        </Association>
+        <ComplexType Name="GetUpcomingBookingSlots_Result">
+          <Property Type="Int32" Name="TimeSlotId" Nullable="false" />
+          <Property Type="Int32" Name="LocationId" Nullable="true" />
+          <Property Type="DateTime" Name="BookingDay" Nullable="true" />
+          <Property Type="String" Name="DayOfWeek" Nullable="true" MaxLength="30" />
+          <Property Type="Time" Name="StartTime" Nullable="false" />
+          <Property Type="Time" Name="EndTime" Nullable="false" />
+          <Property Type="Int32" Name="BookingCount" Nullable="true" />
+          <Property Type="Int16" Name="AvailableSlots" Nullable="true" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="ClosureReason" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="RitualDBModelStoreContainer" CdmEntityContainer="RitualDBEntities">
-          <FunctionImportMapping FunctionImportName="GetNextBookingSlotsWindow" FunctionName="RitualDBModel.Store.GetNextBookingSlotsWindow">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="RitualDBModel.GetNextBookingSlotsWindow_Result">
-                <ScalarProperty Name="TimeSlotId" ColumnName="TimeSlotId" />
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="BookingDay" ColumnName="BookingDay" />
-                <ScalarProperty Name="DayOfWeek" ColumnName="DayOfWeek" />
-                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
-                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
-                <ScalarProperty Name="BookingCount" ColumnName="BookingCount" />
-                <ScalarProperty Name="AvailableSlots" ColumnName="AvailableSlots" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="ClosureReason" ColumnName="ClosureReason" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="AspNetRoles">
             <EntityTypeMapping TypeName="RitualDBModel.AspNetRole">
               <MappingFragment StoreEntitySet="AspNetRoles">
@@ -1840,6 +2362,109 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ClientIssuesFeedbacks">
+            <EntityTypeMapping TypeName="RitualDBModel.ClientIssuesFeedback">
+              <MappingFragment StoreEntitySet="ClientIssuesFeedback">
+                <ScalarProperty Name="IssueInjuryRelevantToExercise" ColumnName="IssueInjuryRelevantToExercise" />
+                <ScalarProperty Name="IssuePostureOther" ColumnName="IssuePostureOther" />
+                <ScalarProperty Name="IssueMovementPatternOther" ColumnName="IssueMovementPatternOther" />
+                <ScalarProperty Name="IssueMobilityOther" ColumnName="IssueMobilityOther" />
+                <ScalarProperty Name="IssueInjuryOther" ColumnName="IssueInjuryOther" />
+                <ScalarProperty Name="IssueExerciseOther" ColumnName="IssueExerciseOther" />
+                <ScalarProperty Name="ComplimentOther" ColumnName="ComplimentOther" />
+                <ScalarProperty Name="ComplaintOther" ColumnName="ComplaintOther" />
+                <ScalarProperty Name="RecommendationAction" ColumnName="RecommendationAction" />
+                <ScalarProperty Name="Details" ColumnName="Details" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DateRaised" ColumnName="DateRaised" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RitualLookups">
+            <EntityTypeMapping TypeName="RitualDBModel.RitualLookup">
+              <MappingFragment StoreEntitySet="RitualLookups">
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="ClientIssuesFeedbackComplaint" TypeName="RitualDBModel.ClientIssuesFeedbackComplaint" StoreEntitySet="ClientIssuesFeedbackComplaint">
+            <EndProperty Name="RitualLookup">
+              <ScalarProperty Name="Id" ColumnName="RitualLookupId" />
+            </EndProperty>
+            <EndProperty Name="ClientIssuesFeedback">
+              <ScalarProperty Name="Id" ColumnName="ClientIssueFeedbackId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ClientIssuesFeedbackCompliments" TypeName="RitualDBModel.ClientIssuesFeedbackCompliments" StoreEntitySet="ClientIssuesFeedbackCompliments">
+            <EndProperty Name="RitualLookup">
+              <ScalarProperty Name="Id" ColumnName="RitualLookupId" />
+            </EndProperty>
+            <EndProperty Name="ClientIssuesFeedback">
+              <ScalarProperty Name="Id" ColumnName="ClientIssueFeedbackId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ClientIssuesFeedbackIssueExercise" TypeName="RitualDBModel.ClientIssuesFeedbackIssueExercise" StoreEntitySet="ClientIssuesFeedbackIssueExercise">
+            <EndProperty Name="RitualLookup">
+              <ScalarProperty Name="Id" ColumnName="RitualLookupId" />
+            </EndProperty>
+            <EndProperty Name="ClientIssuesFeedback">
+              <ScalarProperty Name="Id" ColumnName="ClientIssueFeedbackId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ClientIssuesFeedbackIssueInjury" TypeName="RitualDBModel.ClientIssuesFeedbackIssueInjury" StoreEntitySet="ClientIssuesFeedbackIssueInjury">
+            <EndProperty Name="RitualLookup">
+              <ScalarProperty Name="Id" ColumnName="RitualLookupId" />
+            </EndProperty>
+            <EndProperty Name="ClientIssuesFeedback">
+              <ScalarProperty Name="Id" ColumnName="ClientIssueFeedbackId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ClientIssuesFeedbackIssueMobility" TypeName="RitualDBModel.ClientIssuesFeedbackIssueMobility" StoreEntitySet="ClientIssuesFeedbackIssueMobility">
+            <EndProperty Name="RitualLookup">
+              <ScalarProperty Name="Id" ColumnName="RitualLookupId" />
+            </EndProperty>
+            <EndProperty Name="ClientIssuesFeedback">
+              <ScalarProperty Name="Id" ColumnName="ClientIssueFeedbackId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ClientIssuesFeedbackIssueMovementPattern" TypeName="RitualDBModel.ClientIssuesFeedbackIssueMovementPattern" StoreEntitySet="ClientIssuesFeedbackIssueMovementPattern">
+            <EndProperty Name="RitualLookup">
+              <ScalarProperty Name="Id" ColumnName="RitualLookupId" />
+            </EndProperty>
+            <EndProperty Name="ClientIssuesFeedback">
+              <ScalarProperty Name="Id" ColumnName="ClientIssueFeedbackId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ClientIssuesFeedbackIssuePosture" TypeName="RitualDBModel.ClientIssuesFeedbackIssuePosture" StoreEntitySet="ClientIssuesFeedbackIssuePosture">
+            <EndProperty Name="RitualLookup">
+              <ScalarProperty Name="Id" ColumnName="RitualLookupId" />
+            </EndProperty>
+            <EndProperty Name="ClientIssuesFeedback">
+              <ScalarProperty Name="Id" ColumnName="ClientIssueFeedbackId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="GetUpcomingBookingSlots" FunctionName="RitualDBModel.Store.GetUpcomingBookingSlots">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RitualDBModel.GetUpcomingBookingSlots_Result">
+                <ScalarProperty Name="TimeSlotId" ColumnName="TimeSlotId" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="BookingDay" ColumnName="BookingDay" />
+                <ScalarProperty Name="DayOfWeek" ColumnName="DayOfWeek" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="BookingCount" ColumnName="BookingCount" />
+                <ScalarProperty Name="AvailableSlots" ColumnName="AvailableSlots" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ClosureReason" ColumnName="ClosureReason" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

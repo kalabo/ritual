@@ -41,6 +41,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MvcCheckBoxList">
+      <HintPath>..\packages\MvcCheckBoxList.1.4.4.5\lib\net45\MvcCheckBoxList.dll</HintPath>
+    </Reference>
     <Reference Include="PagedList">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
     </Reference>
@@ -178,7 +181,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ControllerHelper.cs" />
     <Compile Include="Controllers\FrontOfHouseController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InitialAssessmentsController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -283,31 +285,33 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\ritual\ritual.templates.utilities.js" />
+    <Content Include="Scripts\ritual\ritual.templates.js" />
+    <Content Include="Scripts\vendor\bootstrap.js" />
+    <Content Include="Scripts\vendor\bootstrap.min.js" />
     <Content Include="fonts\Gender.eot" />
     <Content Include="fonts\Gender.ttf" />
     <Content Include="fonts\Gender.woff" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\Chart.js" />
-    <Content Include="Scripts\Chart.min.js" />
-    <Content Include="Scripts\EFSpatialGoogleMaps.js" />
+    <None Include="Scripts\vendor\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\vendor\Chart.js" />
+    <Content Include="Scripts\vendor\Chart.min.js" />
+    <Content Include="Scripts\vendor\EFSpatialGoogleMaps.js" />
     <Content Include="Scripts\foundation\foundation.min.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery-ui-1.11.2.js" />
-    <Content Include="Scripts\jquery-ui-1.11.2.min.js" />
-    <Content Include="Scripts\jquery-ui-timepicker-addon.js" />
-    <Content Include="Scripts\jquery.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\ritual.js" />
+    <Content Include="Scripts\vendor\jquery-1.10.2.js" />
+    <Content Include="Scripts\vendor\jquery-1.10.2.min.js" />
+    <None Include="Scripts\vendor\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\vendor\jquery-ui-1.11.2.js" />
+    <Content Include="Scripts\vendor\jquery-ui-1.11.2.min.js" />
+    <Content Include="Scripts\vendor\jquery-ui-timepicker-addon.js" />
+    <Content Include="Scripts\vendor\jquery.js" />
+    <Content Include="Scripts\vendor\jquery.validate.js" />
+    <Content Include="Scripts\vendor\jquery.validate.min.js" />
+    <Content Include="Scripts\vendor\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\vendor\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\vendor\modernizr-2.6.2.js" />
+    <Content Include="Scripts\vendor\respond.js" />
+    <Content Include="Scripts\vendor\respond.min.js" />
+    <Content Include="Scripts\ritual\ritual.js" />
     <Content Include="Scripts\tinymce\license.txt" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.min.js" />
@@ -460,7 +464,23 @@
     <Content Include="Scripts\tinymce\themes\modern\theme.min.js" />
     <Content Include="Scripts\tinymce\tinymce.js" />
     <Content Include="Scripts\tinymce\tinymce.min.js" />
-    <Content Include="Scripts\zepto.js" />
+    <Content Include="Scripts\vendor\date.format.js" />
+    <Content Include="Scripts\vendor\fastclick.js" />
+    <Content Include="Scripts\vendor\footable.js" />
+    <Content Include="Scripts\vendor\handlebars-v2.0.0.js" />
+    <Content Include="Scripts\vendor\jquery.cookie.js" />
+    <Content Include="Scripts\vendor\jquery.easing.1.3.js" />
+    <Content Include="Scripts\vendor\jquery.sticky.js" />
+    <Content Include="Scripts\vendor\jqueryui.js" />
+    <Content Include="Scripts\vendor\lightbox.js" />
+    <Content Include="Scripts\vendor\moment.js" />
+    <Content Include="Scripts\vendor\owl.carousel.min.js" />
+    <Content Include="Scripts\vendor\placeholder.js" />
+    <Content Include="Scripts\vendor\response.min.js" />
+    <Content Include="Scripts\vendor\sidr.js" />
+    <Content Include="Scripts\vendor\spservices.js" />
+    <Content Include="Scripts\vendor\toastr.js" />
+    <Content Include="Scripts\vendor\zepto.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -475,10 +495,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Scripts\vendor\jquery-1.10.2.min.map" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
@@ -520,7 +537,6 @@
     <Content Include="Views\TrainingZone\DeleteBooking.cshtml" />
     <Content Include="Views\TrainingZone\MyRitual.cshtml" />
     <Content Include="Views\Shared\_Foundation.cshtml" />
-    <Content Include="Views\Home\Foundation_Index.cshtml" />
     <Content Include="Views\TrainingZone\MyAssessments.cshtml" />
     <Content Include="Views\Memberships\Create.cshtml" />
     <Content Include="Views\Memberships\Delete.cshtml" />
@@ -532,8 +548,6 @@
     <Content Include="Views\Packages\Details.cshtml" />
     <Content Include="Views\Packages\Edit.cshtml" />
     <Content Include="Views\Packages\Index.cshtml" />
-    <Content Include="Views\Shared\DisplayTemplates\DbGeography.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\DbGeography.cshtml" />
     <Content Include="Views\TrainingZone\CancelBooking.cshtml" />
     <Content Include="Views\FrontOfHouse\Index.cshtml" />
     <Content Include="Views\FrontOfHouse\checkin.cshtml" />
@@ -567,6 +581,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Shared\DisplayTemplates\" />
+    <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -579,6 +595,10 @@
     <ProjectReference Include="..\Ritual.Data\Ritual.Data.csproj">
       <Project>{c2dcac7d-da38-40e6-b4a6-b9cf86e1dfc6}</Project>
       <Name>Ritual.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ritual.Web.Common\Ritual.Web.Common.csproj">
+      <Project>{28e60c13-9192-483f-acae-b08a3aae603c}</Project>
+      <Name>Ritual.Web.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

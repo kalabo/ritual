@@ -44,6 +44,7 @@ namespace Ritual.Data
 
     public class TrainingZoneBookingData
     {
-        public IEnumerable<GetNextBookingSlotsWindow_Result> AvailableBookingSlots { get; set; }
+        public IEnumerable<GetUpcomingBookingSlots_Result> AvailableBookingSlots { get; set; }
+        public List<DateTime> OpenDays { get; set; }
     }
 }

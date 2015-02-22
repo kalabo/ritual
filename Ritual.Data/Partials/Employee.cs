@@ -14,8 +14,25 @@ namespace Ritual.Data
         {
             get
             {
-                return string.Empty;
-                //return string.Format("{0} {1}", this.AspNetUser.AspNetUserDetails, LastName);
+                return string.Format("{0} {1}", this.AspNetUser.FirstName, this.AspNetUser.LastName);
+            }
+        }
+
+        [Column("LastName", TypeName = "string")]
+        public string LastName
+        {
+            get
+            {
+                return string.Format("{0}", this.AspNetUser.LastName);
+            }
+        }
+
+        [Column("FirstName", TypeName = "string")]
+        public string FirstName
+        {
+            get
+            {
+                return string.Format("{0}", this.AspNetUser.FirstName);
             }
         }
     }

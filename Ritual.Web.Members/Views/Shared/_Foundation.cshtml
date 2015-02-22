@@ -52,10 +52,7 @@
             <section class="sidebar">
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
-
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-
+                    
                     @if (ViewContext.HttpContext.User.Identity.IsAuthenticated)
                     {
                         if (!Ritual.Web.Members.Controllers.ControllerHelper.doesUserHaveRolePermissions("Member"))
@@ -97,7 +94,6 @@
                             </li>
                         }
                     }
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
             </section>
             <!-- /.sidebar -->

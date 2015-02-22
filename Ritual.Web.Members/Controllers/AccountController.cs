@@ -56,7 +56,6 @@ namespace Ritual.Web.Members.Controllers
         //
         // GET: /Account/Login
         [AllowAnonymous]
-        [Route("Login")]
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
@@ -68,7 +67,6 @@ namespace Ritual.Web.Members.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        [Route("Login")]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
@@ -503,7 +501,7 @@ namespace Ritual.Web.Members.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Dashboard", "TrainingZone");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

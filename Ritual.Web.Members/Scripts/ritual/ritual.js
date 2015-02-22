@@ -200,16 +200,159 @@ function fix_sidebar() {
 }(jQuery));
 
 
-
-
+/*-----------------------------------------------------------------------------------
+	Filename: ritual.js
+	Owner: Ritual Gym - CheatDay PTE Ltd
+	Description: Ritual Template Utilties
+	Author: Chris Pettigrew
+	Version: 1.1.1
+	Copyright (c) 2015, All Rights Reserved, http://www.ritualgym.com
+/*-----------------------------------------------------------------------------------*/
 
 var RITUAL = RITUAL || {};
 RITUAL.Core = RITUAL.Core || {};
+RITUAL.Core.Utilties = RITUAL.Core.Utilties || {};
+RITUAL.Core.TrainingZone = RITUAL.Core.TrainingZone || {};
 RITUAL.Core.Locations = RITUAL.Core.Locations || {};
 
 RITUAL.Core = {
     Init: function () {
 
+    }
+}
+RITUAL.Core.Utilties = {
+    TicksToDateTime: function (date, ticks) {
+
+        var sec_num = parseInt(ticks, 10); // don't forget the second param
+        var hours = Math.floor(sec_num / 3600);
+        var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+        var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+        if (hours < 10) { hours = "0" + hours; }
+        if (minutes < 10) { minutes = "0" + minutes; }
+        if (seconds < 10) { seconds = "0" + seconds; }
+
+        date.setMinutes(minutes);
+        date.setHours(hours);
+        date.setSeconds(seconds);
+        return date;
+    }
+}
+
+RITUAL.Core.TrainingZone = {
+    Init: function () {
+
+    },
+    BookingListingHandlers: function ()
+    {
+        $('#booking-slot-dates').on('change', function () {
+            var value = $(this).val();
+            RITUAL.Core.TrainingZone.BookingsListing("#ritual-bookings", value);
+        });
+        
+        $('.cancel-booking').on('click', function () {
+            
+            var timeslotid = $(this).data('timeslot');
+            var locationid = $(this).data('locationid');            
+            var bookingdate = moment(new Date($(this).data('bookingdate'))).format("MM/DD/YYYY");
+
+            var r = confirm("Are you sure you would like to cancel this booking?");
+            if (r == true) {
+                $.ajax({
+                    type: "GET",
+                    url: '/TrainingZone/CancelBookingJSON',
+                    data: { "timeslotId": timeslotid, "locationId": locationid, "date": bookingdate },
+                    success: function (data) {
+                        alert("Delete Booking Successful");
+                        var value = $('#booking-slot-dates').val();
+                        RITUAL.Core.TrainingZone.BookingsListing("#ritual-bookings", value);
+                    },
+                    error: function (xhr) {
+                        //debugger;  
+                        console.log(xhr.responseText);
+                        alert("Error has occurred..");
+                    }
+                });
+            }
+        });
+    },
+    Bookings: function (divName) {
+        var today = new Date();
+        var date = today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear();
+        $.ajax({
+            type: "GET",
+            url: '/TrainingZone/GetNextOpenDays',
+            data: { "date": date, "numberofdays": 3 },
+            success: function (data) {
+
+                var dates = [];
+                var html = "";
+                for (i = 0; i < data.length; i++) {
+                    date = new Date(parseInt(data[i].substring(6)));
+                    dates.push({
+                        Date: moment(date).format("MM/DD/YYYY"),
+                        DateFriendly: moment(date).format("dddd Do MMM")
+                    });
+                }
+                var template = "";
+                template = Handlebars.compile(Templates.bookingdropdown);
+                html += template(JSON.parse("{\"dates\":" + JSON.stringify(dates) + "}"));
+                $(divName).html(html);
+                RITUAL.Core.TrainingZone.BookingsListing("#ritual-bookings", dates[0].Date);
+
+            },
+            error: function (xhr) {
+                //debugger;  
+                console.log(xhr.responseText);
+                alert("Error has occurred..");
+            }
+        });
+    },
+    BookingsListing: function (divName, startDate) {
+        $.ajax({
+            type: "GET",
+            url: '/TrainingZone/GetBookingsByDate',
+            data: { "date": startDate },
+            success: function (data) {
+
+                var timeslots = [];
+                var html = "";
+                var template = "";
+                if (data.length > 0) {
+                    for (i = 0; i < data.length; i++) {
+                        var bookingday = new Date(parseInt(data[i].BookingDay.substring(6)));
+                                                
+                        timeslots.push({
+                            StartTime: moment().startOf('day').seconds(data[i].StartTime.TotalSeconds).format('H:mm A'),
+                            EndTime: moment().startOf('day').seconds(data[i].EndTime.TotalSeconds).format('H:mm A'),
+                            BookingDay: bookingday,
+                            TotalSlots: data[i].AvailableSlots,
+                            AvailableSlots: (data[i].AvailableSlots - data[i].BookingCount),
+                            BookingCount: data[i].BookingCount,
+                            Status: data[i].Status,
+                            TimeSlotId: data[i].TimeSlotId,
+                            LocationId: data[i].LocationId,
+                            MemberId: data[i].MemberId,
+                            DayOfWeek: data[i].DayOfWeek,
+                            ClosureReason: data[i].ClosureReason
+                        });
+                    }
+                    template = Handlebars.compile(Templates.bookingtimeslots);
+                    html += template(JSON.parse("{\"timeslots\":" + JSON.stringify(timeslots) + "}"));
+                } else {
+
+                    template = Handlebars.compile(Templates.nobookingslots);
+                    html += template();
+                }
+                $(divName).html(html);
+                RITUAL.Core.TrainingZone.BookingListingHandlers();
+            },
+            error: function (xhr) {
+                //debugger;  
+                console.log(xhr.responseText);
+                alert("Error has occurred..");
+            }
+        });
     }
 }
 
@@ -239,8 +382,8 @@ RITUAL.Core.Locations = {
         this.CurrentMembersPayment(locationId, options, '#locationMembersPayment', '#locationMembersPaymentCanvas');
     },
     CurrentMembersChart: function (locationId, options, canvasdiv, legenddiv) {
-        
-        
+
+
 
         var data = [{
             value: 30,
@@ -331,7 +474,7 @@ RITUAL.Core.Locations = {
                 // Display a map on the page
                 map = new google.maps.Map(document.getElementById("ritualMap"), mapOptions);
                 map.setTilt(45);
-                
+
                 // Display multiple markers on a map
                 var infoWindow = new google.maps.InfoWindow(), marker, i;
 
@@ -345,7 +488,7 @@ RITUAL.Core.Locations = {
                         title: locations[i].name,
                         icon: '/Content/images/ritual_pushpin.png'
                     });
-                    
+
                     // Automatically center the map fitting all markers on the screen
                     map.fitBounds(bounds);
                 }

@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="adc2b67dab144bd6bfeb1bbe231ace48" Name="Diagram1" ZoomLevel="66">
+      <Diagram DiagramId="adc2b67dab144bd6bfeb1bbe231ace48" Name="Diagram1" ZoomLevel="86">
         <EntityTypeShape EntityType="RitualDBModel.AspNetRole" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="RitualDBModel.Membership" Width="1.5" PointX="5.25" PointY="18.75" />
         <EntityTypeShape EntityType="RitualDBModel.MembershipState" Width="1.5" PointX="3" PointY="20.375" />
@@ -50,6 +50,17 @@
         <EntityTypeShape EntityType="RitualDBModel.InitialAssessment" Width="1.5" PointX="14.25" PointY="11.875" />
         <AssociationConnector Association="RitualDBModel.FK_InitialAssessment_Employee" />
         <AssociationConnector Association="RitualDBModel.FK_InitialAssessment_Member" />
+        <EntityTypeShape EntityType="RitualDBModel.ClientIssuesFeedback" Width="1.5" PointX="14.25" PointY="19.5" />
+        <EntityTypeShape EntityType="RitualDBModel.RitualLookup" Width="1.5" PointX="18.375" PointY="20.875" />
+        <AssociationConnector Association="RitualDBModel.FK_ClientIssuesFeedback_Employee" />
+        <AssociationConnector Association="RitualDBModel.FK_ClientIssuesFeedback_Member" />
+        <AssociationConnector Association="RitualDBModel.ClientIssuesFeedbackComplaint" />
+        <AssociationConnector Association="RitualDBModel.ClientIssuesFeedbackCompliments" />
+        <AssociationConnector Association="RitualDBModel.ClientIssuesFeedbackIssueExercise" />
+        <AssociationConnector Association="RitualDBModel.ClientIssuesFeedbackIssueInjury" />
+        <AssociationConnector Association="RitualDBModel.ClientIssuesFeedbackIssueMobility" />
+        <AssociationConnector Association="RitualDBModel.ClientIssuesFeedbackIssueMovementPattern" />
+        <AssociationConnector Association="RitualDBModel.ClientIssuesFeedbackIssuePosture" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
