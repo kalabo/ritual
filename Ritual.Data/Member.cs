@@ -16,11 +16,11 @@ namespace Ritual.Data
     {
         public Member()
         {
+            this.ClientIssuesFeedbacks = new HashSet<ClientIssuesFeedback>();
+            this.InitialAssessments = new HashSet<InitialAssessment>();
             this.SessionBookings = new HashSet<SessionBooking>();
             this.Memberships = new HashSet<Membership>();
             this.QuarterlyAssessments = new HashSet<QuarterlyAssessment>();
-            this.InitialAssessments = new HashSet<InitialAssessment>();
-            this.ClientIssuesFeedbacks = new HashSet<ClientIssuesFeedback>();
         }
     
         public int Id { get; set; }
@@ -28,13 +28,24 @@ namespace Ritual.Data
         public Nullable<bool> EmailOptOut { get; set; }
         public int HomeLocationId { get; set; }
         public string AspNetUserId { get; set; }
+        public string ShirtSize { get; set; }
+        public string ShortSize { get; set; }
+        public string EmergencyContactName { get; set; }
+        public string EmergencyContactNumber { get; set; }
+        public string IDType { get; set; }
+        public string IDNumber { get; set; }
+        public string AddressLine1 { get; set; }
+        public string AddressLine2 { get; set; }
+        public string City { get; set; }
+        public string Country { get; set; }
+        public string PostZipCode { get; set; }
     
+        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual ICollection<ClientIssuesFeedback> ClientIssuesFeedbacks { get; set; }
+        public virtual ICollection<InitialAssessment> InitialAssessments { get; set; }
         public virtual Location Location { get; set; }
         public virtual ICollection<SessionBooking> SessionBookings { get; set; }
         public virtual ICollection<Membership> Memberships { get; set; }
         public virtual ICollection<QuarterlyAssessment> QuarterlyAssessments { get; set; }
-        public virtual AspNetUser AspNetUser { get; set; }
-        public virtual ICollection<InitialAssessment> InitialAssessments { get; set; }
-        public virtual ICollection<ClientIssuesFeedback> ClientIssuesFeedbacks { get; set; }
     }
 }

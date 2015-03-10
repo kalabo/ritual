@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Globalization;
+using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using Ritual.Web.Members.Models;
 using Ritual.Data;
+using Ritual.Web.Members.Models;
 
 namespace Ritual.Web.Members.Controllers
 {
@@ -18,12 +17,23 @@ namespace Ritual.Web.Members.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        /// <summary>
+        /// Application DB context
+        /// </summary>
+        protected ApplicationDbContext ApplicationDbContext { get; set; }
+
+        /// <summary>
+        /// User manager - attached to application DB context
+        /// </summary>
+        protected UserManager<ApplicationUser> AccountUserManager { get; set; }
+
+        private RitualDBEntities db = new RitualDBEntities();
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -35,9 +45,9 @@ namespace Ritual.Web.Members.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -56,9 +66,10 @@ namespace Ritual.Web.Members.Controllers
         //
         // GET: /Account/Login
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public ActionResult Login(string returnUrl, bool? newuser)
         {
             ViewBag.ReturnUrl = returnUrl;
+            ViewBag.NewUser = newuser;
             return View();
         }
 
@@ -74,9 +85,30 @@ namespace Ritual.Web.Members.Controllers
                 return View(model);
             }
 
+            // Require the user to have a confirmed email before they can log on.
+            var user = await UserManager.FindByNameAsync(model.Username);
+            if (user != null)
+            {
+                if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+                {
+                    string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirm your account-Resend");        
+                    ModelState.AddModelError("", "You must have a confirmed email to log on.");
+                    return View(model);
+                }
+                else
+                {
+                    Member member = db.Members.SingleOrDefault(e => e.AspNetUserId == user.Id);
+                    if (member == null)
+                    {
+                        ModelState.AddModelError("", "Only members are allowed to log.");
+                        return View(model);
+                    }
+                }
+            }
+
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -123,7 +155,7 @@ namespace Ritual.Web.Members.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -143,6 +175,16 @@ namespace Ritual.Web.Members.Controllers
         [Route("Register")]
         public ActionResult Register()
         {
+            var locations =
+              db.Locations
+                .ToList()
+                .Select(l => new
+                {
+                    LocationId = l.Id,
+                    Description = l.Name
+                });
+
+            ViewBag.LocationId = new SelectList(locations, "LocationId", "Description");
             return View();
         }
 
@@ -156,45 +198,31 @@ namespace Ritual.Web.Members.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Salutation = model.Salutation, FirstName = model.FirstName, LastName = model.LastName, Pin = model.Pin };
+                var user = new ApplicationUser { UserName = model.Username, Email = model.Email, Salutation = model.Salutation, Gender = model.Gender, FirstName = model.FirstName, LastName = model.LastName, Pin = model.Pin };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    
 
-                    this.AssignNewMemberRoles(user, UserManager);
-
-                    // MH NEW
                     RitualDBEntities ctx = new RitualDBEntities();
+                    CreateNewMember(ctx, user, model.LocationId, "member" + DateTime.Now.Ticks, Convert.ToDateTime(model.TrialDate));
+                    ctx.Dispose();
 
-                    Member m = new Member()
-                    {
-                        AspNetUserId = user.Id,
-                        HomeLocationId = 1,
-                        IdentificationNumber = "member" + DateTime.Now.Ticks.ToString()
-                    };
-
-                    //Ritual.Data.AspNetUserDetail detail = new Ritual.Data.AspNetUserDetail()
-                    //{
-                    //    Salutation = model.Salutation,
-                    //    FirstName = model.FirstName,
-                    //    LastName = model.LastName,
-                    //    Pin = model.Pin,
-                    //};
-
-                    ctx.Members.Add(m);
-                    //ctx.AspNetUserDetails.Add(detail);
-                    ctx.SaveChanges();
+                    string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirm your account");
 
 
+                    ViewBag.Message = "Check your email and confirm your account, you must be confirmed "
+                                    + "before you can log in.";
 
-                    return RedirectToAction("Dashboard", "TrainingZone");
+                    return View("Info");
+                    //return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
             }
@@ -203,13 +231,54 @@ namespace Ritual.Web.Members.Controllers
             return View(model);
         }
 
+        private void CreateNewMember(RitualDBEntities ctx, ApplicationUser user, int locationId, string IDNo, DateTime trialDate)
+        {
+            Member m = new Member()
+            {
+                AspNetUserId = user.Id,
+                HomeLocationId = locationId,
+                IdentificationNumber = IDNo
+            };
+
+            ctx.Members.Add(m);
+            ctx.SaveChanges();
+            this.AssignNewMemberRoles(user, UserManager);
+            AssignTrialMembershipNewMember(ctx, m.Id, locationId, trialDate);
+        }
+
         private void AssignNewMemberRoles(ApplicationUser user, ApplicationUserManager UserManager)
         {
             // Add member to Member Role
             UserManager.AddToRole(user.Id, "Member");
         }
 
-  
+        public void AssignTrialMembershipNewMember(RitualDBEntities ctx, int memberId, int locationId, DateTime startDate)
+        {
+            const int trialMembershipState = 1;
+            //Get the Trial Package from Database
+            Package trialPackage = db.Packages.SingleOrDefault(p => p.PackageTypeId == 1);
+            //Get the Location Price for the Trial Membership.
+            PackageLocationPrice packagePrice = db.PackageLocationPrices.SingleOrDefault(p => p.LocationId == locationId && p.PackageId == trialPackage.Id);
+
+            //Set the End Date of the Trial Membership (Default to 7 Days)
+            DateTime endDate = startDate.AddDays(7);
+            Membership trialMembership = new Membership()
+            {
+                MemberId = memberId,
+                PackageId = trialPackage.Id,
+                StartDate = startDate,
+                EndDate = endDate,
+                Trial = true,
+                MembershipStateId = trialMembershipState,
+                TotalPrice = packagePrice.TotalPrice,
+                MonthlyPrice = packagePrice.MonthlyPrice,
+                InitialPayment = packagePrice.TotalPrice
+            };
+
+            ctx.Memberships.Add((trialMembership));
+            ctx.SaveChanges();
+        }
+
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
@@ -243,19 +312,14 @@ namespace Ritual.Web.Members.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
+                var user = await UserManager.FindByEmailAsync(model.Email);
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
-                }
-
-                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                }                
+                string callbackUrl = await SendEmailPasswordResetTokenAsync(user.Id, "Reset Password");
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
@@ -292,7 +356,7 @@ namespace Ritual.Web.Members.Controllers
             {
                 return View(model);
             }
-            var user = await UserManager.FindByNameAsync(model.Email);
+            var user = await UserManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
                 // Don't reveal that the user does not exist
@@ -443,7 +507,7 @@ namespace Ritual.Web.Members.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("", "Account");
         }
 
         //
@@ -453,6 +517,46 @@ namespace Ritual.Web.Members.Controllers
         public ActionResult ExternalLoginFailure()
         {
             return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult GetLocations()
+        {
+            var rituallocations = new List<RitualLocations>();
+            var locations = from l in db.Locations
+                            select l;
+            foreach (Location location in locations)
+            {
+                rituallocations.Add(new RitualLocations(location.Latitude, location.Longitude, location.Name, location.Id, location.Address));
+            }
+            return Json(rituallocations, JsonRequestBehavior.AllowGet);
+        }
+
+        [AllowAnonymous]
+        public ActionResult GetNextOpenDays(int numberofdays, int locationId)
+        {
+            this.ApplicationDbContext = new ApplicationDbContext();
+            var location = db.Locations.Find(locationId);
+            List<DateTime> results = location.getDaysOpen(numberofdays, DateTime.UtcNow.AddHours(location.TimeZoneOffset));
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
+        [AllowAnonymous]
+        public ActionResult GetTrialSlotsByDate(string date, int locationId)
+        {
+            //If the current date is the same then only show items for current day
+            DateTime selectedDate = Convert.ToDateTime(date);
+
+            this.ApplicationDbContext = new ApplicationDbContext();
+            var location = db.Locations.Find(locationId);
+            if (selectedDate.Date == DateTime.Now.Date)
+            {
+                selectedDate = DateTime.UtcNow.AddHours(location.TimeZoneOffset);
+            }
+
+            List<GetUpcomingTrialSlots_Result> results = db.GetUpcomingTrialSlots(location.Id, selectedDate).ToList();
+            results = results.Where(l => l.TrialSlot == true && l.HasAssessment == "false").ToList();
+            return Json(results, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)
@@ -533,5 +637,52 @@ namespace Ritual.Web.Members.Controllers
             }
         }
         #endregion
+
+        private async Task<string> SendEmailConfirmationTokenAsync(string userID, string subject)
+        {
+            string code = await UserManager.GenerateEmailConfirmationTokenAsync(userID);
+            var callbackUrl = Url.Action("ConfirmEmail", "Account",
+               new { userId = userID, code = code }, protocol: Request.Url.Scheme);
+            await UserManager.SendEmailAsync(userID, subject,
+               "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+            return callbackUrl;
+        }
+
+        private async Task<string> SendEmailPasswordResetTokenAsync(string userID, string subject)
+        {
+            string code = await UserManager.GeneratePasswordResetTokenAsync(userID);
+            var callbackUrl = Url.Action("ResetPassword", "Account",
+               new { userId = userID, code = code }, protocol: Request.Url.Scheme);
+            await UserManager.SendEmailAsync(userID, subject,
+               "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+            return callbackUrl;
+        }
+
+        [AllowAnonymous]
+        public string CheckUserName(string input)
+        {
+            bool ifuser = UserManager.FindByName(input) != null;
+
+            if (ifuser == false)
+            {
+                return "Available";
+            }
+            return "Not Available";
+        }
+
+        [AllowAnonymous]
+        public string CheckEmail(string input)
+        {
+            bool ifuser = UserManager.FindByEmail(input) != null;
+
+            if (ifuser == false)
+            {
+                return "Available";
+            }
+            return "Not Available";
+        }
+
     }
 }

@@ -12,6 +12,33 @@
           <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
         <EntityType Name="AspNetUsers">
           <Key>
             <PropertyRef Name="Id" />
@@ -35,6 +62,8 @@
           <Property Name="HomePhone" Type="nvarchar" MaxLength="50" />
           <Property Name="MobilePhone" Type="nvarchar" MaxLength="50" />
           <Property Name="Birthday" Type="date" />
+          <Property Name="Gender" Type="nchar" MaxLength="10" />
+          <Property Name="PhotoUrl" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="ClientIssuesFeedback">
           <Key>
@@ -132,41 +161,44 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdentificationNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="AspNetUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="LocationId" Type="int" Nullable="false" />
+          <Property Name="HomeLocationId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="InitialAssessment">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="AssessmentDateTime" Type="datetime" Nullable="false" />
+          <Property Name="AssessmentDate" Type="date" Nullable="false" />
+          <Property Name="TimeSlotId" Type="int" Nullable="false" />
           <Property Name="MemberId" Type="int" Nullable="false" />
+          <Property Name="LocationId" Type="int" Nullable="false" />
           <Property Name="EmployeeId" Type="int" Nullable="false" />
           <Property Name="ClientCheckDetails" Type="nvarchar(max)" />
-          <Property Name="ClientHearAboutRitual" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="ClientTrainingHistory" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="ClientInjuriesMedicalIssues" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="ClientPosturalArea" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="ClientPosturalAreaDetails" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="MovementAnteriorTrunk" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="MovementPosteriorTrunk" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="MovementHorizontalPush" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="MovementVerticalPush" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="MovementHorizontalPull" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="MovementVerticalPull" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="MovementHipPush" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="MovementHipPull" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="MovementSingleLeg" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="MovementLocomotion1" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="MovementLocamotion2" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="MovementDetails" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Recommendation" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="WorkoutExplained" Type="bit" Nullable="false" />
-          <Property Name="WarmupExplained" Type="bit" Nullable="false" />
-          <Property Name="ClientEmployeeReminder" Type="bit" Nullable="false" />
-          <Property Name="AdditionalClientProgress" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="AdditionalClientTips" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ClientHearAboutRitual" Type="nvarchar" MaxLength="255" />
+          <Property Name="ClientTrainingHistory" Type="nvarchar(max)" />
+          <Property Name="ClientInjuriesMedicalIssues" Type="nvarchar(max)" />
+          <Property Name="ClientPosturalArea" Type="nvarchar" MaxLength="255" />
+          <Property Name="ClientPosturalAreaDetails" Type="nvarchar(max)" />
+          <Property Name="MovementAnteriorTrunk" Type="nchar" MaxLength="10" />
+          <Property Name="MovementPosteriorTrunk" Type="nchar" MaxLength="10" />
+          <Property Name="MovementHorizontalPush" Type="nchar" MaxLength="10" />
+          <Property Name="MovementVerticalPush" Type="nchar" MaxLength="10" />
+          <Property Name="MovementHorizontalPull" Type="nchar" MaxLength="10" />
+          <Property Name="MovementVerticalPull" Type="nchar" MaxLength="10" />
+          <Property Name="MovementHipPush" Type="nchar" MaxLength="10" />
+          <Property Name="MovementHipPull" Type="nchar" MaxLength="10" />
+          <Property Name="MovementSingleLeg" Type="nchar" MaxLength="10" />
+          <Property Name="MovementLocomotion1" Type="nchar" MaxLength="10" />
+          <Property Name="MovementLocamotion2" Type="nchar" MaxLength="10" />
+          <Property Name="MovementDetails" Type="nvarchar(max)" />
+          <Property Name="Recommendation" Type="nvarchar(max)" />
+          <Property Name="WorkoutExplained" Type="bit" />
+          <Property Name="WarmupExplained" Type="bit" />
+          <Property Name="ClientEmployeeReminder" Type="bit" />
+          <Property Name="AdditionalClientProgress" Type="nvarchar(max)" />
+          <Property Name="AdditionalClientTips" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -193,6 +225,17 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Property Name="EmailOptOut" Type="bit" />
           <Property Name="HomeLocationId" Type="int" Nullable="false" />
           <Property Name="AspNetUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ShirtSize" Type="nchar" MaxLength="10" />
+          <Property Name="ShortSize" Type="nchar" MaxLength="10" />
+          <Property Name="EmergencyContactName" Type="nvarchar" MaxLength="50" />
+          <Property Name="EmergencyContactNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="IDType" Type="nvarchar" MaxLength="50" />
+          <Property Name="IDNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="AddressLine1" Type="nvarchar" MaxLength="100" />
+          <Property Name="AddressLine2" Type="nvarchar" MaxLength="100" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" />
+          <Property Name="Country" Type="nvarchar" MaxLength="50" />
+          <Property Name="PostZipCode" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Membership">
           <Key>
@@ -214,6 +257,10 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Property Name="DiscountPercentage" Type="decimal" Precision="5" Scale="2" />
           <Property Name="DiscountPrice" Type="decimal" Precision="19" Scale="4" />
           <Property Name="DiscountReason" Type="nvarchar(max)" />
+          <Property Name="TerminationDate" Type="date" />
+          <Property Name="TerminationReason" Type="nvarchar(max)" />
+          <Property Name="EndPaymentDate" Type="date" />
+          <Property Name="TerminationFeeOverrideReason" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="MembershipState">
           <Key>
@@ -252,6 +299,16 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OffPeakHours">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateOfWeek" Type="tinyint" Nullable="false" />
+          <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="LocationId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="OpeningHour">
           <Key>
@@ -306,6 +363,27 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaymentCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaymentSchedules">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberId" Type="int" Nullable="false" />
+          <Property Name="MembershipId" Type="int" Nullable="false" />
+          <Property Name="Payment" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="PaymentDate" Type="date" Nullable="false" />
+          <Property Name="Paid" Type="tinyint" Nullable="false" />
+          <Property Name="TransactionId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Currency" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PaymentCategoryId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="QuarterlyAssessment">
           <Key>
@@ -377,6 +455,16 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
         <EntityType Name="TimeSlot">
           <Key>
             <PropertyRef Name="Id" />
@@ -384,6 +472,16 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
           <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TrialTimeBlock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateOfWeek" Type="tinyint" Nullable="false" />
+          <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="LocationId" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_Booking_BookingState">
           <End Role="SessionBookingState" Type="Self.SessionBookingState" Multiplicity="1" />
@@ -625,6 +723,62 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Employee_AspNetUsers">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
           <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
@@ -645,7 +799,7 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Employee">
-              <PropertyRef Name="LocationId" />
+              <PropertyRef Name="HomeLocationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -793,6 +947,18 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_OffPeakHours_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="OffPeakHours" Type="Self.OffPeakHours" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OffPeakHours">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OpeningHour_Location">
           <End Role="Location" Type="Self.Location" Multiplicity="0..1" />
           <End Role="OpeningHour" Type="Self.OpeningHour" Multiplicity="*" />
@@ -877,6 +1043,18 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TrialTimeBlock_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="TrialTimeBlock" Type="Self.TrialTimeBlock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TrialTimeBlock">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="GetImminentSessionBookings" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="LocationId" Type="int" Mode="In" />
           <Parameter Name="CurrentDateTime" Type="datetime" Mode="In" />
@@ -886,8 +1064,15 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Parameter Name="CurrentDateTime" Type="datetime" Mode="In" />
           <Parameter Name="MemberID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetUpcomingTrialSlots" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LocationId" Type="int" Mode="In" />
+          <Parameter Name="CurrentDateTime" Type="datetime" Mode="In" />
+        </Function>
         <EntityContainer Name="RitualDBModelStoreContainer">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ClientIssuesFeedback" EntityType="Self.ClientIssuesFeedback" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
@@ -899,16 +1084,21 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <EntitySet Name="MembershipSuspensions" EntityType="Self.MembershipSuspensions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="News" EntityType="Self.News" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NewsCategories" EntityType="Self.NewsCategories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OffPeakHours" EntityType="Self.OffPeakHours" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OpeningHour" EntityType="Self.OpeningHour" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OpeningHourOverride" EntityType="Self.OpeningHourOverride" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Package" EntityType="Self.Package" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PackageLocationPrices" EntityType="Self.PackageLocationPrices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PackageType" EntityType="Self.PackageType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentCategory" EntityType="Self.PaymentCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentSchedules" EntityType="Self.PaymentSchedules" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QuarterlyAssessment" EntityType="Self.QuarterlyAssessment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RitualLookups" EntityType="Self.RitualLookups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SessionBooking" EntityType="Self.SessionBooking" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SessionBookingState" EntityType="Self.SessionBookingState" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TimeSlot" EntityType="Self.TimeSlot" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrialTimeBlock" EntityType="Self.TrialTimeBlock" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ClientIssuesFeedbackComplaint" EntityType="Self.ClientIssuesFeedbackComplaint" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [ClientIssuesFeedbackComplaint].[ClientIssueFeedbackId] AS [ClientIssueFeedbackId], 
@@ -1031,6 +1221,22 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
             <End Role="RitualLookups" EntitySet="RitualLookups" />
             <End Role="ClientIssuesFeedbackIssuePosture" EntitySet="ClientIssuesFeedbackIssuePosture" />
           </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
           <AssociationSet Name="FK_Employee_AspNetUsers" Association="Self.FK_Employee_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Employee" EntitySet="Employee" />
@@ -1087,6 +1293,10 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
             <End Role="NewsCategories" EntitySet="NewsCategories" />
             <End Role="News" EntitySet="News" />
           </AssociationSet>
+          <AssociationSet Name="FK_OffPeakHours_Location" Association="Self.FK_OffPeakHours_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="OffPeakHours" EntitySet="OffPeakHours" />
+          </AssociationSet>
           <AssociationSet Name="FK_OpeningHour_Location" Association="Self.FK_OpeningHour_Location">
             <End Role="Location" EntitySet="Location" />
             <End Role="OpeningHour" EntitySet="OpeningHour" />
@@ -1115,64 +1325,137 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
             <End Role="Member" EntitySet="Member" />
             <End Role="QuarterlyAssessment" EntitySet="QuarterlyAssessment" />
           </AssociationSet>
+          <AssociationSet Name="FK_TrialTimeBlock_Location" Association="Self.FK_TrialTimeBlock_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="TrialTimeBlock" EntitySet="TrialTimeBlock" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="RitualDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="RitualDBEntities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="GetImminentSessionBookings" ReturnType="Collection(RitualDBModel.GetImminentSessionBookings_Result)">
+            <Parameter Name="LocationId" Mode="In" Type="Int32" />
+            <Parameter Name="CurrentDateTime" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GetUpcomingBookingSlots" ReturnType="Collection(RitualDBModel.GetUpcomingBookingSlots_Result)">
+            <Parameter Name="LocationId" Mode="In" Type="Int32" />
+            <Parameter Name="CurrentDateTime" Mode="In" Type="DateTime" />
+            <Parameter Name="MemberID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetUpcomingTrialSlots" ReturnType="Collection(RitualDBModel.GetUpcomingTrialSlots_Result)">
+            <Parameter Name="LocationId" Mode="In" Type="Int32" />
+            <Parameter Name="CurrentDateTime" Mode="In" Type="DateTime" />
+          </FunctionImport>
           <EntitySet Name="AspNetRoles" EntityType="RitualDBModel.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="RitualDBModel.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="RitualDBModel.AspNetUserLogin" />
+          <EntitySet Name="AspNetUsers" EntityType="RitualDBModel.AspNetUser" />
+          <EntitySet Name="ClientIssuesFeedbacks" EntityType="RitualDBModel.ClientIssuesFeedback" />
+          <EntitySet Name="Employees" EntityType="RitualDBModel.Employee" />
+          <EntitySet Name="InitialAssessments" EntityType="RitualDBModel.InitialAssessment" />
+          <EntitySet Name="Locations" EntityType="RitualDBModel.Location" />
+          <EntitySet Name="Members" EntityType="RitualDBModel.Member" />
           <EntitySet Name="Memberships" EntityType="RitualDBModel.Membership" />
           <EntitySet Name="MembershipStates" EntityType="RitualDBModel.MembershipState" />
           <EntitySet Name="MembershipSuspensions" EntityType="RitualDBModel.MembershipSuspension" />
+          <EntitySet Name="News" EntityType="RitualDBModel.News" />
+          <EntitySet Name="NewsCategories" EntityType="RitualDBModel.NewsCategory" />
+          <EntitySet Name="OffPeakHours" EntityType="RitualDBModel.OffPeakHour" />
           <EntitySet Name="OpeningHours" EntityType="RitualDBModel.OpeningHour" />
+          <EntitySet Name="OpeningHourOverrides" EntityType="RitualDBModel.OpeningHourOverride" />
+          <EntitySet Name="Packages" EntityType="RitualDBModel.Package" />
           <EntitySet Name="PackageLocationPrices" EntityType="RitualDBModel.PackageLocationPrice" />
+          <EntitySet Name="PackageTypes" EntityType="RitualDBModel.PackageType" />
+          <EntitySet Name="PaymentCategories" EntityType="RitualDBModel.PaymentCategory" />
+          <EntitySet Name="PaymentSchedules" EntityType="RitualDBModel.PaymentSchedule" />
           <EntitySet Name="QuarterlyAssessments" EntityType="RitualDBModel.QuarterlyAssessment" />
+          <EntitySet Name="RitualLookups" EntityType="RitualDBModel.RitualLookup" />
           <EntitySet Name="SessionBookings" EntityType="RitualDBModel.SessionBooking" />
           <EntitySet Name="SessionBookingStates" EntityType="RitualDBModel.SessionBookingState" />
+          <EntitySet Name="sysdiagrams" EntityType="RitualDBModel.sysdiagram" />
           <EntitySet Name="TimeSlots" EntityType="RitualDBModel.TimeSlot" />
-          <AssociationSet Name="FK_Membership_MembershipState" Association="RitualDBModel.FK_Membership_MembershipState">
-            <End Role="MembershipState" EntitySet="MembershipStates" />
-            <End Role="Membership" EntitySet="Memberships" />
+          <EntitySet Name="TrialTimeBlocks" EntityType="RitualDBModel.TrialTimeBlock" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="RitualDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
           </AssociationSet>
-          <AssociationSet Name="FK_MembershipSuspensions_Membership" Association="RitualDBModel.FK_MembershipSuspensions_Membership">
-            <End Role="Membership" EntitySet="Memberships" />
-            <End Role="MembershipSuspension" EntitySet="MembershipSuspensions" />
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="RitualDBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
           </AssociationSet>
-          <AssociationSet Name="FK_Booking_BookingState" Association="RitualDBModel.FK_Booking_BookingState">
-            <End Role="SessionBookingState" EntitySet="SessionBookingStates" />
-            <End Role="SessionBooking" EntitySet="SessionBookings" />
+          <AssociationSet Name="FK_Employee_AspNetUsers" Association="RitualDBModel.FK_Employee_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
-          <AssociationSet Name="FK_Booking_TimeSlot" Association="RitualDBModel.FK_Booking_TimeSlot">
-            <End Role="TimeSlot" EntitySet="TimeSlots" />
-            <End Role="SessionBooking" EntitySet="SessionBookings" />
+          <AssociationSet Name="FK_Member_AspNetUsers" Association="RitualDBModel.FK_Member_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Member" EntitySet="Members" />
           </AssociationSet>
-          <EntitySet Name="Locations" EntityType="RitualDBModel.Location" />
+          <AssociationSet Name="FK_News_AspNetUsersCreatedBy" Association="RitualDBModel.FK_News_AspNetUsersCreatedBy">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="News" EntitySet="News" />
+          </AssociationSet>
+          <AssociationSet Name="FK_News_AspNetUsersModifiedBy" Association="RitualDBModel.FK_News_AspNetUsersModifiedBy">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="News" EntitySet="News" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientIssuesFeedback_Employee" Association="RitualDBModel.FK_ClientIssuesFeedback_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedbacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientIssuesFeedback_Member" Association="RitualDBModel.FK_ClientIssuesFeedback_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedbacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Location" Association="RitualDBModel.FK_Employee_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InitialAssessment_Employee" Association="RitualDBModel.FK_InitialAssessment_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="InitialAssessment" EntitySet="InitialAssessments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuarterlyAssessment_Employee" Association="RitualDBModel.FK_QuarterlyAssessment_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="QuarterlyAssessment" EntitySet="QuarterlyAssessments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InitialAssessment_Member" Association="RitualDBModel.FK_InitialAssessment_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="InitialAssessment" EntitySet="InitialAssessments" />
+          </AssociationSet>
           <AssociationSet Name="FK_Booking_Location" Association="RitualDBModel.FK_Booking_Location">
             <End Role="Location" EntitySet="Locations" />
             <End Role="SessionBooking" EntitySet="SessionBookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Member_Location" Association="RitualDBModel.FK_Member_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Member" EntitySet="Members" />
+          </AssociationSet>
+          <AssociationSet Name="FK_News_Location" Association="RitualDBModel.FK_News_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="News" EntitySet="News" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OffPeakHours_Location" Association="RitualDBModel.FK_OffPeakHours_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="OffPeakHour" EntitySet="OffPeakHours" />
           </AssociationSet>
           <AssociationSet Name="FK_OpeningHour_Location" Association="RitualDBModel.FK_OpeningHour_Location">
             <End Role="Location" EntitySet="Locations" />
             <End Role="OpeningHour" EntitySet="OpeningHours" />
           </AssociationSet>
-          <AssociationSet Name="FK_PackageLocationPrices_Location" Association="RitualDBModel.FK_PackageLocationPrices_Location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="PackageLocationPrice" EntitySet="PackageLocationPrices" />
-          </AssociationSet>
-          <FunctionImport Name="GetImminentSessionBookings" ReturnType="Collection(RitualDBModel.GetImminentSessionBookings_Result)">
-            <Parameter Name="LocationId" Mode="In" Type="Int32" />
-            <Parameter Name="CurrentDateTime" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <EntitySet Name="OpeningHourOverrides" EntityType="RitualDBModel.OpeningHourOverride" />
           <AssociationSet Name="FK_OpeningHourOverride_Location" Association="RitualDBModel.FK_OpeningHourOverride_Location">
             <End Role="Location" EntitySet="Locations" />
             <End Role="OpeningHourOverride" EntitySet="OpeningHourOverrides" />
           </AssociationSet>
-          <EntitySet Name="Members" EntityType="RitualDBModel.Member" />
-          <AssociationSet Name="FK_Member_Location" Association="RitualDBModel.FK_Member_Location">
+          <AssociationSet Name="FK_PackageLocationPrices_Location" Association="RitualDBModel.FK_PackageLocationPrices_Location">
             <End Role="Location" EntitySet="Locations" />
-            <End Role="Member" EntitySet="Members" />
+            <End Role="PackageLocationPrice" EntitySet="PackageLocationPrices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrialTimeBlock_Location" Association="RitualDBModel.FK_TrialTimeBlock_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="TrialTimeBlock" EntitySet="TrialTimeBlocks" />
           </AssociationSet>
           <AssociationSet Name="FK_Booking_Member" Association="RitualDBModel.FK_Booking_Member">
             <End Role="Member" EntitySet="Members" />
@@ -1186,30 +1469,21 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
             <End Role="Member" EntitySet="Members" />
             <End Role="QuarterlyAssessment" EntitySet="QuarterlyAssessments" />
           </AssociationSet>
-          <EntitySet Name="Employees" EntityType="RitualDBModel.Employee" />
-          <AssociationSet Name="FK_Employee_Location" Association="RitualDBModel.FK_Employee_Location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="Employee" EntitySet="Employees" />
+          <AssociationSet Name="FK_Membership_MembershipState" Association="RitualDBModel.FK_Membership_MembershipState">
+            <End Role="MembershipState" EntitySet="MembershipStates" />
+            <End Role="Membership" EntitySet="Memberships" />
           </AssociationSet>
-          <AssociationSet Name="FK_QuarterlyAssessment_Employee" Association="RitualDBModel.FK_QuarterlyAssessment_Employee">
-            <End Role="Employee" EntitySet="Employees" />
-            <End Role="QuarterlyAssessment" EntitySet="QuarterlyAssessments" />
-          </AssociationSet>
-          <EntitySet Name="AspNetUsers" EntityType="RitualDBModel.AspNetUser" />
-          <AssociationSet Name="FK_Employee_AspNetUsers" Association="RitualDBModel.FK_Employee_AspNetUsers">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="Employee" EntitySet="Employees" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Member_AspNetUsers" Association="RitualDBModel.FK_Member_AspNetUsers">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="Member" EntitySet="Members" />
-          </AssociationSet>
-          <EntitySet Name="NewsCategories" EntityType="RitualDBModel.NewsCategory" />
-          <EntitySet Name="PackageTypes" EntityType="RitualDBModel.PackageType" />
-          <EntitySet Name="Packages" EntityType="RitualDBModel.Package" />
           <AssociationSet Name="FK_Membership_Package" Association="RitualDBModel.FK_Membership_Package">
             <End Role="Package" EntitySet="Packages" />
             <End Role="Membership" EntitySet="Memberships" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MembershipSuspensions_Membership" Association="RitualDBModel.FK_MembershipSuspensions_Membership">
+            <End Role="Membership" EntitySet="Memberships" />
+            <End Role="MembershipSuspension" EntitySet="MembershipSuspensions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_News_NewsCategories" Association="RitualDBModel.FK_News_NewsCategories">
+            <End Role="NewsCategory" EntitySet="NewsCategories" />
+            <End Role="News" EntitySet="News" />
           </AssociationSet>
           <AssociationSet Name="FK_Package_PackageType" Association="RitualDBModel.FK_Package_PackageType">
             <End Role="PackageType" EntitySet="PackageTypes" />
@@ -1219,41 +1493,17 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
             <End Role="Package" EntitySet="Packages" />
             <End Role="PackageLocationPrice" EntitySet="PackageLocationPrices" />
           </AssociationSet>
-          <EntitySet Name="News" EntityType="RitualDBModel.News" />
-          <AssociationSet Name="FK_News_AspNetUsersCreatedBy" Association="RitualDBModel.FK_News_AspNetUsersCreatedBy">
+          <AssociationSet Name="FK_Booking_BookingState" Association="RitualDBModel.FK_Booking_BookingState">
+            <End Role="SessionBookingState" EntitySet="SessionBookingStates" />
+            <End Role="SessionBooking" EntitySet="SessionBookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_TimeSlot" Association="RitualDBModel.FK_Booking_TimeSlot">
+            <End Role="TimeSlot" EntitySet="TimeSlots" />
+            <End Role="SessionBooking" EntitySet="SessionBookings" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="RitualDBModel.AspNetUserRoles">
+            <End Role="AspNetRole" EntitySet="AspNetRoles" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="News" EntitySet="News" />
-          </AssociationSet>
-          <AssociationSet Name="FK_News_AspNetUsersModifiedBy" Association="RitualDBModel.FK_News_AspNetUsersModifiedBy">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="News" EntitySet="News" />
-          </AssociationSet>
-          <AssociationSet Name="FK_News_Location" Association="RitualDBModel.FK_News_Location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="News" EntitySet="News" />
-          </AssociationSet>
-          <AssociationSet Name="FK_News_NewsCategories" Association="RitualDBModel.FK_News_NewsCategories">
-            <End Role="NewsCategory" EntitySet="NewsCategories" />
-            <End Role="News" EntitySet="News" />
-          </AssociationSet>
-          <EntitySet Name="InitialAssessments" EntityType="RitualDBModel.InitialAssessment" />
-          <AssociationSet Name="FK_InitialAssessment_Employee" Association="RitualDBModel.FK_InitialAssessment_Employee">
-            <End Role="Employee" EntitySet="Employees" />
-            <End Role="InitialAssessment" EntitySet="InitialAssessments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_InitialAssessment_Member" Association="RitualDBModel.FK_InitialAssessment_Member">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="InitialAssessment" EntitySet="InitialAssessments" />
-          </AssociationSet>
-          <EntitySet Name="ClientIssuesFeedbacks" EntityType="RitualDBModel.ClientIssuesFeedback" />
-          <EntitySet Name="RitualLookups" EntityType="RitualDBModel.RitualLookup" />
-          <AssociationSet Name="FK_ClientIssuesFeedback_Employee" Association="RitualDBModel.FK_ClientIssuesFeedback_Employee">
-            <End Role="Employee" EntitySet="Employees" />
-            <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedbacks" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ClientIssuesFeedback_Member" Association="RitualDBModel.FK_ClientIssuesFeedback_Member">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedbacks" />
           </AssociationSet>
           <AssociationSet Name="ClientIssuesFeedbackComplaint" Association="RitualDBModel.ClientIssuesFeedbackComplaint">
             <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedbacks" />
@@ -1283,18 +1533,238 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
             <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedbacks" />
             <End Role="RitualLookup" EntitySet="RitualLookups" />
           </AssociationSet>
-          <FunctionImport Name="GetUpcomingBookingSlots" ReturnType="Collection(RitualDBModel.GetUpcomingBookingSlots_Result)">
-            <Parameter Name="LocationId" Mode="In" Type="Int32" />
-            <Parameter Name="CurrentDateTime" Mode="In" Type="DateTime" />
-            <Parameter Name="MemberID" Mode="In" Type="Int32" />
-          </FunctionImport>
           </EntityContainer>
+        <ComplexType Name="GetImminentSessionBookings_Result">
+          <Property Type="Int64" Name="RowNr" Nullable="true" />
+          <Property Type="Int32" Name="TimeSlotId" Nullable="true" />
+          <Property Type="Int32" Name="SessionBookingId" Nullable="true" />
+          <Property Type="String" Name="SessionBookingState" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="MemberId" Nullable="true" />
+          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="UserId" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Number" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetUpcomingBookingSlots_Result">
+          <Property Type="Int32" Name="TimeSlotId" Nullable="false" />
+          <Property Type="Int32" Name="LocationId" Nullable="true" />
+          <Property Type="DateTime" Name="BookingDay" Nullable="true" />
+          <Property Type="String" Name="DayOfWeek" Nullable="true" MaxLength="30" />
+          <Property Type="Time" Name="StartTime" Nullable="false" />
+          <Property Type="Time" Name="EndTime" Nullable="false" />
+          <Property Type="Int32" Name="BookingCount" Nullable="true" />
+          <Property Type="Int16" Name="AvailableSlots" Nullable="true" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="BookingStatus" Nullable="true" />
+          <Property Type="String" Name="ClosureReason" Nullable="true" />
+          <Property Type="Boolean" Name="TrialSlot" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetUpcomingTrialSlots_Result">
+          <Property Type="Int32" Name="TimeSlotId" Nullable="false" />
+          <Property Type="Int32" Name="LocationId" Nullable="true" />
+          <Property Type="DateTime" Name="BookingDay" Nullable="true" />
+          <Property Type="String" Name="DayOfWeek" Nullable="true" MaxLength="30" />
+          <Property Type="Time" Name="StartTime" Nullable="false" />
+          <Property Type="Time" Name="EndTime" Nullable="false" />
+          <Property Type="String" Name="HasAssessment" Nullable="false"/>
+          <Property Type="Boolean" Name="TrialSlot" Nullable="true" />
+          <Property Type="String" Name="ClosureReason" Nullable="true" />
+        </ComplexType>
         <EntityType Name="AspNetRole">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="RitualDBModel.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="RitualDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="RitualDBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogin" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Salutation" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Pin" Type="Int32" Nullable="false" />
+          <Property Name="HomePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MobilePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Birthday" Type="DateTime" Precision="0" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="PhotoUrl" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="RitualDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="RitualDBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
+          <NavigationProperty Name="Employees" Relationship="RitualDBModel.FK_Employee_AspNetUsers" FromRole="AspNetUser" ToRole="Employee" />
+          <NavigationProperty Name="Members" Relationship="RitualDBModel.FK_Member_AspNetUsers" FromRole="AspNetUser" ToRole="Member" />
+          <NavigationProperty Name="News" Relationship="RitualDBModel.FK_News_AspNetUsersCreatedBy" FromRole="AspNetUser" ToRole="News" />
+          <NavigationProperty Name="News1" Relationship="RitualDBModel.FK_News_AspNetUsersModifiedBy" FromRole="AspNetUser" ToRole="News" />
+          <NavigationProperty Name="AspNetRoles" Relationship="RitualDBModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+        </EntityType>
+        <EntityType Name="ClientIssuesFeedback">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DateRaised" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Details" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RecommendationAction" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ComplaintOther" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ComplimentOther" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IssueExerciseOther" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IssueInjuryOther" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IssueMobilityOther" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IssueMovementPatternOther" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IssuePostureOther" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IssueInjuryRelevantToExercise" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="RitualDBModel.FK_ClientIssuesFeedback_Employee" FromRole="ClientIssuesFeedback" ToRole="Employee" />
+          <NavigationProperty Name="Member" Relationship="RitualDBModel.FK_ClientIssuesFeedback_Member" FromRole="ClientIssuesFeedback" ToRole="Member" />
+          <NavigationProperty Name="RitualLookups" Relationship="RitualDBModel.ClientIssuesFeedbackComplaint" FromRole="ClientIssuesFeedback" ToRole="RitualLookup" />
+          <NavigationProperty Name="RitualLookups1" Relationship="RitualDBModel.ClientIssuesFeedbackCompliments" FromRole="ClientIssuesFeedback" ToRole="RitualLookup" />
+          <NavigationProperty Name="RitualLookups2" Relationship="RitualDBModel.ClientIssuesFeedbackIssueExercise" FromRole="ClientIssuesFeedback" ToRole="RitualLookup" />
+          <NavigationProperty Name="RitualLookups3" Relationship="RitualDBModel.ClientIssuesFeedbackIssueInjury" FromRole="ClientIssuesFeedback" ToRole="RitualLookup" />
+          <NavigationProperty Name="RitualLookups4" Relationship="RitualDBModel.ClientIssuesFeedbackIssueMobility" FromRole="ClientIssuesFeedback" ToRole="RitualLookup" />
+          <NavigationProperty Name="RitualLookups5" Relationship="RitualDBModel.ClientIssuesFeedbackIssueMovementPattern" FromRole="ClientIssuesFeedback" ToRole="RitualLookup" />
+          <NavigationProperty Name="RitualLookups6" Relationship="RitualDBModel.ClientIssuesFeedbackIssuePosture" FromRole="ClientIssuesFeedback" ToRole="RitualLookup" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdentificationNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AspNetUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="HomeLocationId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="RitualDBModel.FK_Employee_AspNetUsers" FromRole="Employee" ToRole="AspNetUser" />
+          <NavigationProperty Name="ClientIssuesFeedbacks" Relationship="RitualDBModel.FK_ClientIssuesFeedback_Employee" FromRole="Employee" ToRole="ClientIssuesFeedback" />
+          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_Employee_Location" FromRole="Employee" ToRole="Location" />
+          <NavigationProperty Name="InitialAssessments" Relationship="RitualDBModel.FK_InitialAssessment_Employee" FromRole="Employee" ToRole="InitialAssessment" />
+          <NavigationProperty Name="QuarterlyAssessments" Relationship="RitualDBModel.FK_QuarterlyAssessment_Employee" FromRole="Employee" ToRole="QuarterlyAssessment" />
+        </EntityType>
+        <EntityType Name="InitialAssessment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AssessmentDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TimeSlotId" Type="Int32" Nullable="false" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="LocationId" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="ClientCheckDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClientHearAboutRitual" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ClientTrainingHistory" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClientInjuriesMedicalIssues" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClientPosturalArea" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ClientPosturalAreaDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MovementAnteriorTrunk" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="MovementPosteriorTrunk" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="MovementHorizontalPush" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="MovementVerticalPush" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="MovementHorizontalPull" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="MovementVerticalPull" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="MovementHipPush" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="MovementHipPull" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="MovementSingleLeg" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="MovementLocomotion1" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="MovementLocamotion2" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="MovementDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Recommendation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="WorkoutExplained" Type="Boolean" />
+          <Property Name="WarmupExplained" Type="Boolean" />
+          <Property Name="ClientEmployeeReminder" Type="Boolean" />
+          <Property Name="AdditionalClientProgress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AdditionalClientTips" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employee" Relationship="RitualDBModel.FK_InitialAssessment_Employee" FromRole="InitialAssessment" ToRole="Employee" />
+          <NavigationProperty Name="Member" Relationship="RitualDBModel.FK_InitialAssessment_Member" FromRole="InitialAssessment" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PostCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TimeZoneOffset" Type="Int16" Nullable="false" />
+          <Property Name="Currency" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AvailableSlots" Type="Int16" Nullable="false" />
+          <Property Name="Longitude" Type="Decimal" Nullable="false" Precision="9" Scale="6" />
+          <Property Name="Latitude" Type="Decimal" Nullable="false" Precision="9" Scale="6" />
+          <NavigationProperty Name="Employees" Relationship="RitualDBModel.FK_Employee_Location" FromRole="Location" ToRole="Employee" />
+          <NavigationProperty Name="SessionBookings" Relationship="RitualDBModel.FK_Booking_Location" FromRole="Location" ToRole="SessionBooking" />
+          <NavigationProperty Name="Members" Relationship="RitualDBModel.FK_Member_Location" FromRole="Location" ToRole="Member" />
+          <NavigationProperty Name="News" Relationship="RitualDBModel.FK_News_Location" FromRole="Location" ToRole="News" />
+          <NavigationProperty Name="OffPeakHours" Relationship="RitualDBModel.FK_OffPeakHours_Location" FromRole="Location" ToRole="OffPeakHour" />
+          <NavigationProperty Name="OpeningHours" Relationship="RitualDBModel.FK_OpeningHour_Location" FromRole="Location" ToRole="OpeningHour" />
+          <NavigationProperty Name="OpeningHourOverrides" Relationship="RitualDBModel.FK_OpeningHourOverride_Location" FromRole="Location" ToRole="OpeningHourOverride" />
+          <NavigationProperty Name="PackageLocationPrices" Relationship="RitualDBModel.FK_PackageLocationPrices_Location" FromRole="Location" ToRole="PackageLocationPrice" />
+          <NavigationProperty Name="TrialTimeBlocks" Relationship="RitualDBModel.FK_TrialTimeBlock_Location" FromRole="Location" ToRole="TrialTimeBlock" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdentificationNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EmailOptOut" Type="Boolean" />
+          <Property Name="HomeLocationId" Type="Int32" Nullable="false" />
+          <Property Name="AspNetUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ShirtSize" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="ShortSize" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="EmergencyContactName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EmergencyContactNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IDType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IDNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AddressLine1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AddressLine2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PostZipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="RitualDBModel.FK_Member_AspNetUsers" FromRole="Member" ToRole="AspNetUser" />
+          <NavigationProperty Name="ClientIssuesFeedbacks" Relationship="RitualDBModel.FK_ClientIssuesFeedback_Member" FromRole="Member" ToRole="ClientIssuesFeedback" />
+          <NavigationProperty Name="InitialAssessments" Relationship="RitualDBModel.FK_InitialAssessment_Member" FromRole="Member" ToRole="InitialAssessment" />
+          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_Member_Location" FromRole="Member" ToRole="Location" />
+          <NavigationProperty Name="SessionBookings" Relationship="RitualDBModel.FK_Booking_Member" FromRole="Member" ToRole="SessionBooking" />
+          <NavigationProperty Name="Memberships" Relationship="RitualDBModel.FK_Membership_Member1" FromRole="Member" ToRole="Membership" />
+          <NavigationProperty Name="QuarterlyAssessments" Relationship="RitualDBModel.FK_QuarterlyAssessment_Member" FromRole="Member" ToRole="QuarterlyAssessment" />
         </EntityType>
         <EntityType Name="Membership">
           <Key>
@@ -1316,10 +1786,14 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Property Name="DiscountPercentage" Type="Decimal" Precision="5" Scale="2" />
           <Property Name="DiscountPrice" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="DiscountReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="MembershipState" Relationship="RitualDBModel.FK_Membership_MembershipState" FromRole="Membership" ToRole="MembershipState" />
-          <NavigationProperty Name="MembershipSuspensions" Relationship="RitualDBModel.FK_MembershipSuspensions_Membership" FromRole="Membership" ToRole="MembershipSuspension" />
+          <Property Name="TerminationDate" Type="DateTime" Precision="0" />
+          <Property Name="TerminationReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EndPaymentDate" Type="DateTime" Precision="0" />
+          <Property Name="TerminationFeeOverrideReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Member" Relationship="RitualDBModel.FK_Membership_Member1" FromRole="Membership" ToRole="Member" />
+          <NavigationProperty Name="MembershipState" Relationship="RitualDBModel.FK_Membership_MembershipState" FromRole="Membership" ToRole="MembershipState" />
           <NavigationProperty Name="Package" Relationship="RitualDBModel.FK_Membership_Package" FromRole="Membership" ToRole="Package" />
+          <NavigationProperty Name="MembershipSuspensions" Relationship="RitualDBModel.FK_MembershipSuspensions_Membership" FromRole="Membership" ToRole="MembershipSuspension" />
         </EntityType>
         <EntityType Name="MembershipState">
           <Key>
@@ -1333,12 +1807,49 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MembershipId" Type="Int32" Nullable="false" />
           <Property Name="SuspensionStartDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="SuspensionEndDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="SuspensionReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Membership" Relationship="RitualDBModel.FK_MembershipSuspensions_Membership" FromRole="MembershipSuspension" ToRole="Membership" />
+        </EntityType>
+        <EntityType Name="News">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LocationId" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Body" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NewsCategoryId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUserCreatedBy" Relationship="RitualDBModel.FK_News_AspNetUsersCreatedBy" FromRole="News" ToRole="AspNetUser" />
+          <NavigationProperty Name="AspNetUserModifiedBy" Relationship="RitualDBModel.FK_News_AspNetUsersModifiedBy" FromRole="News" ToRole="AspNetUser" />
+          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_News_Location" FromRole="News" ToRole="Location" />
+          <NavigationProperty Name="NewsCategory" Relationship="RitualDBModel.FK_News_NewsCategories" FromRole="News" ToRole="NewsCategory" />
+        </EntityType>
+        <EntityType Name="NewsCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="News" Relationship="RitualDBModel.FK_News_NewsCategories" FromRole="NewsCategory" ToRole="News" />
+        </EntityType>
+        <EntityType Name="OffPeakHour">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateOfWeek" Type="Byte" Nullable="false" />
+          <Property Name="StartTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="EndTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="LocationId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_OffPeakHours_Location" FromRole="OffPeakHour" ToRole="Location" />
         </EntityType>
         <EntityType Name="OpeningHour">
           <Key>
@@ -1346,10 +1857,41 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DateOfWeek" Type="Byte" Nullable="false" />
-          <Property Name="OpenTime" Type="Time" Precision="7" Nullable="false" />
-          <Property Name="CloseTime" Type="Time" Precision="7" Nullable="false" />
+          <Property Name="OpenTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="CloseTime" Type="Time" Nullable="false" Precision="7" />
           <Property Name="LocationId" Type="Int32" />
           <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_OpeningHour_Location" FromRole="OpeningHour" ToRole="Location" />
+        </EntityType>
+        <EntityType Name="OpeningHourOverride">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OverrideStartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="OverrideEndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DayOfWeek" Type="Byte" Nullable="false" />
+          <Property Name="AltOpenTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="AltCloseTme" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="OverrideReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LocationId" Type="Int32" />
+          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_OpeningHourOverride_Location" FromRole="OpeningHourOverride" ToRole="Location" />
+        </EntityType>
+        <EntityType Name="Package">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PackageTypeId" Type="Int32" Nullable="false" />
+          <Property Name="PackagePeriodMonths" Type="Int32" />
+          <Property Name="PackageSuspensionLimit" Type="Int32" />
+          <Property Name="PackageVisitLimit" Type="Int32" />
+          <Property Name="PackageIsActive" Type="Boolean" Nullable="false" />
+          <Property Name="PackageIsReoccuring" Type="Boolean" Nullable="false" />
+          <Property Name="PackagePayInFull" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Memberships" Relationship="RitualDBModel.FK_Membership_Package" FromRole="Package" ToRole="Membership" />
+          <NavigationProperty Name="PackageType" Relationship="RitualDBModel.FK_Package_PackageType" FromRole="Package" ToRole="PackageType" />
+          <NavigationProperty Name="PackageLocationPrices" Relationship="RitualDBModel.FK_PackageLocationPrices_Package" FromRole="Package" ToRole="PackageLocationPrice" />
         </EntityType>
         <EntityType Name="PackageLocationPrice">
           <Key>
@@ -1362,6 +1904,35 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Property Name="TotalPrice" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_PackageLocationPrices_Location" FromRole="PackageLocationPrice" ToRole="Location" />
           <NavigationProperty Name="Package" Relationship="RitualDBModel.FK_PackageLocationPrices_Package" FromRole="PackageLocationPrice" ToRole="Package" />
+        </EntityType>
+        <EntityType Name="PackageType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Packages" Relationship="RitualDBModel.FK_Package_PackageType" FromRole="PackageType" ToRole="Package" />
+        </EntityType>
+        <EntityType Name="PaymentCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PaymentSchedule">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="MembershipId" Type="Int32" Nullable="false" />
+          <Property Name="Payment" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="PaymentDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Paid" Type="Byte" Nullable="false" />
+          <Property Name="TransactionId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Currency" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentCategoryId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="QuarterlyAssessment">
           <Key>
@@ -1403,8 +1974,23 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Property Name="QATestFiveRoundSevenReps" Type="Int32" />
           <Property Name="QATestFiveRoundEightReps" Type="Int32" />
           <Property Name="QATestFiveTotalReps" Type="Int32" />
-          <NavigationProperty Name="Member" Relationship="RitualDBModel.FK_QuarterlyAssessment_Member" FromRole="QuarterlyAssessment" ToRole="Member" />
           <NavigationProperty Name="Employee" Relationship="RitualDBModel.FK_QuarterlyAssessment_Employee" FromRole="QuarterlyAssessment" ToRole="Employee" />
+          <NavigationProperty Name="Member" Relationship="RitualDBModel.FK_QuarterlyAssessment_Member" FromRole="QuarterlyAssessment" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="RitualLookup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ClientIssuesFeedbacks" Relationship="RitualDBModel.ClientIssuesFeedbackComplaint" FromRole="RitualLookup" ToRole="ClientIssuesFeedback" />
+          <NavigationProperty Name="ClientIssuesFeedbacks1" Relationship="RitualDBModel.ClientIssuesFeedbackCompliments" FromRole="RitualLookup" ToRole="ClientIssuesFeedback" />
+          <NavigationProperty Name="ClientIssuesFeedbacks2" Relationship="RitualDBModel.ClientIssuesFeedbackIssueExercise" FromRole="RitualLookup" ToRole="ClientIssuesFeedback" />
+          <NavigationProperty Name="ClientIssuesFeedbacks3" Relationship="RitualDBModel.ClientIssuesFeedbackIssueInjury" FromRole="RitualLookup" ToRole="ClientIssuesFeedback" />
+          <NavigationProperty Name="ClientIssuesFeedbacks4" Relationship="RitualDBModel.ClientIssuesFeedbackIssueMobility" FromRole="RitualLookup" ToRole="ClientIssuesFeedback" />
+          <NavigationProperty Name="ClientIssuesFeedbacks5" Relationship="RitualDBModel.ClientIssuesFeedbackIssueMovementPattern" FromRole="RitualLookup" ToRole="ClientIssuesFeedback" />
+          <NavigationProperty Name="ClientIssuesFeedbacks6" Relationship="RitualDBModel.ClientIssuesFeedbackIssuePosture" FromRole="RitualLookup" ToRole="ClientIssuesFeedback" />
         </EntityType>
         <EntityType Name="SessionBooking">
           <Key>
@@ -1419,10 +2005,10 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Property Name="RPEPush" Type="Int32" Nullable="false" />
           <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TimeSlotId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="SessionBookingState" Relationship="RitualDBModel.FK_Booking_BookingState" FromRole="SessionBooking" ToRole="SessionBookingState" />
-          <NavigationProperty Name="TimeSlot" Relationship="RitualDBModel.FK_Booking_TimeSlot" FromRole="SessionBooking" ToRole="TimeSlot" />
           <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_Booking_Location" FromRole="SessionBooking" ToRole="Location" />
           <NavigationProperty Name="Member" Relationship="RitualDBModel.FK_Booking_Member" FromRole="SessionBooking" ToRole="Member" />
+          <NavigationProperty Name="SessionBookingState" Relationship="RitualDBModel.FK_Booking_BookingState" FromRole="SessionBooking" ToRole="SessionBookingState" />
+          <NavigationProperty Name="TimeSlot" Relationship="RitualDBModel.FK_Booking_TimeSlot" FromRole="SessionBooking" ToRole="TimeSlot" />
         </EntityType>
         <EntityType Name="SessionBookingState">
           <Key>
@@ -1431,6 +2017,16 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="SessionBookings" Relationship="RitualDBModel.FK_Booking_BookingState" FromRole="SessionBookingState" ToRole="SessionBooking" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="TimeSlot">
           <Key>
@@ -1441,77 +2037,165 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Property Name="EndTime" Type="Time" Nullable="false" Precision="7" />
           <NavigationProperty Name="SessionBookings" Relationship="RitualDBModel.FK_Booking_TimeSlot" FromRole="TimeSlot" ToRole="SessionBooking" />
         </EntityType>
-        <Association Name="FK_Membership_MembershipState">
-          <End Type="RitualDBModel.MembershipState" Role="MembershipState" Multiplicity="1" />
-          <End Type="RitualDBModel.Membership" Role="Membership" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MembershipState">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Membership">
-              <PropertyRef Name="MembershipStateId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MembershipSuspensions_Membership">
-          <End Type="RitualDBModel.Membership" Role="Membership" Multiplicity="1" />
-          <End Type="RitualDBModel.MembershipSuspension" Role="MembershipSuspension" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Membership">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="MembershipSuspension">
-              <PropertyRef Name="MembershipId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Booking_BookingState">
-          <End Type="RitualDBModel.SessionBookingState" Role="SessionBookingState" Multiplicity="1" />
-          <End Type="RitualDBModel.SessionBooking" Role="SessionBooking" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SessionBookingState">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SessionBooking">
-              <PropertyRef Name="BookingStateId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Booking_TimeSlot">
-          <End Type="RitualDBModel.TimeSlot" Role="TimeSlot" Multiplicity="1" />
-          <End Type="RitualDBModel.SessionBooking" Role="SessionBooking" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TimeSlot">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SessionBooking">
-              <PropertyRef Name="TimeSlotId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Location">
+        <EntityType Name="TrialTimeBlock">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Address" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PostCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Country" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="TimeZoneOffset" Type="Int16" Nullable="false" />
-          <Property Name="Currency" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="AvailableSlots" Type="Int16" Nullable="false" />
-          <Property Name="Longitude" Type="Decimal" Precision="9" Scale="6" Nullable="false" />
-          <Property Name="Latitude" Type="Decimal" Precision="9" Scale="6" Nullable="false" />
-          <NavigationProperty Name="SessionBookings" Relationship="RitualDBModel.FK_Booking_Location" FromRole="Location" ToRole="SessionBooking" />
-          <NavigationProperty Name="OpeningHours" Relationship="RitualDBModel.FK_OpeningHour_Location" FromRole="Location" ToRole="OpeningHour" />
-          <NavigationProperty Name="PackageLocationPrices" Relationship="RitualDBModel.FK_PackageLocationPrices_Location" FromRole="Location" ToRole="PackageLocationPrice" />
-          <NavigationProperty Name="OpeningHourOverrides" Relationship="RitualDBModel.FK_OpeningHourOverride_Location" FromRole="Location" ToRole="OpeningHourOverride" />
-          <NavigationProperty Name="Members" Relationship="RitualDBModel.FK_Member_Location" FromRole="Location" ToRole="Member" />
-          <NavigationProperty Name="Employees" Relationship="RitualDBModel.FK_Employee_Location" FromRole="Location" ToRole="Employee" />
-          <NavigationProperty Name="News" Relationship="RitualDBModel.FK_News_Location" FromRole="Location" ToRole="News" />
+          <Property Name="DateOfWeek" Type="Byte" Nullable="false" />
+          <Property Name="StartTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="EndTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="LocationId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_TrialTimeBlock_Location" FromRole="TrialTimeBlock" ToRole="Location" />
         </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Type="RitualDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="RitualDBModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaim">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Type="RitualDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="RitualDBModel.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogin">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_AspNetUsers">
+          <End Type="RitualDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="RitualDBModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="AspNetUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Member_AspNetUsers">
+          <End Type="RitualDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Member">
+              <PropertyRef Name="AspNetUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_News_AspNetUsersCreatedBy">
+          <End Type="RitualDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="RitualDBModel.News" Role="News" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="News">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_News_AspNetUsersModifiedBy">
+          <End Type="RitualDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="RitualDBModel.News" Role="News" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="News">
+              <PropertyRef Name="ModifiedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientIssuesFeedback_Employee">
+          <End Type="RitualDBModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="RitualDBModel.ClientIssuesFeedback" Role="ClientIssuesFeedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientIssuesFeedback">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientIssuesFeedback_Member">
+          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="RitualDBModel.ClientIssuesFeedback" Role="ClientIssuesFeedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClientIssuesFeedback">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Location">
+          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="RitualDBModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="HomeLocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InitialAssessment_Employee">
+          <End Type="RitualDBModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="RitualDBModel.InitialAssessment" Role="InitialAssessment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InitialAssessment">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuarterlyAssessment_Employee">
+          <End Type="RitualDBModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="RitualDBModel.QuarterlyAssessment" Role="QuarterlyAssessment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuarterlyAssessment">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InitialAssessment_Member">
+          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="RitualDBModel.InitialAssessment" Role="InitialAssessment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InitialAssessment">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Booking_Location">
           <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
           <End Type="RitualDBModel.SessionBooking" Role="SessionBooking" Multiplicity="*" />
@@ -1520,6 +2204,42 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="SessionBooking">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Member_Location">
+          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Member">
+              <PropertyRef Name="HomeLocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_News_Location">
+          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="RitualDBModel.News" Role="News" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="News">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OffPeakHours_Location">
+          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="RitualDBModel.OffPeakHour" Role="OffPeakHour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OffPeakHour">
               <PropertyRef Name="LocationId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1536,42 +2256,6 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PackageLocationPrices_Location">
-          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="RitualDBModel.PackageLocationPrice" Role="PackageLocationPrice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PackageLocationPrice">
-              <PropertyRef Name="LocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <ComplexType Name="GetImminentSessionBookings_Result">
-          <Property Type="Int64" Name="RowNr" Nullable="true" />
-          <Property Type="Int32" Name="TimeSlotId" Nullable="true" />
-          <Property Type="Int32" Name="SessionBookingId" Nullable="true" />
-          <Property Type="String" Name="SessionBookingState" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="MemberId" Nullable="true" />
-          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="Number" Nullable="true" />
-        </ComplexType>
-        <EntityType Name="OpeningHourOverride">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OverrideStartDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="OverrideEndDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="DayOfWeek" Type="Byte" Nullable="false" />
-          <Property Name="AltOpenTime" Type="Time" Nullable="false" Precision="7" />
-          <Property Name="AltCloseTme" Type="Time" Nullable="false" Precision="7" />
-          <Property Name="OverrideReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="LocationId" Type="Int32" />
-          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_OpeningHourOverride_Location" FromRole="OpeningHourOverride" ToRole="Location" />
-        </EntityType>
         <Association Name="FK_OpeningHourOverride_Location">
           <End Type="RitualDBModel.Location" Role="Location" Multiplicity="0..1" />
           <End Type="RitualDBModel.OpeningHourOverride" Role="OpeningHourOverride" Multiplicity="*" />
@@ -1584,32 +2268,27 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Member">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdentificationNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="EmailOptOut" Type="Boolean" />
-          <Property Name="HomeLocationId" Type="Int32" Nullable="false" />
-          <Property Name="AspNetUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_Member_Location" FromRole="Member" ToRole="Location" />
-          <NavigationProperty Name="SessionBookings" Relationship="RitualDBModel.FK_Booking_Member" FromRole="Member" ToRole="SessionBooking" />
-          <NavigationProperty Name="Memberships" Relationship="RitualDBModel.FK_Membership_Member1" FromRole="Member" ToRole="Membership" />
-          <NavigationProperty Name="QuarterlyAssessments" Relationship="RitualDBModel.FK_QuarterlyAssessment_Member" FromRole="Member" ToRole="QuarterlyAssessment" />
-          <NavigationProperty Name="AspNetUser" Relationship="RitualDBModel.FK_Member_AspNetUsers" FromRole="Member" ToRole="AspNetUser" />
-          <NavigationProperty Name="InitialAssessments" Relationship="RitualDBModel.FK_InitialAssessment_Member" FromRole="Member" ToRole="InitialAssessment" />
-          <NavigationProperty Name="ClientIssuesFeedbacks" Relationship="RitualDBModel.FK_ClientIssuesFeedback_Member" FromRole="Member" ToRole="ClientIssuesFeedback" />
-        </EntityType>
-        <Association Name="FK_Member_Location">
+        <Association Name="FK_PackageLocationPrices_Location">
           <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="*" />
+          <End Type="RitualDBModel.PackageLocationPrice" Role="PackageLocationPrice" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Location">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Member">
-              <PropertyRef Name="HomeLocationId" />
+            <Dependent Role="PackageLocationPrice">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrialTimeBlock_Location">
+          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="RitualDBModel.TrialTimeBlock" Role="TrialTimeBlock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TrialTimeBlock">
+              <PropertyRef Name="LocationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1649,128 +2328,18 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Employee">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AspNetUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="LocationId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_Employee_Location" FromRole="Employee" ToRole="Location" />
-          <NavigationProperty Name="QuarterlyAssessments" Relationship="RitualDBModel.FK_QuarterlyAssessment_Employee" FromRole="Employee" ToRole="QuarterlyAssessment" />
-          <NavigationProperty Name="AspNetUser" Relationship="RitualDBModel.FK_Employee_AspNetUsers" FromRole="Employee" ToRole="AspNetUser" />
-          <NavigationProperty Name="InitialAssessments" Relationship="RitualDBModel.FK_InitialAssessment_Employee" FromRole="Employee" ToRole="InitialAssessment" />
-          <NavigationProperty Name="ClientIssuesFeedbacks" Relationship="RitualDBModel.FK_ClientIssuesFeedback_Employee" FromRole="Employee" ToRole="ClientIssuesFeedback" />
-        </EntityType>
-        <Association Name="FK_Employee_Location">
-          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="RitualDBModel.Employee" Role="Employee" Multiplicity="*" />
+        <Association Name="FK_Membership_MembershipState">
+          <End Type="RitualDBModel.MembershipState" Role="MembershipState" Multiplicity="1" />
+          <End Type="RitualDBModel.Membership" Role="Membership" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Location">
+            <Principal Role="MembershipState">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="LocationId" />
+            <Dependent Role="Membership">
+              <PropertyRef Name="MembershipStateId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_QuarterlyAssessment_Employee">
-          <End Type="RitualDBModel.Employee" Role="Employee" Multiplicity="1" />
-          <End Type="RitualDBModel.QuarterlyAssessment" Role="QuarterlyAssessment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="QuarterlyAssessment">
-              <PropertyRef Name="EmployeeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="AspNetUser">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
-          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="Salutation" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Pin" Type="Int32" Nullable="false" />
-          <Property Name="HomePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MobilePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Employees" Relationship="RitualDBModel.FK_Employee_AspNetUsers" FromRole="AspNetUser" ToRole="Employee" />
-          <NavigationProperty Name="Members" Relationship="RitualDBModel.FK_Member_AspNetUsers" FromRole="AspNetUser" ToRole="Member" />
-          <NavigationProperty Name="News" Relationship="RitualDBModel.FK_News_AspNetUsersCreatedBy" FromRole="AspNetUser" ToRole="News" />
-          <NavigationProperty Name="News1" Relationship="RitualDBModel.FK_News_AspNetUsersModifiedBy" FromRole="AspNetUser" ToRole="News" />
-          <Property Name="Birthday" Type="DateTime" Precision="0" />
-          </EntityType>
-        <Association Name="FK_Employee_AspNetUsers">
-          <End Type="RitualDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="RitualDBModel.Employee" Role="Employee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="AspNetUserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Member_AspNetUsers">
-          <End Type="RitualDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Member">
-              <PropertyRef Name="AspNetUserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="NewsCategory">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="News" Relationship="RitualDBModel.FK_News_NewsCategories" FromRole="NewsCategory" ToRole="News" />
-        </EntityType>
-        <EntityType Name="PackageType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Packages" Relationship="RitualDBModel.FK_Package_PackageType" FromRole="PackageType" ToRole="Package" />
-          </EntityType>
-        <EntityType Name="Package">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PackageTypeId" Type="Int32" Nullable="false" />
-          <Property Name="PackagePeriodMonths" Type="Int32" />
-          <Property Name="PackageSuspensionLimit" Type="Int32" />
-          <Property Name="PackageVisitLimit" Type="Int32" />
-          <Property Name="PackageIsActive" Type="Boolean" Nullable="false" />
-          <Property Name="PackageIsReoccuring" Type="Boolean" Nullable="false" />
-          <Property Name="PackagePayInFull" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Memberships" Relationship="RitualDBModel.FK_Membership_Package" FromRole="Package" ToRole="Membership" />
-          <NavigationProperty Name="PackageType" Relationship="RitualDBModel.FK_Package_PackageType" FromRole="Package" ToRole="PackageType" />
-          <NavigationProperty Name="PackageLocationPrices" Relationship="RitualDBModel.FK_PackageLocationPrices_Package" FromRole="Package" ToRole="PackageLocationPrice" />
-        </EntityType>
         <Association Name="FK_Membership_Package">
           <End Type="RitualDBModel.Package" Role="Package" Multiplicity="1" />
           <End Type="RitualDBModel.Membership" Role="Membership" Multiplicity="*" />
@@ -1780,6 +2349,30 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
             </Principal>
             <Dependent Role="Membership">
               <PropertyRef Name="PackageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MembershipSuspensions_Membership">
+          <End Type="RitualDBModel.Membership" Role="Membership" Multiplicity="1" />
+          <End Type="RitualDBModel.MembershipSuspension" Role="MembershipSuspension" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Membership">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MembershipSuspension">
+              <PropertyRef Name="MembershipId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_News_NewsCategories">
+          <End Type="RitualDBModel.NewsCategory" Role="NewsCategory" Multiplicity="1" />
+          <End Type="RitualDBModel.News" Role="News" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NewsCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="News">
+              <PropertyRef Name="NewsCategoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1807,199 +2400,33 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="News">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LocationId" Type="Int32" Nullable="false" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Body" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="NewsCategoryId" Type="Int32" Nullable="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUserCreatedBy" Relationship="RitualDBModel.FK_News_AspNetUsersCreatedBy" FromRole="News" ToRole="AspNetUser" />
-          <NavigationProperty Name="AspNetUserModifiedBy" Relationship="RitualDBModel.FK_News_AspNetUsersModifiedBy" FromRole="News" ToRole="AspNetUser" />
-          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_News_Location" FromRole="News" ToRole="Location" />
-          <NavigationProperty Name="NewsCategory" Relationship="RitualDBModel.FK_News_NewsCategories" FromRole="News" ToRole="NewsCategory" />
-        </EntityType>
-        <Association Name="FK_News_AspNetUsersCreatedBy">
-          <End Type="RitualDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="RitualDBModel.News" Role="News" Multiplicity="*" />
+        <Association Name="FK_Booking_BookingState">
+          <End Type="RitualDBModel.SessionBookingState" Role="SessionBookingState" Multiplicity="1" />
+          <End Type="RitualDBModel.SessionBooking" Role="SessionBooking" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspNetUser">
+            <Principal Role="SessionBookingState">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="News">
-              <PropertyRef Name="CreatedBy" />
+            <Dependent Role="SessionBooking">
+              <PropertyRef Name="BookingStateId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_News_AspNetUsersModifiedBy">
-          <End Type="RitualDBModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
-          <End Type="RitualDBModel.News" Role="News" Multiplicity="*" />
+        <Association Name="FK_Booking_TimeSlot">
+          <End Type="RitualDBModel.TimeSlot" Role="TimeSlot" Multiplicity="1" />
+          <End Type="RitualDBModel.SessionBooking" Role="SessionBooking" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspNetUser">
+            <Principal Role="TimeSlot">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="News">
-              <PropertyRef Name="ModifiedBy" />
+            <Dependent Role="SessionBooking">
+              <PropertyRef Name="TimeSlotId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_News_Location">
-          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="RitualDBModel.News" Role="News" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="News">
-              <PropertyRef Name="LocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_News_NewsCategories">
-          <End Type="RitualDBModel.NewsCategory" Role="NewsCategory" Multiplicity="1" />
-          <End Type="RitualDBModel.News" Role="News" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="NewsCategory">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="News">
-              <PropertyRef Name="NewsCategoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="InitialAssessment">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AssessmentDateTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="MemberId" Type="Int32" Nullable="false" />
-          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
-          <Property Name="ClientCheckDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ClientHearAboutRitual" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="ClientTrainingHistory" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ClientInjuriesMedicalIssues" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ClientPosturalArea" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="ClientPosturalAreaDetails" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="MovementAnteriorTrunk" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="MovementPosteriorTrunk" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="MovementHorizontalPush" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="MovementVerticalPush" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="MovementHorizontalPull" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="MovementVerticalPull" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="MovementHipPush" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="MovementHipPull" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="MovementSingleLeg" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="MovementLocomotion1" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="MovementLocamotion2" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="MovementDetails" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Recommendation" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="WorkoutExplained" Type="Boolean" Nullable="false" />
-          <Property Name="WarmupExplained" Type="Boolean" Nullable="false" />
-          <Property Name="ClientEmployeeReminder" Type="Boolean" Nullable="false" />
-          <Property Name="AdditionalClientProgress" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="AdditionalClientTips" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Employee" Relationship="RitualDBModel.FK_InitialAssessment_Employee" FromRole="InitialAssessment" ToRole="Employee" />
-          <NavigationProperty Name="Member" Relationship="RitualDBModel.FK_InitialAssessment_Member" FromRole="InitialAssessment" ToRole="Member" />
-        </EntityType>
-        <Association Name="FK_InitialAssessment_Employee">
-          <End Type="RitualDBModel.Employee" Role="Employee" Multiplicity="1" />
-          <End Type="RitualDBModel.InitialAssessment" Role="InitialAssessment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="InitialAssessment">
-              <PropertyRef Name="EmployeeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_InitialAssessment_Member">
-          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="1" />
-          <End Type="RitualDBModel.InitialAssessment" Role="InitialAssessment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="InitialAssessment">
-              <PropertyRef Name="MemberId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="ClientIssuesFeedback">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MemberId" Type="Int32" Nullable="false" />
-          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
-          <Property Name="Type" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="DateRaised" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Details" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="RecommendationAction" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ComplaintOther" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ComplimentOther" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="IssueExerciseOther" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="IssueInjuryOther" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="IssueMobilityOther" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="IssueMovementPatternOther" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="IssuePostureOther" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="IssueInjuryRelevantToExercise" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Employee" Relationship="RitualDBModel.FK_ClientIssuesFeedback_Employee" FromRole="ClientIssuesFeedback" ToRole="Employee" />
-          <NavigationProperty Name="Member" Relationship="RitualDBModel.FK_ClientIssuesFeedback_Member" FromRole="ClientIssuesFeedback" ToRole="Member" />
-          <NavigationProperty Name="RitualLookupsComplaint" Relationship="RitualDBModel.ClientIssuesFeedbackComplaint" FromRole="ClientIssuesFeedback" ToRole="RitualLookup" />
-          <NavigationProperty Name="RitualLookupsCompliments" Relationship="RitualDBModel.ClientIssuesFeedbackCompliments" FromRole="ClientIssuesFeedback" ToRole="RitualLookup" />
-          <NavigationProperty Name="RitualLookupsIssueExercise" Relationship="RitualDBModel.ClientIssuesFeedbackIssueExercise" FromRole="ClientIssuesFeedback" ToRole="RitualLookup" />
-          <NavigationProperty Name="RitualLookupsIssueInjury" Relationship="RitualDBModel.ClientIssuesFeedbackIssueInjury" FromRole="ClientIssuesFeedback" ToRole="RitualLookup" />
-          <NavigationProperty Name="RitualLookupsIssueMobility" Relationship="RitualDBModel.ClientIssuesFeedbackIssueMobility" FromRole="ClientIssuesFeedback" ToRole="RitualLookup" />
-          <NavigationProperty Name="RitualLookupsIssueMovementPattern" Relationship="RitualDBModel.ClientIssuesFeedbackIssueMovementPattern" FromRole="ClientIssuesFeedback" ToRole="RitualLookup" />
-          <NavigationProperty Name="RitualLookupsIssuePosture" Relationship="RitualDBModel.ClientIssuesFeedbackIssuePosture" FromRole="ClientIssuesFeedback" ToRole="RitualLookup" />
-        </EntityType>
-        <EntityType Name="RitualLookup">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ClientIssuesFeedbacksComplaint" Relationship="RitualDBModel.ClientIssuesFeedbackComplaint" FromRole="RitualLookup" ToRole="ClientIssuesFeedback" />
-          <NavigationProperty Name="ClientIssuesFeedbacksCompliments" Relationship="RitualDBModel.ClientIssuesFeedbackCompliments" FromRole="RitualLookup" ToRole="ClientIssuesFeedback" />
-          <NavigationProperty Name="ClientIssuesFeedbackIssueExercise" Relationship="RitualDBModel.ClientIssuesFeedbackIssueExercise" FromRole="RitualLookup" ToRole="ClientIssuesFeedback" />
-          <NavigationProperty Name="ClientIssuesFeedbackIssueInjury" Relationship="RitualDBModel.ClientIssuesFeedbackIssueInjury" FromRole="RitualLookup" ToRole="ClientIssuesFeedback" />
-          <NavigationProperty Name="ClientIssuesFeedbackIssueMobility" Relationship="RitualDBModel.ClientIssuesFeedbackIssueMobility" FromRole="RitualLookup" ToRole="ClientIssuesFeedback" />
-          <NavigationProperty Name="ClientIssuesFeedbackIssueMovementPattern" Relationship="RitualDBModel.ClientIssuesFeedbackIssueMovementPattern" FromRole="RitualLookup" ToRole="ClientIssuesFeedback" />
-          <NavigationProperty Name="ClientIssuesFeedbackIssuePosture" Relationship="RitualDBModel.ClientIssuesFeedbackIssuePosture" FromRole="RitualLookup" ToRole="ClientIssuesFeedback" />
-        </EntityType>
-        <Association Name="FK_ClientIssuesFeedback_Employee">
-          <End Type="RitualDBModel.Employee" Role="Employee" Multiplicity="1" />
-          <End Type="RitualDBModel.ClientIssuesFeedback" Role="ClientIssuesFeedback" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employee">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ClientIssuesFeedback">
-              <PropertyRef Name="EmployeeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ClientIssuesFeedback_Member">
-          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="1" />
-          <End Type="RitualDBModel.ClientIssuesFeedback" Role="ClientIssuesFeedback" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ClientIssuesFeedback">
-              <PropertyRef Name="MemberId" />
-            </Dependent>
-          </ReferentialConstraint>
+        <Association Name="AspNetUserRoles">
+          <End Type="RitualDBModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+          <End Type="RitualDBModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
         </Association>
         <Association Name="ClientIssuesFeedbackComplaint">
           <End Type="RitualDBModel.ClientIssuesFeedback" Role="ClientIssuesFeedback" Multiplicity="*" />
@@ -2029,24 +2456,60 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <End Type="RitualDBModel.ClientIssuesFeedback" Role="ClientIssuesFeedback" Multiplicity="*" />
           <End Type="RitualDBModel.RitualLookup" Role="RitualLookup" Multiplicity="*" />
         </Association>
-        <ComplexType Name="GetUpcomingBookingSlots_Result">
-          <Property Type="Int32" Name="TimeSlotId" Nullable="false" />
-          <Property Type="Int32" Name="LocationId" Nullable="true" />
-          <Property Type="DateTime" Name="BookingDay" Nullable="true" />
-          <Property Type="String" Name="DayOfWeek" Nullable="true" MaxLength="30" />
-          <Property Type="Time" Name="StartTime" Nullable="false" />
-          <Property Type="Time" Name="EndTime" Nullable="false" />
-          <Property Type="Int32" Name="BookingCount" Nullable="true" />
-          <Property Type="Int16" Name="AvailableSlots" Nullable="true" />
-          <Property Type="String" Name="Status" Nullable="false" MaxLength="9" />
-          <Property Type="String" Name="ClosureReason" Nullable="true" />
-        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="RitualDBModelStoreContainer" CdmEntityContainer="RitualDBEntities">
+          <FunctionImportMapping FunctionImportName="GetImminentSessionBookings" FunctionName="RitualDBModel.Store.GetImminentSessionBookings">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RitualDBModel.GetImminentSessionBookings_Result">
+                <ScalarProperty Name="RowNr" ColumnName="RowNr" />
+                <ScalarProperty Name="TimeSlotId" ColumnName="TimeSlotId" />
+                <ScalarProperty Name="SessionBookingId" ColumnName="SessionBookingId" />
+                <ScalarProperty Name="SessionBookingState" ColumnName="SessionBookingState" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetUpcomingBookingSlots" FunctionName="RitualDBModel.Store.GetUpcomingBookingSlots">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RitualDBModel.GetUpcomingBookingSlots_Result">
+                <ScalarProperty Name="TimeSlotId" ColumnName="TimeSlotId" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="BookingDay" ColumnName="BookingDay" />
+                <ScalarProperty Name="DayOfWeek" ColumnName="DayOfWeek" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="BookingCount" ColumnName="BookingCount" />
+                <ScalarProperty Name="AvailableSlots" ColumnName="AvailableSlots" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="BookingStatus" ColumnName="BookingStatus" />
+                <ScalarProperty Name="ClosureReason" ColumnName="ClosureReason" />
+                <ScalarProperty Name="TrialSlot" ColumnName="TrialSlot" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetUpcomingTrialSlots" FunctionName="RitualDBModel.Store.GetUpcomingTrialSlots">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RitualDBModel.GetUpcomingTrialSlots_Result">
+                <ScalarProperty Name="TimeSlotId" ColumnName="TimeSlotId" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="BookingDay" ColumnName="BookingDay" />
+                <ScalarProperty Name="DayOfWeek" ColumnName="DayOfWeek" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="HasAssessment" ColumnName="HasAssessment" />
+                <ScalarProperty Name="TrialSlot" ColumnName="TrialSlot" />
+                <ScalarProperty Name="ClosureReason" ColumnName="ClosureReason" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <EntitySetMapping Name="AspNetRoles">
             <EntityTypeMapping TypeName="RitualDBModel.AspNetRole">
               <MappingFragment StoreEntitySet="AspNetRoles">
@@ -2055,9 +2518,166 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="RitualDBModel.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="RitualDBModel.AspNetUserLogin">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="RitualDBModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="PhotoUrl" ColumnName="PhotoUrl" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+                <ScalarProperty Name="MobilePhone" ColumnName="MobilePhone" />
+                <ScalarProperty Name="HomePhone" ColumnName="HomePhone" />
+                <ScalarProperty Name="Pin" ColumnName="Pin" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Salutation" ColumnName="Salutation" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClientIssuesFeedbacks">
+            <EntityTypeMapping TypeName="RitualDBModel.ClientIssuesFeedback">
+              <MappingFragment StoreEntitySet="ClientIssuesFeedback">
+                <ScalarProperty Name="IssueInjuryRelevantToExercise" ColumnName="IssueInjuryRelevantToExercise" />
+                <ScalarProperty Name="IssuePostureOther" ColumnName="IssuePostureOther" />
+                <ScalarProperty Name="IssueMovementPatternOther" ColumnName="IssueMovementPatternOther" />
+                <ScalarProperty Name="IssueMobilityOther" ColumnName="IssueMobilityOther" />
+                <ScalarProperty Name="IssueInjuryOther" ColumnName="IssueInjuryOther" />
+                <ScalarProperty Name="IssueExerciseOther" ColumnName="IssueExerciseOther" />
+                <ScalarProperty Name="ComplimentOther" ColumnName="ComplimentOther" />
+                <ScalarProperty Name="ComplaintOther" ColumnName="ComplaintOther" />
+                <ScalarProperty Name="RecommendationAction" ColumnName="RecommendationAction" />
+                <ScalarProperty Name="Details" ColumnName="Details" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DateRaised" ColumnName="DateRaised" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="RitualDBModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="HomeLocationId" ColumnName="HomeLocationId" />
+                <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
+                <ScalarProperty Name="IdentificationNumber" ColumnName="IdentificationNumber" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InitialAssessments">
+            <EntityTypeMapping TypeName="RitualDBModel.InitialAssessment">
+              <MappingFragment StoreEntitySet="InitialAssessment">
+                <ScalarProperty Name="AdditionalClientTips" ColumnName="AdditionalClientTips" />
+                <ScalarProperty Name="AdditionalClientProgress" ColumnName="AdditionalClientProgress" />
+                <ScalarProperty Name="ClientEmployeeReminder" ColumnName="ClientEmployeeReminder" />
+                <ScalarProperty Name="WarmupExplained" ColumnName="WarmupExplained" />
+                <ScalarProperty Name="WorkoutExplained" ColumnName="WorkoutExplained" />
+                <ScalarProperty Name="Recommendation" ColumnName="Recommendation" />
+                <ScalarProperty Name="MovementDetails" ColumnName="MovementDetails" />
+                <ScalarProperty Name="MovementLocamotion2" ColumnName="MovementLocamotion2" />
+                <ScalarProperty Name="MovementLocomotion1" ColumnName="MovementLocomotion1" />
+                <ScalarProperty Name="MovementSingleLeg" ColumnName="MovementSingleLeg" />
+                <ScalarProperty Name="MovementHipPull" ColumnName="MovementHipPull" />
+                <ScalarProperty Name="MovementHipPush" ColumnName="MovementHipPush" />
+                <ScalarProperty Name="MovementVerticalPull" ColumnName="MovementVerticalPull" />
+                <ScalarProperty Name="MovementHorizontalPull" ColumnName="MovementHorizontalPull" />
+                <ScalarProperty Name="MovementVerticalPush" ColumnName="MovementVerticalPush" />
+                <ScalarProperty Name="MovementHorizontalPush" ColumnName="MovementHorizontalPush" />
+                <ScalarProperty Name="MovementPosteriorTrunk" ColumnName="MovementPosteriorTrunk" />
+                <ScalarProperty Name="MovementAnteriorTrunk" ColumnName="MovementAnteriorTrunk" />
+                <ScalarProperty Name="ClientPosturalAreaDetails" ColumnName="ClientPosturalAreaDetails" />
+                <ScalarProperty Name="ClientPosturalArea" ColumnName="ClientPosturalArea" />
+                <ScalarProperty Name="ClientInjuriesMedicalIssues" ColumnName="ClientInjuriesMedicalIssues" />
+                <ScalarProperty Name="ClientTrainingHistory" ColumnName="ClientTrainingHistory" />
+                <ScalarProperty Name="ClientHearAboutRitual" ColumnName="ClientHearAboutRitual" />
+                <ScalarProperty Name="ClientCheckDetails" ColumnName="ClientCheckDetails" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="TimeSlotId" ColumnName="TimeSlotId" />
+                <ScalarProperty Name="AssessmentDate" ColumnName="AssessmentDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="RitualDBModel.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="AvailableSlots" ColumnName="AvailableSlots" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="TimeZoneOffset" ColumnName="TimeZoneOffset" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Members">
+            <EntityTypeMapping TypeName="RitualDBModel.Member">
+              <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="PostZipCode" ColumnName="PostZipCode" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="IDNumber" ColumnName="IDNumber" />
+                <ScalarProperty Name="IDType" ColumnName="IDType" />
+                <ScalarProperty Name="EmergencyContactNumber" ColumnName="EmergencyContactNumber" />
+                <ScalarProperty Name="EmergencyContactName" ColumnName="EmergencyContactName" />
+                <ScalarProperty Name="ShortSize" ColumnName="ShortSize" />
+                <ScalarProperty Name="ShirtSize" ColumnName="ShirtSize" />
+                <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
+                <ScalarProperty Name="HomeLocationId" ColumnName="HomeLocationId" />
+                <ScalarProperty Name="EmailOptOut" ColumnName="EmailOptOut" />
+                <ScalarProperty Name="IdentificationNumber" ColumnName="IdentificationNumber" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Memberships">
             <EntityTypeMapping TypeName="RitualDBModel.Membership">
               <MappingFragment StoreEntitySet="Membership">
+                <ScalarProperty Name="TerminationFeeOverrideReason" ColumnName="TerminationFeeOverrideReason" />
+                <ScalarProperty Name="EndPaymentDate" ColumnName="EndPaymentDate" />
+                <ScalarProperty Name="TerminationReason" ColumnName="TerminationReason" />
+                <ScalarProperty Name="TerminationDate" ColumnName="TerminationDate" />
                 <ScalarProperty Name="DiscountReason" ColumnName="DiscountReason" />
                 <ScalarProperty Name="DiscountPrice" ColumnName="DiscountPrice" />
                 <ScalarProperty Name="DiscountPercentage" ColumnName="DiscountPercentage" />
@@ -2096,6 +2716,40 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="News">
+            <EntityTypeMapping TypeName="RitualDBModel.News">
+              <MappingFragment StoreEntitySet="News">
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="NewsCategoryId" ColumnName="NewsCategoryId" />
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NewsCategories">
+            <EntityTypeMapping TypeName="RitualDBModel.NewsCategory">
+              <MappingFragment StoreEntitySet="NewsCategories">
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OffPeakHours">
+            <EntityTypeMapping TypeName="RitualDBModel.OffPeakHour">
+              <MappingFragment StoreEntitySet="OffPeakHours">
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="DateOfWeek" ColumnName="DateOfWeek" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="OpeningHours">
             <EntityTypeMapping TypeName="RitualDBModel.OpeningHour">
               <MappingFragment StoreEntitySet="OpeningHour">
@@ -2107,6 +2761,35 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="OpeningHourOverrides">
+            <EntityTypeMapping TypeName="RitualDBModel.OpeningHourOverride">
+              <MappingFragment StoreEntitySet="OpeningHourOverride">
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="OverrideReason" ColumnName="OverrideReason" />
+                <ScalarProperty Name="AltCloseTme" ColumnName="AltCloseTme" />
+                <ScalarProperty Name="AltOpenTime" ColumnName="AltOpenTime" />
+                <ScalarProperty Name="DayOfWeek" ColumnName="DayOfWeek" />
+                <ScalarProperty Name="OverrideEndDate" ColumnName="OverrideEndDate" />
+                <ScalarProperty Name="OverrideStartDate" ColumnName="OverrideStartDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Packages">
+            <EntityTypeMapping TypeName="RitualDBModel.Package">
+              <MappingFragment StoreEntitySet="Package">
+                <ScalarProperty Name="PackagePayInFull" ColumnName="PackagePayInFull" />
+                <ScalarProperty Name="PackageIsReoccuring" ColumnName="PackageIsReoccuring" />
+                <ScalarProperty Name="PackageIsActive" ColumnName="PackageIsActive" />
+                <ScalarProperty Name="PackageVisitLimit" ColumnName="PackageVisitLimit" />
+                <ScalarProperty Name="PackageSuspensionLimit" ColumnName="PackageSuspensionLimit" />
+                <ScalarProperty Name="PackagePeriodMonths" ColumnName="PackagePeriodMonths" />
+                <ScalarProperty Name="PackageTypeId" ColumnName="PackageTypeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="PackageLocationPrices">
             <EntityTypeMapping TypeName="RitualDBModel.PackageLocationPrice">
               <MappingFragment StoreEntitySet="PackageLocationPrices">
@@ -2114,6 +2797,37 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
                 <ScalarProperty Name="MonthlyPrice" ColumnName="MonthlyPrice" />
                 <ScalarProperty Name="PackageId" ColumnName="PackageId" />
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PackageTypes">
+            <EntityTypeMapping TypeName="RitualDBModel.PackageType">
+              <MappingFragment StoreEntitySet="PackageType">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentCategories">
+            <EntityTypeMapping TypeName="RitualDBModel.PaymentCategory">
+              <MappingFragment StoreEntitySet="PaymentCategory">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentSchedules">
+            <EntityTypeMapping TypeName="RitualDBModel.PaymentSchedule">
+              <MappingFragment StoreEntitySet="PaymentSchedules">
+                <ScalarProperty Name="PaymentCategoryId" ColumnName="PaymentCategoryId" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+                <ScalarProperty Name="Paid" ColumnName="Paid" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="Payment" ColumnName="Payment" />
+                <ScalarProperty Name="MembershipId" ColumnName="MembershipId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -2160,6 +2874,15 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="RitualLookups">
+            <EntityTypeMapping TypeName="RitualDBModel.RitualLookup">
+              <MappingFragment StoreEntitySet="RitualLookups">
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="SessionBookings">
             <EntityTypeMapping TypeName="RitualDBModel.SessionBooking">
               <MappingFragment StoreEntitySet="SessionBooking">
@@ -2183,6 +2906,17 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="RitualDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="TimeSlots">
             <EntityTypeMapping TypeName="RitualDBModel.TimeSlot">
               <MappingFragment StoreEntitySet="TimeSlot">
@@ -2192,207 +2926,25 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Locations">
-            <EntityTypeMapping TypeName="RitualDBModel.Location">
-              <MappingFragment StoreEntitySet="Location">
-                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
-                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
-                <ScalarProperty Name="AvailableSlots" ColumnName="AvailableSlots" />
-                <ScalarProperty Name="Currency" ColumnName="Currency" />
-                <ScalarProperty Name="TimeZoneOffset" ColumnName="TimeZoneOffset" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetImminentSessionBookings" FunctionName="RitualDBModel.Store.GetImminentSessionBookings">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="RitualDBModel.GetImminentSessionBookings_Result">
-                <ScalarProperty Name="RowNr" ColumnName="RowNr" />
-                <ScalarProperty Name="TimeSlotId" ColumnName="TimeSlotId" />
-                <ScalarProperty Name="SessionBookingId" ColumnName="SessionBookingId" />
-                <ScalarProperty Name="SessionBookingState" ColumnName="SessionBookingState" />
-                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Number" ColumnName="Number" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <EntitySetMapping Name="OpeningHourOverrides">
-            <EntityTypeMapping TypeName="RitualDBModel.OpeningHourOverride">
-              <MappingFragment StoreEntitySet="OpeningHourOverride">
+          <EntitySetMapping Name="TrialTimeBlocks">
+            <EntityTypeMapping TypeName="RitualDBModel.TrialTimeBlock">
+              <MappingFragment StoreEntitySet="TrialTimeBlock">
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="OverrideReason" ColumnName="OverrideReason" />
-                <ScalarProperty Name="AltCloseTme" ColumnName="AltCloseTme" />
-                <ScalarProperty Name="AltOpenTime" ColumnName="AltOpenTime" />
-                <ScalarProperty Name="DayOfWeek" ColumnName="DayOfWeek" />
-                <ScalarProperty Name="OverrideEndDate" ColumnName="OverrideEndDate" />
-                <ScalarProperty Name="OverrideStartDate" ColumnName="OverrideStartDate" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="DateOfWeek" ColumnName="DateOfWeek" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Members">
-            <EntityTypeMapping TypeName="RitualDBModel.Member">
-              <MappingFragment StoreEntitySet="Member">
-                <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
-                <ScalarProperty Name="HomeLocationId" ColumnName="HomeLocationId" />
-                <ScalarProperty Name="EmailOptOut" ColumnName="EmailOptOut" />
-                <ScalarProperty Name="IdentificationNumber" ColumnName="IdentificationNumber" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Employees">
-            <EntityTypeMapping TypeName="RitualDBModel.Employee">
-              <MappingFragment StoreEntitySet="Employee">
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUsers">
-            <EntityTypeMapping TypeName="RitualDBModel.AspNetUser">
-              <MappingFragment StoreEntitySet="AspNetUsers">
-                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
-                <ScalarProperty Name="MobilePhone" ColumnName="MobilePhone" />
-                <ScalarProperty Name="HomePhone" ColumnName="HomePhone" />
-                <ScalarProperty Name="Pin" ColumnName="Pin" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="Salutation" ColumnName="Salutation" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="NewsCategories">
-            <EntityTypeMapping TypeName="RitualDBModel.NewsCategory">
-              <MappingFragment StoreEntitySet="NewsCategories">
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PackageTypes">
-            <EntityTypeMapping TypeName="RitualDBModel.PackageType">
-              <MappingFragment StoreEntitySet="PackageType">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Packages">
-            <EntityTypeMapping TypeName="RitualDBModel.Package">
-              <MappingFragment StoreEntitySet="Package">
-                <ScalarProperty Name="PackagePayInFull" ColumnName="PackagePayInFull" />
-                <ScalarProperty Name="PackageIsReoccuring" ColumnName="PackageIsReoccuring" />
-                <ScalarProperty Name="PackageIsActive" ColumnName="PackageIsActive" />
-                <ScalarProperty Name="PackageVisitLimit" ColumnName="PackageVisitLimit" />
-                <ScalarProperty Name="PackageSuspensionLimit" ColumnName="PackageSuspensionLimit" />
-                <ScalarProperty Name="PackagePeriodMonths" ColumnName="PackagePeriodMonths" />
-                <ScalarProperty Name="PackageTypeId" ColumnName="PackageTypeId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="News">
-            <EntityTypeMapping TypeName="RitualDBModel.News">
-              <MappingFragment StoreEntitySet="News">
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="NewsCategoryId" ColumnName="NewsCategoryId" />
-                <ScalarProperty Name="Body" ColumnName="Body" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="InitialAssessments">
-            <EntityTypeMapping TypeName="RitualDBModel.InitialAssessment">
-              <MappingFragment StoreEntitySet="InitialAssessment">
-                <ScalarProperty Name="AdditionalClientTips" ColumnName="AdditionalClientTips" />
-                <ScalarProperty Name="AdditionalClientProgress" ColumnName="AdditionalClientProgress" />
-                <ScalarProperty Name="ClientEmployeeReminder" ColumnName="ClientEmployeeReminder" />
-                <ScalarProperty Name="WarmupExplained" ColumnName="WarmupExplained" />
-                <ScalarProperty Name="WorkoutExplained" ColumnName="WorkoutExplained" />
-                <ScalarProperty Name="Recommendation" ColumnName="Recommendation" />
-                <ScalarProperty Name="MovementDetails" ColumnName="MovementDetails" />
-                <ScalarProperty Name="MovementLocamotion2" ColumnName="MovementLocamotion2" />
-                <ScalarProperty Name="MovementLocomotion1" ColumnName="MovementLocomotion1" />
-                <ScalarProperty Name="MovementSingleLeg" ColumnName="MovementSingleLeg" />
-                <ScalarProperty Name="MovementHipPull" ColumnName="MovementHipPull" />
-                <ScalarProperty Name="MovementHipPush" ColumnName="MovementHipPush" />
-                <ScalarProperty Name="MovementVerticalPull" ColumnName="MovementVerticalPull" />
-                <ScalarProperty Name="MovementHorizontalPull" ColumnName="MovementHorizontalPull" />
-                <ScalarProperty Name="MovementVerticalPush" ColumnName="MovementVerticalPush" />
-                <ScalarProperty Name="MovementHorizontalPush" ColumnName="MovementHorizontalPush" />
-                <ScalarProperty Name="MovementPosteriorTrunk" ColumnName="MovementPosteriorTrunk" />
-                <ScalarProperty Name="MovementAnteriorTrunk" ColumnName="MovementAnteriorTrunk" />
-                <ScalarProperty Name="ClientPosturalAreaDetails" ColumnName="ClientPosturalAreaDetails" />
-                <ScalarProperty Name="ClientPosturalArea" ColumnName="ClientPosturalArea" />
-                <ScalarProperty Name="ClientInjuriesMedicalIssues" ColumnName="ClientInjuriesMedicalIssues" />
-                <ScalarProperty Name="ClientTrainingHistory" ColumnName="ClientTrainingHistory" />
-                <ScalarProperty Name="ClientHearAboutRitual" ColumnName="ClientHearAboutRitual" />
-                <ScalarProperty Name="ClientCheckDetails" ColumnName="ClientCheckDetails" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
-                <ScalarProperty Name="AssessmentDateTime" ColumnName="AssessmentDateTime" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ClientIssuesFeedbacks">
-            <EntityTypeMapping TypeName="RitualDBModel.ClientIssuesFeedback">
-              <MappingFragment StoreEntitySet="ClientIssuesFeedback">
-                <ScalarProperty Name="IssueInjuryRelevantToExercise" ColumnName="IssueInjuryRelevantToExercise" />
-                <ScalarProperty Name="IssuePostureOther" ColumnName="IssuePostureOther" />
-                <ScalarProperty Name="IssueMovementPatternOther" ColumnName="IssueMovementPatternOther" />
-                <ScalarProperty Name="IssueMobilityOther" ColumnName="IssueMobilityOther" />
-                <ScalarProperty Name="IssueInjuryOther" ColumnName="IssueInjuryOther" />
-                <ScalarProperty Name="IssueExerciseOther" ColumnName="IssueExerciseOther" />
-                <ScalarProperty Name="ComplimentOther" ColumnName="ComplimentOther" />
-                <ScalarProperty Name="ComplaintOther" ColumnName="ComplaintOther" />
-                <ScalarProperty Name="RecommendationAction" ColumnName="RecommendationAction" />
-                <ScalarProperty Name="Details" ColumnName="Details" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="DateRaised" ColumnName="DateRaised" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
-                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="RitualLookups">
-            <EntityTypeMapping TypeName="RitualDBModel.RitualLookup">
-              <MappingFragment StoreEntitySet="RitualLookups">
-                <ScalarProperty Name="Category" ColumnName="Category" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="RitualDBModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUser">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRole">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
           <AssociationSetMapping Name="ClientIssuesFeedbackComplaint" TypeName="RitualDBModel.ClientIssuesFeedbackComplaint" StoreEntitySet="ClientIssuesFeedbackComplaint">
             <EndProperty Name="RitualLookup">
               <ScalarProperty Name="Id" ColumnName="RitualLookupId" />
@@ -2449,22 +3001,6 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
               <ScalarProperty Name="Id" ColumnName="ClientIssueFeedbackId" />
             </EndProperty>
           </AssociationSetMapping>
-          <FunctionImportMapping FunctionImportName="GetUpcomingBookingSlots" FunctionName="RitualDBModel.Store.GetUpcomingBookingSlots">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="RitualDBModel.GetUpcomingBookingSlots_Result">
-                <ScalarProperty Name="TimeSlotId" ColumnName="TimeSlotId" />
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="BookingDay" ColumnName="BookingDay" />
-                <ScalarProperty Name="DayOfWeek" ColumnName="DayOfWeek" />
-                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
-                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
-                <ScalarProperty Name="BookingCount" ColumnName="BookingCount" />
-                <ScalarProperty Name="AvailableSlots" ColumnName="AvailableSlots" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="ClosureReason" ColumnName="ClosureReason" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -14,82 +14,32 @@
 <section class="content">
     <div class="row">
         <div class="large-12 columns">
-
-            <div>
-                @Html.ActionLink("Back to Dashboard", "Dashboard", "", new { @class = "button" })
-            </div>
-            <div id="ritual-dates"></div>
-
-            <div id="ritual-bookings"></div>
-
-            @*@if (Model.AvailableBookingSlots.Count() > 0)
+            @if (Model.currentMember.hasActiveMembership())
             {
-                foreach (var item in Model.AvailableBookingSlots)
-                {
-                    if (item.Status == "Available")
-                    {
+                <div>
+                    @Html.ActionLink("Back to Dashboard", "Dashboard", "", new { @class = "button" })
+                </div>
+                <div id="ritual-dates"></div>
 
-                        <div class="booking-slot available">
-                            <h1>@Html.DisplayFor(modelItem => item.BookingDay.Value.DayOfWeek)</h1>
-                            <h2>Available</h2>
-                            @Html.DisplayFor(modelItem => item.StartTime)<br />
-                            @Html.DisplayFor(modelItem => item.BookingCount) of @Html.DisplayFor(modelItem => item.AvailableSlots)
-                            <br />
-                            <a href="@Url.Action("ConfirmBooking", "TrainingZone", new { TimeslotId = item.TimeSlotId, LocationId = item.LocationId, BookingDate = item.BookingDay })">
-                                <div class="button session-booking">Book</div>
-                            </a>
-                        </div>
-
-                    }
-                    else if (item.Status == "Closed")
-                    {
-                        <div class="booking-slot closed">
-                            <h1>@Html.DisplayFor(modelItem => item.BookingDay.Value.DayOfWeek)</h1>
-                            <h2>Closed</h2>
-                            @Html.DisplayFor(modelItem => item.StartTime)<br />
-                            @Html.DisplayFor(modelItem => item.ClosureReason)<br />
-                        </div>
-
-                    }
-                    else if (item.Status == "Booked")
-                    {
-                        <div class="booking-slot booked">
-                            <h1>@Html.DisplayFor(modelItem => item.BookingDay.Value.DayOfWeek)</h1>
-                            <h2>Booked</h2>
-                            @Html.DisplayFor(modelItem => item.StartTime)<br />
-                            @Html.DisplayFor(modelItem => item.ClosureReason)<br />
-                            <br />
-                            <a href="@Url.Action("CancelBooking", "TrainingZone", new { TimeslotId = item.TimeSlotId, LocationId = item.LocationId, BookingDate = item.BookingDay })">
-                                <div class="button session-booking">Cancel Booking</div>
-                            </a>
-                        </div>
-
-                    }
-                }
+                <div id="ritual-bookings"></div>
             }
             else
             {
-                <h2>The Gym is currently closed.</h2>
-            }*@
+                @Model.currentMember.getLatestMembership().getMembershipStatusText()
+                ;
+            }
         </div>
     </div>
 </section>
-@section Scripts {
-    <script type="text/javascript">
-        $(document).ready(function () {
-            RITUAL.Core.TrainingZone.Bookings("#ritual-dates");
+@if (Model.currentMember.hasActiveMembership())
+{
+    @section Scripts {
 
-            $('.asdasdsession-booking').on("click", function () {
-                var TimeslotId = $(this).parent().data('timeslotid');
-                var BookingDate = $(this).parent().data('bookingdate');
-                var url = "/TrainingZone/AddNewBooking";
-                $.getJSON(url, { timeslotId: TimeslotId, bookingDate: BookingDate }, function (data) {
-                    alert('success');
-                    location.reload();
-                });
+        <script type="text/javascript">
+            $(document).ready(function () {
+                RITUAL.Core.TrainingZone.Bookings("#ritual-dates");
             });
 
-        });
-
-    </script>
+        </script>
+    }
 }

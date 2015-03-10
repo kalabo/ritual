@@ -24,6 +24,8 @@ namespace Ritual.Web.Members.Models
         public int Pin { get; set; }
         public string HomePhone { get; set; }
         public string MobilePhone { get; set; }
+        public string Gender { get; set; }
+        public string PhotoUrl { get; set; }
         public Nullable<System.DateTime> Birthday { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)

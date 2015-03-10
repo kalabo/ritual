@@ -239,21 +239,202 @@ RITUAL.Core.Utilties = {
     }
 }
 
+RITUAL.Core.Registration = {
+    Locations: function (divName) {
+        RITUAL.Core.Registration.RegisterHandlers();
+        $.ajax({
+            type: "GET",
+            url: '/Account/GetLocations',
+            success: function (data) {
+                if (data.length > 0) {
+                    for (i = 0; i < data.length; i++) {
+                        $(divName).append($('<option>', { value: data[i].id }).text(data[i].name));
+                    }
+                    var val = $(divName).find(":selected").val();
+                    RITUAL.Core.Registration.TrialDates("#TrialDate", val, 10);
+                }
+            },
+            error: function (xhr) {
+                //debugger;  
+                console.log(xhr.responseText);
+                alert("Error has occurred..");
+            }
+        });
+    },
+    RegisterHandlers: function () {
+        $('#TrialDate').on("change", function () {
+            var date = $(this).val();
+            var locationId = $(this).find(":selected").data('location');
+            RITUAL.Core.Registration.TrialTimes("#TrialTimes", locationId, date);
+        });
+
+        $('#LocationId').on("change", function () {
+            RITUAL.Core.Registration.TrialDates("#TrialDate", $(this).val(), 10);
+        });
+    },
+    TrialDates: function (divName, locationId, numDays) {
+        $.ajax({
+            type: "GET",
+            url: '/Account/GetNextOpenDays',
+            data: { "numberofdays": numDays, "locationId": locationId },
+            success: function (data) {
+                if (data.length > 0) {
+                    $(divName).find('option').remove().end();
+                    for (i = 0; i < data.length; i++) {
+                        var date = new Date(parseInt(data[i].substring(6)));
+                        var friendlyDate = moment(date).format("ddd, MMMM Do YYYY");
+                        var sqlDate = moment(date).format("MM/DD/YYYY");
+                        $(divName).append($('<option value="' + sqlDate + '" data-location="' + locationId + '">').text(friendlyDate));
+                    }
+
+                    var startDate = moment(new Date(parseInt(data[1].substring(6)))).format("MM/DD/YYYY");
+                    RITUAL.Core.Registration.TrialTimes("#TrialTimes", locationId, startDate);
+                }
+            }
+        });
+    },
+    TrialTimes: function (divName, locationId, date) {
+        $.ajax({
+            type: "GET",
+            url: '/Account/GetTrialSlotsByDate',
+            data: { "date": date, "locationId": locationId },
+            success: function (data) {
+                $(divName).find('option').remove().end();
+                if (data.length > 0) {
+                    for (i = 0; i < data.length; i++) {
+                        var time = moment().startOf('day').seconds(data[i].StartTime.TotalSeconds).format('H:mm A');
+                        $(divName).append($('<option>', { value: data[i].TimeSlotId }).text(time));
+                    }
+                } else {
+                    $(divName).append($('<option>', { value: "" }).text("No Available Slots for this date and location"));
+                }
+            }
+        });
+    }
+}
 RITUAL.Core.TrainingZone = {
     Init: function () {
 
     },
-    BookingListingHandlers: function ()
-    {
+    UpcomingBookings: function (divName) {
+        $.ajax({
+            type: "GET",
+            url: '/TrainingZone/GetUpcomingBookings',
+            data: { "rowcount": 5 },
+            success: function (data) {
+                var bookings = [];
+                var html = "";
+                if (data.length > 0) {
+                    for (i = 0; i < data.length; i++) {
+                        var date = new Date(parseInt(data[i].Date.substring(6)));
+                        bookings.push({
+                            Title: data[i].Title,
+                            StartTime: moment().startOf('day').seconds(data[i].StartTime.TotalSeconds).format('H:mm A'),
+                            Date: moment(date).format("MM/DD/YYYY"),
+                            DateFriendly: moment(date).format("dddd Do MMM"),
+                            Location: data[i].Location,
+                            BookingState: data[i].BookingState
+                        });
+                    }
+                    var template = "";
+                    template = Handlebars.compile(Templates.bookingrollup);
+                    html += template(JSON.parse("{\"Bookings\":" + JSON.stringify(bookings) + "}"));
+                }
+                else {
+                    var template = "";
+                    template = Handlebars.compile(Templates.bookingrollupNoItems);
+                    html += template();
+                }
+                $(divName).html(html);
+            },
+            error: function (xhr) {
+                //debugger;  
+                console.log(xhr.responseText);
+                alert("Error has occurred..");
+            }
+        });
+    },
+    PastBookings: function (divName) {
+        $.ajax({
+            type: "GET",
+            url: '/TrainingZone/GetPastBookings',
+            data: { "rowcount": 5 },
+            success: function (data) {
+                var bookings = [];
+                var html = "";
+                if (data.length > 0) {
+                    for (i = 0; i < data.length; i++) {
+                        var date = new Date(parseInt(data[i].Date.substring(6)));
+                        bookings.push({
+                            Title: data[i].Title,
+                            StartTime: moment().startOf('day').seconds(data[i].StartTime.TotalSeconds).format('H:mm A'),
+                            Date: moment(date).format("MM/DD/YYYY"),
+                            DateFriendly: moment(date).format("dddd Do MMM"),
+                            Location: data[i].Location,
+                            BookingState: data[i].BookingState
+                        });
+                    }
+                    var template = "";
+                    template = Handlebars.compile(Templates.bookingrollup);
+                    html += template(JSON.parse("{\"Bookings\":" + JSON.stringify(bookings) + "}"));
+                }
+                else {
+                    var template = "";
+                    template = Handlebars.compile(Templates.bookingrollupNoItems);
+                    html += template();
+                }
+                $(divName).html(html);
+            },
+            error: function (xhr) {
+                //debugger;  
+                console.log(xhr.responseText);
+                alert("Error has occurred..");
+            }
+        });
+    },
+    News: function (divName, rowlimit) {
+        $.ajax({
+            type: "GET",
+            url: '/TrainingZone/GetHomeLocationNews',
+            data: { "rowcount": rowlimit },
+            success: function (data) {
+                var news = [];
+                var html = "";
+                for (i = 0; i < data.length; i++) {
+                    news.push({
+                        Title: data[i].Title,
+                        Body: data[i].Body
+                    });
+                }
+                var template = "";
+                template = Handlebars.compile(Templates.announcements);
+                html += template(JSON.parse("{\"News\":" + JSON.stringify(news) + "}"));
+                $(divName).html(html);
+                var nt_example1 = $(divName).newsTicker({
+                    row_height: 80,
+                    max_rows: 1,
+                    duration: 10000,
+                    prevButton: $('#nt-example1-prev'),
+                    nextButton: $('#nt-example1-next')
+                });
+            },
+            error: function (xhr) {
+                //debugger;  
+                console.log(xhr.responseText);
+                alert("Error has occurred..");
+            }
+        });
+    },
+    BookingListingHandlers: function () {
         $('#booking-slot-dates').on('change', function () {
             var value = $(this).val();
             RITUAL.Core.TrainingZone.BookingsListing("#ritual-bookings", value);
         });
-        
+
         $('.cancel-booking').on('click', function () {
-            
+
             var timeslotid = $(this).data('timeslot');
-            var locationid = $(this).data('locationid');            
+            var locationid = $(this).data('locationid');
             var bookingdate = moment(new Date($(this).data('bookingdate'))).format("MM/DD/YYYY");
 
             var r = confirm("Are you sure you would like to cancel this booking?");
@@ -277,18 +458,16 @@ RITUAL.Core.TrainingZone = {
         });
     },
     Bookings: function (divName) {
-        var today = new Date();
-        var date = today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear();
         $.ajax({
             type: "GET",
             url: '/TrainingZone/GetNextOpenDays',
-            data: { "date": date, "numberofdays": 3 },
+            data: { "numberofdays": 3 },
             success: function (data) {
 
                 var dates = [];
                 var html = "";
                 for (i = 0; i < data.length; i++) {
-                    date = new Date(parseInt(data[i].substring(6)));
+                    var date = new Date(parseInt(data[i].substring(6)));
                     dates.push({
                         Date: moment(date).format("MM/DD/YYYY"),
                         DateFriendly: moment(date).format("dddd Do MMM")
@@ -318,23 +497,32 @@ RITUAL.Core.TrainingZone = {
                 var timeslots = [];
                 var html = "";
                 var template = "";
-                if (data.length > 0) {
-                    for (i = 0; i < data.length; i++) {
-                        var bookingday = new Date(parseInt(data[i].BookingDay.substring(6)));
-                                                
+                if (data.AvailableBookingSlots.length > 0) {
+                    for (i = 0; i < data.AvailableBookingSlots.length; i++) {
+                        var bookingday = new Date(parseInt(data.AvailableBookingSlots[i].BookingDay.substring(6)));
+                        var allowBooking = true;
+                        if (data.MemberType === "Off-Peak") {
+                            if (data.MemberType === data.AvailableBookingSlots[i].BookingStatus) {
+                                allowBooking = true;
+                            } else {
+                                allowBooking = false;
+                            }
+                        }
                         timeslots.push({
-                            StartTime: moment().startOf('day').seconds(data[i].StartTime.TotalSeconds).format('H:mm A'),
-                            EndTime: moment().startOf('day').seconds(data[i].EndTime.TotalSeconds).format('H:mm A'),
+                            StartTime: moment().startOf('day').seconds(data.AvailableBookingSlots[i].StartTime.TotalSeconds).format('H:mm A'),
+                            EndTime: moment().startOf('day').seconds(data.AvailableBookingSlots[i].EndTime.TotalSeconds).format('H:mm A'),
                             BookingDay: bookingday,
-                            TotalSlots: data[i].AvailableSlots,
-                            AvailableSlots: (data[i].AvailableSlots - data[i].BookingCount),
-                            BookingCount: data[i].BookingCount,
-                            Status: data[i].Status,
-                            TimeSlotId: data[i].TimeSlotId,
-                            LocationId: data[i].LocationId,
-                            MemberId: data[i].MemberId,
-                            DayOfWeek: data[i].DayOfWeek,
-                            ClosureReason: data[i].ClosureReason
+                            TotalSlots: data.AvailableBookingSlots[i].AvailableSlots,
+                            AvailableSlots: (data.AvailableBookingSlots[i].AvailableSlots - data.AvailableBookingSlots[i].BookingCount),
+                            BookingCount: data.AvailableBookingSlots[i].BookingCount,
+                            Status: data.AvailableBookingSlots[i].Status,
+                            TimeSlotId: data.AvailableBookingSlots[i].TimeSlotId,
+                            LocationId: data.AvailableBookingSlots[i].LocationId,
+                            MemberId: data.AvailableBookingSlots[i].MemberId,
+                            DayOfWeek: data.AvailableBookingSlots[i].DayOfWeek,
+                            BookingStatus: data.AvailableBookingSlots[i].BookingStatus,
+                            ClosureReason: data.AvailableBookingSlots[i].ClosureReason,
+                            AllowBooking: allowBooking
                         });
                     }
                     template = Handlebars.compile(Templates.bookingtimeslots);
@@ -356,162 +544,3 @@ RITUAL.Core.TrainingZone = {
     }
 }
 
-RITUAL.Core.Locations = {
-    Listing: function () {
-        RITUAL.Core.Locations.MapListing();
-    },
-    Edit: function () {
-
-    },
-    Add: function () {
-
-    },
-    Charts: function () {
-
-        var locationId = $('#locationId').val();
-        var options = {
-            animation: true,
-            tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>%",
-            //String - A legend template
-            legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>"
-        };
-
-        this.CurrentMembersChart(locationId, options, '#locationCurrentMembers', '#locationCurrentMembersCanvas');
-        this.CurrentMembersTerm(locationId, options, '#locationMembersTerm', '#locationMembersTermCanvas');
-        this.CurrentMembersType(locationId, options, '#locationMembersType', '#locationMembersTypeCanvas');
-        this.CurrentMembersPayment(locationId, options, '#locationMembersPayment', '#locationMembersPaymentCanvas');
-    },
-    CurrentMembersChart: function (locationId, options, canvasdiv, legenddiv) {
-
-
-
-        var data = [{
-            value: 30,
-            color: "#F7464A",
-            label: "Red"
-        }, {
-            value: 50,
-            color: "#E2EAE9",
-            label: "Orange"
-        }
-        ]
-
-        var currentMembers = $(canvasdiv);
-        var currentMembersCt = currentMembers.get(0).getContext('2d');
-        currentMembersChart = new Chart(currentMembersCt).Doughnut(data, options);
-        var legend = currentMembersChart.generateLegend();
-        $(legenddiv).append(legend);
-    },
-    CurrentMembersTerm: function (locationId, options, canvasdiv, legenddiv) {
-
-        var data = [{
-            value: 30,
-            color: "#F7464A",
-            label: "Red"
-        }, {
-            value: 50,
-            color: "#E2EAE9",
-            label: "Orange"
-        }
-        ]
-
-        var currentMembers = $(canvasdiv);
-        var currentMembersCt = currentMembers.get(0).getContext('2d');
-        currentMembersChart = new Chart(currentMembersCt).Doughnut(data, options);
-        var legend = currentMembersChart.generateLegend();
-        $(legenddiv).append(legend);
-    },
-    CurrentMembersType: function (locationId, options, canvasdiv, legenddiv) {
-
-        var data = [{
-            value: 30,
-            color: "#F7464A",
-            label: "Red"
-        }, {
-            value: 50,
-            color: "#E2EAE9",
-            label: "Orange"
-        }
-        ]
-
-        var currentMembers = $(canvasdiv);
-        var currentMembersCt = currentMembers.get(0).getContext('2d');
-        currentMembersChart = new Chart(currentMembersCt).Doughnut(data, options);
-        var legend = currentMembersChart.generateLegend();
-        $(legenddiv).append(legend);
-    },
-    CurrentMembersPayment: function (locationId, options, canvasdiv, legenddiv) {
-        $.ajax({
-            type: "GET",
-            url: '/Locations/GetLocationPaymentMethodChart',
-            data: { "locationId": locationId },
-            success: function (data) {
-
-                var currentMembers = $(canvasdiv);
-                var currentMembersCt = currentMembers.get(0).getContext('2d');
-                currentMembersChart = new Chart(currentMembersCt).Doughnut(data, options);
-                var legend = currentMembersChart.generateLegend();
-                $(legenddiv).append(legend);
-            },
-            error: function (xhr) {
-                //debugger;  
-                console.log(xhr.responseText);
-                alert("Error has occurred..");
-            }
-        });
-    },
-    MapListing: function () {
-        $.ajax({
-            type: "GET",
-            url: '/Locations/GetMapDataJson',
-            success: function (locations) {
-                var map;
-                var bounds = new google.maps.LatLngBounds();
-                var mapOptions = {
-                    mapTypeId: 'roadmap'
-                };
-
-                // Display a map on the page
-                map = new google.maps.Map(document.getElementById("ritualMap"), mapOptions);
-                map.setTilt(45);
-
-                // Display multiple markers on a map
-                var infoWindow = new google.maps.InfoWindow(), marker, i;
-
-                // Loop through our array of markers & place each one on the map  
-                for (i = 0; i < locations.length; i++) {
-                    var position = new google.maps.LatLng(locations[i].latitude, locations[i].longitude);
-                    bounds.extend(position);
-                    marker = new google.maps.Marker({
-                        position: position,
-                        map: map,
-                        title: locations[i].name,
-                        icon: '/Content/images/ritual_pushpin.png'
-                    });
-
-                    // Automatically center the map fitting all markers on the screen
-                    map.fitBounds(bounds);
-                }
-
-                // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
-                var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function (event) {
-                    this.setZoom(1);
-                    google.maps.event.removeListener(boundsListener);
-                });
-
-                $('.center-ritual-map').on('click', function () {
-                    var lat = $(this).data('lat');
-                    var long = $(this).data('long');
-                    map.setZoom(17);      // This will trigger a zoom_changed on the map
-                    map.setCenter(new google.maps.LatLng(lat, long));
-                });
-
-            },
-            error: function (xhr) {
-                //debugger;  
-                console.log(xhr.responseText);
-                alert("Error has occurred..");
-            }
-        });
-    }
-}

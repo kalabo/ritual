@@ -55,6 +55,12 @@
     <Compile Include="AspNetUser.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="AspNetUserClaim.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUserLogin.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
     <Compile Include="ClientIssuesFeedback.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
@@ -83,6 +89,10 @@
     <Compile Include="GetUpcomingBookingSlots_Result.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="GetUpcomingTrialSlots_Result.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IEnumerables.cs" />
     <Compile Include="InitialAssessment.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
@@ -108,6 +118,9 @@
     <Compile Include="NewsCategory.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="OffPeakHour.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
     <Compile Include="OpeningHour.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
@@ -123,10 +136,13 @@
     <Compile Include="PackageType.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Partials\Administration.cs" />
     <Compile Include="Partials\AllowHtml.cs" />
     <Compile Include="Partials\AspNetUser.cs" />
     <Compile Include="Partials\FrontOfHouse.cs" />
     <Compile Include="Partials\Location.cs" />
+    <Compile Include="Partials\TrialTimeBlock.cs" />
+    <Compile Include="Partials\SessionBooking.cs" />
     <Compile Include="Partials\News.cs" />
     <Compile Include="Partials\Package.cs" />
     <Compile Include="Partials\Membership.cs" />
@@ -134,7 +150,14 @@
     <Compile Include="Partials\OpeningHour.cs" />
     <Compile Include="Partials\QuarterlyAssessment.cs" />
     <Compile Include="Partials\Employee.cs" />
+    <Compile Include="Partials\TimeSlot.cs" />
     <Compile Include="Partials\TrainingZone.cs" />
+    <Compile Include="PaymentCategory.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaymentSchedule.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuarterlyAssessment.cs">
       <DependentUpon>Entities.tt</DependentUpon>
@@ -148,7 +171,13 @@
     <Compile Include="SessionBookingState.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
     <Compile Include="TimeSlot.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TrialTimeBlock.cs">
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
   </ItemGroup>

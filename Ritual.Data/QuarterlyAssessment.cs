@@ -51,7 +51,7 @@ namespace Ritual.Data
         public Nullable<int> QATestFiveRoundEightReps { get; set; }
         public Nullable<int> QATestFiveTotalReps { get; set; }
     
-        public virtual Member Member { get; set; }
         public virtual Employee Employee { get; set; }
+        public virtual Member Member { get; set; }
     }
 }

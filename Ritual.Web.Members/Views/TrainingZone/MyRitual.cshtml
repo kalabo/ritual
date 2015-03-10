@@ -17,10 +17,13 @@
 
             <div>
                 @Html.ActionLink("Back to Dashboard", "Dashboard", "", new { @class = "button" })
+                @Html.ActionLink("Edit Profile", "EditProfile", "", new { @class = "button" })
             </div>
 
             <div class="row">
                 <div class="large-6 columns">
+                    @Html.Raw(Model.Gravatar)<br/> 
+                    @Html.ActionLink("Change Avatar", "UploadPhoto", "", new { @class = "button" })
                     <dl class="dl-horizontal">
 
                         <dt>
@@ -32,7 +35,7 @@
                         </dd>
 
                         <dt>
-                            @Html.DisplayNameFor(model => Model.UserMember.IdentificationNumber)
+                            Member No.
                         </dt>
 
                         <dd>
@@ -48,7 +51,7 @@
                         </dd>
 
                         <dt>
-                            @Html.DisplayNameFor(model => Model.UserMember.FirstName)
+                            First name
                         </dt>
 
                         <dd>
@@ -57,7 +60,7 @@
                         @if (Model.UserMember.LastName != null)
                         {
                             <dt>
-                                @Html.DisplayNameFor(model => Model.UserMember.LastName)
+                                Last Name
                             </dt>
 
                             <dd>
@@ -80,14 +83,22 @@
                         </dt>
 
                         <dd>
-                            @if (Model.UserMember.EmailOptOut.Value == false)
+                            @if (Model.UserMember.EmailOptOut != null)
                             {
-                                @: <i class="fa fa-times"></i>
-                    }
+                                if (Model.UserMember.EmailOptOut.Value == false)
+                                {
+                                    @: <i class="fa fa-times"></i>
+                                }
+                                else
+                                {
+                                    @: <i class="fa fa-check"></i>
+                                }
+                            }
                             else
                             {
-                                @: <i class="fa fa-check"></i>
-                    }
+
+                                @: <i class="fa fa-times"></i>
+                            }
                         </dd>
                         @if (Model.UserMember.AspNetUser.Birthday != null)
                         {
@@ -128,10 +139,19 @@
                         </dd>
 
                     </dl>
+
                 </div>
                 <div class="large-6 columns">
+
                     <h2>Membership Status</h2>
-                    <p>Your current membership expires in @Html.DisplayFor(modelItem => Model.DaysTillMembershipExpiry) days.</p>
+                    @if (Model.UserMember.hasActiveMembership())
+                    {
+                        @Model.UserMember.getActiveMembership().getMembershipStatusText();
+                    }
+                    else
+                    {
+                        @Model.UserMember.getLatestMembership().getMembershipStatusText();
+                    }
                     <h2>Current Membership</h2>
                     <table class="table">
                         <tr>
@@ -142,16 +162,16 @@
                         </tr>
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => Model.UserActiveMembership.Package.Name)
+                                @Html.DisplayFor(modelItem => Model.UserMember.getLatestMembership().Package.Name)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => Model.UserActiveMembership.MembershipState.Name)
+                                @Html.DisplayFor(modelItem => Model.UserMember.getLatestMembership().MembershipState.Name)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => Model.UserActiveMembership.StartDate)
+                                @Html.DisplayFor(modelItem => Model.UserMember.getLatestMembership().StartDate)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => Model.UserActiveMembership.EndDate)
+                                @Html.DisplayFor(modelItem => Model.UserMember.getLatestMembership().EndDate)
                             </td>
                         </tr>
                     </table>
@@ -163,22 +183,29 @@
                             <th>Start Date</th>
                             <th>End Date</th>
                         </tr>
-                        @foreach (var item in Model.UserPastMemberships)
+                        @if (Model.UserPastMemberships.Count() > 0)
                         {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Package.Name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.MembershipState.Name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.StartDate)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.EndDate)
-                                </td>
-                            </tr>
+                            foreach (var item in Model.UserPastMemberships)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Package.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MembershipState.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.StartDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.EndDate)
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr><td colspan="4"><div class="alert-box">You have no past memberships</div></td></tr>
                         }
                     </table>
                 </div>
@@ -186,3 +213,6 @@
         </div>
     </div>
 </section>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

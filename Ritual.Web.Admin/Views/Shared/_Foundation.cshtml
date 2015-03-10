@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<!--[if IE 8]> 				 <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8" />
+
+    @*Set the viewport width to device width for mobile *@
+    <meta name="viewport" content="width=device-width" />
+
+    <title>@ViewBag.Title - Ritual Gym</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    @Styles.Render("~/Content/foundation/css")
+    @Styles.Render("~/Content/fullcalendar/css")
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700,300,400italic,300italic,700italic" rel="stylesheet" type="text/css" />
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+    @RenderSection("head", required: false)
+    @Styles.Render("~/Content/themes/base/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body class="skin-green">
+    <div id="HeaderPanel">
+
+
+        <!-- header logo: style can be found in header.less -->
+        <header class="header">
+            <a href="index.html" class="logo">
+                <!-- Add the class icon to your logo image or logo icon to add the margining -->
+                <img class='icon' src='/Content/images/logo.png' />
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <div class="right">
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </nav>
+        </header>
+    </div>
+    <div class="wrapper row-offcanvas row-offcanvas-left">
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="left-side sidebar-offcanvas">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- sidebar menu: : style can be found in sidebar.less -->
+                <ul class="sidebar-menu">
+                    
+                    @if (ViewContext.HttpContext.User.Identity.IsAuthenticated)
+                    {
+                        if (!Ritual.Web.Admin.Controllers.ControllerHelper.doesUserHaveRolePermissions("Member"))
+                        {
+                            <li class="treeview">
+                                @Html.ActionLink("Front Of House", "Index", "FrontOfHouse")
+                                <ul class="treeview-menu">
+                                    <li>@Html.ActionLink("Check-in", "checkin", "FrontOfHouse")</li>
+                                </ul>
+                            </li>
+                        }
+                        if (!Ritual.Web.Admin.Controllers.ControllerHelper.doesUserHaveRolePermissions("Member"))
+                        {
+                                    <li>@Html.ActionLink("Dashboard", "Index", "Administration")</li>
+                                    <li>@Html.ActionLink("News", "Index", "News")</li>
+                                    <li>@Html.ActionLink("Locations", "Index", "Locations")</li>
+                                    <li>@Html.ActionLink("Members", "Index", "Members")</li>
+                                    <li>@Html.ActionLink("Quarterly Assessments", "Index", "QuarterlyAssessments")</li>
+                                    <li>@Html.ActionLink("Initial Assessments", "Index", "InitialAssessments")</li>
+                                    <li>@Html.ActionLink("Memberships", "Index", "Memberships")</li>
+                                    <li>@Html.ActionLink("Packages", "Index", "Packages")</li>
+                        }
+                    }
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+        <!-- Right side column. Contains the navbar and content of the page -->
+        <aside class="right-side">
+
+            @RenderBody()
+
+        </aside><!-- /.right-side -->
+    </div><!-- ./wrapper -->
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jquery-ui")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/chartjs")
+    @Scripts.Render("~/bundles/ritual")
+    @Scripts.Render("~/bundles/fullcalendar")
+
+    @Scripts.Render("~/bundles/foundation")
+    <script>
+        $(document).foundation();
+    </script>
+    @*Use the Scripts section to define page specific scripts*@
+    @RenderSection("scripts", required: false)
+</body>
+</html>

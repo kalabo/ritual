@@ -30,6 +30,24 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PublishDatabaseSettings>
+      <Objects>
+        <ObjectGroup Name="RitualDBEntities-Deployment" Order="1" xmlns="">
+          <Destination Path="Data Source=r1j24hpkc1.database.windows.net%3bInitial Catalog=ritual%3bPersist Security Info=True%3bUser ID=ritual_sql_admin%3bPassword=Pass%40word1!" />
+          <Object Type="DbFullSql" Enabled="True">
+            <PreSource Path="Data Source=ics-fwrk-003\sqlexpress%3bInitial Catalog=RitualDB%3bIntegrated Security=True%3bApplication Name=EntityFramework" ScriptSchema="True" ScriptData="True" CopyAllFullTextCatalogs="False" DriDefaults="True" />
+            <Source Path="obj\Debug\AutoScripts\RitualDBEntities-Deployment_SchemaAndData.sql" Transacted="True" />
+          </Object>
+        </ObjectGroup>
+        <ObjectGroup Name="DefaultConnection-Deployment" Order="2" xmlns="">
+          <Destination Path="" />
+          <Object Type="DbFullSql">
+            <PreSource Path="Data Source=ics-fwrk-003\sqlexpress%3bInitial Catalog=RitualDB%3bIntegrated Security=True%3bPersist Security Info=False" ScriptSchema="True" ScriptData="False" CopyAllFullTextCatalogs="False" DriDefaults="True" />
+            <Source Path="obj\Debug\AutoScripts\DefaultConnection-Deployment_SchemaOnly.sql" Transacted="True" />
+          </Object>
+        </ObjectGroup>
+      </Objects>
+    </PublishDatabaseSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -40,6 +58,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DDay.iCal">
+      <HintPath>..\packages\DDay.iCal.1.0.2.575\lib\DDay.iCal.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MvcCheckBoxList">
       <HintPath>..\packages\MvcCheckBoxList.1.4.4.5\lib\net45\MvcCheckBoxList.dll</HintPath>
@@ -49,6 +70,14 @@
     </Reference>
     <Reference Include="PagedList.Mvc">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="SendGrid.SmtpApi">
+      <HintPath>..\packages\SendGrid.SmtpApi.1.2.1\lib\net40\SendGrid.SmtpApi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SendGridMail">
+      <HintPath>..\packages\Sendgrid.5.1.0\lib\SendGridMail.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -180,17 +209,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ControllerHelper.cs" />
-    <Compile Include="Controllers\FrontOfHouseController.cs" />
-    <Compile Include="Controllers\InitialAssessmentsController.cs" />
-    <Compile Include="Controllers\LocationsController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\MembersController.cs" />
-    <Compile Include="Controllers\MembershipsController.cs" />
-    <Compile Include="Controllers\NewsController.cs" />
-    <Compile Include="Controllers\OpeningHourOverridesController.cs" />
-    <Compile Include="Controllers\OpeningHoursController.cs" />
-    <Compile Include="Controllers\PackagesController.cs" />
-    <Compile Include="Controllers\QuarterlyAssessmentsController.cs" />
     <Compile Include="Controllers\TrainingZoneController.cs" />
     <Compile Include="Controls\HtmlHelperExtensions.cs" />
     <Compile Include="Controls\IDictionaryExtensions.cs" />
@@ -226,7 +246,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HtmlHelpers\HtmlExtensions.cs" />
-    <Compile Include="ModelBinders\DbGeographyModelBinder.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -241,12 +260,19 @@
     <Content Include="Content\foundation\foundation.css" />
     <Content Include="Content\foundation\foundation.mvc.css" />
     <Content Include="Content\foundation\normalize.css" />
+    <Content Include="Content\fullcalendar.min.css" />
+    <Content Include="Content\fullcalendar.print.css" />
+    <Content Include="Content\images\Croppic\cropperIcons.png" />
+    <Content Include="Content\images\Croppic\placeholder.png" />
     <Content Include="Content\images\default-user.png" />
     <Content Include="Content\images\logo.png" />
     <Content Include="Content\images\mainbg.jpg" />
     <Content Include="Content\images\ritual_pushpin.png" />
+    <Content Include="Content\images\shrek.jpg" />
     <Content Include="Content\jquery-ui-timepicker-addon.css" />
+    <Content Include="Content\jquery.Jcrop.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\ritual.avatar.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -287,23 +313,31 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\ritual\ritual.templates.utilities.js" />
     <Content Include="Scripts\ritual\ritual.templates.js" />
+    <Content Include="Scripts\ritual\ritual.avatar.js" />
     <Content Include="Scripts\vendor\bootstrap.js" />
     <Content Include="Scripts\vendor\bootstrap.min.js" />
     <Content Include="fonts\Gender.eot" />
     <Content Include="fonts\Gender.ttf" />
     <Content Include="fonts\Gender.woff" />
+    <None Include="Properties\PublishProfiles\ritual-members.pubxml" />
     <None Include="Scripts\vendor\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\vendor\Chart.js" />
     <Content Include="Scripts\vendor\Chart.min.js" />
+    <Content Include="Content\croppic.css" />
+    <Content Include="Scripts\vendor\croppic.min.js" />
     <Content Include="Scripts\vendor\EFSpatialGoogleMaps.js" />
     <Content Include="Scripts\foundation\foundation.min.js" />
+    <Content Include="Scripts\vendor\fullcalendar.min.js" />
     <Content Include="Scripts\vendor\jquery-1.10.2.js" />
     <Content Include="Scripts\vendor\jquery-1.10.2.min.js" />
     <None Include="Scripts\vendor\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\vendor\jquery-ui-1.11.2.js" />
     <Content Include="Scripts\vendor\jquery-ui-1.11.2.min.js" />
     <Content Include="Scripts\vendor\jquery-ui-timepicker-addon.js" />
+    <Content Include="Scripts\vendor\jquery.form.js" />
+    <Content Include="Scripts\vendor\jquery.Jcrop.js" />
     <Content Include="Scripts\vendor\jquery.js" />
+    <Content Include="Scripts\vendor\jquery.newsTicker.min.js" />
     <Content Include="Scripts\vendor\jquery.validate.js" />
     <Content Include="Scripts\vendor\jquery.validate.min.js" />
     <Content Include="Scripts\vendor\jquery.validate.unobtrusive.js" />
@@ -516,21 +550,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Locations\Create.cshtml" />
-    <Content Include="Views\Locations\Delete.cshtml" />
-    <Content Include="Views\Locations\Details.cshtml" />
-    <Content Include="Views\Locations\Edit.cshtml" />
-    <Content Include="Views\Locations\Index.cshtml" />
-    <Content Include="Views\QuarterlyAssessments\Create.cshtml" />
-    <Content Include="Views\QuarterlyAssessments\Delete.cshtml" />
-    <Content Include="Views\QuarterlyAssessments\Details.cshtml" />
-    <Content Include="Views\QuarterlyAssessments\Edit.cshtml" />
-    <Content Include="Views\QuarterlyAssessments\Index.cshtml" />
-    <Content Include="Views\Members\Create.cshtml" />
-    <Content Include="Views\Members\Delete.cshtml" />
-    <Content Include="Views\Members\Details.cshtml" />
-    <Content Include="Views\Members\Edit.cshtml" />
-    <Content Include="Views\Members\Index.cshtml" />
     <Content Include="Views\TrainingZone\Dashboard.cshtml" />
     <Content Include="Views\TrainingZone\Booking.cshtml" />
     <Content Include="Views\TrainingZone\ConfirmBooking.cshtml" />
@@ -538,31 +557,7 @@
     <Content Include="Views\TrainingZone\MyRitual.cshtml" />
     <Content Include="Views\Shared\_Foundation.cshtml" />
     <Content Include="Views\TrainingZone\MyAssessments.cshtml" />
-    <Content Include="Views\Memberships\Create.cshtml" />
-    <Content Include="Views\Memberships\Delete.cshtml" />
-    <Content Include="Views\Memberships\Details.cshtml" />
-    <Content Include="Views\Memberships\Edit.cshtml" />
-    <Content Include="Views\Memberships\Index.cshtml" />
-    <Content Include="Views\Packages\Create.cshtml" />
-    <Content Include="Views\Packages\Delete.cshtml" />
-    <Content Include="Views\Packages\Details.cshtml" />
-    <Content Include="Views\Packages\Edit.cshtml" />
-    <Content Include="Views\Packages\Index.cshtml" />
     <Content Include="Views\TrainingZone\CancelBooking.cshtml" />
-    <Content Include="Views\FrontOfHouse\Index.cshtml" />
-    <Content Include="Views\FrontOfHouse\checkin.cshtml" />
-    <Content Include="Views\FrontOfHouse\fuelbar.cshtml" />
-    <Content Include="Views\FrontOfHouse\feedback.cshtml" />
-    <Content Include="Views\Memberships\Suspend.cshtml" />
-    <Content Include="Views\Locations\CreateOpeningHour.cshtml" />
-    <Content Include="Views\Locations\DeleteOpeningHour.cshtml" />
-    <Content Include="Views\Locations\DetailsOpeningHour.cshtml" />
-    <Content Include="Views\Locations\EditOpeningHour.cshtml" />
-    <Content Include="Views\News\Create.cshtml" />
-    <Content Include="Views\News\Delete.cshtml" />
-    <Content Include="Views\News\Details.cshtml" />
-    <Content Include="Views\News\Edit.cshtml" />
-    <Content Include="Views\News\Index.cshtml" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.woff" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.ttf" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.json" />
@@ -573,14 +568,18 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.eot" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\readme.md" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
-    <Content Include="Views\InitialAssessments\Create.cshtml" />
-    <Content Include="Views\InitialAssessments\Delete.cshtml" />
-    <Content Include="Views\InitialAssessments\Details.cshtml" />
-    <Content Include="Views\InitialAssessments\Edit.cshtml" />
-    <Content Include="Views\InitialAssessments\Index.cshtml" />
+    <Content Include="Views\Error\notfound.cshtml" />
+    <Content Include="Views\TrainingZone\EditProfile.cshtml" />
+    <Content Include="Views\Shared\Info.cshtml" />
+    <Content Include="Views\TrainingZone\UploadPhoto.cshtml" />
+    <Content Include="Views\TrainingZone\_UploadPhoto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Avatars\" />
+    <Folder Include="Content\Temp\" />
+    <Folder Include="ModelBinders\" />
+    <Folder Include="Views\Picture\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
     <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>

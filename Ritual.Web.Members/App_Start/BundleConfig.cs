@@ -14,6 +14,8 @@ namespace Ritual.Web.Members
             bundles.Add(new ScriptBundle("~/bundles/ritual").Include(
                 "~/Scripts/vendor/handlebars-v2.0.0.js",
                 "~/Scripts/vendor/moment.js",
+                "~/Scripts/vendor/jquery.newsTicker.min.js",
+                "~/Scripts/vendor/croppic.min.js",
                 "~/Scripts/vendor/date.format.js",
                 "~/Scripts/vendor/handlebars-v2.0.0.js",        
                 "~/Scripts/ritual/ritual.templates.js",
@@ -73,6 +75,30 @@ namespace Ritual.Web.Members
 
             bundles.Add(new ScriptBundle("~/bundles/foundation").Include(
                       "~/Scripts/foundation/foundation.min.js"));
+
+
+            bundles.Add(new ScriptBundle("~/bundles/avatar").Include(
+                      "~/Scripts/ritual/ritual.avatar.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jcrop").Include(
+                      "~/Scripts/vendor/jquery.Jcrop.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jqueryform").Include(
+                      "~/Scripts/vendor/jquery.form.js"));
+
+            bundles.Add(new StyleBundle("~/Content/fullcalendar").Include(
+                      "~/Content/fullcalendar.min.css",
+                      "~/Content/fullcalendar.print.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/fullcalendar").Include(
+                      "~/Scripts/vendor/fullcalendar.min.js"));
+
+
+            bundles.Add(new StyleBundle("~/Content/jcrop").Include(
+                      "~/Content/jquery.Jcrop.css"));
+
+            bundles.Add(new StyleBundle("~/Content/avatar").Include(
+                      "~/Content/ritual.avatar.css"));
         }
     }
 }

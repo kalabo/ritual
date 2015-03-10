@@ -16,13 +16,15 @@ namespace Ritual.Data
     {
         public Location()
         {
-            this.SessionBookings = new HashSet<SessionBooking>();
-            this.OpeningHours = new HashSet<OpeningHour>();
-            this.PackageLocationPrices = new HashSet<PackageLocationPrice>();
-            this.OpeningHourOverrides = new HashSet<OpeningHourOverride>();
-            this.Members = new HashSet<Member>();
             this.Employees = new HashSet<Employee>();
+            this.SessionBookings = new HashSet<SessionBooking>();
+            this.Members = new HashSet<Member>();
             this.News = new HashSet<News>();
+            this.OffPeakHours = new HashSet<OffPeakHour>();
+            this.OpeningHours = new HashSet<OpeningHour>();
+            this.OpeningHourOverrides = new HashSet<OpeningHourOverride>();
+            this.PackageLocationPrices = new HashSet<PackageLocationPrice>();
+            this.TrialTimeBlocks = new HashSet<TrialTimeBlock>();
         }
     
         public int Id { get; set; }
@@ -37,12 +39,14 @@ namespace Ritual.Data
         public decimal Longitude { get; set; }
         public decimal Latitude { get; set; }
     
-        public virtual ICollection<SessionBooking> SessionBookings { get; set; }
-        public virtual ICollection<OpeningHour> OpeningHours { get; set; }
-        public virtual ICollection<PackageLocationPrice> PackageLocationPrices { get; set; }
-        public virtual ICollection<OpeningHourOverride> OpeningHourOverrides { get; set; }
-        public virtual ICollection<Member> Members { get; set; }
         public virtual ICollection<Employee> Employees { get; set; }
+        public virtual ICollection<SessionBooking> SessionBookings { get; set; }
+        public virtual ICollection<Member> Members { get; set; }
         public virtual ICollection<News> News { get; set; }
+        public virtual ICollection<OffPeakHour> OffPeakHours { get; set; }
+        public virtual ICollection<OpeningHour> OpeningHours { get; set; }
+        public virtual ICollection<OpeningHourOverride> OpeningHourOverrides { get; set; }
+        public virtual ICollection<PackageLocationPrice> PackageLocationPrices { get; set; }
+        public virtual ICollection<TrialTimeBlock> TrialTimeBlocks { get; set; }
     }
 }

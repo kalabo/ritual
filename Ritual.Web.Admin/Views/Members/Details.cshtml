@@ -1,0 +1,387 @@
+﻿@model Ritual.Data.MemberDetailData
+
+@{
+    ViewBag.Title = "Member Profile Information";
+}
+
+<section class="content-header">
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>@ViewBag.Title</h1>
+        </div>
+    </div>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="large-12 columns">
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Member.Id }, new { @class = "button" })
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "button" })
+            </p>
+            <h1>Member Details for - @Html.DisplayFor(model => model.Member.AspNetUser.Salutation) @Html.DisplayFor(model => model.Member.AspNetUser.FirstName) @Html.DisplayFor(model => model.Member.AspNetUser.LastName)</h1>
+
+            <ul class="accordion" data-accordion>
+                <li class="accordion-navigation">
+                    <a href="#panel1a"><i class='fa fa-user'></i> Member Details</a>
+                    <div id="panel1a" class="content active">
+                        <div class="row">
+                            <div class="large-6 medium-6 columns">
+                                <fieldset>
+                                    <legend>Personal Details: </legend>
+                                    <div class="row">
+                                        <div class="large-4 medium-12 columns">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Member.AspNetUser.Salutation, new { @class = "control-label" })
+                                                @Html.DisplayFor(model => model.Member.AspNetUser.Salutation)
+                                            </div>
+                                        </div>
+                                        <div class="large-4 medium-12 columns">
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Member.AspNetUser.FirstName, new { @class = "control-label" })
+                                                @Html.DisplayFor(model => model.Member.AspNetUser.FirstName)
+                                            </div>
+                                        </div>
+                                        <div class="large-4 medium-12 columns">
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Member.AspNetUser.LastName, new { @class = "control-label" })
+                                                @Html.DisplayFor(model => model.Member.AspNetUser.LastName)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="large-4 medium-12 columns">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Member.AspNetUser.Birthday, new { @class = "control-label" })
+                                                @Html.DisplayFor(model => model.Member.AspNetUser.Birthday)
+                                            </div>
+                                        </div>
+                                        <div class="large-4 medium-12 columns">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Member.EmailOptOut, new { @class = "control-label" })
+                                                @if (Model.Member.EmailOptOut != null)
+                                                {
+                                                    if (Model.Member.EmailOptOut.Value == false)
+                                                    {
+                                                        @: <i class="fa fa-times"></i>
+                                }
+                                                    else
+                                                    {
+                                                        @: <i class="fa fa-check"></i>
+                                }
+                                                }
+                                                else
+                                                {
+
+                                                    @: <i class="fa fa-times"></i>
+                            }
+                                            </div>
+                                        </div>
+                                        <div class="large-4 medium-12 columns">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Member.AspNetUser.Email, new { @class = "control-label" })
+                                                @Html.DisplayFor(model => model.Member.AspNetUser.Email)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="large-4 medium-12 columns">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Member.AspNetUser.HomePhone, new { @class = "control-label" })
+                                                @Html.DisplayFor(model => model.Member.AspNetUser.HomePhone)
+                                            </div>
+                                        </div>
+                                        <div class="large-4 medium-12 columns">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Member.AspNetUser.MobilePhone, new { @class = "control-label" })
+                                                @Html.DisplayFor(model => model.Member.AspNetUser.MobilePhone)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <legend>Emergency Information:</legend>
+                                    <div class="row">
+                                        <div class="large-6 medium-12 columns">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Member.EmergencyContactName, new { @class = "col-md-2 control-label" })
+                                                @Html.DisplayFor(model => model.Member.EmergencyContactName)
+                                            </div>
+                                        </div>
+                                        <div class="large-6 medium-12 columns">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Member.EmergencyContactNumber, new { @class = "col-md-2 control-label" })
+                                                @Html.DisplayFor(model => model.Member.EmergencyContactNumber)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset>
+                                    <legend>Idenfitication Numbers:</legend>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Member.IDType, new { @class = "col-md-2 control-label" })
+                                        @Html.DisplayFor(model => model.Member.IDType)
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Member.IDNumber, new { @class = "col-md-2 control-label" })
+                                        @Html.DisplayFor(model => model.Member.IDNumber)
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="large-6 medium-6 columns">
+                                <fieldset>
+                                    <legend>Address: </legend>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Member.AddressLine1, new { @class = "control-label" })
+                                        @Html.DisplayFor(model => model.Member.AddressLine1)
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Member.AddressLine2, new { @class = "control-label" })
+                                        @Html.DisplayFor(model => model.Member.AddressLine2)
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Member.City, new { @class = "control-label" })
+                                        @Html.DisplayFor(model => model.Member.City)
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Member.Country, new { @class = "control-label" })
+                                        @Html.DisplayFor(model => model.Member.AddressLine1)
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Member.PostZipCode, new { @class = "control-label" })
+                                        @Html.DisplayFor(model => model.Member.PostZipCode)
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <legend>Clothing Settings:</legend>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Member.ShirtSize, new { @class = "col-md-2 control-label" })
+                                        @Html.DisplayFor(model => model.Member.ShirtSize)
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Member.ShortSize, new { @class = "col-md-2 control-label" })
+                                        @Html.DisplayFor(model => model.Member.ShortSize)
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </li>
+                <li class="accordion-navigation">
+                    <a href="#panel1b"><i class="fa fa-info-circle"></i> Membership Status</a>
+                    <div id="panel1b" class="content">
+                        <h2>Active Membership</h2>
+                        <table class="table">
+                            <tr>
+                                <th>Package</th>
+                                <th>State</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Action</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(model => model.ActiveMembership.Package.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.ActiveMembership.MembershipState.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.ActiveMembership.StartDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.ActiveMembership.EndDate)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Select", "Index", "Memberships", new { id = Model.ActiveMembership.Id }, new { @class = "button" })
+                                    @Html.ActionLink("Edit", "Edit", "Memberships", new { id = Model.ActiveMembership.Id }, new { @class = "button" })
+                                    @Html.ActionLink("Details", "Details", "Memberships", new { id = Model.ActiveMembership.Id }, new { @class = "button" })
+                                    @if (Model.ActiveMembership.MembershipState.Name == "Active")
+                                    {
+                                    @Html.ActionLink("Suspend", "Suspend", "Memberships", new { id = Model.ActiveMembership.Id }, new { @class = "button" })
+                                    }
+                                    else if (Model.ActiveMembership.MembershipState.Name == "Suspend")
+                                    {
+                                    @Html.ActionLink("Re-activate", "Reactivate", "Memberships", new { id = Model.ActiveMembership.Id }, new { @class = "button" })
+                                    }
+                                    @Html.ActionLink("Delete", "Delete", "Memberships", new { id = Model.ActiveMembership.Id }, new { @class = "button" })
+                                </td>
+                            </tr>
+                        </table>
+                        <h2>Past Memberships</h2>
+                        <table class="table">
+                            <tr>
+                                <th>Package</th>
+                                <th>State</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Action</th>
+                            </tr>
+                            @foreach (var item in Model.PastMemberships)
+                            {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Package.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MembershipState.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StartDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EndDate)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Select", "Index", "Memberships", new { id = item.Id }, new { @class = "button" })
+                                    @Html.ActionLink("Edit", "Edit", "Memberships", new { id = item.Id }, new { @class = "button" })
+                                    @Html.ActionLink("Details", "Details", "Memberships", new { id = item.Id }, new { @class = "button" })
+                                    @if (item.MembershipState.Name == "Active")
+                                        {
+                                        @Html.ActionLink("Suspend", "Suspend", "Memberships", new { id = item.Id }, new { @class = "button" })
+                                        }
+                                        else if (item.MembershipState.Name == "Suspend")
+                                        {
+                                        @Html.ActionLink("Re-activate", "Reactivate", "Memberships", new { id = item.Id }, new { @class = "button" })
+                                        }
+                                    @Html.ActionLink("Delete", "Delete", "Memberships", new { id = item.Id }, new { @class = "button" })
+                                </td>
+                            </tr>
+                            }
+                        </table>
+                    </div>
+                </li>
+                <li class="accordion-navigation">
+                    <a href="#panel1c"><i class='fa fa-book'></i> Member Bookings</a>
+                    <div id="panel1c" class="content">
+                        <h2>Upcoming Bookings</h2>
+                        <table class="table">
+                            <tr>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Location</th>
+                            </tr>
+                            @foreach (var item in Model.UpcomingBookings)
+                            {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BookingState)
+                                </td>
+                                <td>
+                                    @item.Date.ToString("dd MMM yyyy")
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StartTime)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Location)
+                                </td>
+                            </tr>
+                            }
+                        </table>
+                        <h2>Past Bookings</h2>
+                        <table class="table">
+                            <tr>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Location</th>
+                            </tr>
+                            @foreach (var item in Model.PastBookings)
+                            {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BookingState)
+                                </td>
+                                <td>
+                                    @item.Date.ToString("dd MMM yyyy")
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StartTime)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Location)
+                                </td>
+                            </tr>
+                            }
+                        </table>
+                    </div>
+                </li>
+                <li class="accordion-navigation">
+                    <a href="#panel1d"><i class='fa fa-list'></i> Member Assessments</a>
+                    <div id="panel1d" class="content">
+                        <h2>Quarterly Assessments</h2>
+                        <table class="table">
+                            <tr>
+                            <tr>
+                                <th>
+                                    Quarter
+                                </th>
+                                <th>
+                                    Year
+                                </th>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    RPE Score
+                                </th>
+                                <th>
+                                    Employee
+                                </th>
+                                <th>Action</th>
+                            </tr>
+                            </tr>
+                            @foreach (var item in Model.QuarterlyAssessments)
+                            {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.QAQuarter)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.QAYear)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.QADateTime)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.QAClientRPE)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Employee.FullName)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Select", "Index", "Memberships", new { id = item.Id }, new { @class = "button" })
+                                    @Html.ActionLink("Edit", "Edit", "Memberships", new { id = item.Id }, new { @class = "button" })
+                                    @Html.ActionLink("Details", "Details", "Memberships", new { id = item.Id }, new { @class = "button" })
+                                    @Html.ActionLink("Delete", "Delete", "Memberships", new { id = item.Id }, new { @class = "button" })
+                                </td>
+                            </tr>
+                            }
+                        </table>
+                    </div>
+                </li>
+            </ul>
+
+
+
+
+        </div>
+    </div>
+</section>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).foundation();
+    </script>
+}

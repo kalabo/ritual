@@ -15,8 +15,10 @@ namespace Ritual.Data
     public partial class InitialAssessment
     {
         public int Id { get; set; }
-        public System.DateTime AssessmentDateTime { get; set; }
+        public System.DateTime AssessmentDate { get; set; }
+        public int TimeSlotId { get; set; }
         public int MemberId { get; set; }
+        public int LocationId { get; set; }
         public int EmployeeId { get; set; }
         public string ClientCheckDetails { get; set; }
         public string ClientHearAboutRitual { get; set; }
@@ -37,9 +39,9 @@ namespace Ritual.Data
         public string MovementLocamotion2 { get; set; }
         public string MovementDetails { get; set; }
         public string Recommendation { get; set; }
-        public bool WorkoutExplained { get; set; }
-        public bool WarmupExplained { get; set; }
-        public bool ClientEmployeeReminder { get; set; }
+        public Nullable<bool> WorkoutExplained { get; set; }
+        public Nullable<bool> WarmupExplained { get; set; }
+        public Nullable<bool> ClientEmployeeReminder { get; set; }
         public string AdditionalClientProgress { get; set; }
         public string AdditionalClientTips { get; set; }
     

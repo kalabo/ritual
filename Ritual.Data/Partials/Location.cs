@@ -28,13 +28,15 @@ namespace Ritual.Data
         public decimal latitude { get; set; }
         public decimal longitude { get; set; }
         public string name { get; set; }
+        public int id { get; set; }
         public string address { get; set; }
 
-        public RitualLocations(decimal latitude, decimal longitude, string name, string address)
+        public RitualLocations(decimal latitude, decimal longitude, string name, int id, string address)
         {
             this.latitude = latitude;
             this.longitude = longitude;
             this.name = name;
+            this.id = id;
             this.address = address;
         }
     }
@@ -79,6 +81,30 @@ namespace Ritual.Data
             return db.OpeningHours.Where(oh => oh.LocationId == this.Id).Select(oh => oh.DateOfWeek).ToList();
         }
 
+        public List<NewsListingJSONModel> getNews(int rowcount)
+        {
+            List<NewsListingJSONModel> viewnews = new List<NewsListingJSONModel>();
+
+            List<News> news = db.News.Where(n => n.LocationId == this.Id).OrderByDescending(n => n.CreatedDate).Take(rowcount).ToList();
+            foreach(News n in news)
+            {
+                viewnews.Add(new NewsListingJSONModel
+                {
+                    Title = n.Title,
+                    Body = n.Body,
+                    Location = n.Location.Name,
+                    NewsCategory = n.NewsCategory.Title,
+                    CreatedBy = n.CreatedBy,
+                    CreatedDate = n.CreatedDate,
+                    ModifiedBy = n.ModifiedBy,
+                    ModifiedDate = n.ModifiedDate,
+                    Id = n.Id
+                });
+            }
+
+            return viewnews;
+        }
+        
         public List<Member> getMembersByMembershipState(string membershipstate)
         {
             return db.Members.Where(m => m.HomeLocationId == this.Id && m.getActiveMembership().MembershipState.Name == membershipstate).ToList();

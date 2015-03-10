@@ -17,6 +17,31 @@ Templates.error = [
 	"<ul><li><div class='alert-box alert'><i class='fa fa-warning'></i>&nbsp;&nbsp;An error occured while performing the search.</div></li></ul>"
 ].join("\n");
 
+/* ================================================== ANNOUNCEMENTS ================================================== */
+Templates.announcements = [
+    "{{#each News}}",
+        "<li><a href='#' data-reveal-id='announcement-modal-{{@index}}'>Hello humans.....{{Title}}</a></li>",
+    "{{/each}}",
+].join("\n");
+
+Templates.announcementsmodals = [
+	"{{#each News}}",
+		"<div id='announcement-modal-{{@index}}' class='reveal-modal' data-reveal>",
+			"<a href='#' class='close-reveal-modal'><i class='fa fa-times'></i></a>",
+			"<h1>{{Title}}</h1>",
+			"<p>{{{Body}}}</p>",
+		"</div>",
+	"{{/each}}"
+].join("\n");
+
+
+
+Templates.announcements_noitems = [
+    "<li><a href='#'>No Announcements found</a></li>"
+].join("\n");
+
+
+
 Templates.bookingdropdown = [
     "<select id='booking-slot-dates'>",
     "{{#each dates}}",
@@ -25,23 +50,68 @@ Templates.bookingdropdown = [
     "</select>"
 ].join("\n");
 
+Templates.bookingrollupNoItems = [
+     "<table class='table'>",
+        "<tr>",
+            "<th>Date</th>",
+            "<th>Start Time</th>",
+            "<th>Location</th>",
+            "<th>State</th>",
+        "</tr>",
+        "<tr>",
+            "<td colspan='4'><div class='alert-box'><i class='fa fa-info'></i>&nbsp;&nbsp;No Bookings Found.</div></td>",
+        "</tr>",
+    "</table>",
+].join("\n");
+
+Templates.bookingrollup = [
+    "<table class='table'>",
+        "<tr>",
+            "<th>Date</th>",
+            "<th>Start Time</th>",
+            "<th>Location</th>",
+            "<th>State</th>",
+        "</tr>",
+        "{{#each Bookings}}",
+                "<tr>",
+                    "<td>",
+                        "{{DateFriendly}}",
+                    "</td>",
+                    "<td>",
+                        "{{StartTime}}",
+                    "</td>",
+                    "<td>",
+                        "{{Location}}",
+                    "</td>",
+                    "<td>",
+                        "{{BookingState}}",
+                    "</td>",
+                "</tr>",
+        "{{/each}}",
+    "</table>",
+].join("\n");
+
 Templates.bookingtimeslots = [
     "",
     "{{#each timeslots}}",
         "{{#if_eq Status 'Available'}}",
-            "<div class='booking-slot available'>",
+            "<div class='booking-slot available {{BookingStatus}}'>",
                 "<h1>{{DayOfWeek}}</h1>",
                 "<h2>{{StartTime}}</h2>",
                 "<br />",
                 "<span class='booking-slots-available'>{{AvailableSlots}}</span>",
                 "<br />",
+                "{{#if AllowBooking}}",
                 "<a href='/trainingzone/Confirmbooking?TimeslotId={{TimeSlotId}}&LocationId={{LocationId}}&BookingDate={{BookingDay}}'>",
                     "<div class='button session-booking'>Book</div>",
                 "</a>",
+                "{{else}}",
+                    "<div class='button session-booking'>Not Available</div>",
+                "{{/if}}",
             "</div>",
         "{{else}}",
             "{{#if_eq Status 'Booked'}}",
-                "<div class='booking-slot booked'>",
+                "<div class='booking-slot booked {{BookingStatus}}'>",
                     "<h1>{{DayOfWeek}}</h1>",
                     "<h2>{{StartTime}}</h2>",
                     "<br />",

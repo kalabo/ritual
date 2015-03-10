@@ -48,6 +48,16 @@ namespace Ritual.Data
         public short AvailableSlots { get; set; }
     }
 
+
+    public class TrialTimeBlockMetadata
+    {
+        [Display(Name = "Start Time")]
+        public string StartTime { get; set; }
+
+        [Display(Name = "End Time")]
+        public string EndTime { get; set; }
+    }
+
     public class OpeningHourMetadata
     {
         [Display(Name = "Open Time")]

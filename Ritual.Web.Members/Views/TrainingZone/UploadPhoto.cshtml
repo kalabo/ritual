@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Upload Profile Photo";
+}
+
+<section class="content-header">
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>@ViewBag.Title</h1>
+        </div>
+    </div>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="small-12 medium-8 small-6 large-centered columns">
+           @{ Html.RenderPartial("_UploadPhoto"); }
+        </div>
+    </div>
+</section>
+@section Scripts {
+@Scripts.Render("~/bundles/jqueryval")
+
+@Scripts.Render("~/bundles/jqueryform")
+@Scripts.Render("~/bundles/jcrop")
+@Scripts.Render("~/bundles/avatar")
+@Styles.Render("~/Content/jcrop")
+@Styles.Render("~/Content/avatar")
+}
+

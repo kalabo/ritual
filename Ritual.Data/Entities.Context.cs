@@ -28,27 +28,34 @@ namespace Ritual.Data
         }
     
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
+        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<ClientIssuesFeedback> ClientIssuesFeedbacks { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<InitialAssessment> InitialAssessments { get; set; }
+        public virtual DbSet<Location> Locations { get; set; }
+        public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Membership> Memberships { get; set; }
         public virtual DbSet<MembershipState> MembershipStates { get; set; }
         public virtual DbSet<MembershipSuspension> MembershipSuspensions { get; set; }
+        public virtual DbSet<News> News { get; set; }
+        public virtual DbSet<NewsCategory> NewsCategories { get; set; }
+        public virtual DbSet<OffPeakHour> OffPeakHours { get; set; }
         public virtual DbSet<OpeningHour> OpeningHours { get; set; }
+        public virtual DbSet<OpeningHourOverride> OpeningHourOverrides { get; set; }
+        public virtual DbSet<Package> Packages { get; set; }
         public virtual DbSet<PackageLocationPrice> PackageLocationPrices { get; set; }
+        public virtual DbSet<PackageType> PackageTypes { get; set; }
+        public virtual DbSet<PaymentCategory> PaymentCategories { get; set; }
+        public virtual DbSet<PaymentSchedule> PaymentSchedules { get; set; }
         public virtual DbSet<QuarterlyAssessment> QuarterlyAssessments { get; set; }
+        public virtual DbSet<RitualLookup> RitualLookups { get; set; }
         public virtual DbSet<SessionBooking> SessionBookings { get; set; }
         public virtual DbSet<SessionBookingState> SessionBookingStates { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TimeSlot> TimeSlots { get; set; }
-        public virtual DbSet<Location> Locations { get; set; }
-        public virtual DbSet<OpeningHourOverride> OpeningHourOverrides { get; set; }
-        public virtual DbSet<Member> Members { get; set; }
-        public virtual DbSet<Employee> Employees { get; set; }
-        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
-        public virtual DbSet<NewsCategory> NewsCategories { get; set; }
-        public virtual DbSet<PackageType> PackageTypes { get; set; }
-        public virtual DbSet<Package> Packages { get; set; }
-        public virtual DbSet<News> News { get; set; }
-        public virtual DbSet<InitialAssessment> InitialAssessments { get; set; }
-        public virtual DbSet<ClientIssuesFeedback> ClientIssuesFeedbacks { get; set; }
-        public virtual DbSet<RitualLookup> RitualLookups { get; set; }
+        public virtual DbSet<TrialTimeBlock> TrialTimeBlocks { get; set; }
     
         public virtual ObjectResult<GetImminentSessionBookings_Result> GetImminentSessionBookings(Nullable<int> locationId, Nullable<System.DateTime> currentDateTime)
         {
@@ -78,6 +85,19 @@ namespace Ritual.Data
                 new ObjectParameter("MemberID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetUpcomingBookingSlots_Result>("GetUpcomingBookingSlots", locationIdParameter, currentDateTimeParameter, memberIDParameter);
+        }
+    
+        public virtual ObjectResult<GetUpcomingTrialSlots_Result> GetUpcomingTrialSlots(Nullable<int> locationId, Nullable<System.DateTime> currentDateTime)
+        {
+            var locationIdParameter = locationId.HasValue ?
+                new ObjectParameter("LocationId", locationId) :
+                new ObjectParameter("LocationId", typeof(int));
+    
+            var currentDateTimeParameter = currentDateTime.HasValue ?
+                new ObjectParameter("CurrentDateTime", currentDateTime) :
+                new ObjectParameter("CurrentDateTime", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetUpcomingTrialSlots_Result>("GetUpcomingTrialSlots", locationIdParameter, currentDateTimeParameter);
         }
     }
 }

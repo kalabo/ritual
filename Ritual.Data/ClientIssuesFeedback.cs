@@ -16,13 +16,13 @@ namespace Ritual.Data
     {
         public ClientIssuesFeedback()
         {
-            this.RitualLookupsComplaint = new HashSet<RitualLookup>();
-            this.RitualLookupsCompliments = new HashSet<RitualLookup>();
-            this.RitualLookupsIssueExercise = new HashSet<RitualLookup>();
-            this.RitualLookupsIssueInjury = new HashSet<RitualLookup>();
-            this.RitualLookupsIssueMobility = new HashSet<RitualLookup>();
-            this.RitualLookupsIssueMovementPattern = new HashSet<RitualLookup>();
-            this.RitualLookupsIssuePosture = new HashSet<RitualLookup>();
+            this.RitualLookups = new HashSet<RitualLookup>();
+            this.RitualLookups1 = new HashSet<RitualLookup>();
+            this.RitualLookups2 = new HashSet<RitualLookup>();
+            this.RitualLookups3 = new HashSet<RitualLookup>();
+            this.RitualLookups4 = new HashSet<RitualLookup>();
+            this.RitualLookups5 = new HashSet<RitualLookup>();
+            this.RitualLookups6 = new HashSet<RitualLookup>();
         }
     
         public int Id { get; set; }
@@ -44,12 +44,12 @@ namespace Ritual.Data
     
         public virtual Employee Employee { get; set; }
         public virtual Member Member { get; set; }
-        public virtual ICollection<RitualLookup> RitualLookupsComplaint { get; set; }
-        public virtual ICollection<RitualLookup> RitualLookupsCompliments { get; set; }
-        public virtual ICollection<RitualLookup> RitualLookupsIssueExercise { get; set; }
-        public virtual ICollection<RitualLookup> RitualLookupsIssueInjury { get; set; }
-        public virtual ICollection<RitualLookup> RitualLookupsIssueMobility { get; set; }
-        public virtual ICollection<RitualLookup> RitualLookupsIssueMovementPattern { get; set; }
-        public virtual ICollection<RitualLookup> RitualLookupsIssuePosture { get; set; }
+        public virtual ICollection<RitualLookup> RitualLookups { get; set; }
+        public virtual ICollection<RitualLookup> RitualLookups1 { get; set; }
+        public virtual ICollection<RitualLookup> RitualLookups2 { get; set; }
+        public virtual ICollection<RitualLookup> RitualLookups3 { get; set; }
+        public virtual ICollection<RitualLookup> RitualLookups4 { get; set; }
+        public virtual ICollection<RitualLookup> RitualLookups5 { get; set; }
+        public virtual ICollection<RitualLookup> RitualLookups6 { get; set; }
     }
 }

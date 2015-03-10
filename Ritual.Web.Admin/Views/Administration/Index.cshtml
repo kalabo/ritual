@@ -1,0 +1,135 @@
+﻿@model Ritual.Data.AdministrationDashboardData
+@{
+    ViewBag.Title = "Administration Dashboard";
+}
+<section class="content-header">
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>@ViewBag.Title</h1>
+        </div>
+    </div>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="large-12 columns">
+            <p>Welcome back @Model.RitualEmployee.AspNetUser.FirstName to your administration gateway.</p>
+            <div class="row">
+                <a href="@Url.Action("MyRitual", "TrainingZone")">
+                    <div class="card-container large-4 medium-6 small-12 columns">
+                        <div class="card">
+                            <div class="front bg-greensea">
+                                <!-- row -->
+                                <div class="row collapse">
+                                    <!-- col -->
+                                    <div class="small-3 columns">
+                                        <i class="fa fa-user fa-4x"></i>
+                                    </div>
+                                    <!-- /col --> <!-- col -->
+                                    <div class="small-9 columns">
+                                        <p class="text-elg text-strong mb-0">My Ritual</p>
+                                        <span>View / Manage your Profile and Memberships.</span>
+                                    </div> <!-- /col -->
+                                </div> <!-- /row -->
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <a href="@Url.Action("Booking", "TrainingZone")">
+                    <div class="card-container large-4 medium-6 small-12 columns">
+                        <div class="card">
+                            <div class="front bg-greensea">
+                                <!-- row -->
+                                <div class="row collapse">
+                                    <!-- col -->
+                                    <div class="small-3 columns">
+                                        <i class="fa fa-plus fa-4x"></i>
+                                    </div>
+                                    <!-- /col --> <!-- col -->
+                                    <div class="small-9 columns">
+                                        <p class="text-elg text-strong mb-0">New Booking</p>
+                                        <span>Book your next ritual experience.</span>
+                                    </div> <!-- /col -->
+                                </div> <!-- /row -->
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <a href="@Url.Action("MyAssessments", "TrainingZone")">
+                    <div class="card-container large-4 medium-6 small-12 columns">
+                        <div class="card">
+                            <div class="front bg-greensea">
+                                <!-- row -->
+                                <div class="row collapse">
+                                    <!-- col -->
+                                    <div class="small-3 columns">
+                                        <i class="fa fa-bar-chart-o fa-4x"></i>
+                                    </div>
+                                    <!-- /col --> <!-- col -->
+                                    <div class="small-9 columns">
+                                        <p class="text-elg text-strong mb-0">My Assessments</p>
+                                        <span>View the details of your quarterly assessments.</span>
+                                    </div> <!-- /col -->
+                                </div> <!-- /row -->
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div id='calendar'></div>
+</section>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#calendar').fullCalendar({
+                defaultDate: '2015-03-09',
+                defaultView: 'agendaDay',
+                editable: true,
+                events: [
+                    {
+                        title: 'All Day Event',
+                        start: '2015-03-09'
+                    },
+                    {
+                        title: 'Long Event',
+                        start: '2014-06-07',
+                        end: '2014-06-10'
+                    },
+                    {
+                        id: 999,
+                        title: 'Repeating Event',
+                        start: '2014-06-09T16:00:00'
+                    },
+                    {
+                        id: 999,
+                        title: 'Repeating Event',
+                        start: '2015-03-09T16:00:00'
+                    },
+                    {
+                        title: 'Meeting',
+                        start: '2015-03-09T10:30:00',
+                        end: '2015-03-09T12:30:00'
+                    },
+                    {
+                        title: 'Lunch',
+                        start: '2014-06-12T12:00:00'
+                    },
+                    {
+                        title: 'Birthday Party',
+                        start: '2014-06-13T07:00:00'
+                    },
+                    {
+                        title: 'Click for Google',
+                        url: 'http://google.com/',
+                        start: '2014-06-28'
+                    }
+                ]
+            });
+
+        });
+    </script>
+}

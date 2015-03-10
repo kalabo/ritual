@@ -16,25 +16,25 @@ namespace Ritual.Data
     {
         public RitualLookup()
         {
-            this.ClientIssuesFeedbacksComplaint = new HashSet<ClientIssuesFeedback>();
-            this.ClientIssuesFeedbacksCompliments = new HashSet<ClientIssuesFeedback>();
-            this.ClientIssuesFeedbackIssueExercise = new HashSet<ClientIssuesFeedback>();
-            this.ClientIssuesFeedbackIssueInjury = new HashSet<ClientIssuesFeedback>();
-            this.ClientIssuesFeedbackIssueMobility = new HashSet<ClientIssuesFeedback>();
-            this.ClientIssuesFeedbackIssueMovementPattern = new HashSet<ClientIssuesFeedback>();
-            this.ClientIssuesFeedbackIssuePosture = new HashSet<ClientIssuesFeedback>();
+            this.ClientIssuesFeedbacks = new HashSet<ClientIssuesFeedback>();
+            this.ClientIssuesFeedbacks1 = new HashSet<ClientIssuesFeedback>();
+            this.ClientIssuesFeedbacks2 = new HashSet<ClientIssuesFeedback>();
+            this.ClientIssuesFeedbacks3 = new HashSet<ClientIssuesFeedback>();
+            this.ClientIssuesFeedbacks4 = new HashSet<ClientIssuesFeedback>();
+            this.ClientIssuesFeedbacks5 = new HashSet<ClientIssuesFeedback>();
+            this.ClientIssuesFeedbacks6 = new HashSet<ClientIssuesFeedback>();
         }
     
         public int Id { get; set; }
         public string Title { get; set; }
         public string Category { get; set; }
     
-        public virtual ICollection<ClientIssuesFeedback> ClientIssuesFeedbacksComplaint { get; set; }
-        public virtual ICollection<ClientIssuesFeedback> ClientIssuesFeedbacksCompliments { get; set; }
-        public virtual ICollection<ClientIssuesFeedback> ClientIssuesFeedbackIssueExercise { get; set; }
-        public virtual ICollection<ClientIssuesFeedback> ClientIssuesFeedbackIssueInjury { get; set; }
-        public virtual ICollection<ClientIssuesFeedback> ClientIssuesFeedbackIssueMobility { get; set; }
-        public virtual ICollection<ClientIssuesFeedback> ClientIssuesFeedbackIssueMovementPattern { get; set; }
-        public virtual ICollection<ClientIssuesFeedback> ClientIssuesFeedbackIssuePosture { get; set; }
+        public virtual ICollection<ClientIssuesFeedback> ClientIssuesFeedbacks { get; set; }
+        public virtual ICollection<ClientIssuesFeedback> ClientIssuesFeedbacks1 { get; set; }
+        public virtual ICollection<ClientIssuesFeedback> ClientIssuesFeedbacks2 { get; set; }
+        public virtual ICollection<ClientIssuesFeedback> ClientIssuesFeedbacks3 { get; set; }
+        public virtual ICollection<ClientIssuesFeedback> ClientIssuesFeedbacks4 { get; set; }
+        public virtual ICollection<ClientIssuesFeedback> ClientIssuesFeedbacks5 { get; set; }
+        public virtual ICollection<ClientIssuesFeedback> ClientIssuesFeedbacks6 { get; set; }
     }
 }

@@ -39,14 +39,31 @@
                             {
                                 @Html.ValidationSummary("", new { @class = "alert-box alert" })
                             }
+
                             <div class="form-group">
-                                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                                <label class="col-md-2 control-label">Location</label>
+                                <select name="LocationId" id="LocationId"></select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">Username <span id="username-result"></span></label>
+                                @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })                               
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">Email <span id="email-result"></span></label>
                                 @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
                             </div>
 
                             <div class="form-group">
-                                @Html.LabelFor(m => m.Salutation, new { @class = "col-md-2 control-label" })
-                                @Html.TextBoxFor(m => m.Salutation, new { @class = "form-control" })
+                                <label class="col-md-2 control-label">Salutation</label>
+                                <select name="Salutation" id="Salutation">
+                                    <option>Mr</option>
+                                    <option>Mrs</option>
+                                    <option>Ms</option>
+                                    <option>Miss</option>
+                                    <option>Dr</option>
+                                </select>
                             </div>
 
                             <div class="form-group">
@@ -58,7 +75,21 @@
                                 @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
                                 @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
                             </div>
-
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Gender</label>
+                                <select name="Gender" id="Gender">
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Trial Date</label>
+                                <select id="TrialDate" name="TrialDate"></select>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Trial Slot</label>
+                                <select id="TrialTimes" name="TrialTimes"></select>
+                            </div>
                             <div class="form-group">
                                 @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
                                 @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
@@ -78,12 +109,46 @@
                             </div>
                         }
 
-                        @section Scripts {
-                            @Scripts.Render("~/bundles/jqueryval")
-                        }
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            RITUAL.Core.Registration.Locations("#LocationId");
+
+            $('#Username').on('blur',function () {
+                var url = "/Account/CheckUserName";
+                var name = $(this).val();
+                $.get(url, { input: name }, function (data) {
+                    if (data == "Available") {
+                        $("#username-result").html("<span style='color:green'>Available</span>");
+                        $(this).css('background-color', '');
+                    } else {
+                        $("#username-result").html("<span style='color:red'>Not Available</span>");
+                        $(this).css('background-color', '#e97878');
+                    }
+                });
+            });
+
+            $('#Email').on('blur', function () {
+                var url = "/Account/CheckEmail";
+                var name = $(this).val();
+                $.get(url, { input: name }, function (data) {
+                    if (data == "Available") {
+                        $("#email-result").html("<span style='color:green'>Available</span>");
+                        $(this).css('background-color', '');
+                    } else {
+                        $("#email-result").html("<span style='color:red'>Email Already Registered</span>");
+                        $(this).css('background-color', '#e97878');
+                    }
+                });
+            });
+        });
+    </script>
+}
+

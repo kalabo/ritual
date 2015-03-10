@@ -16,10 +16,13 @@ namespace Ritual.Data
     {
         public AspNetUser()
         {
+            this.AspNetUserClaims = new HashSet<AspNetUserClaim>();
+            this.AspNetUserLogins = new HashSet<AspNetUserLogin>();
             this.Employees = new HashSet<Employee>();
             this.Members = new HashSet<Member>();
             this.News = new HashSet<News>();
             this.News1 = new HashSet<News>();
+            this.AspNetRoles = new HashSet<AspNetRole>();
         }
     
         public string Id { get; set; }
@@ -41,10 +44,15 @@ namespace Ritual.Data
         public string HomePhone { get; set; }
         public string MobilePhone { get; set; }
         public Nullable<System.DateTime> Birthday { get; set; }
+        public string Gender { get; set; }
+        public string PhotoUrl { get; set; }
     
+        public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
+        public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual ICollection<Employee> Employees { get; set; }
         public virtual ICollection<Member> Members { get; set; }
         public virtual ICollection<News> News { get; set; }
         public virtual ICollection<News> News1 { get; set; }
+        public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
     }
 }

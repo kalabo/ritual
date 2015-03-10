@@ -35,10 +35,14 @@ namespace Ritual.Data
         public Nullable<decimal> DiscountPercentage { get; set; }
         public Nullable<decimal> DiscountPrice { get; set; }
         public string DiscountReason { get; set; }
+        public Nullable<System.DateTime> TerminationDate { get; set; }
+        public string TerminationReason { get; set; }
+        public Nullable<System.DateTime> EndPaymentDate { get; set; }
+        public string TerminationFeeOverrideReason { get; set; }
     
-        public virtual MembershipState MembershipState { get; set; }
-        public virtual ICollection<MembershipSuspension> MembershipSuspensions { get; set; }
         public virtual Member Member { get; set; }
+        public virtual MembershipState MembershipState { get; set; }
         public virtual Package Package { get; set; }
+        public virtual ICollection<MembershipSuspension> MembershipSuspensions { get; set; }
     }
 }

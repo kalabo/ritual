@@ -1,0 +1,59 @@
+﻿@model Ritual.Data.MemberAddMembershipModel
+
+@{
+    ViewBag.Title = "Ritual Members - Add Membership Confirm";
+}
+
+<section class="content-header">
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>@ViewBag.Title</h1>
+        </div>
+    </div>
+</section>
+@using (Html.BeginForm())
+{
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="large-12 columns">
+                <h1>@Model.member.AspNetUser.FullName</h1>
+                <h2>Selected Package: @Model.package.Name</h2>
+                <dl class="dl-horizontal">
+                    <dt>Start Date</dt>
+                    <dd>@Model.membershipstartdate</dd>
+
+                    <dt>End Date</dt>
+                    <dd>@Model.membershipenddate</dd>
+
+                    <dt>Initial Payment</dt>
+                    <dd>@Model.selectedpackageinitialpayment</dd>
+
+                    <dt>Monthly</dt>
+                    <dd>@Model.selectedpackagemonthlydiscount</dd>
+
+                    <dt>Total Payable</dt>
+                    <dd>@Model.selectedpackagetotaldiscount</dd>
+
+                </dl>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-5 columns">
+                <div class="package-wrapper">
+                   
+                </div>
+            </div>
+            <div class="large-7 columns">
+
+            </div>
+        </div>
+    </section>
+}
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+        });
+
+    </script>
+}

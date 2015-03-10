@@ -20,6 +20,7 @@ namespace Ritual.Data
         public Nullable<int> MemberId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string UserId { get; set; }
         public Nullable<int> Number { get; set; }
     }
 }

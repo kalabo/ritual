@@ -1,0 +1,84 @@
+﻿@model PagedList.IPagedList<Ritual.Data.Package>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Ritual - Packages";
+}
+
+<section class="content-header">
+    <div class="row">
+        <div class="large-8 columns">
+            <h1>@ViewBag.Title</h1>
+        </div>
+        <div class="large-4 columns">
+            @Html.ActionLink("Create New", "Create", "", new { @class = "button small right" })
+        </div>
+        </div>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="large-12 columns">
+            @using (Html.BeginForm())
+            {
+                <label class="control-label">Package Search</label>
+                <p>Find by name or type:</p>
+                @Html.TextBox("SearchString", "", new { @class = "form-control" })
+                <input type="submit" class="button" name="Command" value="Search" />
+                <input type="submit" class="button" name="Command" value="Reset" />
+            }
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParam })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Package Type", "Index", new { sortOrder = ViewBag.PackageTypeSortParm })
+                    </th>
+                    <th>
+                        Period (Months)
+                    </th>
+                    <th>
+                        Active?
+                    </th>
+                    <th>Actions</th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PackageType.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PackagePeriodMonths)
+                        </td>
+                        <td>
+                            @if (item.PackageIsActive == false)
+                            {
+                                @: <i class="fa fa-times"></i>
+                            }
+                            else
+                            {
+                                @: <i class="fa fa-check"></i>
+                            }
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "button" })
+                            @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "button" })
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "button" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+            <br />
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        </div>
+    </div>
+</section>

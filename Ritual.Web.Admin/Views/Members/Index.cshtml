@@ -1,0 +1,98 @@
+﻿@model PagedList.IPagedList<Ritual.Data.Member>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Ritual Locations - Members";    
+}
+
+<section class="content-header">
+    <div class="row">
+        <div class="large-8 columns">
+            <h1>@ViewBag.Title</h1>
+        </div>
+        <div class="large-4 columns">
+            @Html.ActionLink("Create New", "Create", "", new { @class = "button small right" })
+        </div>
+    </div>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="large-12 columns">
+            @using (Html.BeginForm())
+            {
+                <label class="control-label">Member Search</label>
+                <p>Find by First Name, Last Name, ID Number or phone number:</p>
+                @Html.TextBox("SearchString", "", new { @class = "form-control" })
+                <input type="submit" class="button" name="Command" value="Search" />
+                <input type="submit" class="button" name="Command" value="Reset" />
+            }
+            <table class="table">
+                <tr>
+                    <th>
+                        Title
+                    </th>
+                    <th>
+                        @Html.ActionLink("First Name", "Index", new { sortOrder = ViewBag.FirstNameSortParam })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Last Name", "Index", new { sortOrder = ViewBag.LastNameSortParam })
+                    </th>
+                    <th>
+                        Phone Number
+                    </th>
+                    <th>
+                        Location
+                    </th>
+                    <th>Expiring</th>
+                    <th>Membership Type</th>
+                    <th>Action</th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AspNetUser.Salutation)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AspNetUser.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AspNetUser.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AspNetUser.MobilePhone)
+                        </td>
+                        <td>
+                            @Html.ActionLink(item.Location.Name, "Edit", "Locations", new {id = item.Location.Id}, null)
+                        </td>
+                        <td>
+                            @if (item.hasActiveMembership())
+                            {
+                                @item.getActiveMembership().daysTillExpiry()
+                                @Html.Raw(" Days left")
+                            }
+                            else
+                            {
+                                @Html.Raw("Expired")
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.getLatestMembership().Package.PackageType.Name)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new {id = item.Id}, new {@class = "button"})
+                            @Html.ActionLink("Details", "Details", new {id = item.Id}, new {@class = "button"})
+                            @Html.ActionLink("Delete", "Delete", new {id = item.Id}, new {@class = "button"})
+                        </td>
+                    </tr>
+                }
+
+            </table>
+            <br />
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        </div>
+    </div>
+</section>

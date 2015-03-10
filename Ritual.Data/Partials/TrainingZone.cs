@@ -14,14 +14,12 @@ namespace Ritual.Data
         public int BookingsInLastThirtyDays { get; set; }
         public OpeningHour TodaysOpeningHours { get; set; }
         public Membership UserActiveMembership { get; set; }
-        public IEnumerable<SessionBooking> UpcomingBookings { get; set; }
-        public IEnumerable<SessionBooking> PastBookings { get; set; }
-        public IEnumerable<SessionBooking> MissedBookings { get; set; }
         public IEnumerable<QuarterlyAssessment> QuarterlyAssessments { get; set; }
     }
 
     public class TrainingZoneMyRitualData
     {
+        public string Gravatar { get; set; }
         public Location UserHomeLocation { get; set; }
         public Member UserMember { get; set; }
         public int DaysTillMembershipExpiry { get; set; }
@@ -35,6 +33,8 @@ namespace Ritual.Data
         public Location bookingLocation { get; set; }
         public Member bookingMember { get; set; }
         public TimeSlot bookingTimeslot { get; set; }
+        public bool AllowBooking { get; set; }
+        public bool SendEmailConfirmation { get; set; }
     }
 
     public class TrainingZoneCancelBooking
@@ -46,5 +46,7 @@ namespace Ritual.Data
     {
         public IEnumerable<GetUpcomingBookingSlots_Result> AvailableBookingSlots { get; set; }
         public List<DateTime> OpenDays { get; set; }
+        public string MemberType { get; set; }
+        public Member currentMember { get; set; }
     }
 }

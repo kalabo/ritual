@@ -1,0 +1,100 @@
+﻿@model Ritual.Data.MemberAddMembershipData
+
+@{
+    ViewBag.Title = "Ritual Members - Add Membership";
+}
+
+<section class="content-header">
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>@ViewBag.Title</h1>
+        </div>
+    </div>
+</section>
+@using (Html.BeginForm())
+{
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="large-12 columns">
+                <h1>@Model.Member.AspNetUser.FullName</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-5 columns">
+                <div class="package-wrapper">
+                    @foreach (var item in Model.LocationPackagePrices)
+                    {
+                        <div class="package-container"
+                             data-packageid='@Html.DisplayFor(modelItem => item.Package.Id)'
+                             data-totalprice='@Html.DisplayFor(modelItem => item.TotalPrice)'
+                             data-monthlyprice='@Html.DisplayFor(modelItem => item.MonthlyPrice)'
+                             data-duration='@Html.DisplayFor(modelItem => item.Package.PackagePeriodMonths)'
+                             data-payinfull='@item.Package.PackagePayInFull'>
+                            <h1>@Html.DisplayFor(modelItem => item.Package.Name)</h1>
+                            <p>
+                                Monthly: (@Html.DisplayFor(modelItem => item.Location.Currency)) @Html.DisplayFor(modelItem => item.MonthlyPrice) /
+                                Total: (@Html.DisplayFor(modelItem => item.Location.Currency)) @Html.DisplayFor(modelItem => item.TotalPrice)
+                            </p>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="large-7 columns">
+
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="memberid" id="memberid" value="@Model.Member.Id" />
+                <input type="hidden" name="packageid" id="packageid"/>
+                <table class="table">
+                    <tr>
+                        <td valign="top">
+                            <label class="control-label">Suggested Monthly Price</label>
+                            <input type="text" name="selectedpackagemonthly" id="selectedpackagemonthly" readonly class="form-control"  />
+
+                            <label class="control-label">Suggested Total Price</label>
+                            <input type="text" name="selectedpackagetotal" id="selectedpackagetotal" readonly class="form-control" />
+
+                            <label class="control-label">Membership Start Date</label>
+                            <input type="text" name="membershipstartdate" id="membershipstartdate" class="form-control" />
+
+                            <label class="control-label">Membership End Date</label>
+                            <input type="text" name="membershipenddate" id="membershipenddate" readonly class="form-control" />
+
+                            <label class="control-label">Initial Payment</label>
+                            <input type="text" name="selectedpackageinitialpayment" id="selectedpackageinitialpayment" class="form-control" />
+                            <span id="inital-payment-details"></span>
+
+                        </td>
+                        <td valign="top">
+
+                            <label class="control-label">Discount Percentage %</label>
+                            <input type="text" name="selectedpackagediscount" id="selectedpackagediscount" class="form-control" value="0" />
+
+                            <label class="control-label">Discount Reason</label>
+                            <textarea style="height:120px;" name="selectedpackagediscountreason" id="selectedpackagediscountreason" class="form-control"></textarea>
+
+                            <label class="control-label">Discounted Monthly Price</label>
+                            <input type="text" name="selectedpackagemonthlydiscount" id="selectedpackagemonthlydiscount" readonly class="form-control" />
+
+                            <label class="control-label">Discounted Total Price</label>
+                            <input type="text" name="selectedpackagetotaldiscount" id="selectedpackagetotaldiscount" readonly class="form-control" />
+                        </td>
+                    </tr>
+                </table>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Add Membership" formaction="@Url.Action("AddMembershipConfirm", "Members")" class="button btn-default" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            RITUAL.Core.Members.AddMembership();
+        });
+
+    </script>
+}

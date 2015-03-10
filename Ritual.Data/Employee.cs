@@ -16,19 +16,20 @@ namespace Ritual.Data
     {
         public Employee()
         {
-            this.QuarterlyAssessments = new HashSet<QuarterlyAssessment>();
-            this.InitialAssessments = new HashSet<InitialAssessment>();
             this.ClientIssuesFeedbacks = new HashSet<ClientIssuesFeedback>();
+            this.InitialAssessments = new HashSet<InitialAssessment>();
+            this.QuarterlyAssessments = new HashSet<QuarterlyAssessment>();
         }
     
         public int Id { get; set; }
+        public string IdentificationNumber { get; set; }
         public string AspNetUserId { get; set; }
-        public int LocationId { get; set; }
+        public int HomeLocationId { get; set; }
     
-        public virtual Location Location { get; set; }
-        public virtual ICollection<QuarterlyAssessment> QuarterlyAssessments { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }
-        public virtual ICollection<InitialAssessment> InitialAssessments { get; set; }
         public virtual ICollection<ClientIssuesFeedback> ClientIssuesFeedbacks { get; set; }
+        public virtual Location Location { get; set; }
+        public virtual ICollection<InitialAssessment> InitialAssessments { get; set; }
+        public virtual ICollection<QuarterlyAssessment> QuarterlyAssessments { get; set; }
     }
 }

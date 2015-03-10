@@ -49,9 +49,8 @@ namespace Ritual.Web.Members.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "Username")]
+        public string Username { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -64,6 +63,10 @@ namespace Ritual.Web.Members.Models
 
     public class RegisterViewModel
     {
+        [Required]
+        [Display(Name = "Username")]
+        public string Username { get; set; }
+        
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
@@ -80,7 +83,6 @@ namespace Ritual.Web.Members.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-        // MH NEW
         [Required]
         [Display(Name = "Salutation")]
         public string Salutation { get; set; }
@@ -92,6 +94,22 @@ namespace Ritual.Web.Members.Models
         [Required]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
+        
+        [Required]
+        [Display(Name = "Gender")]
+        public string Gender { get; set; }
+
+        [Required]
+        [Display(Name = "Trial Time")]
+        public int TrialTimes { get; set; }
+        
+        [Required]
+        [Display(Name = "Trial Date")]
+        public string TrialDate{ get; set; }
+        
+        [Required]
+        [Display(Name = "Location")]
+        public int LocationId { get; set; }
 
         [Required]
         [Display(Name = "Pin Number")]

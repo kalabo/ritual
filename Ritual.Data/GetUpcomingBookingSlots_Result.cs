@@ -22,6 +22,8 @@ namespace Ritual.Data
         public Nullable<int> BookingCount { get; set; }
         public Nullable<short> AvailableSlots { get; set; }
         public string Status { get; set; }
+        public string BookingStatus { get; set; }
         public string ClosureReason { get; set; }
+        public Nullable<bool> TrialSlot { get; set; }
     }
 }

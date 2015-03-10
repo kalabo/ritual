@@ -5,55 +5,67 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="adc2b67dab144bd6bfeb1bbe231ace48" Name="Diagram1" ZoomLevel="86">
-        <EntityTypeShape EntityType="RitualDBModel.AspNetRole" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="RitualDBModel.Membership" Width="1.5" PointX="5.25" PointY="18.75" />
-        <EntityTypeShape EntityType="RitualDBModel.MembershipState" Width="1.5" PointX="3" PointY="20.375" />
-        <EntityTypeShape EntityType="RitualDBModel.MembershipSuspension" Width="1.5" PointX="7.5" PointY="20.125" />
-        <EntityTypeShape EntityType="RitualDBModel.OpeningHour" Width="1.5" PointX="3" PointY="25.875" />
-        <EntityTypeShape EntityType="RitualDBModel.PackageLocationPrice" Width="1.5" PointX="6" PointY="11" />
-        <EntityTypeShape EntityType="RitualDBModel.QuarterlyAssessment" Width="1.5" PointX="11.25" PointY="12" />
-        <EntityTypeShape EntityType="RitualDBModel.SessionBooking" Width="1.5" PointX="8.25" PointY="14.375" />
-        <EntityTypeShape EntityType="RitualDBModel.SessionBookingState" Width="1.5" PointX="6" PointY="24.625" />
-        <EntityTypeShape EntityType="RitualDBModel.TimeSlot" Width="1.5" PointX="6" PointY="8.125" />
-        <AssociationConnector Association="RitualDBModel.FK_Membership_MembershipState" />
-        <AssociationConnector Association="RitualDBModel.FK_MembershipSuspensions_Membership" />
-        <AssociationConnector Association="RitualDBModel.FK_Booking_BookingState" />
-        <AssociationConnector Association="RitualDBModel.FK_Booking_TimeSlot" />
-        <EntityTypeShape EntityType="RitualDBModel.Location" Width="1.5" PointX="0.875" PointY="18" />
+        <EntityTypeShape EntityType="RitualDBModel.AspNetRole" Width="1.5" PointX="4.5" PointY="39.25" />
+        <EntityTypeShape EntityType="RitualDBModel.AspNetUserClaim" Width="1.5" PointX="9" PointY="40.75" />
+        <EntityTypeShape EntityType="RitualDBModel.AspNetUserLogin" Width="1.5" PointX="9" PointY="35.5" />
+        <EntityTypeShape EntityType="RitualDBModel.AspNetUser" Width="1.5" PointX="6.75" PointY="36.875" />
+        <EntityTypeShape EntityType="RitualDBModel.ClientIssuesFeedback" Width="1.5" PointX="17.25" PointY="26.75" />
+        <EntityTypeShape EntityType="RitualDBModel.Employee" Width="1.5" PointX="3" PointY="26.625" />
+        <EntityTypeShape EntityType="RitualDBModel.InitialAssessment" Width="1.5" PointX="11.25" PointY="26.125" />
+        <EntityTypeShape EntityType="RitualDBModel.Location" Width="1.5" PointX="0.75" PointY="27.625" />
+        <EntityTypeShape EntityType="RitualDBModel.Member" Width="1.5" PointX="9" PointY="27.375" />
+        <EntityTypeShape EntityType="RitualDBModel.Membership" Width="1.5" PointX="11.25" PointY="34.25" />
+        <EntityTypeShape EntityType="RitualDBModel.MembershipState" Width="1.5" PointX="9" PointY="38.25" />
+        <EntityTypeShape EntityType="RitualDBModel.MembershipSuspension" Width="1.5" PointX="13.5" PointY="36" />
+        <EntityTypeShape EntityType="RitualDBModel.News" Width="1.5" PointX="6" PointY="32.25" />
+        <EntityTypeShape EntityType="RitualDBModel.NewsCategory" Width="1.5" PointX="3.75" PointY="34.25" />
+        <EntityTypeShape EntityType="RitualDBModel.OffPeakHour" Width="1.5" PointX="3" PointY="30.875" />
+        <EntityTypeShape EntityType="RitualDBModel.OpeningHour" Width="1.5" PointX="3" PointY="48.5" />
+        <EntityTypeShape EntityType="RitualDBModel.OpeningHourOverride" Width="1.5" PointX="3" PointY="51.5" />
+        <EntityTypeShape EntityType="RitualDBModel.Package" Width="1.5" PointX="9" PointY="44.25" />
+        <EntityTypeShape EntityType="RitualDBModel.PackageLocationPrice" Width="1.5" PointX="6" PointY="28.875" />
+        <EntityTypeShape EntityType="RitualDBModel.PackageType" Width="1.5" PointX="6.75" PointY="45.125" />
+        <EntityTypeShape EntityType="RitualDBModel.PaymentCategory" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="RitualDBModel.PaymentSchedule" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="RitualDBModel.QuarterlyAssessment" Width="1.5" PointX="14.25" PointY="25.5" />
+        <EntityTypeShape EntityType="RitualDBModel.RitualLookup" Width="1.5" PointX="19.5" PointY="28.25" />
+        <EntityTypeShape EntityType="RitualDBModel.SessionBooking" Width="1.5" PointX="6" PointY="24.25" />
+        <EntityTypeShape EntityType="RitualDBModel.SessionBookingState" Width="1.5" PointX="3.75" PointY="20.375" />
+        <EntityTypeShape EntityType="RitualDBModel.sysdiagram" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="RitualDBModel.TimeSlot" Width="1.5" PointX="3.75" PointY="22.75" />
+        <EntityTypeShape EntityType="RitualDBModel.TrialTimeBlock" Width="1.5" PointX="3" PointY="55" />
+        <AssociationConnector Association="RitualDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="RitualDBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="RitualDBModel.FK_Employee_AspNetUsers" />
+        <AssociationConnector Association="RitualDBModel.FK_Member_AspNetUsers" />
+        <AssociationConnector Association="RitualDBModel.FK_News_AspNetUsersCreatedBy" />
+        <AssociationConnector Association="RitualDBModel.FK_News_AspNetUsersModifiedBy" />
+        <AssociationConnector Association="RitualDBModel.FK_ClientIssuesFeedback_Employee" />
+        <AssociationConnector Association="RitualDBModel.FK_ClientIssuesFeedback_Member" />
+        <AssociationConnector Association="RitualDBModel.FK_Employee_Location" />
+        <AssociationConnector Association="RitualDBModel.FK_InitialAssessment_Employee" />
+        <AssociationConnector Association="RitualDBModel.FK_QuarterlyAssessment_Employee" />
+        <AssociationConnector Association="RitualDBModel.FK_InitialAssessment_Member" />
         <AssociationConnector Association="RitualDBModel.FK_Booking_Location" />
-        <AssociationConnector Association="RitualDBModel.FK_OpeningHour_Location" />
-        <AssociationConnector Association="RitualDBModel.FK_PackageLocationPrices_Location" />
-        <EntityTypeShape EntityType="RitualDBModel.OpeningHourOverride" Width="1.5" PointX="3.125" PointY="29.75" />
-        <AssociationConnector Association="RitualDBModel.FK_OpeningHourOverride_Location" />
-        <EntityTypeShape EntityType="RitualDBModel.Member" Width="1.5" PointX="3.5" PointY="13.75" />
         <AssociationConnector Association="RitualDBModel.FK_Member_Location" />
+        <AssociationConnector Association="RitualDBModel.FK_News_Location" />
+        <AssociationConnector Association="RitualDBModel.FK_OffPeakHours_Location" />
+        <AssociationConnector Association="RitualDBModel.FK_OpeningHour_Location" />
+        <AssociationConnector Association="RitualDBModel.FK_OpeningHourOverride_Location" />
+        <AssociationConnector Association="RitualDBModel.FK_PackageLocationPrices_Location" />
+        <AssociationConnector Association="RitualDBModel.FK_TrialTimeBlock_Location" />
         <AssociationConnector Association="RitualDBModel.FK_Booking_Member" />
         <AssociationConnector Association="RitualDBModel.FK_Membership_Member1" />
         <AssociationConnector Association="RitualDBModel.FK_QuarterlyAssessment_Member" />
-        <EntityTypeShape EntityType="RitualDBModel.Employee" Width="1.5" PointX="6" PointY="14.25" />
-        <AssociationConnector Association="RitualDBModel.FK_Employee_Location" />
-        <AssociationConnector Association="RitualDBModel.FK_QuarterlyAssessment_Employee" />
-        <EntityTypeShape EntityType="RitualDBModel.AspNetUser" Width="1.5" PointX="3.375" PointY="1.125" />
-        <AssociationConnector Association="RitualDBModel.FK_Employee_AspNetUsers" />
-        <AssociationConnector Association="RitualDBModel.FK_Member_AspNetUsers" />
-        <EntityTypeShape EntityType="RitualDBModel.NewsCategory" Width="1.5" PointX="6.375" PointY="5" />
-        <EntityTypeShape EntityType="RitualDBModel.PackageType" Width="1.5" PointX="0.75" PointY="8.875" />
-        <EntityTypeShape EntityType="RitualDBModel.Package" Width="1.5" PointX="3" PointY="8" />
+        <AssociationConnector Association="RitualDBModel.FK_Membership_MembershipState" />
         <AssociationConnector Association="RitualDBModel.FK_Membership_Package" />
+        <AssociationConnector Association="RitualDBModel.FK_MembershipSuspensions_Membership" />
+        <AssociationConnector Association="RitualDBModel.FK_News_NewsCategories" />
         <AssociationConnector Association="RitualDBModel.FK_Package_PackageType" />
         <AssociationConnector Association="RitualDBModel.FK_PackageLocationPrices_Package" />
-        <EntityTypeShape EntityType="RitualDBModel.News" Width="1.5" PointX="9.625" PointY="7.5" />
-        <AssociationConnector Association="RitualDBModel.FK_News_AspNetUsersCreatedBy" />
-        <AssociationConnector Association="RitualDBModel.FK_News_AspNetUsersModifiedBy" />
-        <AssociationConnector Association="RitualDBModel.FK_News_Location" />
-        <AssociationConnector Association="RitualDBModel.FK_News_NewsCategories" />
-        <EntityTypeShape EntityType="RitualDBModel.InitialAssessment" Width="1.5" PointX="14.25" PointY="11.875" />
-        <AssociationConnector Association="RitualDBModel.FK_InitialAssessment_Employee" />
-        <AssociationConnector Association="RitualDBModel.FK_InitialAssessment_Member" />
-        <EntityTypeShape EntityType="RitualDBModel.ClientIssuesFeedback" Width="1.5" PointX="14.25" PointY="19.5" />
-        <EntityTypeShape EntityType="RitualDBModel.RitualLookup" Width="1.5" PointX="18.375" PointY="20.875" />
-        <AssociationConnector Association="RitualDBModel.FK_ClientIssuesFeedback_Employee" />
-        <AssociationConnector Association="RitualDBModel.FK_ClientIssuesFeedback_Member" />
+        <AssociationConnector Association="RitualDBModel.FK_Booking_BookingState" />
+        <AssociationConnector Association="RitualDBModel.FK_Booking_TimeSlot" />
+        <AssociationConnector Association="RitualDBModel.AspNetUserRoles" />
         <AssociationConnector Association="RitualDBModel.ClientIssuesFeedbackComplaint" />
         <AssociationConnector Association="RitualDBModel.ClientIssuesFeedbackCompliments" />
         <AssociationConnector Association="RitualDBModel.ClientIssuesFeedbackIssueExercise" />
