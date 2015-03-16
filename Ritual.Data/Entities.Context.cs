@@ -34,7 +34,6 @@ namespace Ritual.Data
         public virtual DbSet<ClientIssuesFeedback> ClientIssuesFeedbacks { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<InitialAssessment> InitialAssessments { get; set; }
-        public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Membership> Memberships { get; set; }
         public virtual DbSet<MembershipState> MembershipStates { get; set; }
@@ -43,7 +42,6 @@ namespace Ritual.Data
         public virtual DbSet<NewsCategory> NewsCategories { get; set; }
         public virtual DbSet<OffPeakHour> OffPeakHours { get; set; }
         public virtual DbSet<OpeningHour> OpeningHours { get; set; }
-        public virtual DbSet<OpeningHourOverride> OpeningHourOverrides { get; set; }
         public virtual DbSet<Package> Packages { get; set; }
         public virtual DbSet<PackageLocationPrice> PackageLocationPrices { get; set; }
         public virtual DbSet<PackageType> PackageTypes { get; set; }
@@ -56,6 +54,8 @@ namespace Ritual.Data
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TimeSlot> TimeSlots { get; set; }
         public virtual DbSet<TrialTimeBlock> TrialTimeBlocks { get; set; }
+        public virtual DbSet<OpeningHourOverride> OpeningHourOverrides { get; set; }
+        public virtual DbSet<Location> Locations { get; set; }
     
         public virtual ObjectResult<GetImminentSessionBookings_Result> GetImminentSessionBookings(Nullable<int> locationId, Nullable<System.DateTime> currentDateTime)
         {

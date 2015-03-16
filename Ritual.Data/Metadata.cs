@@ -58,12 +58,36 @@ namespace Ritual.Data
         public string EndTime { get; set; }
     }
 
+    public class OpeningHourOverrideMetadata
+    {
+        [Display(Name = "Start Date")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        public string OverrideStartDate { get; set; }
+        
+        [Display(Name = "Open Time")]
+        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
+        public string AltOpenTime { get; set; }
+
+        [Display(Name = "End Date")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        public string OverrideEndDate { get; set; }
+
+        [Display(Name = "Close Time")]
+        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
+        public string AltCloseTime { get; set; }
+
+        [Display(Name = "Reason")]
+        public string OverrideReason { get; set; }
+    }
+
     public class OpeningHourMetadata
     {
         [Display(Name = "Open Time")]
+        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
         public string OpenTime { get; set; }
 
         [Display(Name = "Close Time")]
+        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
         public string CloseTime { get; set; }
     }
 

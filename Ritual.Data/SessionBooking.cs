@@ -24,9 +24,9 @@ namespace Ritual.Data
         public string Notes { get; set; }
         public int TimeSlotId { get; set; }
     
-        public virtual Location Location { get; set; }
         public virtual Member Member { get; set; }
         public virtual SessionBookingState SessionBookingState { get; set; }
         public virtual TimeSlot TimeSlot { get; set; }
+        public virtual Location Location { get; set; }
     }
 }

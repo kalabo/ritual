@@ -39,13 +39,15 @@ namespace Ritual.Data
         public string City { get; set; }
         public string Country { get; set; }
         public string PostZipCode { get; set; }
+        public Nullable<System.DateTime> JoinDate { get; set; }
+        public string BloodType { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual ICollection<ClientIssuesFeedback> ClientIssuesFeedbacks { get; set; }
         public virtual ICollection<InitialAssessment> InitialAssessments { get; set; }
-        public virtual Location Location { get; set; }
         public virtual ICollection<SessionBooking> SessionBookings { get; set; }
         public virtual ICollection<Membership> Memberships { get; set; }
         public virtual ICollection<QuarterlyAssessment> QuarterlyAssessments { get; set; }
+        public virtual Location Location { get; set; }
     }
 }

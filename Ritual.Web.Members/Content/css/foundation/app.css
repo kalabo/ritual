@@ -895,15 +895,16 @@ div.alert-box {
             font-family: '5amgender';
     }
 
-#ritual-dates
+#ritual-dates, #ritual-locations
 {
     padding:5px;
 }
 
-#ritual-dates select
+#ritual-dates select, #ritual-locations select
 {    
     font-size:1.2em;
     line-height:1.6em;
+    height: auto !important;
 }
 
 .booking-slot {
@@ -1021,7 +1022,7 @@ div.alert-box {
 #globalannouncements {
 	text-align: center;
 	background-color:#2d2d2d;
-	background-image:url('../images/shrek.jpg');
+	background-image:url('../../images/shrek.jpg');
 	background-position: 10px 0px;
 	background-repeat:no-repeat;
     margin-bottom: 10px;

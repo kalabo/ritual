@@ -141,6 +141,7 @@
     <Compile Include="Partials\AspNetUser.cs" />
     <Compile Include="Partials\FrontOfHouse.cs" />
     <Compile Include="Partials\Location.cs" />
+    <Compile Include="Partials\OpeningHourOverride.cs" />
     <Compile Include="Partials\TrialTimeBlock.cs" />
     <Compile Include="Partials\SessionBooking.cs" />
     <Compile Include="Partials\News.cs" />

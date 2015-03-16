@@ -1,0 +1,130 @@
+﻿@model Ritual.Data.MembershipProfileEditViewModel
+@{
+    ViewBag.Title = "Edit Profile";
+}
+
+<section class="content-header">
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>@ViewBag.Title</h1>
+        </div>
+    </div>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="small-12 medium-8 small-6 large-centered columns">
+            @using (Html.BeginForm("EditProfile", "MyRitual", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class='builder-form' id="loginForm">
+                    <div class="row">
+                        <div class="large-6 columns">
+                            <fieldset>
+                                <legend>Email: </legend>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.EmailOptOut, new { @class = "col-md-2 control-label" })
+                                    @Html.EditorFor(m => m.EmailOptOut, new { @class = "form-control" })
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend>Address: </legend>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.AddressLine1, new { @class = "col-md-2 control-label" })
+                                    @Html.TextBoxFor(m => m.AddressLine1, new { @class = "form-control" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.AddressLine2, new { @class = "col-md-2 control-label" })
+                                    @Html.TextBoxFor(m => m.AddressLine2, new { @class = "form-control" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.City, new { @class = "col-md-2 control-label" })
+                                    @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Country, new {@class = "col-md-2 control-label"})
+                                    @Html.DropDownListFor(x => x.Country, Model.Countries)
+                                </div>
+
+                              
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.PostCodeZip, new { @class = "col-md-2 control-label" })
+                                    @Html.TextBoxFor(m => m.PostCodeZip, new { @class = "form-control" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.HomePhone, new { @class = "col-md-2 control-label" })
+                                    @Html.TextBoxFor(m => m.HomePhone, new { @class = "form-control" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.MobilePhone, new { @class = "col-md-2 control-label" })
+                                    @Html.TextBoxFor(m => m.MobilePhone, new { @class = "form-control" })
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="large-6 columns">
+
+                            <fieldset>
+                                <legend>Emergency Information:</legend>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.EmergencyContactName, new { @class = "col-md-2 control-label" })
+                                    @Html.TextBoxFor(m => m.EmergencyContactName, new { @class = "form-control" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.EmergencyContactNumber, new { @class = "col-md-2 control-label" })
+                                    @Html.TextBoxFor(m => m.EmergencyContactNumber, new { @class = "form-control" })
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend>Clothing Settings:</legend>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ShirtSize, new { @class = "col-md-2 control-label" })
+                                    @Html.DropDownListFor(x => x.ShirtSize, Model.ShirtSizes)
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ShortSize, new { @class = "col-md-2 control-label" })
+                                    @Html.DropDownListFor(x => x.ShortSize, Model.ShortSizes)
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend>Idenfitication Numbers:</legend>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.IDType, new { @class = "col-md-2 control-label" })
+                                    @Html.DropDownListFor(x => x.IDType, Model.IDTypes)
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.IDNumber, new { @class = "col-md-2 control-label" })
+                                    @Html.TextBoxFor(m => m.IDNumber, new { @class = "form-control" })
+                                </div>
+                            </fieldset>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" class="button" value="Save Profile" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</section>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            RITUAL.Core.Registration.Locations("#LocationId");
+        });
+
+    </script>
+}
+

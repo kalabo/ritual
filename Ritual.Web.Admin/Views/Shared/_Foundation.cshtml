@@ -53,7 +53,7 @@
             <section class="sidebar">
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
-                    
+
                     @if (ViewContext.HttpContext.User.Identity.IsAuthenticated)
                     {
                         if (!Ritual.Web.Admin.Controllers.ControllerHelper.doesUserHaveRolePermissions("Member"))
@@ -67,14 +67,14 @@
                         }
                         if (!Ritual.Web.Admin.Controllers.ControllerHelper.doesUserHaveRolePermissions("Member"))
                         {
-                                    <li>@Html.ActionLink("Dashboard", "Index", "Administration")</li>
-                                    <li>@Html.ActionLink("News", "Index", "News")</li>
-                                    <li>@Html.ActionLink("Locations", "Index", "Locations")</li>
-                                    <li>@Html.ActionLink("Members", "Index", "Members")</li>
-                                    <li>@Html.ActionLink("Quarterly Assessments", "Index", "QuarterlyAssessments")</li>
-                                    <li>@Html.ActionLink("Initial Assessments", "Index", "InitialAssessments")</li>
-                                    <li>@Html.ActionLink("Memberships", "Index", "Memberships")</li>
-                                    <li>@Html.ActionLink("Packages", "Index", "Packages")</li>
+                            <li>@Html.ActionLink("Dashboard", "Index", "Administration")</li>
+                            <li>@Html.ActionLink("News", "Index", "News")</li>
+                            <li>@Html.ActionLink("Locations", "Index", "Locations")</li>
+                            <li>@Html.ActionLink("Members", "Index", "Members")</li>
+                            <li>@Html.ActionLink("Quarterly Assessments", "Index", "QuarterlyAssessments")</li>
+                            <li>@Html.ActionLink("Initial Assessments", "Index", "InitialAssessments")</li>
+                            <li>@Html.ActionLink("Memberships", "Index", "Memberships")</li>
+                            <li>@Html.ActionLink("Packages", "Index", "Packages")</li>
                         }
                     }
                 </ul>

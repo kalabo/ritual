@@ -17,9 +17,8 @@ namespace Ritual.Data
         public int Id { get; set; }
         public System.DateTime OverrideStartDate { get; set; }
         public System.DateTime OverrideEndDate { get; set; }
-        public byte DayOfWeek { get; set; }
         public System.TimeSpan AltOpenTime { get; set; }
-        public System.TimeSpan AltCloseTme { get; set; }
+        public System.TimeSpan AltCloseTime { get; set; }
         public string OverrideReason { get; set; }
         public Nullable<int> LocationId { get; set; }
     

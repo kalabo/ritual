@@ -55,10 +55,18 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.Country, htmlAttributes: new {@class = "control-label col-md-2"})
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                            @Html.EditorFor(model => model.Country, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.Country, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AvailableSlots, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.AvailableSlots, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.AvailableSlots, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
@@ -67,14 +75,6 @@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.TimeZoneOffset, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.TimeZoneOffset, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Currency, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Currency, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Currency, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
@@ -131,8 +131,8 @@
                                 @Html.DisplayFor(modelItem => item.CloseTime)
                             </td>
                             <td>
-                                @Html.ActionLink("Edit", "Edit", "QuarterlyAsssessments", new { id = item.Id }, new { @class = "button" })
-                                @Html.ActionLink("Delete", "Delete", "QuarterlyAsssessments", new { id = item.Id }, new { @class = "button" })
+                                @Html.ActionLink("Edit", "EditOpeningHour", "Locations", new { id = item.Id, locationId = Model.Id }, new { @class = "button" })
+                                @Html.ActionLink("Delete", "DeleteOpeningHour", "Locations", new { id = item.Id, locationId = Model.Id }, new { @class = "button" })
                             </td>
                         </tr>
                     }
@@ -174,14 +174,14 @@
                                 @Html.DisplayFor(modelItem => item.OverrideEndDate)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.AltCloseTme)
+                                @Html.DisplayFor(modelItem => item.AltCloseTime)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.OverrideReason)
                             </td>
                             <td>
-                                @Html.ActionLink("Edit", "Edit", "OpeningHourOverride", new { id = item.Id }, new { @class = "button" })
-                                @Html.ActionLink("Delete", "Delete", "OpeningHourOverride", new { id = item.Id }, new { @class = "button" })
+                                @Html.ActionLink("Edit", "EditOpeningHourOverride", "Locations", new {id = item.Id, locationId = Model.Id}, new {@class = "button"})
+                                @Html.ActionLink("Delete", "DeleteOpeningHourOverride", "Locations", new {id = item.Id, locationId = Model.Id}, new {@class = "button"})
                             </td>
                         </tr>
                     }

@@ -1,50 +1,48 @@
 ﻿@model Ritual.Data.OpeningHour
-
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Details Opening Hours - " + @ViewBag.Location.Name;
 }
 
-<h2>Details</h2>
+<section class="content-header">
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>@ViewBag.Title</h1>
+        </div>
+    </div>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="large-12 columns">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.DateOfWeek)
+                </dt>
 
-<div>
-    <h4>OpeningHour</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.DateOfWeek)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.DateOfWeek)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.DateOfWeek)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.OpenTime)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.OpenTime)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.OpenTime)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.OpenTime)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.CloseTime)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CloseTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CloseTime)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Location.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Location.Name)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+                <dd>
+                    @Html.DisplayFor(model => model.CloseTime)
+                </dd>
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+    </div>
+</section>

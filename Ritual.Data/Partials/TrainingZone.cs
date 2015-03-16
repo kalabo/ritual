@@ -17,7 +17,7 @@ namespace Ritual.Data
         public IEnumerable<QuarterlyAssessment> QuarterlyAssessments { get; set; }
     }
 
-    public class TrainingZoneMyRitualData
+    public class MyRitualDashboardData
     {
         public string Gravatar { get; set; }
         public Location UserHomeLocation { get; set; }

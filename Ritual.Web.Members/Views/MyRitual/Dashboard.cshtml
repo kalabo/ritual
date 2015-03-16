@@ -1,0 +1,218 @@
+﻿@model Ritual.Data.MyRitualDashboardData
+
+@{
+    ViewBag.Title = "My Ritual";
+}
+<section class="content-header">
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>@ViewBag.Title</h1>
+        </div>
+    </div>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="large-12 columns">
+
+            <div>
+                @Html.ActionLink("Back to Training Zone", "Dashboard", "TrainingZone", null, new { @class = "button" })
+                @Html.ActionLink("Edit Profile", "EditProfile", "", new { @class = "button" })
+            </div>
+
+            <div class="row">
+                <div class="large-6 columns">
+                    @Html.Raw(Model.Gravatar)<br/> 
+                    @Html.ActionLink("Change Avatar", "UploadPhoto", "", new { @class = "button" })
+                    <dl class="dl-horizontal">
+
+                        <dt>
+                            Username
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => Model.UserMember.AspNetUser.UserName)
+                        </dd>
+
+                        <dt>
+                            Member No.
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => Model.UserMember.IdentificationNumber)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => Model.UserMember.AspNetUser.Salutation)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => Model.UserMember.AspNetUser.Salutation)
+                        </dd>
+
+                        <dt>
+                            First name
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => Model.UserMember.FirstName)
+                        </dd>
+                        @if (Model.UserMember.LastName != null)
+                        {
+                            <dt>
+                                Last Name
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => Model.UserMember.LastName)
+                            </dd>
+                        }
+                        @if (Model.UserMember.Location.Name != null)
+                        {
+                            <dt>
+                                Home Location
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => Model.UserMember.Location.Name)
+                            </dd>
+                        }
+
+                        <dt>
+                            @Html.DisplayNameFor(model => Model.UserMember.EmailOptOut)
+                        </dt>
+
+                        <dd>
+                            @if (Model.UserMember.EmailOptOut != null)
+                            {
+                                if (Model.UserMember.EmailOptOut.Value == false)
+                                {
+                                    @: <i class="fa fa-times"></i>
+                                }
+                                else
+                                {
+                                    @: <i class="fa fa-check"></i>
+                                }
+                            }
+                            else
+                            {
+
+                                @: <i class="fa fa-times"></i>
+                            }
+                        </dd>
+                        @if (Model.UserMember.AspNetUser.Birthday != null)
+                        {
+                            <dt>
+                                @Html.DisplayNameFor(model => Model.UserMember.AspNetUser.Birthday)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => Model.UserMember.AspNetUser.Birthday)
+                            </dd>
+                        }
+                        @if (Model.UserMember.AspNetUser.HomePhone != null)
+                        {
+                            <dt>
+                                @Html.DisplayNameFor(model => Model.UserMember.AspNetUser.HomePhone)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => Model.UserMember.AspNetUser.HomePhone)
+                            </dd>
+                        }
+                        @if (Model.UserMember.AspNetUser.MobilePhone != null)
+                        {
+                            <dt>
+                                @Html.DisplayNameFor(model => Model.UserMember.AspNetUser.MobilePhone)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => Model.UserMember.AspNetUser.MobilePhone)
+                            </dd>
+                        }
+                        <dt>
+                            @Html.DisplayNameFor(model => Model.UserMember.AspNetUser.Email)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => Model.UserMember.AspNetUser.Email)
+                        </dd>
+
+                    </dl>
+
+                </div>
+                <div class="large-6 columns">
+
+                    <h2>Membership Status</h2>
+                    @if (Model.UserMember.hasActiveMembership())
+                    {
+                        @Model.UserMember.getActiveMembership().getMembershipStatusText();
+                    }
+                    else
+                    {
+                        @Model.UserMember.getLatestMembership().getMembershipStatusText();
+                    }
+                    <h2>Current Membership</h2>
+                    <table class="table">
+                        <tr>
+                            <th>Package</th>
+                            <th>State</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.UserMember.getLatestMembership().Package.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.UserMember.getLatestMembership().MembershipState.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.UserMember.getLatestMembership().StartDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model.UserMember.getLatestMembership().EndDate)
+                            </td>
+                        </tr>
+                    </table>
+                    <h2>Previous Memberships</h2>
+                    <table class="table">
+                        <tr>
+                            <th>Package</th>
+                            <th>State</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                        </tr>
+                        @if (Model.UserPastMemberships.Count() > 0)
+                        {
+                            foreach (var item in Model.UserPastMemberships)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Package.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MembershipState.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.StartDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.EndDate)
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr><td colspan="4"><div class="alert-box">You have no past memberships</div></td></tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

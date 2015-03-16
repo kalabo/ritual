@@ -38,7 +38,7 @@
                         @Html.ActionLink("Last Name", "Index", new { sortOrder = ViewBag.LastNameSortParam })
                     </th>
                     <th>
-                        Phone Number
+                        Join Date
                     </th>
                     <th>
                         Location
@@ -61,7 +61,7 @@
                             @Html.DisplayFor(modelItem => item.AspNetUser.LastName)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.AspNetUser.MobilePhone)
+                            @Html.DisplayFor(modelItem => item.JoinDate)
                         </td>
                         <td>
                             @Html.ActionLink(item.Location.Name, "Edit", "Locations", new {id = item.Location.Id}, null)

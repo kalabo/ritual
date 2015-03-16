@@ -1,0 +1,38 @@
+﻿
+
+<div class="builder-form" id="loginForm">
+    <section id="avatar-upload-box">
+        @using (Ajax.BeginForm("_UploadPhoto", "TrainingZone",
+        new AjaxOptions() { HttpMethod = "POST" },
+        new { enctype = "multipart/form-data", id = "avatar-upload-form" }))
+        {
+            @Html.AntiForgeryToken()
+            <h2>Avatar Uploader</h2>
+            <p>Please use the form below to upload and set your profile photograph.</p>
+            <div class='alert-box info'>Important: Only content considered "safe" is appropriate for your profile photo. If we find either contains inappropriate content, we'll remove it, mark your account as "suspended" and send you a warning. If we find you doing it again, we'll cancel your membership immediately without refund.</div>
+            <input type="file" class="form-control" name="files" /><br>
+            <div class="upload-file-notice">Maximum Size: <span id="avatar-max-size"></span> MB</div>
+        }
+        <div class="upload-progress col-md-6 hidden">
+            <div class="upload-percent-value pull-left">0%</div>
+            <div class="upload-percent-bar pull-left"></div>
+        </div>
+        <div id="upload-status"></div>
+    </section>
+    <section id="avatar-crop-box" class="hidden">
+        <p>
+            <img src="" id="crop-avatar-target" alt="Uploaded image" />
+            <div id="preview-pane">
+                <div class="preview-container">
+                    <img src="" class="jcrop-preview" alt="Preview" />
+                </div>
+            </div>
+        </p>
+        <p><button class="btn btn-default" onclick=" saveAvatar() ">Save Avatar</button></p>
+    </section>
+    <div id="avatar-result" class="hidden">
+        <h2>Here is your new profile photo.</h2>
+        <img src="" class="gravatar" alt="Final Image" /><br/>
+        @Html.ActionLink("Back to My Ritual", "MyRitual", "", new { @class = "button" })
+    </div>
+</div>

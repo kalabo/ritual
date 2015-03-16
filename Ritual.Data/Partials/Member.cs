@@ -7,14 +7,28 @@ using System.Web.Mvc;
 
 namespace Ritual.Data
 {
-    public class MembershipProfileEditViewModel
+    public class MembershipEditViewModel
     {
         [Display(Name = "Opt out of Emails")]
         public bool? EmailOptOut { get; set; }
 
+        [Display(Name = "Salutation")]
+        public string Salutation { get; set; }
+        public SelectList Salutations { get; set; }
+
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Display(Name = "Gender")]
+        public string Gender { get; set; }
+        public SelectList Genders { get; set; }
+
         [Display(Name = "Birthday")]
         public DateTime Birthday { get; set; }
-        
+
         [Display(Name = "Home Phone")]
         public string HomePhone { get; set; }
 
@@ -35,7 +49,7 @@ namespace Ritual.Data
 
         [Required]
         [Display(Name = "Emergency Contact Number")]
-        public string EmergencyContactNumber{ get; set; }
+        public string EmergencyContactNumber { get; set; }
 
         [Required]
         [Display(Name = "Address Line 1")]
@@ -43,6 +57,11 @@ namespace Ritual.Data
 
         [Display(Name = "Address Line 2")]
         public string AddressLine2 { get; set; }
+
+        [Required]
+        [Display(Name = "Blood Type")]
+        public string BloodType { get; set; }
+        public SelectList BloodTypes { get; set; }
 
         [Required]
         [Display(Name = "City")]
@@ -67,7 +86,79 @@ namespace Ritual.Data
         [Required]
         [Display(Name = "Identification No.")]
         public string IDNumber { get; set; }
-        
+
+        public int MemberId { get; set; }
+
+    }
+
+    
+    public class MembershipProfileEditViewModel
+    {
+        [Display(Name = "Opt out of Emails")]
+        public bool? EmailOptOut { get; set; }
+
+        [Display(Name = "Birthday")]
+        public DateTime Birthday { get; set; }
+
+        [Display(Name = "Home Phone")]
+        public string HomePhone { get; set; }
+
+        [Display(Name = "Mobile Phone")]
+        public string MobilePhone { get; set; }
+
+        [Display(Name = "Shirt Size")]
+        public string ShirtSize { get; set; }
+        public SelectList ShirtSizes { get; set; }
+
+        [Display(Name = "Short Size")]
+        public string ShortSize { get; set; }
+        public SelectList ShortSizes { get; set; }
+
+        [Required]
+        [Display(Name = "Emergency Contact Name")]
+        public string EmergencyContactName { get; set; }
+
+        [Required]
+        [Display(Name = "Emergency Contact Number")]
+        public string EmergencyContactNumber { get; set; }
+
+        [Required]
+        [Display(Name = "Address Line 1")]
+        public string AddressLine1 { get; set; }
+
+        [Display(Name = "Address Line 2")]
+        public string AddressLine2 { get; set; }
+
+        [Required]
+        [Display(Name = "Blood Type")]
+        public string BloodType { get; set; }
+
+        [Required]
+        [Display(Name = "City")]
+        public string City { get; set; }
+
+        [Required]
+        [Display(Name = "Country")]
+        public string Country { get; set; }
+
+        public SelectList Countries { get; set; }
+
+        [Required]
+        [Display(Name = "Postcode / Zip")]
+        public string PostCodeZip { get; set; }
+
+        [Required]
+        [Display(Name = "Identification Type")]
+        public string IDType { get; set; }
+
+        public SelectList IDTypes { get; set; }
+
+        [Required]
+        [Display(Name = "Identification No.")]
+        public string IDNumber { get; set; }
+
+        public int MemberId { get; set; }
+
     }
 
     public class MemberAddMembershipModel
@@ -81,8 +172,8 @@ namespace Ritual.Data
         public DateTime membershipstartdate { get; set; }
         public DateTime membershipenddate { get; set; }
         public decimal selectedpackageinitialpayment { get; set; }
-        public Package package{ get; set; }
-        public Member member{ get; set; }
+        public Package package { get; set; }
+        public Member member { get; set; }
     }
 
     public class MemberDetailData
@@ -120,28 +211,19 @@ namespace Ritual.Data
         [Column("FullName", TypeName = "string")]
         public string FullName
         {
-            get
-            {
-                return string.Format("{0} {1}", this.AspNetUser.FirstName, this.AspNetUser.LastName);
-            }
+            get { return string.Format("{0} {1}", this.AspNetUser.FirstName, this.AspNetUser.LastName); }
         }
 
         [Column("LastName", TypeName = "string")]
         public string LastName
         {
-            get
-            {
-                return string.Format("{0}", this.AspNetUser.LastName);
-            }
+            get { return string.Format("{0}", this.AspNetUser.LastName); }
         }
 
         [Column("FirstName", TypeName = "string")]
         public string FirstName
         {
-            get
-            {
-                return string.Format("{0}", this.AspNetUser.FirstName);
-            }
+            get { return string.Format("{0}", this.AspNetUser.FirstName); }
         }
 
         public bool hasActiveMembership()
@@ -163,6 +245,23 @@ namespace Ritual.Data
             return db.Locations.FirstOrDefault(l => l.Id == this.HomeLocationId);
         }
 
+        public List<Location> getAvailableBookingLocations()
+        {
+            List<Location> locations = new List<Location>();
+
+            //TODO Calculate based on membership type what locations are available (Country / Global Pass)
+            if (this.getActiveMembership().Package.PackageTypeId == 5)
+            {
+                locations = db.Locations.ToList();
+            }
+            else
+            {
+                locations.Add(this.getUserHomeLocation());
+            }
+
+            return locations;
+        }
+
         public Membership getActiveMembership()
         {
             DateTime currentDate = DateTime.UtcNow.AddHours(this.getUserHomeLocation().TimeZoneOffset);
@@ -180,6 +279,15 @@ namespace Ritual.Data
         public List<Membership> getExpiredMemberships()
         {
             return db.Memberships.Where(m => m.MemberId == this.Id && m.MembershipStateId != 1).ToList();
+        }
+
+        public SessionBooking getLastAttendedSession()
+        {
+            return
+                db.SessionBookings.Where(m => m.MemberId == this.Id && m.LocationId == this.HomeLocationId && m.BookingStateId == 3)
+                    .OrderByDescending(m => m.Date)
+                    .ThenBy(m => m.TimeSlot.StartTime)
+                    .FirstOrDefault();
         }
 
         public List<SessionBookingModel> getUpcomingBookings()

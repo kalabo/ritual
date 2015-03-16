@@ -123,7 +123,7 @@ function saveAvatar() {
 
     $.ajax({
         type: "POST",
-        url: "/TrainingZone/Save",
+        url: "/MyRitual/Save",
         traditional: true,
         data: {
             w: img.css('width'),

@@ -1,0 +1,96 @@
+﻿@model Ritual.Data.OpeningHourOverride
+
+@{
+    ViewBag.Title = "Add Opening Hour Override - " + @ViewBag.Location.Name;
+}
+
+<section class="content-header">
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>@ViewBag.Title</h1>
+        </div>
+    </div>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="large-12 columns">
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @if (ViewContext.ViewData.ModelState.Any(x => x.Key == ""))
+                    {
+                        @Html.ValidationSummary("", new {@class = "alert-box alert"})
+                    }
+
+                    <input type="hidden" name="locationId" value="@ViewBag.Location.Id"/>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.OverrideStartDate, htmlAttributes: new {@class = "control-label col-md-2"})
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.OverrideStartDate, new {htmlAttributes = new {@class = "form-control datepicker"}})
+                            @Html.ValidationMessageFor(model => model.OverrideStartDate, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AltOpenTime, htmlAttributes: new {@class = "control-label col-md-2"})
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.AltOpenTime, new {htmlAttributes = new {@class = "form-control jqueryui-timepicker"}})
+                            @Html.ValidationMessageFor(model => model.AltOpenTime, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.OverrideEndDate, htmlAttributes: new {@class = "control-label col-md-2"})
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.OverrideEndDate, new {htmlAttributes = new {@class = "form-control datepicker"}})
+                            @Html.ValidationMessageFor(model => model.OverrideEndDate, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AltCloseTime, htmlAttributes: new {@class = "control-label col-md-2"})
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.AltCloseTime, new {htmlAttributes = new {@class = "form-control jqueryui-timepicker"}})
+                            @Html.ValidationMessageFor(model => model.AltCloseTime, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.OverrideReason, htmlAttributes: new {@class = "control-label col-md-2"})
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.OverrideReason, new {htmlAttributes = new {@class = "form-control"}})
+                            @Html.ValidationMessageFor(model => model.OverrideReason, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create" class="button btn-default"/>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div>
+                @Html.ActionLink("Back to Location", "Edit", new {id = ViewBag.Location.Id}, new {@class = "text-danger"})
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script>
+        $(function () {
+            $(".datepicker").datepicker({
+                minDate: 0,
+                numberOfMonths: 2
+            });
+        });
+    </script>
+}

@@ -30,14 +30,16 @@ namespace Ritual.Data
         public string name { get; set; }
         public int id { get; set; }
         public string address { get; set; }
+        public string localtime { get; set; }
 
-        public RitualLocations(decimal latitude, decimal longitude, string name, int id, string address)
+        public RitualLocations(decimal latitude, decimal longitude, string name, int id, string address, string localtime)
         {
             this.latitude = latitude;
             this.longitude = longitude;
             this.name = name;
             this.id = id;
             this.address = address;
+            this.localtime = localtime;
         }
     }
 
@@ -103,6 +105,11 @@ namespace Ritual.Data
             }
 
             return viewnews;
+        }
+
+        public string getLocalTime()
+        {
+            return DateTime.UtcNow.AddHours(this.TimeZoneOffset).ToShortTimeString();
         }
         
         public List<Member> getMembersByMembershipState(string membershipstate)

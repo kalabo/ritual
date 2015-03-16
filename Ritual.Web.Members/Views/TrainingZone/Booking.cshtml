@@ -19,6 +19,8 @@
                 <div>
                     @Html.ActionLink("Back to Dashboard", "Dashboard", "", new { @class = "button" })
                 </div>
+                <div id="ritual-locations"></div>
+                
                 <div id="ritual-dates"></div>
 
                 <div id="ritual-bookings"></div>
@@ -37,7 +39,7 @@
 
         <script type="text/javascript">
             $(document).ready(function () {
-                RITUAL.Core.TrainingZone.Bookings("#ritual-dates");
+                RITUAL.Core.TrainingZone.Bookings("#ritual-locations");
             });
 
         </script>

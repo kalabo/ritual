@@ -28,8 +28,8 @@ namespace Ritual.Data
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual ICollection<ClientIssuesFeedback> ClientIssuesFeedbacks { get; set; }
-        public virtual Location Location { get; set; }
         public virtual ICollection<InitialAssessment> InitialAssessments { get; set; }
         public virtual ICollection<QuarterlyAssessment> QuarterlyAssessments { get; set; }
+        public virtual Location Location { get; set; }
     }
 }

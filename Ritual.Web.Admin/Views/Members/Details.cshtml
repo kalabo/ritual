@@ -99,6 +99,12 @@
                                                 @Html.DisplayFor(model => model.Member.AspNetUser.MobilePhone)
                                             </div>
                                         </div>
+                                        <div class="large-4 medium-12 columns">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Member.JoinDate, new { @class = "control-label" })
+                                                @Html.DisplayFor(model => model.Member.JoinDate)
+                                            </div>
+                                        </div>
                                     </div>
                                 </fieldset>
                                 <fieldset>

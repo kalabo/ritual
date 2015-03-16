@@ -40,9 +40,15 @@ Templates.announcements_noitems = [
     "<li><a href='#'>No Announcements found</a></li>"
 ].join("\n");
 
+Templates.bookinglocationsdropdown = [
+    "<select id='booking-slot-locations'>",
+    "{{#each locations}}",
+        "<option value='{{Id}}'>{{Name}} - {{LocalTime}}</option>",
+    "{{/each}}",
+    "</select>"
+].join("\n");
 
-
-Templates.bookingdropdown = [
+Templates.bookingdatesdropdown = [
     "<select id='booking-slot-dates'>",
     "{{#each dates}}",
         "<option value='{{Date}}'>{{DateFriendly}}</option>",

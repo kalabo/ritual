@@ -4,16 +4,22 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using PagedList;
 using Ritual.Data;
 using Ritual.Web.Admin.Models;
+using Ritual.Web.Admin.Services;
 
 namespace Ritual.Web.Admin.Controllers
 {
     public class MembersController : Controller
     {
+        protected ApplicationDbContext ApplicationDbContext { get; set; }
+        protected UserManager<ApplicationUser> UserManager { get; set; }
         private RitualDBEntities db = new RitualDBEntities();
 
 
@@ -232,28 +238,54 @@ namespace Ritual.Web.Admin.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            
             Member member = db.Members.Find(id);
 
             if (member == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.AspNetUserId = new SelectList(db.AspNetUsers, "Id", "Email", member.AspNetUserId);
-            ViewBag.HomeLocationId = new SelectList(db.Locations, "Id", "Name", member.HomeLocationId);
-            return View(member);
+
+            //ViewBag.AspNetUserId = new SelectList(db.AspNetUsers, "Id", "Email", member.AspNetUserId);
+            //ViewBag.HomeLocationId = new SelectList(db.Locations, "Id", "Name", member.HomeLocationId);
+            //return View(member);
+
+            this.ApplicationDbContext = new ApplicationDbContext();
+            this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
+            var user = UserManager.FindById(User.Identity.GetUserId());
+
+            MembershipEditViewModel model = MembersService.GetModelForMyRitualEditProfile(user, member);
+
+            return View(model);
         }
 
-        // POST: Members/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //// POST: Members/Edit/5
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit([Bind(Include = "Id,IdentificationNumber,EmailOptOut,HomeLocationId,AspNetUserId")] Member member)
+        //{
+        //    //Redirect back to login page if not authenticated
+        //    if (!HttpContext.User.Identity.IsAuthenticated)
+        //    {
+        //        return RedirectToAction("Login", "Account");
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Entry(member).State = EntityState.Modified;
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+        //    ViewBag.AspNetUserId = new SelectList(db.AspNetUsers, "Id", "Email", member.AspNetUserId);
+        //    ViewBag.HomeLocationId = new SelectList(db.Locations, "Id", "Name", member.HomeLocationId);
+        //    return View(member);
+        //}
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,IdentificationNumber,EmailOptOut,HomeLocationId,AspNetUserId")] Member member)
+        public async Task<ActionResult> Edit(MembershipEditViewModel model)
         {
             //Redirect back to login page if not authenticated
             if (!HttpContext.User.Identity.IsAuthenticated)
@@ -261,15 +293,36 @@ namespace Ritual.Web.Admin.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+            Member member = db.Members.Find(model.MemberId);
+
+            if (member == null)
+            {
+                return HttpNotFound();
+            }
+
             if (ModelState.IsValid)
             {
+
                 db.Entry(member).State = EntityState.Modified;
+                MembersService.SaveMyRitualEditProfile(model, member);
                 db.SaveChanges();
+
+                this.ApplicationDbContext = new ApplicationDbContext();
+                this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
+                var user = UserManager.FindById(User.Identity.GetUserId());
+                user.HomePhone = model.HomePhone;
+                user.MobilePhone = model.MobilePhone;
+                user.Birthday = model.Birthday;
+                user.Gender = model.Gender;
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.Salutation = model.Salutation;
+                await UserManager.UpdateAsync(user);
                 return RedirectToAction("Index");
             }
-            ViewBag.AspNetUserId = new SelectList(db.AspNetUsers, "Id", "Email", member.AspNetUserId);
-            ViewBag.HomeLocationId = new SelectList(db.Locations, "Id", "Name", member.HomeLocationId);
-            return View(member);
+            //ViewBag.AspNetUserId = new SelectList(db.AspNetUsers, "Id", "Email", member.AspNetUserId);
+            //ViewBag.HomeLocationId = new SelectList(db.Locations, "Id", "Name", member.HomeLocationId);
+            return View(model);
         }
 
         // GET: Members/Delete/5

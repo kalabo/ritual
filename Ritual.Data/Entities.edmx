@@ -227,6 +227,7 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Property Name="AspNetUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="ShirtSize" Type="nchar" MaxLength="10" />
           <Property Name="ShortSize" Type="nchar" MaxLength="10" />
+          <Property Name="BloodType" Type="nvarchar" MaxLength="20" />
           <Property Name="EmergencyContactName" Type="nvarchar" MaxLength="50" />
           <Property Name="EmergencyContactNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="IDType" Type="nvarchar" MaxLength="50" />
@@ -236,6 +237,7 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Property Name="City" Type="nvarchar" MaxLength="50" />
           <Property Name="Country" Type="nvarchar" MaxLength="50" />
           <Property Name="PostZipCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="JoinDate" Type="date" />
         </EntityType>
         <EntityType Name="Membership">
           <Key>
@@ -285,7 +287,7 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="LocationId" Type="int" Nullable="false" />
-          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Body" Type="nvarchar(max)" />
           <Property Name="NewsCategoryId" Type="int" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
@@ -327,9 +329,8 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OverrideStartDate" Type="date" Nullable="false" />
           <Property Name="OverrideEndDate" Type="date" Nullable="false" />
-          <Property Name="DayOfWeek" Type="tinyint" Nullable="false" />
           <Property Name="AltOpenTime" Type="time" Precision="7" Nullable="false" />
-          <Property Name="AltCloseTme" Type="time" Precision="7" Nullable="false" />
+          <Property Name="AltCloseTime" Type="time" Precision="7" Nullable="false" />
           <Property Name="OverrideReason" Type="nvarchar(max)" />
           <Property Name="LocationId" Type="int" />
         </EntityType>
@@ -1355,7 +1356,6 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <EntitySet Name="ClientIssuesFeedbacks" EntityType="RitualDBModel.ClientIssuesFeedback" />
           <EntitySet Name="Employees" EntityType="RitualDBModel.Employee" />
           <EntitySet Name="InitialAssessments" EntityType="RitualDBModel.InitialAssessment" />
-          <EntitySet Name="Locations" EntityType="RitualDBModel.Location" />
           <EntitySet Name="Members" EntityType="RitualDBModel.Member" />
           <EntitySet Name="Memberships" EntityType="RitualDBModel.Membership" />
           <EntitySet Name="MembershipStates" EntityType="RitualDBModel.MembershipState" />
@@ -1364,7 +1364,6 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <EntitySet Name="NewsCategories" EntityType="RitualDBModel.NewsCategory" />
           <EntitySet Name="OffPeakHours" EntityType="RitualDBModel.OffPeakHour" />
           <EntitySet Name="OpeningHours" EntityType="RitualDBModel.OpeningHour" />
-          <EntitySet Name="OpeningHourOverrides" EntityType="RitualDBModel.OpeningHourOverride" />
           <EntitySet Name="Packages" EntityType="RitualDBModel.Package" />
           <EntitySet Name="PackageLocationPrices" EntityType="RitualDBModel.PackageLocationPrice" />
           <EntitySet Name="PackageTypes" EntityType="RitualDBModel.PackageType" />
@@ -1409,10 +1408,6 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
             <End Role="Member" EntitySet="Members" />
             <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedbacks" />
           </AssociationSet>
-          <AssociationSet Name="FK_Employee_Location" Association="RitualDBModel.FK_Employee_Location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="Employee" EntitySet="Employees" />
-          </AssociationSet>
           <AssociationSet Name="FK_InitialAssessment_Employee" Association="RitualDBModel.FK_InitialAssessment_Employee">
             <End Role="Employee" EntitySet="Employees" />
             <End Role="InitialAssessment" EntitySet="InitialAssessments" />
@@ -1424,38 +1419,6 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <AssociationSet Name="FK_InitialAssessment_Member" Association="RitualDBModel.FK_InitialAssessment_Member">
             <End Role="Member" EntitySet="Members" />
             <End Role="InitialAssessment" EntitySet="InitialAssessments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Booking_Location" Association="RitualDBModel.FK_Booking_Location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="SessionBooking" EntitySet="SessionBookings" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Member_Location" Association="RitualDBModel.FK_Member_Location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="Member" EntitySet="Members" />
-          </AssociationSet>
-          <AssociationSet Name="FK_News_Location" Association="RitualDBModel.FK_News_Location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="News" EntitySet="News" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OffPeakHours_Location" Association="RitualDBModel.FK_OffPeakHours_Location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="OffPeakHour" EntitySet="OffPeakHours" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OpeningHour_Location" Association="RitualDBModel.FK_OpeningHour_Location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="OpeningHour" EntitySet="OpeningHours" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OpeningHourOverride_Location" Association="RitualDBModel.FK_OpeningHourOverride_Location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="OpeningHourOverride" EntitySet="OpeningHourOverrides" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PackageLocationPrices_Location" Association="RitualDBModel.FK_PackageLocationPrices_Location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="PackageLocationPrice" EntitySet="PackageLocationPrices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TrialTimeBlock_Location" Association="RitualDBModel.FK_TrialTimeBlock_Location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="TrialTimeBlock" EntitySet="TrialTimeBlocks" />
           </AssociationSet>
           <AssociationSet Name="FK_Booking_Member" Association="RitualDBModel.FK_Booking_Member">
             <End Role="Member" EntitySet="Members" />
@@ -1532,6 +1495,44 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <AssociationSet Name="ClientIssuesFeedbackIssuePosture" Association="RitualDBModel.ClientIssuesFeedbackIssuePosture">
             <End Role="ClientIssuesFeedback" EntitySet="ClientIssuesFeedbacks" />
             <End Role="RitualLookup" EntitySet="RitualLookups" />
+          </AssociationSet>
+          <EntitySet Name="OpeningHourOverrides" EntityType="RitualDBModel.OpeningHourOverride" />
+          <EntitySet Name="Locations" EntityType="RitualDBModel.Location" />
+          <AssociationSet Name="FK_Employee_Location" Association="RitualDBModel.FK_Employee_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_Location" Association="RitualDBModel.FK_Booking_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="SessionBooking" EntitySet="SessionBookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Member_Location" Association="RitualDBModel.FK_Member_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Member" EntitySet="Members" />
+          </AssociationSet>
+          <AssociationSet Name="FK_News_Location" Association="RitualDBModel.FK_News_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="News" EntitySet="News" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OffPeakHours_Location" Association="RitualDBModel.FK_OffPeakHours_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="OffPeakHour" EntitySet="OffPeakHours" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OpeningHour_Location" Association="RitualDBModel.FK_OpeningHour_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="OpeningHour" EntitySet="OpeningHours" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OpeningHourOverride_Location" Association="RitualDBModel.FK_OpeningHourOverride_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="OpeningHourOverride" EntitySet="OpeningHourOverrides" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PackageLocationPrices_Location" Association="RitualDBModel.FK_PackageLocationPrices_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="PackageLocationPrice" EntitySet="PackageLocationPrices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrialTimeBlock_Location" Association="RitualDBModel.FK_TrialTimeBlock_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="TrialTimeBlock" EntitySet="TrialTimeBlocks" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetImminentSessionBookings_Result">
@@ -1672,9 +1673,9 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Property Name="HomeLocationId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AspNetUser" Relationship="RitualDBModel.FK_Employee_AspNetUsers" FromRole="Employee" ToRole="AspNetUser" />
           <NavigationProperty Name="ClientIssuesFeedbacks" Relationship="RitualDBModel.FK_ClientIssuesFeedback_Employee" FromRole="Employee" ToRole="ClientIssuesFeedback" />
-          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_Employee_Location" FromRole="Employee" ToRole="Location" />
           <NavigationProperty Name="InitialAssessments" Relationship="RitualDBModel.FK_InitialAssessment_Employee" FromRole="Employee" ToRole="InitialAssessment" />
           <NavigationProperty Name="QuarterlyAssessments" Relationship="RitualDBModel.FK_QuarterlyAssessment_Employee" FromRole="Employee" ToRole="QuarterlyAssessment" />
+          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_Employee_Location" FromRole="Employee" ToRole="Location" />
         </EntityType>
         <EntityType Name="InitialAssessment">
           <Key>
@@ -1713,31 +1714,6 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <NavigationProperty Name="Employee" Relationship="RitualDBModel.FK_InitialAssessment_Employee" FromRole="InitialAssessment" ToRole="Employee" />
           <NavigationProperty Name="Member" Relationship="RitualDBModel.FK_InitialAssessment_Member" FromRole="InitialAssessment" ToRole="Member" />
         </EntityType>
-        <EntityType Name="Location">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Address" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PostCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Country" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="TimeZoneOffset" Type="Int16" Nullable="false" />
-          <Property Name="Currency" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="AvailableSlots" Type="Int16" Nullable="false" />
-          <Property Name="Longitude" Type="Decimal" Nullable="false" Precision="9" Scale="6" />
-          <Property Name="Latitude" Type="Decimal" Nullable="false" Precision="9" Scale="6" />
-          <NavigationProperty Name="Employees" Relationship="RitualDBModel.FK_Employee_Location" FromRole="Location" ToRole="Employee" />
-          <NavigationProperty Name="SessionBookings" Relationship="RitualDBModel.FK_Booking_Location" FromRole="Location" ToRole="SessionBooking" />
-          <NavigationProperty Name="Members" Relationship="RitualDBModel.FK_Member_Location" FromRole="Location" ToRole="Member" />
-          <NavigationProperty Name="News" Relationship="RitualDBModel.FK_News_Location" FromRole="Location" ToRole="News" />
-          <NavigationProperty Name="OffPeakHours" Relationship="RitualDBModel.FK_OffPeakHours_Location" FromRole="Location" ToRole="OffPeakHour" />
-          <NavigationProperty Name="OpeningHours" Relationship="RitualDBModel.FK_OpeningHour_Location" FromRole="Location" ToRole="OpeningHour" />
-          <NavigationProperty Name="OpeningHourOverrides" Relationship="RitualDBModel.FK_OpeningHourOverride_Location" FromRole="Location" ToRole="OpeningHourOverride" />
-          <NavigationProperty Name="PackageLocationPrices" Relationship="RitualDBModel.FK_PackageLocationPrices_Location" FromRole="Location" ToRole="PackageLocationPrice" />
-          <NavigationProperty Name="TrialTimeBlocks" Relationship="RitualDBModel.FK_TrialTimeBlock_Location" FromRole="Location" ToRole="TrialTimeBlock" />
-        </EntityType>
         <EntityType Name="Member">
           <Key>
             <PropertyRef Name="Id" />
@@ -1761,10 +1737,12 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <NavigationProperty Name="AspNetUser" Relationship="RitualDBModel.FK_Member_AspNetUsers" FromRole="Member" ToRole="AspNetUser" />
           <NavigationProperty Name="ClientIssuesFeedbacks" Relationship="RitualDBModel.FK_ClientIssuesFeedback_Member" FromRole="Member" ToRole="ClientIssuesFeedback" />
           <NavigationProperty Name="InitialAssessments" Relationship="RitualDBModel.FK_InitialAssessment_Member" FromRole="Member" ToRole="InitialAssessment" />
-          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_Member_Location" FromRole="Member" ToRole="Location" />
           <NavigationProperty Name="SessionBookings" Relationship="RitualDBModel.FK_Booking_Member" FromRole="Member" ToRole="SessionBooking" />
           <NavigationProperty Name="Memberships" Relationship="RitualDBModel.FK_Membership_Member1" FromRole="Member" ToRole="Membership" />
           <NavigationProperty Name="QuarterlyAssessments" Relationship="RitualDBModel.FK_QuarterlyAssessment_Member" FromRole="Member" ToRole="QuarterlyAssessment" />
+          <Property Name="JoinDate" Type="DateTime" Precision="0" />
+          <Property Name="BloodType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_Member_Location" FromRole="Member" ToRole="Location" />
         </EntityType>
         <EntityType Name="Membership">
           <Key>
@@ -1820,7 +1798,7 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="LocationId" Type="Int32" Nullable="false" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Body" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="NewsCategoryId" Type="Int32" Nullable="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
@@ -1829,8 +1807,8 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AspNetUserCreatedBy" Relationship="RitualDBModel.FK_News_AspNetUsersCreatedBy" FromRole="News" ToRole="AspNetUser" />
           <NavigationProperty Name="AspNetUserModifiedBy" Relationship="RitualDBModel.FK_News_AspNetUsersModifiedBy" FromRole="News" ToRole="AspNetUser" />
-          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_News_Location" FromRole="News" ToRole="Location" />
           <NavigationProperty Name="NewsCategory" Relationship="RitualDBModel.FK_News_NewsCategories" FromRole="News" ToRole="NewsCategory" />
+          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_News_Location" FromRole="News" ToRole="Location" />
         </EntityType>
         <EntityType Name="NewsCategory">
           <Key>
@@ -1862,20 +1840,6 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Property Name="LocationId" Type="Int32" />
           <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_OpeningHour_Location" FromRole="OpeningHour" ToRole="Location" />
         </EntityType>
-        <EntityType Name="OpeningHourOverride">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OverrideStartDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="OverrideEndDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="DayOfWeek" Type="Byte" Nullable="false" />
-          <Property Name="AltOpenTime" Type="Time" Nullable="false" Precision="7" />
-          <Property Name="AltCloseTme" Type="Time" Nullable="false" Precision="7" />
-          <Property Name="OverrideReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="LocationId" Type="Int32" />
-          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_OpeningHourOverride_Location" FromRole="OpeningHourOverride" ToRole="Location" />
-        </EntityType>
         <EntityType Name="Package">
           <Key>
             <PropertyRef Name="Id" />
@@ -1902,8 +1866,8 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Property Name="PackageId" Type="Int32" Nullable="false" />
           <Property Name="MonthlyPrice" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <Property Name="TotalPrice" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_PackageLocationPrices_Location" FromRole="PackageLocationPrice" ToRole="Location" />
           <NavigationProperty Name="Package" Relationship="RitualDBModel.FK_PackageLocationPrices_Package" FromRole="PackageLocationPrice" ToRole="Package" />
+          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_PackageLocationPrices_Location" FromRole="PackageLocationPrice" ToRole="Location" />
         </EntityType>
         <EntityType Name="PackageType">
           <Key>
@@ -2005,10 +1969,10 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Property Name="RPEPush" Type="Int32" Nullable="false" />
           <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TimeSlotId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_Booking_Location" FromRole="SessionBooking" ToRole="Location" />
           <NavigationProperty Name="Member" Relationship="RitualDBModel.FK_Booking_Member" FromRole="SessionBooking" ToRole="Member" />
           <NavigationProperty Name="SessionBookingState" Relationship="RitualDBModel.FK_Booking_BookingState" FromRole="SessionBooking" ToRole="SessionBookingState" />
           <NavigationProperty Name="TimeSlot" Relationship="RitualDBModel.FK_Booking_TimeSlot" FromRole="SessionBooking" ToRole="TimeSlot" />
+          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_Booking_Location" FromRole="SessionBooking" ToRole="Location" />
         </EntityType>
         <EntityType Name="SessionBookingState">
           <Key>
@@ -2148,18 +2112,6 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Employee_Location">
-          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="RitualDBModel.Employee" Role="Employee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="HomeLocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_InitialAssessment_Employee">
           <End Type="RitualDBModel.Employee" Role="Employee" Multiplicity="1" />
           <End Type="RitualDBModel.InitialAssessment" Role="InitialAssessment" Multiplicity="*" />
@@ -2193,102 +2145,6 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
             </Principal>
             <Dependent Role="InitialAssessment">
               <PropertyRef Name="MemberId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Booking_Location">
-          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="RitualDBModel.SessionBooking" Role="SessionBooking" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SessionBooking">
-              <PropertyRef Name="LocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Member_Location">
-          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Member">
-              <PropertyRef Name="HomeLocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_News_Location">
-          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="RitualDBModel.News" Role="News" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="News">
-              <PropertyRef Name="LocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OffPeakHours_Location">
-          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="RitualDBModel.OffPeakHour" Role="OffPeakHour" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OffPeakHour">
-              <PropertyRef Name="LocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OpeningHour_Location">
-          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="0..1" />
-          <End Type="RitualDBModel.OpeningHour" Role="OpeningHour" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OpeningHour">
-              <PropertyRef Name="LocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OpeningHourOverride_Location">
-          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="0..1" />
-          <End Type="RitualDBModel.OpeningHourOverride" Role="OpeningHourOverride" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OpeningHourOverride">
-              <PropertyRef Name="LocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PackageLocationPrices_Location">
-          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="RitualDBModel.PackageLocationPrice" Role="PackageLocationPrice" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PackageLocationPrice">
-              <PropertyRef Name="LocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TrialTimeBlock_Location">
-          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
-          <End Type="RitualDBModel.TrialTimeBlock" Role="TrialTimeBlock" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="TrialTimeBlock">
-              <PropertyRef Name="LocationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2455,6 +2311,152 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
         <Association Name="ClientIssuesFeedbackIssuePosture">
           <End Type="RitualDBModel.ClientIssuesFeedback" Role="ClientIssuesFeedback" Multiplicity="*" />
           <End Type="RitualDBModel.RitualLookup" Role="RitualLookup" Multiplicity="*" />
+        </Association>
+        <EntityType Name="OpeningHourOverride">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OverrideStartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="OverrideEndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="AltOpenTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="AltCloseTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="OverrideReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LocationId" Type="Int32" />
+          <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_OpeningHourOverride_Location" FromRole="OpeningHourOverride" ToRole="Location" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PostCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TimeZoneOffset" Type="Int16" Nullable="false" />
+          <Property Name="Currency" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AvailableSlots" Type="Int16" Nullable="false" />
+          <Property Name="Longitude" Type="Decimal" Nullable="false" Precision="9" Scale="6" />
+          <Property Name="Latitude" Type="Decimal" Nullable="false" Precision="9" Scale="6" />
+          <NavigationProperty Name="Employees" Relationship="RitualDBModel.FK_Employee_Location" FromRole="Location" ToRole="Employee" />
+          <NavigationProperty Name="SessionBookings" Relationship="RitualDBModel.FK_Booking_Location" FromRole="Location" ToRole="SessionBooking" />
+          <NavigationProperty Name="Members" Relationship="RitualDBModel.FK_Member_Location" FromRole="Location" ToRole="Member" />
+          <NavigationProperty Name="News" Relationship="RitualDBModel.FK_News_Location" FromRole="Location" ToRole="News" />
+          <NavigationProperty Name="OffPeakHours" Relationship="RitualDBModel.FK_OffPeakHours_Location" FromRole="Location" ToRole="OffPeakHour" />
+          <NavigationProperty Name="OpeningHours" Relationship="RitualDBModel.FK_OpeningHour_Location" FromRole="Location" ToRole="OpeningHour" />
+          <NavigationProperty Name="OpeningHourOverrides" Relationship="RitualDBModel.FK_OpeningHourOverride_Location" FromRole="Location" ToRole="OpeningHourOverride" />
+          <NavigationProperty Name="PackageLocationPrices" Relationship="RitualDBModel.FK_PackageLocationPrices_Location" FromRole="Location" ToRole="PackageLocationPrice" />
+          <NavigationProperty Name="TrialTimeBlocks" Relationship="RitualDBModel.FK_TrialTimeBlock_Location" FromRole="Location" ToRole="TrialTimeBlock" />
+        </EntityType>
+        <Association Name="FK_Employee_Location">
+          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="RitualDBModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="HomeLocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_Location">
+          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="RitualDBModel.SessionBooking" Role="SessionBooking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SessionBooking">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Member_Location">
+          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Member">
+              <PropertyRef Name="HomeLocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_News_Location">
+          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="RitualDBModel.News" Role="News" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="News">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OffPeakHours_Location">
+          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="RitualDBModel.OffPeakHour" Role="OffPeakHour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OffPeakHour">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OpeningHour_Location">
+          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="0..1" />
+          <End Type="RitualDBModel.OpeningHour" Role="OpeningHour" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OpeningHour">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OpeningHourOverride_Location">
+          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="0..1" />
+          <End Type="RitualDBModel.OpeningHourOverride" Role="OpeningHourOverride" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OpeningHourOverride">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PackageLocationPrices_Location">
+          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="RitualDBModel.PackageLocationPrice" Role="PackageLocationPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PackageLocationPrice">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrialTimeBlock_Location">
+          <End Type="RitualDBModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="RitualDBModel.TrialTimeBlock" Role="TrialTimeBlock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TrialTimeBlock">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -2632,26 +2634,11 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Locations">
-            <EntityTypeMapping TypeName="RitualDBModel.Location">
-              <MappingFragment StoreEntitySet="Location">
-                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
-                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
-                <ScalarProperty Name="AvailableSlots" ColumnName="AvailableSlots" />
-                <ScalarProperty Name="Currency" ColumnName="Currency" />
-                <ScalarProperty Name="TimeZoneOffset" ColumnName="TimeZoneOffset" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Members">
             <EntityTypeMapping TypeName="RitualDBModel.Member">
               <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="BloodType" ColumnName="BloodType" />
+                <ScalarProperty Name="JoinDate" ColumnName="JoinDate" />
                 <ScalarProperty Name="PostZipCode" ColumnName="PostZipCode" />
                 <ScalarProperty Name="Country" ColumnName="Country" />
                 <ScalarProperty Name="City" ColumnName="City" />
@@ -2757,20 +2744,6 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
                 <ScalarProperty Name="CloseTime" ColumnName="CloseTime" />
                 <ScalarProperty Name="OpenTime" ColumnName="OpenTime" />
                 <ScalarProperty Name="DateOfWeek" ColumnName="DateOfWeek" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OpeningHourOverrides">
-            <EntityTypeMapping TypeName="RitualDBModel.OpeningHourOverride">
-              <MappingFragment StoreEntitySet="OpeningHourOverride">
-                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
-                <ScalarProperty Name="OverrideReason" ColumnName="OverrideReason" />
-                <ScalarProperty Name="AltCloseTme" ColumnName="AltCloseTme" />
-                <ScalarProperty Name="AltOpenTime" ColumnName="AltOpenTime" />
-                <ScalarProperty Name="DayOfWeek" ColumnName="DayOfWeek" />
-                <ScalarProperty Name="OverrideEndDate" ColumnName="OverrideEndDate" />
-                <ScalarProperty Name="OverrideStartDate" ColumnName="OverrideStartDate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -3001,6 +2974,36 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
               <ScalarProperty Name="Id" ColumnName="ClientIssueFeedbackId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="OpeningHourOverrides">
+            <EntityTypeMapping TypeName="RitualDBModel.OpeningHourOverride">
+              <MappingFragment StoreEntitySet="OpeningHourOverride">
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="OverrideReason" ColumnName="OverrideReason" />
+                <ScalarProperty Name="AltCloseTime" ColumnName="AltCloseTime" />
+                <ScalarProperty Name="AltOpenTime" ColumnName="AltOpenTime" />
+                <ScalarProperty Name="OverrideEndDate" ColumnName="OverrideEndDate" />
+                <ScalarProperty Name="OverrideStartDate" ColumnName="OverrideStartDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="RitualDBModel.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="AvailableSlots" ColumnName="AvailableSlots" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="TimeZoneOffset" ColumnName="TimeZoneOffset" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

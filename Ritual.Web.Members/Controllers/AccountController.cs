@@ -527,7 +527,7 @@ namespace Ritual.Web.Members.Controllers
                             select l;
             foreach (Location location in locations)
             {
-                rituallocations.Add(new RitualLocations(location.Latitude, location.Longitude, location.Name, location.Id, location.Address));
+                rituallocations.Add(new RitualLocations(location.Latitude, location.Longitude, location.Name, location.Id, location.Address, location.getLocalTime()));
             }
             return Json(rituallocations, JsonRequestBehavior.AllowGet);
         }

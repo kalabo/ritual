@@ -26,7 +26,7 @@ namespace Ritual.Data
     
         public virtual AspNetUser AspNetUserCreatedBy { get; set; }
         public virtual AspNetUser AspNetUserModifiedBy { get; set; }
-        public virtual Location Location { get; set; }
         public virtual NewsCategory NewsCategory { get; set; }
+        public virtual Location Location { get; set; }
     }
 }
