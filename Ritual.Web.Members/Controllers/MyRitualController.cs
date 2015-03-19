@@ -116,7 +116,45 @@ namespace Ritual.Web.Members.Controllers
             return View(model);
         }
 
-   
+
+        // GET: /TrainingZone/SuspendMembership
+        public ActionResult SuspendMembership()
+        {
+            //Redirect back to login page if not authenticated
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("", "Account");
+            }
+
+            this.ApplicationDbContext = new ApplicationDbContext();
+            this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
+            var user = UserManager.FindById(User.Identity.GetUserId());
+
+            MembershipSuspensionViewModel model = MyRitualService.GetMembershipSuspension(user);
+
+            return View(model);
+        }
+
+        // POST: /TrainingZone/SuspendMembership
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SuspendMembership(MembershipSuspensionViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                this.ApplicationDbContext = new ApplicationDbContext();
+                this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
+                var user = UserManager.FindById(User.Identity.GetUserId());
+
+                MyRitualService.SaveSuspendMembership(user, model);
+                return RedirectToAction("Dashboard", "MyRitual");
+            }
+
+            return View(model);
+        }
+        
         // GET: /TrainingZone/EditProfile
         public ActionResult EditProfile()
         {

@@ -17,6 +17,8 @@ namespace Ritual.Data
         public Membership()
         {
             this.MembershipSuspensions = new HashSet<MembershipSuspension>();
+            this.PaymentHolidays = new HashSet<PaymentHoliday>();
+            this.PaymentSchedules = new HashSet<PaymentSchedule>();
         }
     
         public int Id { get; set; }
@@ -44,5 +46,7 @@ namespace Ritual.Data
         public virtual MembershipState MembershipState { get; set; }
         public virtual Package Package { get; set; }
         public virtual ICollection<MembershipSuspension> MembershipSuspensions { get; set; }
+        public virtual ICollection<PaymentHoliday> PaymentHolidays { get; set; }
+        public virtual ICollection<PaymentSchedule> PaymentSchedules { get; set; }
     }
 }

@@ -23,12 +23,17 @@ namespace Ritual.Data
         public int Id { get; set; }
         public string Name { get; set; }
         public int PackageTypeId { get; set; }
-        public Nullable<int> PackagePeriodMonths { get; set; }
-        public Nullable<int> PackageSuspensionLimit { get; set; }
-        public Nullable<int> PackageVisitLimit { get; set; }
+        public int PackagePeriodMonths { get; set; }
+        public int PackageSuspensionLimit { get; set; }
+        public int PackageVisitLimit { get; set; }
         public bool PackageIsActive { get; set; }
         public bool PackageIsReoccuring { get; set; }
         public bool PackagePayInFull { get; set; }
+        public int PackageSuspensionMinLength { get; set; }
+        public int PackageSuspensionMaxLength { get; set; }
+        public int PackagePaymentHolidayLimit { get; set; }
+        public int PackagePaymentHolidayMinLength { get; set; }
+        public int PackagePaymentHolidayMaxLength { get; set; }
     
         public virtual ICollection<Membership> Memberships { get; set; }
         public virtual PackageType PackageType { get; set; }

@@ -40,7 +40,63 @@ namespace Ritual.Data
         private RitualDBEntities db = new RitualDBEntities();
         public int getNumberOfSuspensions()
         {
-            return db.MembershipSuspensions.Count(s => s.MembershipId == this.MemberId);
+            return db.MembershipSuspensions.Count(s => s.MembershipId == this.Id);
+        }
+
+        public bool AssignPaymentSchedule()
+        {
+            Location membershipLocation = this.Member.getUserHomeLocation();
+
+            PackageLocationPrice membershipPackagePrice =
+                db.PackageLocationPrices.SingleOrDefault(
+                    m => m.LocationId == membershipLocation.Id && m.PackageId == this.PackageId);
+
+            //If package is paid in full set inital price
+            if (this.Package.PackagePayInFull)
+            {
+                PaymentSchedule schedule = new PaymentSchedule();
+                schedule.MemberId = this.Member.Id;
+                schedule.MembershipId = this.Id;
+                schedule.Paid = 0;
+                schedule.Currency = membershipLocation.Currency;
+                schedule.TransactionId = string.Empty;
+                schedule.Payment = membershipPackagePrice.TotalPrice;
+
+                db.PaymentSchedules.Add(schedule);
+                db.SaveChanges();
+                return true;
+            }
+
+            if (this.Package.PackageIsReoccuring)
+            {
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool isSuspended()
+        {
+
+            DateTime currentDate = DateTime.Now.Date;
+            List<MembershipSuspension> suspensions =
+                db.MembershipSuspensions.Where(
+                    s =>
+                        s.MembershipId == this.Id && s.SuspensionStartDate <= currentDate &&
+                        s.SuspensionEndDate >= currentDate).ToList();
+
+            if (this.MembershipState.Name == "Suspended")
+            {
+                return true;
+            }
+            
+            if (suspensions.Count > 0)
+            {
+                return true;
+            }
+
+            return false;
         }
         
         public string getMembershipType()
@@ -98,17 +154,16 @@ namespace Ritual.Data
         
         public bool allowSuspension()
         {
-            if(this.getNumberOfSuspensions() < this.Package.PackageSuspensionLimit)
+            if (this.getNumberOfSuspensions() >= this.Package.PackageSuspensionLimit)
             {
-                return true;
+                return false;
             }
-
-            if(this.Package.PackageSuspensionLimit > 0)
+            
+            if (this.Package.PackageSuspensionLimit == 0)
             {
-                return true;
+                return false;
             }
-
-            return false;
+            return true;
         }
     }
 }

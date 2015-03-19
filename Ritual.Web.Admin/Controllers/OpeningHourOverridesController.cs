@@ -48,7 +48,7 @@ namespace Ritual.Web.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,OverrideStartDate,OverrideEndDate,DayOfWeek,AltOpenTime,AltCloseTme,Closed,OverrideReason,LocationId")] OpeningHourOverride openingHourOverride)
+        public ActionResult Create([Bind(Include = "Id,OverrideStartDate,OverrideEndDate,DayOfWeek,AltOpenTime,AltCloseTime,Closed,OverrideReason,LocationId")] OpeningHourOverride openingHourOverride)
         {
             if (ModelState.IsValid)
             {
@@ -82,7 +82,7 @@ namespace Ritual.Web.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,OverrideStartDate,OverrideEndDate,DayOfWeek,AltOpenTime,AltCloseTme,Closed,OverrideReason,LocationId")] OpeningHourOverride openingHourOverride)
+        public ActionResult Edit([Bind(Include = "Id,OverrideStartDate,OverrideEndDate,DayOfWeek,AltOpenTime,AltCloseTime,Closed,OverrideReason,LocationId")] OpeningHourOverride openingHourOverride)
         {
             if (ModelState.IsValid)
             {

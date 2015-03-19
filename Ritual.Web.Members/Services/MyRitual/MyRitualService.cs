@@ -16,6 +16,62 @@ namespace Ritual.Web.Members.Services.MyRitual
         protected UserManager<ApplicationUser> UserManager { get; set; }
         private static RitualDBEntities db = new RitualDBEntities();
 
+        public static void SaveSuspendMembership(ApplicationUser user, MembershipSuspensionViewModel model)
+        {
+            try
+            {
+                //Create New Suspension
+                MembershipSuspension suspension = new MembershipSuspension();
+                suspension.MembershipId = model.SuspensionMembershipId;
+                suspension.SuspensionStartDate = model.SuspensionStartDate;
+                suspension.SuspensionEndDate = model.SuspensionEndDate;
+                suspension.SuspensionReason = model.SuspensionReason;
+                db.MembershipSuspensions.Add(suspension);
+                db.SaveChanges();
+
+                //Extend Current Membership End Date
+                Membership currentMembership = db.Memberships.Find(model.SuspensionMembershipId);
+                int extensionDays = Convert.ToInt32((model.SuspensionEndDate - model.SuspensionStartDate).TotalDays);
+                DateTime endDate = currentMembership.EndDate;
+                endDate = endDate.AddDays(extensionDays);
+                currentMembership.EndDate = endDate;
+                db.Entry(currentMembership).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                
+            }
+        }
+
+        public static MembershipSuspensionViewModel GetMembershipSuspension(ApplicationUser user)
+        {
+            MembershipSuspensionViewModel model = new MembershipSuspensionViewModel();
+            Member member = db.Members.Single(m => m.AspNetUserId == user.Id);
+            Membership membership = member.getActiveMembership();
+            Package package = membership.Package;
+            List<MembershipSuspension> suspensions = db.MembershipSuspensions.Where(s => s.MembershipId == membership.Id).ToList();
+
+            int currentMembershipDays = 0;
+
+            foreach (MembershipSuspension suspension in suspensions)
+            {
+                int duration = Convert.ToInt32((suspension.SuspensionEndDate - suspension.SuspensionStartDate).TotalDays);
+                currentMembershipDays = currentMembershipDays + duration;
+            }
+
+            model.TakenSuspensionDays = currentMembershipDays;
+            model.SuspensionStartDate = DateTime.Now;
+            model.SuspensionEndDate = DateTime.Now.AddDays(package.PackageSuspensionMinLength);
+            model.SuspensionMemberId = member.Id;
+            model.SuspensionMembershipId = member.getActiveMembership().Id;
+            model.CurrentMembershipPackageSuspensionLimit = package.PackageSuspensionLimit;
+            model.CurrentMembershipSuspensions = suspensions.Count;
+            model.AvailableSuspensionDays = (package.PackageSuspensionMaxLength - currentMembershipDays);
+
+            return model;
+        }
+
         public static MyRitualDashboardData GetModelForMyRitual(ApplicationUser user)
         {
             MyRitualDashboardData model = new MyRitualDashboardData();

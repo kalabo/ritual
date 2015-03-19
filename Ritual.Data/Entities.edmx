@@ -341,9 +341,14 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="PackageTypeId" Type="int" Nullable="false" />
-          <Property Name="PackagePeriodMonths" Type="int" />
-          <Property Name="PackageSuspensionLimit" Type="int" />
-          <Property Name="PackageVisitLimit" Type="int" />
+          <Property Name="PackagePeriodMonths" Type="int" Nullable="false" />
+          <Property Name="PackageSuspensionLimit" Type="int" Nullable="false" />
+          <Property Name="PackageSuspensionMinLength" Type="int" Nullable="false" />
+          <Property Name="PackageSuspensionMaxLength" Type="int" Nullable="false" />
+          <Property Name="PackagePaymentHolidayLimit" Type="int" Nullable="false" />
+          <Property Name="PackagePaymentHolidayMinLength" Type="int" Nullable="false" />
+          <Property Name="PackagePaymentHolidayMaxLength" Type="int" Nullable="false" />
+          <Property Name="PackageVisitLimit" Type="int" Nullable="false" />
           <Property Name="PackageIsActive" Type="bit" Nullable="false" />
           <Property Name="PackageIsReoccuring" Type="bit" Nullable="false" />
           <Property Name="PackagePayInFull" Type="bit" Nullable="false" />
@@ -365,12 +370,15 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <EntityType Name="PaymentCategory">
+        <EntityType Name="PaymentHoliday">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MembershipId" Type="int" Nullable="false" />
+          <Property Name="PaymentHolidayStartDate" Type="date" Nullable="false" />
+          <Property Name="PaymentHolidayEndDate" Type="date" Nullable="false" />
+          <Property Name="PaymentHolidayReason" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="PaymentSchedules">
           <Key>
@@ -380,11 +388,10 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Property Name="MemberId" Type="int" Nullable="false" />
           <Property Name="MembershipId" Type="int" Nullable="false" />
           <Property Name="Payment" Type="decimal" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="PaymentDate" Type="date" Nullable="false" />
+          <Property Name="PaymentDate" Type="date" />
           <Property Name="Paid" Type="tinyint" Nullable="false" />
           <Property Name="TransactionId" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Currency" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="PaymentCategoryId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="QuarterlyAssessment">
           <Key>
@@ -1020,6 +1027,42 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PaymentHoliday_Membership">
+          <End Role="Membership" Type="Self.Membership" Multiplicity="1" />
+          <End Role="PaymentHoliday" Type="Self.PaymentHoliday" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Membership">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaymentHoliday">
+              <PropertyRef Name="MembershipId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentSchedules_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="PaymentSchedules" Type="Self.PaymentSchedules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaymentSchedules">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentSchedules_Membership">
+          <End Role="Membership" Type="Self.Membership" Multiplicity="1" />
+          <End Role="PaymentSchedules" Type="Self.PaymentSchedules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Membership">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaymentSchedules">
+              <PropertyRef Name="MembershipId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_QuarterlyAssessment_Employee">
           <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
           <End Role="QuarterlyAssessment" Type="Self.QuarterlyAssessment" Multiplicity="*" />
@@ -1091,7 +1134,7 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <EntitySet Name="Package" EntityType="Self.Package" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PackageLocationPrices" EntityType="Self.PackageLocationPrices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PackageType" EntityType="Self.PackageType" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PaymentCategory" EntityType="Self.PaymentCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentHoliday" EntityType="Self.PaymentHoliday" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentSchedules" EntityType="Self.PaymentSchedules" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QuarterlyAssessment" EntityType="Self.QuarterlyAssessment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RitualLookups" EntityType="Self.RitualLookups" Schema="dbo" store:Type="Tables" />
@@ -1318,6 +1361,18 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
             <End Role="Package" EntitySet="Package" />
             <End Role="PackageLocationPrices" EntitySet="PackageLocationPrices" />
           </AssociationSet>
+          <AssociationSet Name="FK_PaymentHoliday_Membership" Association="Self.FK_PaymentHoliday_Membership">
+            <End Role="Membership" EntitySet="Membership" />
+            <End Role="PaymentHoliday" EntitySet="PaymentHoliday" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentSchedules_Member" Association="Self.FK_PaymentSchedules_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="PaymentSchedules" EntitySet="PaymentSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentSchedules_Membership" Association="Self.FK_PaymentSchedules_Membership">
+            <End Role="Membership" EntitySet="Membership" />
+            <End Role="PaymentSchedules" EntitySet="PaymentSchedules" />
+          </AssociationSet>
           <AssociationSet Name="FK_QuarterlyAssessment_Employee" Association="Self.FK_QuarterlyAssessment_Employee">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="QuarterlyAssessment" EntitySet="QuarterlyAssessment" />
@@ -1367,8 +1422,6 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <EntitySet Name="Packages" EntityType="RitualDBModel.Package" />
           <EntitySet Name="PackageLocationPrices" EntityType="RitualDBModel.PackageLocationPrice" />
           <EntitySet Name="PackageTypes" EntityType="RitualDBModel.PackageType" />
-          <EntitySet Name="PaymentCategories" EntityType="RitualDBModel.PaymentCategory" />
-          <EntitySet Name="PaymentSchedules" EntityType="RitualDBModel.PaymentSchedule" />
           <EntitySet Name="QuarterlyAssessments" EntityType="RitualDBModel.QuarterlyAssessment" />
           <EntitySet Name="RitualLookups" EntityType="RitualDBModel.RitualLookup" />
           <EntitySet Name="SessionBookings" EntityType="RitualDBModel.SessionBooking" />
@@ -1533,6 +1586,20 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <AssociationSet Name="FK_TrialTimeBlock_Location" Association="RitualDBModel.FK_TrialTimeBlock_Location">
             <End Role="Location" EntitySet="Locations" />
             <End Role="TrialTimeBlock" EntitySet="TrialTimeBlocks" />
+          </AssociationSet>
+          <EntitySet Name="PaymentHolidays" EntityType="RitualDBModel.PaymentHoliday" />
+          <EntitySet Name="PaymentSchedules" EntityType="RitualDBModel.PaymentSchedule" />
+          <AssociationSet Name="FK_PaymentSchedules_Member" Association="RitualDBModel.FK_PaymentSchedules_Member">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="PaymentSchedule" EntitySet="PaymentSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentHoliday_Membership" Association="RitualDBModel.FK_PaymentHoliday_Membership">
+            <End Role="Membership" EntitySet="Memberships" />
+            <End Role="PaymentHoliday" EntitySet="PaymentHolidays" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentSchedules_Membership" Association="RitualDBModel.FK_PaymentSchedules_Membership">
+            <End Role="Membership" EntitySet="Memberships" />
+            <End Role="PaymentSchedule" EntitySet="PaymentSchedules" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="GetImminentSessionBookings_Result">
@@ -1743,6 +1810,7 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Property Name="JoinDate" Type="DateTime" Precision="0" />
           <Property Name="BloodType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Location" Relationship="RitualDBModel.FK_Member_Location" FromRole="Member" ToRole="Location" />
+          <NavigationProperty Name="PaymentSchedules" Relationship="RitualDBModel.FK_PaymentSchedules_Member" FromRole="Member" ToRole="PaymentSchedule" />
         </EntityType>
         <EntityType Name="Membership">
           <Key>
@@ -1772,6 +1840,8 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <NavigationProperty Name="MembershipState" Relationship="RitualDBModel.FK_Membership_MembershipState" FromRole="Membership" ToRole="MembershipState" />
           <NavigationProperty Name="Package" Relationship="RitualDBModel.FK_Membership_Package" FromRole="Membership" ToRole="Package" />
           <NavigationProperty Name="MembershipSuspensions" Relationship="RitualDBModel.FK_MembershipSuspensions_Membership" FromRole="Membership" ToRole="MembershipSuspension" />
+          <NavigationProperty Name="PaymentHolidays" Relationship="RitualDBModel.FK_PaymentHoliday_Membership" FromRole="Membership" ToRole="PaymentHoliday" />
+          <NavigationProperty Name="PaymentSchedules" Relationship="RitualDBModel.FK_PaymentSchedules_Membership" FromRole="Membership" ToRole="PaymentSchedule" />
         </EntityType>
         <EntityType Name="MembershipState">
           <Key>
@@ -1847,15 +1917,20 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PackageTypeId" Type="Int32" Nullable="false" />
-          <Property Name="PackagePeriodMonths" Type="Int32" />
-          <Property Name="PackageSuspensionLimit" Type="Int32" />
-          <Property Name="PackageVisitLimit" Type="Int32" />
+          <Property Name="PackagePeriodMonths" Type="Int32" Nullable="false" />
+          <Property Name="PackageSuspensionLimit" Type="Int32" Nullable="false" />
+          <Property Name="PackageVisitLimit" Type="Int32" Nullable="false" />
           <Property Name="PackageIsActive" Type="Boolean" Nullable="false" />
           <Property Name="PackageIsReoccuring" Type="Boolean" Nullable="false" />
           <Property Name="PackagePayInFull" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Memberships" Relationship="RitualDBModel.FK_Membership_Package" FromRole="Package" ToRole="Membership" />
           <NavigationProperty Name="PackageType" Relationship="RitualDBModel.FK_Package_PackageType" FromRole="Package" ToRole="PackageType" />
           <NavigationProperty Name="PackageLocationPrices" Relationship="RitualDBModel.FK_PackageLocationPrices_Package" FromRole="Package" ToRole="PackageLocationPrice" />
+          <Property Name="PackageSuspensionMinLength" Type="Int32" Nullable="false" />
+          <Property Name="PackageSuspensionMaxLength" Type="Int32" Nullable="false" />
+          <Property Name="PackagePaymentHolidayLimit" Type="Int32" Nullable="false" />
+          <Property Name="PackagePaymentHolidayMinLength" Type="Int32" Nullable="false" />
+          <Property Name="PackagePaymentHolidayMaxLength" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="PackageLocationPrice">
           <Key>
@@ -1876,27 +1951,6 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Packages" Relationship="RitualDBModel.FK_Package_PackageType" FromRole="PackageType" ToRole="Package" />
-        </EntityType>
-        <EntityType Name="PaymentCategory">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="PaymentSchedule">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MemberId" Type="Int32" Nullable="false" />
-          <Property Name="MembershipId" Type="Int32" Nullable="false" />
-          <Property Name="Payment" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="PaymentDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Paid" Type="Byte" Nullable="false" />
-          <Property Name="TransactionId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Currency" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PaymentCategoryId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="QuarterlyAssessment">
           <Key>
@@ -2458,6 +2512,68 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="PaymentHoliday">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MembershipId" Type="Int32" Nullable="false" />
+          <Property Name="PaymentHolidayStartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PaymentHolidayEndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PaymentHolidayReason" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Membership" Relationship="RitualDBModel.FK_PaymentHoliday_Membership" FromRole="PaymentHoliday" ToRole="Membership" />
+        </EntityType>
+        <EntityType Name="PaymentSchedule">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="MembershipId" Type="Int32" Nullable="false" />
+          <Property Name="Payment" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="PaymentDate" Type="DateTime" Precision="0" />
+          <Property Name="Paid" Type="Byte" Nullable="false" />
+          <Property Name="TransactionId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Currency" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Member" Relationship="RitualDBModel.FK_PaymentSchedules_Member" FromRole="PaymentSchedule" ToRole="Member" />
+          <NavigationProperty Name="Membership" Relationship="RitualDBModel.FK_PaymentSchedules_Membership" FromRole="PaymentSchedule" ToRole="Membership" />
+        </EntityType>
+        <Association Name="FK_PaymentSchedules_Member">
+          <End Type="RitualDBModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="RitualDBModel.PaymentSchedule" Role="PaymentSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaymentSchedule">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentHoliday_Membership">
+          <End Type="RitualDBModel.Membership" Role="Membership" Multiplicity="1" />
+          <End Type="RitualDBModel.PaymentHoliday" Role="PaymentHoliday" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Membership">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaymentHoliday">
+              <PropertyRef Name="MembershipId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentSchedules_Membership">
+          <End Type="RitualDBModel.Membership" Role="Membership" Multiplicity="1" />
+          <End Type="RitualDBModel.PaymentSchedule" Role="PaymentSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Membership">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaymentSchedule">
+              <PropertyRef Name="MembershipId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2751,6 +2867,11 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
           <EntitySetMapping Name="Packages">
             <EntityTypeMapping TypeName="RitualDBModel.Package">
               <MappingFragment StoreEntitySet="Package">
+                <ScalarProperty Name="PackagePaymentHolidayMaxLength" ColumnName="PackagePaymentHolidayMaxLength" />
+                <ScalarProperty Name="PackagePaymentHolidayMinLength" ColumnName="PackagePaymentHolidayMinLength" />
+                <ScalarProperty Name="PackagePaymentHolidayLimit" ColumnName="PackagePaymentHolidayLimit" />
+                <ScalarProperty Name="PackageSuspensionMaxLength" ColumnName="PackageSuspensionMaxLength" />
+                <ScalarProperty Name="PackageSuspensionMinLength" ColumnName="PackageSuspensionMinLength" />
                 <ScalarProperty Name="PackagePayInFull" ColumnName="PackagePayInFull" />
                 <ScalarProperty Name="PackageIsReoccuring" ColumnName="PackageIsReoccuring" />
                 <ScalarProperty Name="PackageIsActive" ColumnName="PackageIsActive" />
@@ -2778,29 +2899,6 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
             <EntityTypeMapping TypeName="RitualDBModel.PackageType">
               <MappingFragment StoreEntitySet="PackageType">
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PaymentCategories">
-            <EntityTypeMapping TypeName="RitualDBModel.PaymentCategory">
-              <MappingFragment StoreEntitySet="PaymentCategory">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PaymentSchedules">
-            <EntityTypeMapping TypeName="RitualDBModel.PaymentSchedule">
-              <MappingFragment StoreEntitySet="PaymentSchedules">
-                <ScalarProperty Name="PaymentCategoryId" ColumnName="PaymentCategoryId" />
-                <ScalarProperty Name="Currency" ColumnName="Currency" />
-                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
-                <ScalarProperty Name="Paid" ColumnName="Paid" />
-                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
-                <ScalarProperty Name="Payment" ColumnName="Payment" />
-                <ScalarProperty Name="MembershipId" ColumnName="MembershipId" />
-                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -3000,6 +3098,31 @@ warning 6002: The table/view 'RitualDB.dbo.ClientIssuesFeedbackIssuePosture' doe
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentHolidays">
+            <EntityTypeMapping TypeName="RitualDBModel.PaymentHoliday">
+              <MappingFragment StoreEntitySet="PaymentHoliday">
+                <ScalarProperty Name="PaymentHolidayReason" ColumnName="PaymentHolidayReason" />
+                <ScalarProperty Name="PaymentHolidayEndDate" ColumnName="PaymentHolidayEndDate" />
+                <ScalarProperty Name="PaymentHolidayStartDate" ColumnName="PaymentHolidayStartDate" />
+                <ScalarProperty Name="MembershipId" ColumnName="MembershipId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentSchedules">
+            <EntityTypeMapping TypeName="RitualDBModel.PaymentSchedule">
+              <MappingFragment StoreEntitySet="PaymentSchedules">
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+                <ScalarProperty Name="Paid" ColumnName="Paid" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="Payment" ColumnName="Payment" />
+                <ScalarProperty Name="MembershipId" ColumnName="MembershipId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

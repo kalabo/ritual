@@ -18,10 +18,12 @@ namespace Ritual.Data
         public int MemberId { get; set; }
         public int MembershipId { get; set; }
         public decimal Payment { get; set; }
-        public System.DateTime PaymentDate { get; set; }
+        public Nullable<System.DateTime> PaymentDate { get; set; }
         public byte Paid { get; set; }
         public string TransactionId { get; set; }
         public string Currency { get; set; }
-        public int PaymentCategoryId { get; set; }
+    
+        public virtual Member Member { get; set; }
+        public virtual Membership Membership { get; set; }
     }
 }

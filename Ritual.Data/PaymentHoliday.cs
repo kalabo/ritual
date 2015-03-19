@@ -12,9 +12,14 @@ namespace Ritual.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class PaymentCategory
+    public partial class PaymentHoliday
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public int MembershipId { get; set; }
+        public System.DateTime PaymentHolidayStartDate { get; set; }
+        public System.DateTime PaymentHolidayEndDate { get; set; }
+        public string PaymentHolidayReason { get; set; }
+    
+        public virtual Membership Membership { get; set; }
     }
 }

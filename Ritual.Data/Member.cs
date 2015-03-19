@@ -21,6 +21,7 @@ namespace Ritual.Data
             this.SessionBookings = new HashSet<SessionBooking>();
             this.Memberships = new HashSet<Membership>();
             this.QuarterlyAssessments = new HashSet<QuarterlyAssessment>();
+            this.PaymentSchedules = new HashSet<PaymentSchedule>();
         }
     
         public int Id { get; set; }
@@ -49,5 +50,6 @@ namespace Ritual.Data
         public virtual ICollection<Membership> Memberships { get; set; }
         public virtual ICollection<QuarterlyAssessment> QuarterlyAssessments { get; set; }
         public virtual Location Location { get; set; }
+        public virtual ICollection<PaymentSchedule> PaymentSchedules { get; set; }
     }
 }

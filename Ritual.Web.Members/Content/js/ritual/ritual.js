@@ -428,7 +428,9 @@ RITUAL.Core.TrainingZone = {
     BookingListingHandlers: function () {
         $('#booking-slot-dates').on('change', function () {
             var value = $(this).val();
-            RITUAL.Core.TrainingZone.BookingsListing("#ritual-bookings", value);
+            var optionSelected = $("option:selected", this);
+            var location = optionSelected.data('location');
+            RITUAL.Core.TrainingZone.BookingsListing("#ritual-bookings", value, location);
         });
 
         $('#booking-slot-locations').on('change', function () {
@@ -504,6 +506,7 @@ RITUAL.Core.TrainingZone = {
                     var date = new Date(parseInt(data[i].substring(6)));
                     dates.push({
                         Date: moment(date).format("MM/DD/YYYY"),
+                        Location: locationId,
                         DateFriendly: moment(date).format("dddd Do MMM")
                     });
                 }
@@ -511,7 +514,7 @@ RITUAL.Core.TrainingZone = {
                 template = Handlebars.compile(Templates.bookingdatesdropdown);
                 html += template(JSON.parse("{\"dates\":" + JSON.stringify(dates) + "}"));
                 $(divName).html(html);
-                RITUAL.Core.TrainingZone.BookingsListing("#ritual-bookings", dates[0].Date);
+                RITUAL.Core.TrainingZone.BookingsListing("#ritual-bookings", dates[0].Date, locationId);
 
             },
             error: function (xhr) {
@@ -522,11 +525,11 @@ RITUAL.Core.TrainingZone = {
         });
     },
 
-    BookingsListing: function (divName, startDate) {
+    BookingsListing: function (divName, startDate, locationId) {
         $.ajax({
             type: "GET",
             url: '/TrainingZone/GetBookingsByDate',
-            data: { "date": startDate },
+            data: { "date": startDate, "locationid": locationId },
             success: function (data) {
 
                 var timeslots = [];

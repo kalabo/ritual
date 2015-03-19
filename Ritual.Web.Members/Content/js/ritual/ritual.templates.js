@@ -51,7 +51,7 @@ Templates.bookinglocationsdropdown = [
 Templates.bookingdatesdropdown = [
     "<select id='booking-slot-dates'>",
     "{{#each dates}}",
-        "<option value='{{Date}}'>{{DateFriendly}}</option>",
+        "<option data-location='{{Location}}' value='{{Date}}'>{{DateFriendly}}</option>",
     "{{/each}}",
     "</select>"
 ].join("\n");

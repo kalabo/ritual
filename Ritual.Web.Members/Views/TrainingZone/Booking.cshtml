@@ -14,7 +14,7 @@
 <section class="content">
     <div class="row">
         <div class="large-12 columns">
-            @if (Model.currentMember.hasActiveMembership())
+            @if (Model.currentMember.hasActiveMembership() && Model.currentMember.isActiveMembershipSuspended() == false)
             {
                 <div>
                     @Html.ActionLink("Back to Dashboard", "Dashboard", "", new { @class = "button" })
@@ -28,7 +28,6 @@
             else
             {
                 @Model.currentMember.getLatestMembership().getMembershipStatusText()
-                ;
             }
         </div>
     </div>

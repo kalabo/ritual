@@ -22,7 +22,7 @@
 
             <div class="row">
                 <div class="large-6 columns">
-                    @Html.Raw(Model.Gravatar)<br/> 
+                    @Html.Raw(Model.Gravatar)<br />
                     @Html.ActionLink("Change Avatar", "UploadPhoto", "", new { @class = "button" })
                     <dl class="dl-horizontal">
 
@@ -205,9 +205,21 @@
                         }
                         else
                         {
-                            <tr><td colspan="4"><div class="alert-box">You have no past memberships</div></td></tr>
+                            <tr>
+                                <td colspan="4">
+                                    <div class="alert-box">You have no past memberships</div>
+                                </td>
+                            </tr>
                         }
                     </table>
+                    @if (Model.UserMember.hasActiveMembership())
+                    {
+                        if (Model.UserMember.getActiveMembership().allowSuspension())
+                        {
+                            @Html.ActionLink("Suspend Membership", "SuspendMembership", "", new { @class = "button" })
+                        }
+                    }
+
                 </div>
             </div>
         </div>

@@ -238,7 +238,7 @@ namespace Ritual.Web.Members.Controllers
         }
 
         [Authorize(Roles = "Member")]
-        public ActionResult GetBookingsByDate(string date)
+        public ActionResult GetBookingsByDate(string date, int locationid)
         {
             //If the current date is the same then only show items for current day
             DateTime selectedDate = Convert.ToDateTime(date);
@@ -246,19 +246,20 @@ namespace Ritual.Web.Members.Controllers
             this.ApplicationDbContext = new ApplicationDbContext();
             this.UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(this.ApplicationDbContext));
             var user = UserManager.FindById(User.Identity.GetUserId());
+            var location = db.Locations.Single(l => l.Id == locationid);
             var member = db.Members.Single(m => m.AspNetUserId == user.Id);
 
             if (member.getActiveMembership() != null)
             {
-                if (selectedDate.Date == DateTime.UtcNow.AddHours(member.Location.TimeZoneOffset).Date)
+                if (selectedDate.Date == DateTime.UtcNow.AddHours(location.TimeZoneOffset).Date)
                 {
-                    selectedDate = DateTime.UtcNow.AddHours(member.Location.TimeZoneOffset);
+                    selectedDate = DateTime.UtcNow.AddHours(location.TimeZoneOffset);
                 }
 
                 string memberType = member.getActiveMembership().getMembershipType();
                 TrainingZoneBookingData TrainingZoneModel = new TrainingZoneBookingData();
                 List<GetUpcomingBookingSlots_Result> results =
-                    db.GetUpcomingBookingSlots(member.HomeLocationId, selectedDate, member.Id).ToList();
+                    db.GetUpcomingBookingSlots(location.Id, selectedDate, member.Id).ToList();
                 TrainingZoneModel.AvailableBookingSlots = results;
                 TrainingZoneModel.MemberType = memberType;
                 return Json(TrainingZoneModel, JsonRequestBehavior.AllowGet);

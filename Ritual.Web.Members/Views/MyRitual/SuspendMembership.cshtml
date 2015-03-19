@@ -1,0 +1,71 @@
+﻿@model Ritual.Data.MembershipSuspensionViewModel
+@{
+    ViewBag.Title = "Membership Suspension";
+}
+
+<section class="content-header">
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>@ViewBag.Title</h1>
+        </div>
+    </div>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="small-12 medium-8 small-6 large-centered columns">
+            @using (Html.BeginForm("SuspendMembership", "MyRitual", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class='builder-form' id="loginForm">
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <fieldset>
+                                <legend>Suspension Details: </legend>
+
+                                @Html.HiddenFor(m => m.SuspensionMemberId)
+                                @Html.HiddenFor(m => m.SuspensionMembershipId)
+
+                                <strong>Days taken:</strong> @Html.DisplayFor(m => m.TakenSuspensionDays) <br/>
+                                <strong>Days remaining:</strong> @Html.DisplayFor(m => m.AvailableSuspensionDays) <br />
+                                You have suspended @Html.DisplayFor(m => m.CurrentMembershipSuspensions) times out of an available @Html.DisplayFor(m => m.CurrentMembershipPackageSuspensionLimit) suspensions<br />
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.SuspensionStartDate, new { @class = "col-md-2 control-label" })
+                                    @Html.EditorFor(m => m.SuspensionStartDate, new { @class = "form-control jqueryui-datepicker" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.SuspensionEndDate, new { @class = "col-md-2 control-label" })
+                                    @Html.EditorFor(m => m.SuspensionEndDate, new { @class = "form-control jqueryui-datepicker" })
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.SuspensionReason, new { @class = "col-md-2 control-label" })
+                                    @Html.TextAreaFor(m => m.SuspensionReason, new { @class = "form-control" })
+                                </div>
+                                </fieldset>
+                            <div class="form-group">
+                                <div class='alert-box'>
+                                    <i class="fa fa-info-circle"></i> Please note that you won't be able to access the gym during your suspension. We will add the number of days you suspend for to the end of your membership term
+                                </div>                                
+                                <input type="submit" class="button" value="Start Suspension"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</section>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#SuspensionStartDate').datepicker();
+            $('#SuspensionEndDate').datepicker();
+            //RITUAL.Core.MyRitual.Suspensions();
+        });
+
+    </script>
+}
+

@@ -202,27 +202,15 @@ namespace Ritual.Web.Members.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    
-
                     RitualDBEntities ctx = new RitualDBEntities();
                     CreateNewMember(ctx, user, model.LocationId, "member" + DateTime.Now.Ticks, Convert.ToDateTime(model.TrialDate));
                     ctx.Dispose();
-
                     string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirm your account");
-
 
                     ViewBag.Message = "Check your email and confirm your account, you must be confirmed "
                                     + "before you can log in.";
 
                     return View("Info");
-                    //return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
             }
@@ -237,7 +225,8 @@ namespace Ritual.Web.Members.Controllers
             {
                 AspNetUserId = user.Id,
                 HomeLocationId = locationId,
-                IdentificationNumber = IDNo
+                IdentificationNumber = IDNo,
+                JoinDate = DateTime.Now
             };
 
             ctx.Members.Add(m);
@@ -277,6 +266,9 @@ namespace Ritual.Web.Members.Controllers
 
             ctx.Memberships.Add((trialMembership));
             ctx.SaveChanges();
+
+            //Assign Payment Schedules
+            trialMembership.AssignPaymentSchedule();
         }
 
         //

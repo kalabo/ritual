@@ -127,9 +127,11 @@ namespace Ritual.Data
         public int PackageId { get; set; }
 
         [Display(Name = "Start Date")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public System.DateTime StartDate { get; set; }
 
         [Display(Name = "End Date")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public System.DateTime EndDate { get; set; }
 
         [Display(Name = "Trial?")]
@@ -145,6 +147,7 @@ namespace Ritual.Data
         public bool Paid { get; set; }
 
         [Display(Name = "Initial Payment Date")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> InitialPaymentDate { get; set; }
 
         [Display(Name = "Initial Payment")]

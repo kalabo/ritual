@@ -226,6 +226,15 @@ namespace Ritual.Data
             get { return string.Format("{0}", this.AspNetUser.FirstName); }
         }
 
+        public bool isActiveMembershipSuspended()
+        {
+            if (this.getActiveMembership().isSuspended())
+            {
+                return true;
+            }
+            return false;
+        }
+
         public bool hasActiveMembership()
         {
             if (this.getActiveMembership() != null)
@@ -279,6 +288,11 @@ namespace Ritual.Data
         public List<Membership> getExpiredMemberships()
         {
             return db.Memberships.Where(m => m.MemberId == this.Id && m.MembershipStateId != 1).ToList();
+        }
+
+        public int getNumberOfSuspensions()
+        {
+            return this.getActiveMembership().getNumberOfSuspensions();
         }
 
         public SessionBooking getLastAttendedSession()

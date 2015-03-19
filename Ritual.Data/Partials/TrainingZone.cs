@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,36 @@ namespace Ritual.Data
         public OpeningHour TodaysOpeningHours { get; set; }
         public Membership UserActiveMembership { get; set; }
         public IEnumerable<QuarterlyAssessment> QuarterlyAssessments { get; set; }
+    }
+
+    public class MembershipSuspensionViewModel
+    {
+        public int SuspensionMembershipId { get; set; }
+
+        public int SuspensionMemberId { get; set; }
+
+        [Display(Name = "Suspensions Days Remaining")]
+        public int AvailableSuspensionDays { get; set; }
+
+        [Display(Name = "Suspensions Days Taken")]
+        public int TakenSuspensionDays { get; set; }
+
+        [Display(Name = "Suspensions Taken")]
+        public int CurrentMembershipSuspensions { get; set; }
+
+        [Display(Name = "Suspension Package Limit")]
+        public int CurrentMembershipPackageSuspensionLimit { get; set; }
+
+        [Display(Name = "Suspension Start Date")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime SuspensionStartDate { get; set; }
+
+        [Display(Name = "Suspension End Date")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime SuspensionEndDate { get; set; }
+
+        [Display(Name = "Suspension Reason")]
+        public string SuspensionReason { get; set; }
     }
 
     public class MyRitualDashboardData

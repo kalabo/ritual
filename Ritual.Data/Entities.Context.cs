@@ -45,8 +45,6 @@ namespace Ritual.Data
         public virtual DbSet<Package> Packages { get; set; }
         public virtual DbSet<PackageLocationPrice> PackageLocationPrices { get; set; }
         public virtual DbSet<PackageType> PackageTypes { get; set; }
-        public virtual DbSet<PaymentCategory> PaymentCategories { get; set; }
-        public virtual DbSet<PaymentSchedule> PaymentSchedules { get; set; }
         public virtual DbSet<QuarterlyAssessment> QuarterlyAssessments { get; set; }
         public virtual DbSet<RitualLookup> RitualLookups { get; set; }
         public virtual DbSet<SessionBooking> SessionBookings { get; set; }
@@ -56,6 +54,8 @@ namespace Ritual.Data
         public virtual DbSet<TrialTimeBlock> TrialTimeBlocks { get; set; }
         public virtual DbSet<OpeningHourOverride> OpeningHourOverrides { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
+        public virtual DbSet<PaymentHoliday> PaymentHolidays { get; set; }
+        public virtual DbSet<PaymentSchedule> PaymentSchedules { get; set; }
     
         public virtual ObjectResult<GetImminentSessionBookings_Result> GetImminentSessionBookings(Nullable<int> locationId, Nullable<System.DateTime> currentDateTime)
         {
